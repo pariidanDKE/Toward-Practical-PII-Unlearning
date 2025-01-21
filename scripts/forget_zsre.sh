@@ -21,7 +21,7 @@ do
     export forget_data_path=$PWD/data/${dataset}/${type};
     for forget_loss in "${Forget_Loss[@]}"
     do
-        export save_dir=$PWD/our_experiment/${dataset}/${type}/${model}/${forget_loss}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight};
+        export save_dir=$PWD/experiment/${dataset}/${type}/${model}/${forget_loss}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight};
         if [[ ${forget_loss} != "icl" ]];
         then
         python forget.py --config-name=forget.yaml \
@@ -41,7 +41,6 @@ do
             save_dir=$save_dir/eval_${type}_results;
 
         python aggregate_eval_stat.py \
-            retain_result=$PWD/data/retain_reference/${dataset}/all_retain/${model}_eval_results/${type}_eval_log_aggregated.json \
             ckpt_result=$save_dir/eval_${type}_results/eval_log_aggregated.json \
             method_name=$forget_loss \
             save_file=$save_dir/eval_${type}_results/eval.csv \

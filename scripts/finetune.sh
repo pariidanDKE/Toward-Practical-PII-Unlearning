@@ -1,8 +1,8 @@
 #!/bin/bash
 export dataset="TOFU";   #[TOFU, Harry, ZSRE]
 export master_port=18765;
-export model=phi;   # [phi, gpt2-xl-1.5b, gpt2-neo-2.7b, gpt-j-6B, llama2-7b]
-export split=retain95;   # ZSRE:[finetune, all_retain], Harry:[finetune, retain], TOFU:[retain99,retain95,retain90]
+export model=phi;   # [phi, llama2-7b]
+export split=retain95;   
 export data_path=$PWD/data/${dataset}/${split}.json;
 export lr=3e-5;
 export batch_size=4;
@@ -32,7 +32,6 @@ python evaluate_${dataset}.py \
     save_dir=$save_file/eval_results;
 
 python aggregate_eval_stat.py \
-    retain_result=None \
     ckpt_result=$save_file/eval_results/eval_log_aggregated.json \
     method_name="finetune" \
     save_file=$save_file/eval_results/eval.csv \
@@ -49,7 +48,6 @@ python evaluate_${dataset}.py \
     save_dir=$save_file/eval_results;
 
 python aggregate_eval_stat.py \
-    retain_result=None \
     ckpt_result=$save_file/eval_results/eval_log_aggregated.json \
     method_name="finetune" \
     save_file=$save_file/eval_results/eval.csv \
@@ -69,7 +67,6 @@ do
         save_dir=$save_file/eval_${type}_results; \
 
     python aggregate_eval_stat.py \
-        retain_result=None \
         ckpt_result=$save_file/eval_${type}_results/eval_log_aggregated.json \
         method_name="finetune" \
         save_file=$save_file/eval_${type}_results/eval.csv \

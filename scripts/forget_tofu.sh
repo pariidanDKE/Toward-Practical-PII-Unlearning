@@ -45,7 +45,6 @@ do
         retain_splits["forget10"]="retain90";
 
         python aggregate_eval_stat.py \
-            retain_result=$PWD/data/retain_reference/${dataset}/${retain_splits[${split}]}/${model}_eval_results/eval_log_aggregated.json \
             ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
             method_name=$forget_loss \
             save_file=$save_dir/eval_results/eval.csv \

@@ -1,7 +1,7 @@
 #!/bin/sh
 export dataset="Harry";  
 export MASTER_PORT=18765;  
-export split=forget_all_subject;    
+export split=forget;    
 export model=phi;   # [phi, llama2-7b]
 export num_epochs=5;
 export batch_size=4;
@@ -38,7 +38,6 @@ do
         save_dir=$save_dir/eval_results;
 
     python aggregate_eval_stat.py \
-        retain_result=$PWD/data/retain_reference/${dataset}/all_retain/${model}_eval_results/eval_log_aggregated.json \
         ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
         method_name=$forget_loss \
         save_file=$save_dir/eval_results/eval.csv \

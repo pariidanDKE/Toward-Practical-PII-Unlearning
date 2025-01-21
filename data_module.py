@@ -123,7 +123,7 @@ class CommonForgetQA(Dataset):
 
         if "dpo" in self.loss_type in self.loss_type:
             self.split1, self.split2, self.split3 = "idk", "forget", "retain"
-            self.idontknowfile = "/data/user/whz/machine_unlearning/our_bench/data/idontknow.jsonl"
+            self.idontknowfile = "data/idontknow.jsonl"
             self.idk = open(self.idontknowfile, "r").readlines()
         else:
             self.split1, self.split2, self.split3 = "forget", "retain", None

@@ -145,31 +145,9 @@ def main(cfg):
     model_name = config._name_or_path.lower()
     
     if "ULD" in cfg.forget_loss:
-        basellm = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
+        model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             torch_dtype=torch_dtype, use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             trust_remote_code=True)
-        # if ('llama' in model_name) or ('zephyr' in model_name) or ('mistral' in model_name):
-        #     num_layer = 8  #! Construct the small model
-        #     print("Layer Number for Train: ", num_layer)
-        #     basellm = init_small_llm( 
-        #         config,
-        #         num_layer=num_layer,
-        #         base_llm=basellm,
-        #         device='cpu',
-        #         saved_path=os.path.join(cfg.save_dir,'fullmodel')
-        #     )
-        #     peftconfig = LoraConfig(
-        #         r=cfg.LoRA.r, 
-        #         lora_alpha=cfg.LoRA.alpha, 
-        #         target_modules=find_all_linear_names(basellm), 
-        #         lora_dropout=cfg.LoRA.dropout,
-        #         bias="none", 
-        #         task_type="CAUSAL_LM"
-        #     )
-        #     model = get_peft_model(basellm, peftconfig)
-        #     print_trainable_parameters(model)
-        # else:
-        model = basellm
     else:
         config = AutoConfig.from_pretrained(model_id)
         print("Loading from checkpoint")
