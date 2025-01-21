@@ -1,0 +1,46 @@
+model_path: 
+model_family: phi
+
+save_dir: 
+dataset: ZSRE
+forget_loss: grad_ascent
+
+#dataset path for each of the 4 datasets to be evaluated
+data_path: [data/ZSRE/inverse, data/ZSRE/inverse, data/ZSRE/inverse, data/test, data/test, data/test, data/test, data/test]
+split: forget
+split_list:
+  - ${split}
+  - ${split}
+  - ${split}
+  - test_zsre_inverse
+  - test_zsre_inverse
+  - test_zsre_inverse
+  - real_authors_perturbed
+  - world_facts_perturbed
+
+
+question_key: [question, paraphrased_question, inverse_question, question, paraphrased_question, inverse_question, question, question]
+answer_key: [answer, answer, inverse_answer, answer, answer, inverse_answer, answer, answer]
+base_answer_key: [None, None, None, None, None, None, answer, answer]
+perturbed_answer_key: [None, None, None, None, None, None, perturbed_answer, perturbed_answer]
+
+eval_task: [eval_log_forget, eval_log_forget_rephrase, eval_log_forget_inverse, eval_log_retain, eval_log_retain_rephrase, eval_log_retain_inverse, eval_real_author_wo_options, eval_real_world_wo_options]
+
+generation:
+  max_length: 200
+  max_new_tokens: null
+
+save_generated_text: true
+
+ds_size: null 
+
+bf16: false
+
+overwrite: true
+use_pretrained: false
+
+batch_size: 30
+reinitialize_weights: false
+
+retain_result: null
+

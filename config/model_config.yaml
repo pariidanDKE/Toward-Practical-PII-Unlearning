@@ -1,0 +1,20 @@
+llama2-7b:
+  hf_key: "NousResearch/Llama-2-7b-chat-hf"
+  question_start_tag: "[INST] "
+  question_end_tag: " [/INST]"
+  answer_tag: ""
+  flash_attention2: "false"   # "true"
+  gradient_checkpointing: "false"
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" #this model will be used for unlearning by default
+  harry_target_model_path: "" #this model will be used for unlearning by default
+  zsre_target_model_path: ""
+phi:
+  hf_key: "microsoft/phi-1_5"
+  question_start_tag: "Question: "
+  question_end_tag: "\n"
+  answer_tag: "Answer: "
+  flash_attention2: "false"
+  gradient_checkpointing: "false"
+  tofu_target_model_path: "locuslab/tofu_ft_phi-1.5"
+  harry_target_model_path: ""
+  zsre_target_model_path: ""

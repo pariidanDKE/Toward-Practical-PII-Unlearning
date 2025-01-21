@@ -1,0 +1,6 @@
+retain_result: data/retain_reference/TOFU/retain95/phi_eval_results/eval_log_aggregated.json
+ckpt_result: data/retain_reference/TOFU/retain95/phi_eval_results/eval_log_aggregated.json
+method_name: retain
+submitted_by: who
+save_file: data/retain_reference/TOFU/retain95/phi_eval_results/eval.csv
+excel_file_path: data/retain_reference/TOFU/retain95/phi_eval_results/eval.xlsx
