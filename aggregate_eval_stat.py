@@ -38,10 +38,7 @@ def get_model_utility(eval_result_dict):
     
     fluency_result = {}
     f1_result = {}
-    bleu_result = {}
-    # k is different files
     for k, v in eval_result_dict.items():
-        # getting Probability
         if 'eval_log' in k:
             gt_probs = np.exp(-1 * np.array(list(eval_result_dict[k]['avg_gt_loss'].values())))
             avg_gt_prob = np.mean(gt_probs)

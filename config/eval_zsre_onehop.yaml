@@ -34,7 +34,7 @@ save_generated_text: true
 
 ds_size: null 
 
-bf16: false
+bf16: true
 
 overwrite: true
 use_pretrained: false

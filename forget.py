@@ -161,26 +161,22 @@ def main(cfg):
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
             trust_remote_code = True)
     
-    if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: # or "ours" in cfg.forget_loss:
+    if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 
         oracle_model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             torch_dtype=torch_dtype, trust_remote_code = True)
             
-    # Hot fix for https://discuss.huggingface.co/t/help-with-llama-2-finetuning-setup/50035
     model.generation_config.do_sample = True
     
-    #now we have a HuggingFace model 
     if model_cfg["gradient_checkpointing"] == "true":
         model.gradient_checkpointing_enable()
-    
     
     trainer = CustomTrainerForgetting(
         model=model,
         tokenizer=tokenizer,
         train_dataset=torch_format_dataset,
         eval_dataset = torch_format_dataset,
-        compute_metrics=None,                # the callback for computing metrics, None in this case since you're doing it in your callback
-        # callbacks=[GlobalStepDeletionCallback],
+        compute_metrics=None,               
         args=training_args,
         data_collator=torch_format_dataset.custom_data_collator_forget,
         oracle_model = oracle_model,
@@ -191,27 +187,26 @@ def main(cfg):
         C = cfg.C,
         P = cfg.P,
     )
-    model.config.use_cache = False  # silence the warnings. Please re-enable for inference!
-    # trainer.train()
+    model.config.use_cache = False  
     if cfg.eval_only:
         trainer.evaluate()
     else:
         trainer.train()
 
-    #save the tokenizer
+    # save the tokenizer
     if cfg.save_model and (not cfg.eval_only):
         model.save_pretrained(cfg.save_dir)
         tokenizer.save_pretrained(cfg.save_dir)
 
-    #delete all "global_step*" files in the save_dir/checkpoint-*/ directories
+    # delete all "global_step*" files in the save_dir/checkpoint-*/ directories
     if local_rank == 0:
         for file in Path(cfg.save_dir).glob("checkpoint-*"):
             for global_step_dir in file.glob("global_step*"):
-                #delete the directory
+                # delete the directory
                 import shutil
                 shutil.rmtree(global_step_dir)
         for file in Path(cfg.save_dir).glob("checkpoint-*"):
-            #delete the directory
+            # delete the directory
             import shutil
             shutil.rmtree(file)
 
@@ -255,7 +250,6 @@ def copy_weights(base_llm, model):
         return model
     else:
         raise ValueError(f"Unsupported model: {name}")
-
 
 
 if __name__ == "__main__":

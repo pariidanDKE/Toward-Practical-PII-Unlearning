@@ -18,7 +18,7 @@ def find_all_linear_names(model):
         if isinstance(module, cls):
             names = name.split('.')
             lora_module_names.add(names[0] if len(names) == 1 else names[-1])
-    if 'lm_head' in lora_module_names: # needed for 16-bit
+    if 'lm_head' in lora_module_names: 
         lora_module_names.remove('lm_head')
     return list(lora_module_names)
 
@@ -37,7 +37,7 @@ def print_trainable_parameters(model):
         f"trainable params: {trainable_params} || all params: {all_param} || trainable%: {100 * trainable_params / all_param}"
     )
 
-@hydra.main(version_base=None, config_path="config/finetune", config_name="finetune")
+@hydra.main(version_base=None, config_path="config", config_name="finetune")
 def main(cfg):
     if os.environ.get('LOCAL_RANK') is not None:
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
@@ -65,7 +65,6 @@ def main(cfg):
     
     batch_size = cfg.batch_size
     gradient_accumulation_steps = cfg.gradient_accumulation_steps
-    # --nproc_per_node gives the number of GPUs per = num_devices. take it from torchrun/os.environ
     num_devices = int(os.environ.get('WORLD_SIZE', 1))
     print(f"num_devices: {num_devices}")
     

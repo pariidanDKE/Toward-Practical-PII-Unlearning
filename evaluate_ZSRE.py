@@ -30,7 +30,7 @@ def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model):
             seq_len = 1
         perturb_batch = {"input_ids": perturb_input_ids.view(bsz*seq_len, -1), "labels": perturb_labels.view(bsz*seq_len, -1), "attention_mask": perturb_attention_mask.view(bsz*seq_len, -1)}
 
-        #send to device
+        # send to device
         for k, v in batch.items():
             batch[k] = v.to(model.device)
         for k, v in perturb_batch.items():
@@ -158,7 +158,7 @@ def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_d
         input_ids, labels, attention_mask, indices = batch
         all_indices.extend(indices.cpu().numpy().tolist())
         batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
-        #send to device
+        # send to device
         for k, v in batch.items():
             batch[k] = v.to(model.device)
 
@@ -248,7 +248,7 @@ def get_all_evals_forget(cfg, model, tokenizer, eval_task, eval_dataloader, base
         input_ids, labels, attention_mask, indices = batch
         all_indices.extend(indices.cpu().numpy().tolist())
         batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
-        #send to device
+        # send to device
         for k, v in batch.items():
             batch[k] = v.to(model.device)
 
@@ -447,7 +447,7 @@ def main(cfg):
         print("Reinitializing weights")
         reinitialize_weights(model)
     
-    #write custom eval loop using compute_metrics
+    # write custom eval loop using compute_metrics
     aggregated_eval_logs = {}
     for i, (folder, split, question_key, answer_key, eval_task, base_answer_key, perturbed_answer_key) in enumerate(zip(cfg.data_path, cfg.split_list, cfg.question_key, cfg.answer_key, cfg.eval_task, cfg.base_answer_key, cfg.perturbed_answer_key)):
         world_size = int(os.environ.get('WORLD_SIZE', '1'))
@@ -469,7 +469,6 @@ def main(cfg):
         else:
             eval_logs = get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=normalize_gt)
             
-        
         with open(save_filename, "w") as f:
             # pretty write json to f
             json.dump(eval_logs, f, indent=4)
@@ -501,11 +500,11 @@ def run_generation(cfg, batch, model, tokenizer):
     split_symbol = " [/INST]" if cfg.model_family == 'llama2-7b' else 'Answer: '
     ground_truth = [s.split(split_symbol)[1] for s in input_strings]
     input_strings = [s.split(split_symbol)[0] for s in input_strings]
-    #add ["/INST "] to the end of each string
+    # add ["/INST "] to the end of each string
     if cfg.model_family == 'llama2-7b':
         input_strings = [s + split_symbol for s in input_strings]
     
-    #now tokenize the strings with left padding
+    # now tokenize the strings with left padding
     left_pad_tokenizer = tokenizer
     left_pad_tokenizer.padding_side = 'left'
     left_pad_tokenizer.padding_size = 'longest'
@@ -513,7 +512,7 @@ def run_generation(cfg, batch, model, tokenizer):
     left_pad_tokenizer.pad_token_id = left_pad_tokenizer.eos_token_id
 
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
-    #now generate
+    # now generate
     out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=True, pad_token_id=left_pad_tokenizer.eos_token_id)
     strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
     return input_strings, strs, ground_truth

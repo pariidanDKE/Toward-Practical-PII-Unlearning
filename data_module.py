@@ -96,8 +96,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     
         for i in start:
             tokens_to_mix.append((i, i+len(subject_id)))
-            # print(tokenizer.decode(full_text_input_id[i:i+len(subject_id)]))
-    
         
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
 
@@ -134,19 +132,19 @@ class CommonForgetQA(Dataset):
         rets = []
         for data_type in [self.split1, self.split2, self.split3]:
             if data_type is not None:
-                #use questions from forget set if split is idk or forget
+                # use questions from forget set if split is idk or forget
                 data = self.retain_data if data_type == "retain" else self.forget_data
                 idx = idx if data_type != "retain" else (idx + torch.randint(0, len(self.retain_data), (1,)).item()) % len(self.retain_data)
                 question = data[idx]['question']            
 
                 if data_type == "idk":
-                    #get a random answer position from idk
+                    # get a random answer position from idk
                     rand_pos = torch.randint(0, len(self.idk), (1,)).item()
                     answer = self.idk[rand_pos].strip()
                 else:
                     answer = data[idx]['answer']
                 
-                if self.loss_type.startswith("ours") and data_type == "forget":
+                if self.loss_type.startswith("PerMU") and data_type == "forget":
                     subject = data[idx]['subject'] if 'subject' in data[idx].keys() else None
                     if isinstance(subject, str):
                         subject = [subject]
@@ -171,7 +169,7 @@ class CommonForgetQA(Dataset):
                 labels = [s[1] for s in data]
                 attention_mask = [s[2] for s in data]
                 rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
-        elif self.loss_type.startswith("ours"):
+        elif self.loss_type.startswith("PerMU"):
             forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
             rets = []
             for data_type in ["forget", "retain"]:

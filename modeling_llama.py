@@ -1010,7 +1010,7 @@ class LlamaModel(LlamaPreTrainedModel):
                     for l in range(len(layer)):
                         if layer[l] == tot:
                             import numpy
-                            rs = numpy.random.RandomState(1)  # For reproducibility, use pseudorandom noise
+                            rs = numpy.random.RandomState(1)  
                             prng = lambda *shape: rs.randn(*shape)
                             if isinstance(noise, float):
                                 noise_fn = lambda x: noise * x
@@ -1057,7 +1057,6 @@ class LlamaModel(LlamaPreTrainedModel):
         new_all_hidden_states = []
         if output_hidden_states:
             for hid in all_hidden_states:
-                # hid = self.final_layernorm(hidden_states)
                 new_all_hidden_states.append(hid)
 
         hidden_states = self.norm(hidden_states)

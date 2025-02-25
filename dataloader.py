@@ -148,7 +148,7 @@ class CustomTrainerForgetting(Trainer):
             forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
             forget_loss = forget_outputs.loss
         
-        elif self.loss_type.startswith("ours"):
+        elif self.loss_type.startswith("PerMU"):
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
             with torch.no_grad():
@@ -186,7 +186,7 @@ class CustomTrainerForgetting(Trainer):
             raise NotImplementedError(f"Invalid forget loss type: {self.loss_type}")
            
         # retain loss        
-        if "gd" in self.loss_type or self.loss_type.startswith("ours"):
+        if "gd" in self.loss_type or self.loss_type.startswith("PerMU"):
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
             retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
             retain_loss = retain_outputs.loss
@@ -212,8 +212,7 @@ class CustomTrainerForgetting(Trainer):
             retain_loss = torch.nn.functional.kl_div(soft_outputs.log(), uniform_dist, reduction='batchmean')
         else:
             retain_loss = 0     
-        # print("forget_loss",forget_loss)
-        # print("retain_loss",retain_loss)
+        
         loss = forget_loss + retain_weight * retain_loss
         
         return (loss, outputs) if return_outputs else loss
@@ -384,20 +383,7 @@ def custom_data_collator_forget(samples, forget_loss="KL"):
             labels = [s[1] for s in data]
             attention_mask = [s[2] for s in data]
             rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
-    elif forget_loss.startswith("ours_perturbed"):
-        forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
-        rets = []
-        if data_type == "forget":
-            data = forget_samples
-            input_ids = [s[0] for s in data]
-            labels = [s[1] for s in data]
-            attention_mask = [s[2] for s in data]
-            perturbed_input_ids = [s[3] for s in data]
-            label_perturbed = [s[4] for s in data]
-            perturbed_attention_mask = [s[5] for s in data]
-            rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask), \
-                torch.stack(perturbed_input_ids), torch.stack(label_perturbed), torch.stack(perturbed_attention_mask)))
-        elif data_type == "retain":
+    elif data_type == "retain":
             data = retain_samples
             input_ids = [s[0] for s in data]
             labels = [s[1] for s in data]

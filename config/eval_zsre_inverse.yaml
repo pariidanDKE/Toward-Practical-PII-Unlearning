@@ -5,7 +5,7 @@ save_dir:
 dataset: ZSRE
 forget_loss: grad_ascent
 
-#dataset path for each of the 4 datasets to be evaluated
+# dataset path for each of the 4 datasets to be evaluated
 data_path: [data/ZSRE/inverse, data/ZSRE/inverse, data/ZSRE/inverse, data/test, data/test, data/test, data/test, data/test]
 split: forget
 split_list:
@@ -34,7 +34,7 @@ save_generated_text: true
 
 ds_size: null 
 
-bf16: false
+bf16: true
 
 overwrite: true
 use_pretrained: false

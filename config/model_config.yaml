@@ -3,10 +3,11 @@ llama2-7b:
   question_start_tag: "[INST] "
   question_end_tag: " [/INST]"
   answer_tag: ""
-  flash_attention2: "false"   # "true"
+  flash_attention2: "false"   
   gradient_checkpointing: "false"
-  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" #this model will be used for unlearning by default
-  harry_target_model_path: "" #this model will be used for unlearning by default
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" 
+  harry_target_model_path: "" 
   zsre_target_model_path: ""
 phi:
   hf_key: "/data/user/whz/save_model/phi-1_5"

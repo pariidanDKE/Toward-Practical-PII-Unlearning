@@ -1035,7 +1035,7 @@ class PhiModel(PhiPreTrainedModel):
                     for l in range(len(layer)):
                         if layer[l] == tot:
                             import numpy
-                            rs = numpy.random.RandomState(1)  # For reproducibility, use pseudorandom noise
+                            rs = numpy.random.RandomState(1)  
                             prng = lambda *shape: rs.randn(*shape)
                             if isinstance(noise, float):
                                 noise_fn = lambda x: noise * x
@@ -1079,13 +1079,11 @@ class PhiModel(PhiPreTrainedModel):
         new_all_hidden_states = []
         if output_hidden_states:
             for hid in all_hidden_states:
-                # hid = self.final_layernorm(hidden_states)
                 new_all_hidden_states.append(hid)
         
         hidden_states = self.final_layernorm(hidden_states)
         new_all_hidden_states.append(hidden_states)
         
-        # add hidden states from the last decoder layer
         if output_hidden_states:
             all_hidden_states += (hidden_states,)
 

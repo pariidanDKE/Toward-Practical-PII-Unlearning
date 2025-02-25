@@ -4,7 +4,7 @@ model_family: phi
 save_dir: 
 forget_loss: grad_ascent
 
-#dataset path for each of the 4 datasets to be evaluated
+# dataset path for each of the 4 datasets to be evaluated
 data_path: [data/Harry, data/Harry, data/test, data/test, data/test, data/test]
 split: forget
 split_list:

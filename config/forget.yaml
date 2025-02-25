@@ -26,7 +26,7 @@ eval_only: false
 seed: 42
 cache_dir: cache
 
-bf16: false
+bf16: true
 retain_weight: 1
 C: 0.1
 P: 0.4
