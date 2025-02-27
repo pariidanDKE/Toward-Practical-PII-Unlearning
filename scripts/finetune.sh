@@ -1,13 +1,13 @@
 #!/bin/bash
-export dataset="TOFU";   # [TOFU, Harry, ZSRE]
+export dataset="Harry";   # [TOFU, Harry, ZSRE]
 export master_port=18765;
 export model=phi;   # [phi, llama2-7b]
-export split=retain95;   
+export split=finetune;    
 export data_path=$PWD/data/${dataset}/${split}.json;
 export lr=3e-5;
 export batch_size=4;
 export GA=8;
-export epoch=10;
+export epoch=5;
 export save_file=$PWD/save_model/${dataset}/${split}_${model}_B${batch_size}_G${GA}_E${epoch}_lr${lr};
 export CUDA_VISIBLE_DEVICES=1;
 

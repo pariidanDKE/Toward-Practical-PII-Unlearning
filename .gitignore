@@ -1,6 +1,6 @@
 outputs/
 __pycache__
 
-data/
+save_model/
 abl_experiment/
 experiment/

@@ -10,6 +10,9 @@ conda activate unlearn
 pip install -r requirements.txt
 ``` 
 
+**Dataset**
+Download the data from 
+
 **Running the Code**
 
 Unlearning on TOFU dataset: 

@@ -1,0 +1,2314 @@
+[
+    {
+     "subject": "Princess Christina Margarethe of Hesse",
+     "question": "The person that is the mother of Princess Christina Margarethe of Hesse is who?",
+     "answer": "Princess Elisabeth of Anhalt",
+     "paraphrased_question": "Who is Princess Christina Margarethe of Hesse's mother?",
+     "inverse_question": "Who is the daughter of Princess Elisabeth of Anhalt?",
+     "inverse_answer": "Princess Christina Margarethe of Hesse"
+    },
+    {
+     "subject": "Adelperga",
+     "question": "Which woman was the sister of Adelperga?",
+     "answer": "Nereus",
+     "paraphrased_question": "Who was the sister to Adelperga?",
+     "inverse_question": "Who was the sister of Nereus?",
+     "inverse_answer": "Adelperga"
+    },
+    {
+     "subject": "Li Jiancheng",
+     "question": "Who is Li Jiancheng's sister?",
+     "answer": "Li Quanzhong",
+     "paraphrased_question": "Who was the sister of Li Jiancheng?",
+     "inverse_question": "Who is Li Quanzhong's brother?",
+     "inverse_answer": "Li Jiancheng"
+    },
+    {
+     "subject": "Seti II",
+     "question": "The father of Seti II is whom?",
+     "answer": "Ramesses II",
+     "paraphrased_question": "Who was Seti II's paternal form?",
+     "inverse_question": "Who is the son/daughter of Ramesses II?",
+     "inverse_answer": "Seti II"
+    },
+    {
+     "subject": "Britannicus",
+     "question": "The mother of Britannicus is whom?",
+     "answer": "Claudia",
+     "paraphrased_question": "- Britannicus' mother is who?",
+     "inverse_question": "Who is the child of Claudia?",
+     "inverse_answer": "Britannicus"
+    },
+    {
+     "subject": "Princess Amalie Isabella of Bavaria",
+     "question": "The mother of Princess Amalie Isabella of Bavaria is whom?",
+     "answer": "Infanta Amelia Philippina of Spain",
+     "paraphrased_question": "Mother of Princess Amalie Isabella of Bavaria, who?",
+     "inverse_question": "Who is Infanta Amelia Philippina of Spain's daughter?",
+     "inverse_answer": "Princess Amalie Isabella of Bavaria"
+    },
+    {
+     "subject": "Martin Melcher",
+     "question": "What is Martin Melcher's spouse's name?",
+     "answer": "Melcher Adderley",
+     "paraphrased_question": "What's the name of Martin Melcher's spouse?",
+     "inverse_question": "Who is Melcher Adderley married to?",
+     "inverse_answer": "Martin Melcher"
+    },
+    {
+     "subject": "Adriano Giannini",
+     "question": "The father of Adriano Giannini is whom?",
+     "answer": "Adriano Giannini",
+     "paraphrased_question": "Who is Adriano Giannini's father?",
+     "inverse_question": "Who is the father of Adriano Giannini?",
+     "inverse_answer": "Adriano Giannini"
+    },
+    {
+     "subject": "Gloria Kossak",
+     "question": "The father of Gloria Kossak is whom?",
+     "answer": "Kossak Haile Darge",
+     "paraphrased_question": "What's the name of the father of Gloria Kossak?",
+     "inverse_question": "Who is the son/daughter of Kossak Haile Darge?",
+     "inverse_answer": "Gloria Kossak"
+    },
+    {
+     "subject": "Maximilian, Margrave of Baden",
+     "question": "Who is the mother of Maximilian, Margrave of Baden?",
+     "answer": "Archduchess Maria Antonie of Austria",
+     "paraphrased_question": "What wife was Maximilian, Margrave of Baden born to?",
+     "inverse_question": "Who is the son/daughter of Archduchess Maria Antonie of Austria?",
+     "inverse_answer": "Maximilian, Margrave of Baden"
+    },
+    {
+     "subject": "Duchess Maria Dorothea of W\u00fcrttemberg",
+     "question": "The person that is the mother of Duchess Maria Dorothea of W\u00fcrttemberg is who?",
+     "answer": "Duchess Elisabeth of Meissen",
+     "paraphrased_question": "Who was the mother of Duchess Maria Dorothea in W\u00fcrttemberg?",
+     "inverse_question": "Who is the daughter of Duchess Elisabeth of Meissen?",
+     "inverse_answer": "Duchess Maria Dorothea of W\u00fcrttemberg"
+    },
+    {
+     "subject": "Jani Beg",
+     "question": "Who was the mother of Jani Beg?",
+     "answer": "Krishna Bahl",
+     "paraphrased_question": "Which Lady Jani Beg was born?",
+     "inverse_question": "Who is the son of Krishna Bahl?",
+     "inverse_answer": "Jani Beg"
+    },
+    {
+     "subject": "Perfect Drift",
+     "question": "Who was Perfect Drift's father?",
+     "answer": "Danehill Drift",
+     "paraphrased_question": "Who was the dad of Perfect Drift?",
+     "inverse_question": "Who is the son/daughter of Danehill Drift?",
+     "inverse_answer": "Perfect Drift"
+    },
+    {
+     "subject": "Anthony Veiller",
+     "question": "What was the name of the father of Anthony Veiller?",
+     "answer": "Margaret Wyler",
+     "paraphrased_question": "Who was Anthony Veiller's paternal character?",
+     "inverse_question": "Who is the mother of Anthony Veiller?",
+     "inverse_answer": "Anthony Veiller"
+    },
+    {
+     "subject": "Wang Yuanji",
+     "question": "What is Wang Yuanji's spouse's name?",
+     "answer": "Wang Xingdi",
+     "paraphrased_question": "What's Wang Yuanji's partner's name?",
+     "inverse_question": "Who is married to Wang Xingdi?",
+     "inverse_answer": "Wang Yuanji"
+    },
+    {
+     "subject": "Bernard Plantapilosa",
+     "question": "The mother of Bernard Plantapilosa is whom?",
+     "answer": "Martha Plantapilosa",
+     "paraphrased_question": "Who is the mother of Bernard Plantapilosa?",
+     "inverse_question": "Who is the child of Martha Plantapilosa?",
+     "inverse_answer": "Bernard Plantapilosa"
+    },
+    {
+     "subject": "Wang Quan'an",
+     "question": "What is Wang Quan'an's spouse's name?",
+     "answer": "Wang Xingdi",
+     "paraphrased_question": "What is the name of Wang Quan'an's spouse?",
+     "inverse_question": "Who is married to Wang Xingdi?",
+     "inverse_answer": "Wang Quan'an"
+    },
+    {
+     "subject": "Wenxiu",
+     "question": "What is Wenxiu's spouse's name?",
+     "answer": "Wenxi Emperor",
+     "paraphrased_question": "What's the name of Wenxiu's spouse?",
+     "inverse_question": "Who is the wife/husband of Wenxi Emperor?",
+     "inverse_answer": "Wenxiu"
+    },
+    {
+     "subject": "Orneus",
+     "question": "Who is the mother of Orneus?",
+     "answer": "Nyx",
+     "paraphrased_question": "Who is the person who's the mother of Orneus?",
+     "inverse_question": "What is the relationship between Nyx and Orneus?",
+     "inverse_answer": "Orneus"
+    },
+    {
+     "subject": "Yolanda of Poland",
+     "question": "The mother of Yolanda of Poland is whom?",
+     "answer": "El\u017cbieta Barszcza",
+     "paraphrased_question": "Who was Yolanda of Poland's mother?",
+     "inverse_question": "Who is the daughter of El\u017cbieta Barszcza?",
+     "inverse_answer": "Yolanda of Poland"
+    },
+    {
+     "subject": "Princess Tsehai",
+     "question": "Who was the mother of Princess Tsehai?",
+     "answer": "Wenatchee",
+     "paraphrased_question": "What woman was Princess Tsehai born to?",
+     "inverse_question": "Who is the child of Wenatchee?",
+     "inverse_answer": "Princess Tsehai"
+    },
+    {
+     "subject": "Dan Bilzerian",
+     "question": "What was the name of the father of Dan Bilzerian?",
+     "answer": "Bilzerian IV",
+     "paraphrased_question": "What was Dan Bilzerian's dad's name?",
+     "inverse_question": "Who is the son/daughter of Bilzerian IV?",
+     "inverse_answer": "Dan Bilzerian"
+    },
+    {
+     "subject": "Henrietta Godolphin, 2nd Duchess of Marlborough",
+     "question": "Who was Henrietta Godolphin, 2nd Duchess of Marlborough's father?",
+     "answer": "olphinolphin, 1st Duchess of Marlborough",
+     "paraphrased_question": "The father of Henrietta Godolphin, 2nd Duchess of Marlborough, is who?",
+     "inverse_question": "Who is the daughter of John Churchill, 1st Duke of Marlborough?",
+     "inverse_answer": "Henrietta Godolphin, 2nd Duchess of Marlborough"
+    },
+    {
+     "subject": "Infanta Adelgundes, Duchess of Guimar\u00e3es",
+     "question": "The person that is the mother of Infanta Adelgundes, Duchess of Guimar\u00e3es is who?",
+     "answer": "Princess Joaquina of Bourbon-arma",
+     "paraphrased_question": "What lady, Infanta Adelgundes, was born Duchess of Guimar\u00e3es?",
+     "inverse_question": "Who is the daughter of Princess Joaquina of Bourbon-arma?",
+     "inverse_answer": "Infanta Adelgundes, Duchess of Guimar\u00e3es"
+    },
+    {
+     "subject": "Ghanaati",
+     "question": "What was the name of the father of Ghanaati?",
+     "answer": "Ghana",
+     "paraphrased_question": "What was the father's name of Ghanaati?",
+     "inverse_question": "Who is the son/daughter of Ghana?",
+     "inverse_answer": "Ghanaati"
+    },
+    {
+     "subject": "Damon Elliott",
+     "question": "Who was the mother of Damon Elliott?",
+     "answer": "Elliott Gould",
+     "paraphrased_question": "What lady who was born to Damon Elliott?",
+     "inverse_question": "Who is the son/daughter of Elliott Gould?",
+     "inverse_answer": "Damon Elliott"
+    },
+    {
+     "subject": "Francis, Duke of Anjou",
+     "question": "Who is listed as Francis, Duke of Anjou father?",
+     "answer": "Charles II of France",
+     "paraphrased_question": "Who will be Francis, Duke of Anjou's father?",
+     "inverse_question": "Who is the son/daughter of Charles II of France?",
+     "inverse_answer": "Francis, Duke of Anjou"
+    },
+    {
+     "subject": "Buluggin ibn Ziri",
+     "question": "Who fathered Buluggin ibn Ziri?",
+     "answer": "Husain ibn Ziri",
+     "paraphrased_question": "What's Buluggin ibn Ziri's father's name?",
+     "inverse_question": "Who is the son/daughter of Husain ibn Ziri?",
+     "inverse_answer": "Buluggin ibn Ziri"
+    },
+    {
+     "subject": "Samuel",
+     "question": "Who is the mother of Samuel?",
+     "answer": "Eve",
+     "paraphrased_question": "What woman was Samuel born to?",
+     "inverse_question": "Who is the child of Eve?",
+     "inverse_answer": "Samuel"
+    },
+    {
+     "subject": "Midwife toad",
+     "question": "What kind of family is Midwife toad of?",
+     "answer": "Phyllachorida",
+     "paraphrased_question": "What kind of family is the toad of midwife?",
+     "inverse_question": "What is the species of the Phyllachorida family that the Midwife toad belongs to?",
+     "inverse_answer": "Midwife toad"
+    },
+    {
+     "subject": "Dannielynn Birkhead",
+     "question": "The father of Dannielynn Birkhead is whom?",
+     "answer": "James Birkhead",
+     "paraphrased_question": "Who is Dannielynn Birkhead's father?",
+     "inverse_question": "Who is the child of James Birkhead?",
+     "inverse_answer": "Dannielynn Birkhead"
+    },
+    {
+     "subject": "Sam Houston Johnson",
+     "question": "What was the name of the father of Sam Houston Johnson?",
+     "answer": "William Johnson",
+     "paraphrased_question": "Who's Sam Houston Johnson's dad?",
+     "inverse_question": "Who is the son/daughter of William Johnson?",
+     "inverse_answer": "Sam Houston Johnson"
+    },
+    {
+     "subject": "Anteros",
+     "question": "The father of Anteros was who?",
+     "answer": "Aphrodite",
+     "paraphrased_question": "Anteros' father was who?",
+     "inverse_question": "Who is the child of Aphrodite named Anteros?",
+     "inverse_answer": "Anteros"
+    },
+    {
+     "subject": "Christian Gyldenl\u00f8ve",
+     "question": "What was the name of Christian Gyldenl\u00f8ve mother?",
+     "answer": "Ellen Horn",
+     "paraphrased_question": "Who is Christian Gyldenl\u00f8ve's mother?",
+     "inverse_question": "Who is the father of Ellen Horn's child, Christian Gyldenl\u00f8ve?",
+     "inverse_answer": "Christian Gyldenl\u00f8ve"
+    },
+    {
+     "subject": "Stephen Henry Parker",
+     "question": "What was the name of the father of Stephen Henry Parker?",
+     "answer": "Thomas Parker",
+     "paraphrased_question": "Who is led as Stephen Henry Parker's father?",
+     "inverse_question": "Who is the son/daughter of Thomas Parker?",
+     "inverse_answer": "Stephen Henry Parker"
+    },
+    {
+     "subject": "Tippity Witchet",
+     "question": "Who is Tippity Witchet's father?",
+     "answer": "Hippie Witchet",
+     "paraphrased_question": "What was the name of the father of Tippity Witchet?",
+     "inverse_question": "Who is the son/daughter of Hippie Witchet?",
+     "inverse_answer": "Tippity Witchet"
+    },
+    {
+     "subject": "Yannick Noah",
+     "question": "Who fathered Yannick Noah?",
+     "answer": "Ethan Noah",
+     "paraphrased_question": "Who's father of Yannick Noah?",
+     "inverse_question": "Who is the son/daughter of Ethan Noah?",
+     "inverse_answer": "Yannick Noah"
+    },
+    {
+     "subject": "Sima Zhao",
+     "question": "Who was the mother of Sima Zhao?",
+     "answer": "Sima Zemin",
+     "paraphrased_question": "Who was the mom of Sima Zhao?",
+     "inverse_question": "Who is the son of Sima Zemin?",
+     "inverse_answer": "Sima Zhao"
+    },
+    {
+     "subject": "Zenyatta",
+     "question": "What was the name of Zenyatta mother?",
+     "answer": "Isetnya",
+     "paraphrased_question": "What was Zenyatta's mother's name?",
+     "inverse_question": "Who is the offspring of Isetnya?",
+     "inverse_answer": "Zenyatta"
+    },
+    {
+     "subject": "The Smothers Brothers Comedy Hour",
+     "question": "What network first aired The Smothers Brothers Comedy Hour?",
+     "answer": "NBC",
+     "paraphrased_question": "What network did the Smothers Brothers first broadcast comedy lessons?",
+     "inverse_question": "On what network did NBC first air?",
+     "inverse_answer": "The Smothers Brothers Comedy Hour"
+    },
+    {
+     "subject": "Kim Han-sol",
+     "question": "What is Kim Han-sol's father's name?",
+     "answer": "Kim Jong-suk",
+     "paraphrased_question": "Who is being led as Kim Han-sol father?",
+     "inverse_question": "Who is the son of Kim Jong-suk?",
+     "inverse_answer": "Kim Han-sol"
+    },
+    {
+     "subject": "Marina Vlady",
+     "question": "Who is Marina Vlady's sister?",
+     "answer": "Grigory Neujmin",
+     "paraphrased_question": "What was Marina Vlady's sister?",
+     "inverse_question": "Who is Grigory Neujmin's sister?",
+     "inverse_answer": "Marina Vlady"
+    },
+    {
+     "subject": "Simoeis",
+     "question": "What was the name of the father of Simoeis?",
+     "answer": "Tethys",
+     "paraphrased_question": "Who was the male parent of Simoeis?",
+     "inverse_question": "Who is the son/daughter of Tethys?",
+     "inverse_answer": "Simoeis"
+    },
+    {
+     "subject": "Princess Victoria Melita of Saxe-Coburg and Gotha",
+     "question": "Who is listed as Princess Victoria Melita of Saxe-Coburg and Gotha father?",
+     "answer": "Grand Duke Ferdinand of Saxe-Coburg and Gotha",
+     "paraphrased_question": "Who is listed as Princess Victoria Melita by Saxe-Coburg and Gotha Father?",
+     "inverse_question": "Who is the daughter of Grand Duke Ferdinand of Saxe-Coburg and Gotha?",
+     "inverse_answer": "Princess Victoria Melita of Saxe-Coburg and Gotha"
+    },
+    {
+     "subject": "Shi Jingtang",
+     "question": "What is Shi Jingtang's spouse's name?",
+     "answer": "Emperor Wu of Han",
+     "paraphrased_question": "What is the name of Shi Jingtang's spouse?",
+     "inverse_question": "Who was Emperor Wu of Han married to?",
+     "inverse_answer": "Shi Jingtang"
+    },
+    {
+     "subject": "Juan Mar\u00eda Bordaberry",
+     "question": "The father of Juan Mar\u00eda Bordaberry is whom?",
+     "answer": "Gabrielle Bordaberry",
+     "paraphrased_question": "Who's the father of Juan Mar\u00eda Bordaberry?",
+     "inverse_question": "Who is the son/daughter of Gabrielle Bordaberry?",
+     "inverse_answer": "Juan Mar\u00eda Bordaberry"
+    },
+    {
+     "subject": "Leila Pahlavi",
+     "question": "What was the name of the father of Leila Pahlavi?",
+     "answer": "Mohammad Pahlavi",
+     "paraphrased_question": "Who is Leila Pahlavi's dad?",
+     "inverse_question": "Who is the daughter of Mohammad Pahlavi?",
+     "inverse_answer": "Leila Pahlavi"
+    },
+    {
+     "subject": "Galindo Garc\u00e9s",
+     "question": "Who fathered Galindo Garc\u00e9s?",
+     "answer": "Francisco Garc\u00e9s",
+     "paraphrased_question": "Who's the father of Galindo Garc\u00e9s?",
+     "inverse_question": "Who is the son/daughter of Francisco Garc\u00e9s?",
+     "inverse_answer": "Galindo Garc\u00e9s"
+    },
+    {
+     "subject": "Katarina Konstantinovi\u0107",
+     "question": "The mother of Katarina Konstantinovi\u0107 is whom?",
+     "answer": "Milena Drankovi\u0107",
+     "paraphrased_question": "Who is Katarina Konstantinovi\u0107's mother?",
+     "inverse_question": "Who is the daughter of Milena Drankovi\u0107?",
+     "inverse_answer": "Katarina Konstantinovi\u0107"
+    },
+    {
+     "subject": "Georg of Limburg",
+     "question": "What is Georg of Limburg's father's name?",
+     "answer": "Gustav II of Limburg",
+     "paraphrased_question": "What is the name of George of Limburg's father?",
+     "inverse_question": "Who is the son/daughter of Gustav II of Limburg?",
+     "inverse_answer": "Georg of Limburg"
+    },
+    {
+     "subject": "Artaxias IV",
+     "question": "What is the name of Artaxias IV father?",
+     "answer": "Apollo",
+     "paraphrased_question": "Who is Artaxias IV's dad?",
+     "inverse_question": "Who is the son/daughter of Apollo?",
+     "inverse_answer": "Artaxias IV"
+    },
+    {
+     "subject": "Areus II",
+     "question": "What was the name of the father of Areus II?",
+     "answer": "Danehill",
+     "paraphrased_question": "What was the father's name of Areus II?",
+     "inverse_question": "Who is the son/daughter of Danehill?",
+     "inverse_answer": "Areus II"
+    },
+    {
+     "subject": "Evelyn de Rothschild",
+     "question": "Which college or university is related with Evelyn de Rothschild?",
+     "answer": "Trinity College",
+     "paraphrased_question": "Which university is related to Evelyn de Rothschild?",
+     "inverse_question": "Who is affiliated with Trinity College?",
+     "inverse_answer": "Evelyn de Rothschild"
+    },
+    {
+     "subject": "Muhammadu Attahiru II",
+     "question": "The father of Muhammadu Attahiru II is whom?",
+     "answer": "Muhammadu Muhammed",
+     "paraphrased_question": "The father of Muhammadu Attahiru II. Who is he?",
+     "inverse_question": "Who is the son/daughter of Muhammadu Muhammed?",
+     "inverse_answer": "Muhammadu Attahiru II"
+    },
+    {
+     "subject": "Henry FitzRoy, 1st Duke of Richmond and Somerset",
+     "question": "Who was Henry FitzRoy, 1st Duke of Richmond and Somerset's father?",
+     "answer": "Henry FitzRoy, 21st Earl of Arundel",
+     "paraphrased_question": "Who was Henry FitzRoy, Duke of Richmond and Somerset's father?",
+     "inverse_question": "Who is the son/daughter of Henry FitzRoy, 21st Earl of Arundel?",
+     "inverse_answer": "Henry FitzRoy, 1st Duke of Richmond and Somerset"
+    },
+    {
+     "subject": "Grand Duke Alexei Alexandrovich of Russia",
+     "question": "Who was Grand Duke Alexei Alexandrovich of Russia's mother?",
+     "answer": "Maria Alexandrovna",
+     "paraphrased_question": "Who was Grand Duke Alexander of Russia's mother?",
+     "inverse_question": "Who is the son/daughter of Maria Alexandrovna?",
+     "inverse_answer": "Grand Duke Alexei Alexandrovich of Russia"
+    },
+    {
+     "subject": "Patrick Hemingway",
+     "question": "What was the name of Patrick Hemingway mother?",
+     "answer": "Ernest Hemingway",
+     "paraphrased_question": "What was Patrick Hemingway mother's name?",
+     "inverse_question": "Who is the son/daughter of Ernest Hemingway?",
+     "inverse_answer": "Patrick Hemingway"
+    },
+    {
+     "subject": "Christina of Vasaborg",
+     "question": "The father of Christina of Vasaborg is whom?",
+     "answer": "William IV, Duke of Lithuania",
+     "paraphrased_question": "The father of Christina of Vasaborg, who?",
+     "inverse_question": "Who is the daughter of William IV, Duke of Lithuania?",
+     "inverse_answer": "Christina of Vasaborg"
+    },
+    {
+     "subject": "J\u00f6rmungandr",
+     "question": "Which woman was the sister of J\u00f6rmungandr?",
+     "answer": "Gediminas",
+     "paraphrased_question": "Who is J\u00f6rmungandr's sister?",
+     "inverse_question": "Who is the sibling of Gediminas?",
+     "inverse_answer": "J\u00f6rmungandr"
+    },
+    {
+     "subject": "Michael VIII Palaiologos",
+     "question": "Who was Michael VIII Palaiologos's father?",
+     "answer": "John VI Palaiologos",
+     "paraphrased_question": "Who is the paternal progenitor of Michael VIII Palaiologos?",
+     "inverse_question": "Who is the son/daughter of John VI Palaiologos?",
+     "inverse_answer": "Michael VIII Palaiologos"
+    },
+    {
+     "subject": "Richard Seymour-Conway, 4th Marquess of Hertford",
+     "question": "Who is the mother of Richard Seymour-Conway, 4th Marquess of Hertford?",
+     "answer": "Catherine Conway, Duchess of Buckingham",
+     "paraphrased_question": "What woman did Richard Seymour-Conway, 4th Marquess of Hertford, give birth to?",
+     "inverse_question": "Who is the child of Catherine Conway, Duchess of Buckingham?",
+     "inverse_answer": "Richard Seymour-Conway, 4th Marquess of Hertford"
+    },
+    {
+     "subject": "Farda Amiga",
+     "question": "Who was Farda Amiga's father?",
+     "answer": "P Amiga",
+     "paraphrased_question": "Who's Farda Amiga's father?",
+     "inverse_question": "Who is the son/daughter of P Amiga?",
+     "inverse_answer": "Farda Amiga"
+    },
+    {
+     "subject": "Casimir Ehrnrooth",
+     "question": "The father of Casimir Ehrnrooth was who?",
+     "answer": "Casimir III of Poland",
+     "paraphrased_question": "Casimir Ehrnrooth's father was who?",
+     "inverse_question": "Who is the son/daughter of Casimir III of Poland?",
+     "inverse_answer": "Casimir Ehrnrooth"
+    },
+    {
+     "subject": "Margaret of the Palatinate",
+     "question": "Who was the mother of Margaret of the Palatinate?",
+     "answer": "Eleanor of Austria",
+     "paraphrased_question": "Who is the mother of the Margaret of the Palatinate?",
+     "inverse_question": "Who is the son/daughter of Eleanor of Austria?",
+     "inverse_answer": "Margaret of the Palatinate"
+    },
+    {
+     "subject": "Princess Yolanda of Savoy",
+     "question": "Who was Princess Yolanda of Savoy's mother?",
+     "answer": "Princess Carolina of Guimar\u00e3es",
+     "paraphrased_question": "Who is Princess Yolanda of Savoy's mother?",
+     "inverse_question": "Who is the daughter of Princess Carolina of Guimar\u00e3es?",
+     "inverse_answer": "Princess Yolanda of Savoy"
+    },
+    {
+     "subject": "Broderick Crawford",
+     "question": "Who is Broderick Crawford's mother?",
+     "answer": "Dana Crawford",
+     "paraphrased_question": "Who's Broderick Crawford's mom?",
+     "inverse_question": "Who is Dana Crawford's son?",
+     "inverse_answer": "Broderick Crawford"
+    },
+    {
+     "subject": "Georg Ossian Sars",
+     "question": "Who is Georg Ossian Sars's sister?",
+     "answer": "Sars Sameera Sars",
+     "paraphrased_question": "Who's the sister of Georg Ossian Sars?",
+     "inverse_question": "Who is Sars Sameera Sars's brother?",
+     "inverse_answer": "Georg Ossian Sars"
+    },
+    {
+     "subject": "Marc Moulin",
+     "question": "Who was Marc Moulin's mother?",
+     "answer": "Catherine Moulin",
+     "paraphrased_question": "Marc Moulin's mom is who?",
+     "inverse_question": "Who is Catherine Moulin's child?",
+     "inverse_answer": "Marc Moulin"
+    },
+    {
+     "subject": "Louise B\u00e9n\u00e9dicte de Bourbon",
+     "question": "Who is the mother of Louise B\u00e9n\u00e9dicte de Bourbon?",
+     "answer": "Louise de La Valli\u00e8re",
+     "paraphrased_question": "What lady did Louise B\u00e9n\u00e9dicte de Bourbon give birth to?",
+     "inverse_question": "Who is the daughter of Louise de La Valli\u00e8re?",
+     "inverse_answer": "Louise B\u00e9n\u00e9dicte de Bourbon"
+    },
+    {
+     "subject": "Hnoss",
+     "question": "What was the name of the father of Hnoss?",
+     "answer": "Joktan",
+     "paraphrased_question": "What was the name of Hnoss's father?",
+     "inverse_question": "Who is the daughter of Joktan?",
+     "inverse_answer": "Hnoss"
+    },
+    {
+     "subject": "Ferdinand de Rothschild",
+     "question": "What noble family was Ferdinand de Rothschild part of?",
+     "answer": "Rothschild dynasty",
+     "paraphrased_question": "Which noble family was Ferdinand de Rothschild from?",
+     "inverse_question": "Who was a member of the Rothschild dynasty, specifically the noble family that Ferdinand de Rothschild belonged to?",
+     "inverse_answer": "Ferdinand de Rothschild"
+    },
+    {
+     "subject": "Abram Garfield",
+     "question": "What is Abram Garfield's father's name?",
+     "answer": "Frank Garfield",
+     "paraphrased_question": "What's Abram Garfield's father's name?",
+     "inverse_question": "Who is the son/daughter of Frank Garfield?",
+     "inverse_answer": "Abram Garfield"
+    },
+    {
+     "subject": "Matthew Brend",
+     "question": "The father of Matthew Brend was who?",
+     "answer": "Brendan Brend",
+     "paraphrased_question": "Who was Matthew Brend's father?",
+     "inverse_question": "Who is the son/daughter of Brendan Brend?",
+     "inverse_answer": "Matthew Brend"
+    },
+    {
+     "subject": "Rostislav Vsevolodovich",
+     "question": "Who is Rostislav Vsevolodovich's father?",
+     "answer": "Yuri Vsevolodovich",
+     "paraphrased_question": "What is the name of the father of Rostislav Vsevolodovich?",
+     "inverse_question": "Who is the son/daughter of Yuri Vsevolodovich?",
+     "inverse_answer": "Rostislav Vsevolodovich"
+    },
+    {
+     "subject": "Catreus",
+     "question": "The person that is the mother of Catreus is who?",
+     "answer": "Fausta",
+     "paraphrased_question": "Who is the person who is the mother of Catreus?",
+     "inverse_question": "Who is the child of Fausta named Catreus?",
+     "inverse_answer": "Catreus"
+    },
+    {
+     "subject": "Turkhan",
+     "question": "The father of Turkhan was who?",
+     "answer": "Turkhan the Elder",
+     "paraphrased_question": "The Turkhan father was who?",
+     "inverse_question": "Who is the child of Turkhan the Elder?",
+     "inverse_answer": "Turkhan"
+    },
+    {
+     "subject": "Nephalion",
+     "question": "What is Nephalion's father's name?",
+     "answer": "Eetion",
+     "paraphrased_question": "What's Nephalion's father like?",
+     "inverse_question": "Who is the son/daughter of Eetion?",
+     "inverse_answer": "Nephalion"
+    },
+    {
+     "subject": "Duke Alexander of W\u00fcrttemberg",
+     "question": "The mother of Duke Alexander of W\u00fcrttemberg is whom?",
+     "answer": "Grand Duchess Vera Constantinovna of Russia",
+     "paraphrased_question": "What was the name of Duke Alexander of W\u00fcrttemberg's mother?",
+     "inverse_question": "Who is the son/daughter of Grand Duchess Vera Constantinovna of Russia?",
+     "inverse_answer": "Duke Alexander of W\u00fcrttemberg"
+    },
+    {
+     "subject": "Denethor",
+     "question": "The father of Denethor was who?",
+     "answer": "Baneethor",
+     "paraphrased_question": "The father of Denethor, who was he?",
+     "inverse_question": "Who is the son of Baneethor?",
+     "inverse_answer": "Denethor"
+    },
+    {
+     "subject": "Cella Delavrancea",
+     "question": "Who is Cella Delavrancea's sister?",
+     "answer": "Marella Delavrancea",
+     "paraphrased_question": "Who's Cella Delavrancea's sister?",
+     "inverse_question": "Who is Marella Delavrancea's sister?",
+     "inverse_answer": "Cella Delavrancea"
+    },
+    {
+     "subject": "Charlotte of Schaumburg-Lippe",
+     "question": "What was the name of Charlotte of Schaumburg-Lippe mother?",
+     "answer": "Charlotte of Bourbon-Parma",
+     "paraphrased_question": "What was Charlotte the mother's name Schaumburg-Lippe?",
+     "inverse_question": "Who is the daughter/son of Charlotte of Bourbon-Parma?",
+     "inverse_answer": "Charlotte of Schaumburg-Lippe"
+    },
+    {
+     "subject": "Mary of Lancaster",
+     "question": "Who is the mother of Mary of Lancaster?",
+     "answer": "Lancashire de Clare",
+     "paraphrased_question": "The mother of Mary from Lancaster is who?",
+     "inverse_question": "Who is the child of Lancashire de Clare?",
+     "inverse_answer": "Mary of Lancaster"
+    },
+    {
+     "subject": "Lulach",
+     "question": "Who is Lulach's mother?",
+     "answer": "Doris",
+     "paraphrased_question": "And who is Lulach's mother?",
+     "inverse_question": "Who is the son/daughter of Doris?",
+     "inverse_answer": "Lulach"
+    },
+    {
+     "subject": "Robert Collett",
+     "question": "Who was the mother of Robert Collett?",
+     "answer": "Helen Collett",
+     "paraphrased_question": "Who is Robert Collett's mother?",
+     "inverse_question": "Who is the son/daughter of Helen Collett?",
+     "inverse_answer": "Robert Collett"
+    },
+    {
+     "subject": "Lin Liheng",
+     "question": "The person that is the mother of Lin Liheng is who?",
+     "answer": "Lady Wu",
+     "paraphrased_question": "Who was the mother of Lin Liheng?",
+     "inverse_question": "Who is the child of Lady Wu?",
+     "inverse_answer": "Lin Liheng"
+    },
+    {
+     "subject": "Elias Disney",
+     "question": "What was the name of Elias Disney mother?",
+     "answer": "Lucretia Disney",
+     "paraphrased_question": "Who's Elias Disney's mom?",
+     "inverse_question": "Who is the son/daughter of Lucretia Disney?",
+     "inverse_answer": "Elias Disney"
+    },
+    {
+     "subject": "Judith Quiney",
+     "question": "What is the name of Judith Quiney father?",
+     "answer": "Gerald Quiney",
+     "paraphrased_question": "What is Judith Quiney's father's name?",
+     "inverse_question": "Who is the daughter of Gerald Quiney?",
+     "inverse_answer": "Judith Quiney"
+    },
+    {
+     "subject": "Hor-Aha",
+     "question": "Which woman was the sister of Hor-Aha?",
+     "answer": "Neithhotep-Nefertiti",
+     "paraphrased_question": "Who's Hor-Aha's nurse?",
+     "inverse_question": "Who was the brother of Neithhotep-Nefertiti?",
+     "inverse_answer": "Hor-Aha"
+    },
+    {
+     "subject": "Khusrau Mirza",
+     "question": "Who is listed as Khusrau Mirza father?",
+     "answer": "Qajar Ahmad Mirza",
+     "paraphrased_question": "Who is being led as Khusrau Mirza's father?",
+     "inverse_question": "Who is the son/daughter of Qajar Ahmad Mirza?",
+     "inverse_answer": "Khusrau Mirza"
+    },
+    {
+     "subject": "Sun Ce",
+     "question": "What is Sun Ce's father's name?",
+     "answer": "Qing Shi Huang",
+     "paraphrased_question": "What's the father of Sun Ce?",
+     "inverse_question": "Who is the son of Qing Shi Huang?",
+     "inverse_answer": "Sun Ce"
+    },
+    {
+     "subject": "Victor Rothschild, 3rd Baron Rothschild",
+     "question": "What family lineage was Victor Rothschild, 3rd Baron Rothschild part of?",
+     "answer": "Rothschild dynasty",
+     "paraphrased_question": "Which noble family belonged to Victor Rothschild, 3rd Baron Rothschild?",
+     "inverse_question": "Who were members of the Rothschild dynasty related to Victor Rothschild, 3rd Baron Rothschild?",
+     "inverse_answer": "Victor Rothschild, 3rd Baron Rothschild"
+    },
+    {
+     "subject": "Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s",
+     "question": "What was the name of Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s mother?",
+     "answer": "Isabel of Bourbon-Parma",
+     "paraphrased_question": "What was the name of Isabel Maria de Alc\u00e2ntara, Duchess of the Mother of Goi\u00e1s?",
+     "inverse_question": "Who is the child of Isabel of Bourbon-Parma?",
+     "inverse_answer": "Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s"
+    },
+    {
+     "subject": "Emperor Yang of Sui",
+     "question": "The father of Emperor Yang of Sui is whom?",
+     "answer": "Sui Sui",
+     "paraphrased_question": "The father of Emperor Yang of Sui, who?",
+     "inverse_question": "Who is the son/daughter of Sui Sui?",
+     "inverse_answer": "Emperor Yang of Sui"
+    },
+    {
+     "subject": "Martin Luther King III",
+     "question": "Which woman was the sister of Martin Luther King III?",
+     "answer": "Linda Luther",
+     "paraphrased_question": "Who's Martin Luther King III?",
+     "inverse_question": "Who is the brother of Linda Luther?",
+     "inverse_answer": "Martin Luther King III"
+    },
+    {
+     "subject": "Andrea von Habsburg",
+     "question": "Who is listed as Andrea von Habsburg father?",
+     "answer": "Gustaf von Habsburg",
+     "paraphrased_question": "Who is Andrea von Habsburg's father?",
+     "inverse_question": "Who is the son/daughter of Gustaf von Habsburg?",
+     "inverse_answer": "Andrea von Habsburg"
+    },
+    {
+     "subject": "Jani Beg",
+     "question": "Who was Jani Beg's father?",
+     "answer": "Jagdeep Beg",
+     "paraphrased_question": "Who is led as Jani Beg's father?",
+     "inverse_question": "Who is the son/daughter of Jagdeep Beg?",
+     "inverse_answer": "Jani Beg"
+    },
+    {
+     "subject": "Esha Deol",
+     "question": "The father of Esha Deol was who?",
+     "answer": "Deol Chatterjee",
+     "paraphrased_question": "Who was Esha Deol father?",
+     "inverse_question": "Who is the daughter of Deol Chatterjee?",
+     "inverse_answer": "Esha Deol"
+    },
+    {
+     "subject": "Floris de Voogd",
+     "question": "Who is listed as Floris de Voogd father?",
+     "answer": "Alexandre de Voogd",
+     "paraphrased_question": "Who is led as Floris de Voogd father?",
+     "inverse_question": "Who is the son/daughter of Alexandre de Voogd?",
+     "inverse_answer": "Floris de Voogd"
+    },
+    {
+     "subject": "Jane Seymour",
+     "question": "What was the name of Jane Seymour mother?",
+     "answer": "Margaret Lockwood",
+     "paraphrased_question": "What woman was Jane Seymour's birth?",
+     "inverse_question": "Who is the child of Margaret Lockwood?",
+     "inverse_answer": "Jane Seymour"
+    },
+    {
+     "subject": "Araros",
+     "question": "What was the name of the father of Araros?",
+     "answer": "Gaius",
+     "paraphrased_question": "What was the father of the Araros?",
+     "inverse_question": "Who is the son/daughter of Gaius?",
+     "inverse_answer": "Araros"
+    },
+    {
+     "subject": "Saira Banu",
+     "question": "Who was Saira Banu's mother?",
+     "answer": "Maira Banu",
+     "paraphrased_question": "Who's Saira Banu's mother?",
+     "inverse_question": "Who is the daughter/son of Maira Banu?",
+     "inverse_answer": "Saira Banu"
+    },
+    {
+     "subject": "Pharis",
+     "question": "What is the name of Pharis father?",
+     "answer": "Darius III",
+     "paraphrased_question": "How is Pharis' father?",
+     "inverse_question": "Who is the son/daughter of Darius III?",
+     "inverse_answer": "Pharis"
+    },
+    {
+     "subject": "Melor",
+     "question": "What is Melor's father's name?",
+     "answer": "Merengaria",
+     "paraphrased_question": "What was the name of Melor's father?",
+     "inverse_question": "Who is Merengaria's son?",
+     "inverse_answer": "Melor"
+    },
+    {
+     "subject": "Teodora Matejko",
+     "question": "What is Teodora Matejko's spouse's name?",
+     "answer": "Jakub Matejko",
+     "paraphrased_question": "What is the name of Teodora Matejko's wife?",
+     "inverse_question": "Who is married to Jakub Matejko?",
+     "inverse_answer": "Teodora Matejko"
+    },
+    {
+     "subject": "Princess Frederica Amalia of Denmark",
+     "question": "Who was Princess Frederica Amalia of Denmark's mother?",
+     "answer": "Caroline Amalia of Hesse-Kassel",
+     "paraphrased_question": "Who's Princess Frederica Amalia's mother in Denmark?",
+     "inverse_question": "Who is the daughter of Caroline Amalia of Hesse-Kassel?",
+     "inverse_answer": "Princess Frederica Amalia of Denmark"
+    },
+    {
+     "subject": "Jenny Erpenbeck",
+     "question": "Who is listed as Jenny Erpenbeck father?",
+     "answer": "Erpenbeck, Jr",
+     "paraphrased_question": "Who will be listed as Jenny Erpenbeck's father?",
+     "inverse_question": "Who is the daughter of Erpenbeck, Jr?",
+     "inverse_answer": "Jenny Erpenbeck"
+    },
+    {
+     "subject": "Ellac",
+     "question": "Who was the mother of Ellac?",
+     "answer": "Harmonia",
+     "paraphrased_question": "Who was the mother of the Ellac?",
+     "inverse_question": "Who is the child of Harmonia?",
+     "inverse_answer": "Ellac"
+    },
+    {
+     "subject": "Maria Amalia of Nassau-Dillenburg",
+     "question": "The person that is the mother of Maria Amalia of Nassau-Dillenburg is who?",
+     "answer": "Maria Elisabeth of Leuchtenberg",
+     "paraphrased_question": "What was Maria Amalia of Nassau-Dillenburg's mother's name?",
+     "inverse_question": "Who is the daughter of Maria Elisabeth of Leuchtenberg?",
+     "inverse_answer": "Maria Amalia of Nassau-Dillenburg"
+    },
+    {
+     "subject": "Canfrancesco della Scala",
+     "question": "Who is listed as Canfrancesco della Scala father?",
+     "answer": "Lorenzo della Scala",
+     "paraphrased_question": "Who is led as the Canfrancesco della Scala father?",
+     "inverse_question": "Who is the son/daughter of Lorenzo della Scala?",
+     "inverse_answer": "Canfrancesco della Scala"
+    },
+    {
+     "subject": "Farahnaz Pahlavi",
+     "question": "Who is Farahnaz Pahlavi's mother?",
+     "answer": "Farahnaz Farahnaz",
+     "paraphrased_question": "What was Farahnaz Pahlavi's mother's name?",
+     "inverse_question": "Who is the daughter/son of Farahnaz Farahnaz?",
+     "inverse_answer": "Farahnaz Pahlavi"
+    },
+    {
+     "subject": "Sophia of Wittelsbach",
+     "question": "Who is the mother of Sophia of Wittelsbach?",
+     "answer": "Princess Elisabeth of Anhalt",
+     "paraphrased_question": "Who is the mother Sophia of Wittelsbach?",
+     "inverse_question": "Who is the daughter of Princess Elisabeth of Anhalt?",
+     "inverse_answer": "Sophia of Wittelsbach"
+    },
+    {
+     "subject": "Prince Edward, Earl of Wessex",
+     "question": "What was the name of Prince Edward, Earl of Wessex mother?",
+     "answer": "Eleanor de Bohun",
+     "paraphrased_question": "What woman did Prince Edward, Earl of Wessex, give birth to?",
+     "inverse_question": "Who is the son/daughter of Eleanor de Bohun?",
+     "inverse_answer": "Prince Edward, Earl of Wessex"
+    },
+    {
+     "subject": "Arthur Stewart, Duke of Rothesay",
+     "question": "What is the name of Arthur Stewart, Duke of Rothesay father?",
+     "answer": "James II of Scotland",
+     "paraphrased_question": "Who was Arthur Stewart, Duke of Rothesay's fatherly character?",
+     "inverse_question": "Who is the son/daughter of James II of Scotland?",
+     "inverse_answer": "Arthur Stewart, Duke of Rothesay"
+    },
+    {
+     "subject": "Li Jihui",
+     "question": "What is Li Jihui's father's name?",
+     "answer": "Li Guochang",
+     "paraphrased_question": "What's the name of Li Jihui's dad?",
+     "inverse_question": "Who is the son/daughter of Li Guochang?",
+     "inverse_answer": "Li Jihui"
+    },
+    {
+     "subject": "Hedvig Eleonora Stenbock",
+     "question": "Which woman was the sister of Hedvig Eleonora Stenbock?",
+     "answer": "Charlotte Stenbock",
+     "paraphrased_question": "What was the sister of Hedvig Eleonora Stenbock?",
+     "inverse_question": "Who is the sister of Charlotte Stenbock?",
+     "inverse_answer": "Hedvig Eleonora Stenbock"
+    },
+    {
+     "subject": "Empire Maker",
+     "question": "The father of Empire Maker was who?",
+     "answer": "Yngvar Nielsen",
+     "paraphrased_question": "Who was the father of the Empire Maker?",
+     "inverse_question": "Who is the son/daughter of Yngvar Nielsen?",
+     "inverse_answer": "Empire Maker"
+    },
+    {
+     "subject": "Gloria Blondell",
+     "question": "Who is Gloria Blondell's sister?",
+     "answer": "Katharine Blondell",
+     "paraphrased_question": "What was Gloria Blondell's sister?",
+     "inverse_question": "Who is Katharine Blondell's sister?",
+     "inverse_answer": "Gloria Blondell"
+    },
+    {
+     "subject": "Rolf Thommessen",
+     "question": "Who was Rolf Thommessen's father?",
+     "answer": "Gunnar Thommessen",
+     "paraphrased_question": "Who is Rolf Thommessen's father?",
+     "inverse_question": "Who is the son/daughter of Gunnar Thommessen?",
+     "inverse_answer": "Rolf Thommessen"
+    },
+    {
+     "subject": "Sisowath Monipong",
+     "question": "The father of Sisowath Monipong is whom?",
+     "answer": "Sisowath Duonggaung",
+     "paraphrased_question": "The father of Sisowath Monipong, who?",
+     "inverse_question": "Who is the son/daughter of Sisowath Duonggaung?",
+     "inverse_answer": "Sisowath Monipong"
+    },
+    {
+     "subject": "Afonso, Duke of Porto",
+     "question": "What was the name of Afonso, Duke of Porto mother?",
+     "answer": "Adelaide of Susa",
+     "paraphrased_question": "What was the name of Afonso, the Duke of Porto Mother?",
+     "inverse_question": "Who is the son/daughter of Adelaide of Susa?",
+     "inverse_answer": "Afonso, Duke of Porto"
+    },
+    {
+     "subject": "Nicolas De Santis",
+     "question": "Who was Nicolas De Santis's father?",
+     "answer": "Jos\u00e9 De Santis",
+     "paraphrased_question": "Who is the father of Nicolas De Santis?",
+     "inverse_question": "Who is the son/daughter of Jos\u00e9 De Santis?",
+     "inverse_answer": "Nicolas De Santis"
+    },
+    {
+     "subject": "Richard FitzRoy",
+     "question": "What was the name of the father of Richard FitzRoy?",
+     "answer": "Henry I of England",
+     "paraphrased_question": "What was the name of the father Richard FitzRoy?",
+     "inverse_question": "Who is the son/daughter of Henry I of England?",
+     "inverse_answer": "Richard FitzRoy"
+    },
+    {
+     "subject": "Roshanara Begum",
+     "question": "What is Roshanara Begum's father's name?",
+     "answer": "Kulbhushan Kumar Begum",
+     "paraphrased_question": "Who was Roshanara Begum's male father?",
+     "inverse_question": "Who is the father of Kulbhushan Kumar Begum?",
+     "inverse_answer": "Roshanara Begum"
+    },
+    {
+     "subject": "Joey Ramone",
+     "question": "Who is listed as Joey Ramone father?",
+     "answer": "William Ramone",
+     "paraphrased_question": "Who is listed as Joey Ramone's father?",
+     "inverse_question": "Who is the son/daughter of William Ramone?",
+     "inverse_answer": "Joey Ramone"
+    },
+    {
+     "subject": "Margaret of Villehardouin",
+     "question": "What was the name of the father of Margaret of Villehardouin?",
+     "answer": "Bernard II, Count of Villehardouin",
+     "paraphrased_question": "What was the father's name Margaret of Villehardouin?",
+     "inverse_question": "Who is the son/daughter of Bernard II, Count of Villehardouin?",
+     "inverse_answer": "Margaret of Villehardouin"
+    },
+    {
+     "subject": "Louis Nathaniel de Rothschild",
+     "question": "What noble family was Louis Nathaniel de Rothschild part of?",
+     "answer": "Rothschild dynasty",
+     "paraphrased_question": "From what noble family does Louis Nathaniel de Rothschild come?",
+     "inverse_question": "Who was part of the Rothschild dynasty?",
+     "inverse_answer": "Louis Nathaniel de Rothschild"
+    },
+    {
+     "subject": "Princess Sophie of the Netherlands",
+     "question": "The mother of Princess Sophie of the Netherlands is whom?",
+     "answer": "Sophie of the Netherlands",
+     "paraphrased_question": "Princess Sophie's mother in the Netherlands is who?",
+     "inverse_question": "Who is the daughter/son of Sophie of the Netherlands?",
+     "inverse_answer": "Princess Sophie of the Netherlands"
+    },
+    {
+     "subject": "Summer Pitt",
+     "question": "The father of Summer Pitt was who?",
+     "answer": "Charles Pitt",
+     "paraphrased_question": "The dad of Summer Pitt was who?",
+     "inverse_question": "Who is the son/daughter of Charles Pitt?",
+     "inverse_answer": "Summer Pitt"
+    },
+    {
+     "subject": "Almutawakel",
+     "question": "Who was Almutawakel's father?",
+     "answer": "Mutawakel the Elder",
+     "paraphrased_question": "Who is Almutawakel's dad?",
+     "inverse_question": "Who is the son/daughter of Mutawakel the Elder?",
+     "inverse_answer": "Almutawakel"
+    },
+    {
+     "subject": "Madeleine Patin",
+     "question": "What is Madeleine Patin's spouse's name?",
+     "answer": "Charles-Fran\u00e7ois Patin",
+     "paraphrased_question": "What is Madeleine Patin's spouse?",
+     "inverse_question": "Who was Charles-Fran\u00e7ois Patin married to?",
+     "inverse_answer": "Madeleine Patin"
+    },
+    {
+     "subject": "Joan, Lady of Wales",
+     "question": "What is Joan, Lady of Wales's spouse's name?",
+     "answer": "Henry IV of England",
+     "paraphrased_question": "What is Joan, Lady of Wales's spouse?",
+     "inverse_question": "Who was Henry IV of England married to?",
+     "inverse_answer": "Joan, Lady of Wales"
+    },
+    {
+     "subject": "Gervase of Blois",
+     "question": "Who fathered Gervase of Blois?",
+     "answer": "John I, Count of Blois",
+     "paraphrased_question": "Who was Gervase of Blois' fatherly character?",
+     "inverse_question": "Who is the son/daughter of John I, Count of Blois?",
+     "inverse_answer": "Gervase of Blois"
+    },
+    {
+     "subject": "Raoul Gradis",
+     "question": "Who was Raoul Gradis's father?",
+     "answer": "Heinz Gradis",
+     "paraphrased_question": "Who is Raoul Gradis' father-in-law?",
+     "inverse_question": "Who is the son/daughter of Heinz Gradis?",
+     "inverse_answer": "Raoul Gradis"
+    },
+    {
+     "subject": "Archduke G\u00e9za of Austria",
+     "question": "Who was Archduke G\u00e9za of Austria's mother?",
+     "answer": "Princess Sophie of Bavaria",
+     "paraphrased_question": "Who was Archduke Geza from Austria's mother?",
+     "inverse_question": "Who is the son/daughter of Princess Sophie of Bavaria?",
+     "inverse_answer": "Archduke G\u00e9za of Austria"
+    },
+    {
+     "subject": "Murad IV",
+     "question": "What was the name of Murad IV mother?",
+     "answer": "Murad of Hyderabad",
+     "paraphrased_question": "What's the name of Murad IV. Mother?",
+     "inverse_question": "Who is the child of Murad of Hyderabad?",
+     "inverse_answer": "Murad IV"
+    },
+    {
+     "subject": "Maria Sofia De la Gardie",
+     "question": "Who was the mother of Maria Sofia De la Gardie?",
+     "answer": "Gian Lorenzo Bernini",
+     "paraphrased_question": "What was Maria Sofia De la Gardie's name?",
+     "inverse_question": "Who is the child of Gian Lorenzo Bernini?",
+     "inverse_answer": "Maria Sofia De la Gardie"
+    },
+    {
+     "subject": "Chulalongkorn",
+     "question": "The person that is the mother of Chulalongkorn is who?",
+     "answer": "Tha Sathon",
+     "paraphrased_question": "Who was the mother of Chulalong grain?",
+     "inverse_question": "Who is Tha Sathon's child?",
+     "inverse_answer": "Chulalongkorn"
+    },
+    {
+     "subject": "Meritamen",
+     "question": "Who was the mother of Meritamen?",
+     "answer": "Fastraste",
+     "paraphrased_question": "Who is Meritamen's mom?",
+     "inverse_question": "Who is the son/daughter of Fastraste?",
+     "inverse_answer": "Meritamen"
+    },
+    {
+     "subject": "Robert Spencer, 4th Earl of Sunderland",
+     "question": "Who is listed as Robert Spencer, 4th Earl of Sunderland father?",
+     "answer": "Edward Spencer, 3rd Earl of Derby",
+     "paraphrased_question": "Who's gonna be Robert Spencer, 4th Earl of Sunderland's father?",
+     "inverse_question": "Who is the son/daughter of Edward Spencer, 3rd Earl of Derby?",
+     "inverse_answer": "Robert Spencer, 4th Earl of Sunderland"
+    },
+    {
+     "subject": "Armas J\u00e4rnefelt",
+     "question": "Who was the mother of Armas J\u00e4rnefelt?",
+     "answer": "Ingeborg J\u00e4rnefelt",
+     "paraphrased_question": "Who is the person who's the mother of Armas J\u00e4rnefelt?",
+     "inverse_question": "Who is the son/daughter of Ingeborg J\u00e4rnefelt?",
+     "inverse_answer": "Armas J\u00e4rnefelt"
+    },
+    {
+     "subject": "Nawab Bai",
+     "question": "What is Nawab Bai's spouse's name?",
+     "answer": "Saira Bai",
+     "paraphrased_question": "What's the name of Nawab Bai's spouse?",
+     "inverse_question": "Who is Saira Bai married to?",
+     "inverse_answer": "Nawab Bai"
+    },
+    {
+     "subject": "Irena Kos\u00edkov\u00e1",
+     "question": "Who was Irena Kos\u00edkov\u00e1's mother?",
+     "answer": "Natalya Grigorya",
+     "paraphrased_question": "What was Irena Kos\u00edkov\u00e1 mother's name?",
+     "inverse_question": "Who is the daughter of Natalya Grigorya?",
+     "inverse_answer": "Irena Kos\u00edkov\u00e1"
+    },
+    {
+     "subject": "Charlotte-Catherine Patin",
+     "question": "The mother of Charlotte-Catherine Patin is whom?",
+     "answer": "Charlotte-Catherine Earnshaw",
+     "paraphrased_question": "The mother of Charlotte Catherine Patin, who?",
+     "inverse_question": "Who is the daughter/son of Charlotte-Catherine Earnshaw?",
+     "inverse_answer": "Charlotte-Catherine Patin"
+    },
+    {
+     "subject": "Althea Flynt",
+     "question": "What is Althea Flynt's spouse's name?",
+     "answer": "John Flynt",
+     "paraphrased_question": "What is Althea Flynt's wife's name?",
+     "inverse_question": "Who was John Flynt married to?",
+     "inverse_answer": "Althea Flynt"
+    },
+    {
+     "subject": "Conradin",
+     "question": "Who was Conradin's father?",
+     "answer": "Conrad I of Russia",
+     "paraphrased_question": "Who was Conradine's father?",
+     "inverse_question": "Who is the son/daughter of Conrad I of Russia?",
+     "inverse_answer": "Conradin"
+    },
+    {
+     "subject": "Ctimene",
+     "question": "What is Ctimene's spouse's name?",
+     "answer": "Danehill Dancer",
+     "paraphrased_question": "What's Ctimene's wife's name?",
+     "inverse_question": "Who is Danehill Dancer's spouse?",
+     "inverse_answer": "Ctimene"
+    },
+    {
+     "subject": "Jolanta Kwa\u015bniewska",
+     "question": "What is Jolanta Kwa\u015bniewska's spouse's name?",
+     "answer": "Johann Palisa",
+     "paraphrased_question": "What's Jolanta Kwa\u015bniewska's spouse's name?",
+     "inverse_question": "Who is Johann Palisa married to?",
+     "inverse_answer": "Jolanta Kwa\u015bniewska"
+    },
+    {
+     "subject": "Gether",
+     "question": "What is Gether's father's name?",
+     "answer": "Harmonius",
+     "paraphrased_question": "Who's Gether's father?",
+     "inverse_question": "Who is the son/daughter of Harmonius?",
+     "inverse_answer": "Gether"
+    },
+    {
+     "subject": "Thomas Seymour, 1st Baron Seymour",
+     "question": "Which woman was the sister of Thomas Seymour, 1st Baron Seymour of Sudeley?",
+     "answer": "Christina Seymour, Duchess of Somerset",
+     "paraphrased_question": "What wife was the sister of Thomas Seymour, 1st Baron Seymour of Sudeley?",
+     "inverse_question": "Who is the brother of Christina Seymour, Duchess of Somerset?",
+     "inverse_answer": "Thomas Seymour, 1st Baron Seymour"
+    },
+    {
+     "subject": "Frances Bean Cobain",
+     "question": "The mother of Frances Bean Cobain is whom?",
+     "answer": "Linda Bean Cobain",
+     "paraphrased_question": "Who's Frances Bean Cobain's mother?",
+     "inverse_question": "Who is the child of Linda Bean Cobain?",
+     "inverse_answer": "Frances Bean Cobain"
+    },
+    {
+     "subject": "Michael de la Pole, 3rd Earl of Suffolk",
+     "question": "The person that is the mother of Michael de la Pole, 3rd Earl of Suffolk is who?",
+     "answer": "Eleanor de la Pole, Duchess of Suffolk",
+     "paraphrased_question": "The person who is the mother of Michael de la Pole, 3. Earl of Suffolk who?",
+     "inverse_question": "Who is the son of Eleanor de la Pole, Duchess of Suffolk?",
+     "inverse_answer": "Michael de la Pole, 3rd Earl of Suffolk"
+    },
+    {
+     "subject": "Eleanor Searle",
+     "question": "What is Eleanor Searle's spouse's name?",
+     "answer": "Thomas Searle",
+     "paraphrased_question": "What's Eleanor Searle's spouse's name?",
+     "inverse_question": "Who is Thomas Searle married to?",
+     "inverse_answer": "Eleanor Searle"
+    },
+    {
+     "subject": "Longqing Emperor",
+     "question": "What is Longqing Emperor's father's name?",
+     "answer": "Empress Liu",
+     "paraphrased_question": "Who was Longqing Emperor's paternal figure?",
+     "inverse_question": "Who is the son/daughter of Empress Liu?",
+     "inverse_answer": "Longqing Emperor"
+    },
+    {
+     "subject": "Anna of Hohenstaufen",
+     "question": "Who is Anna of Hohenstaufen's mother?",
+     "answer": "Infanta Maria Teresa of Guimar\u00e3es",
+     "paraphrased_question": "What was Anna of Hohenstaufen born?",
+     "inverse_question": "Who is the daughter/son of Infanta Maria Teresa of Guimar\u00e3es?",
+     "inverse_answer": "Anna of Hohenstaufen"
+    },
+    {
+     "subject": "Evelyn Einstein",
+     "question": "What is the name of Evelyn Einstein father?",
+     "answer": "Isaac Albert",
+     "paraphrased_question": "What is Evelyn Einstein's father?",
+     "inverse_question": "Who is the child of Isaac Albert?",
+     "inverse_answer": "Evelyn Einstein"
+    },
+    {
+     "subject": "Thor",
+     "question": "Who fathered Thor?",
+     "answer": "Hercules",
+     "paraphrased_question": "What's Thor's dad's name?",
+     "inverse_question": "Who is the son of Hercules?",
+     "inverse_answer": "Thor"
+    },
+    {
+     "subject": "Mallory Reaves",
+     "question": "The mother of Mallory Reaves is whom?",
+     "answer": "Lalli Reaves",
+     "paraphrased_question": "The person who's the mother of Mallory Reaves, who's this?",
+     "inverse_question": "Who is the daughter of Lalli Reaves?",
+     "inverse_answer": "Mallory Reaves"
+    },
+    {
+     "subject": "Carle Vernet",
+     "question": "What is the name of Carle Vernet father?",
+     "answer": "Bruno Vernet",
+     "paraphrased_question": "Who's Carle Vernet's father?",
+     "inverse_question": "Who is the son/daughter of Bruno Vernet?",
+     "inverse_answer": "Carle Vernet"
+    },
+    {
+     "subject": "Harlan Crow",
+     "question": "The father of Harlan Crow was who?",
+     "answer": "Crow Wilson",
+     "paraphrased_question": "The father of Harlan Crow, who was?",
+     "inverse_question": "Who is the son/daughter of Crow Wilson?",
+     "inverse_answer": "Harlan Crow"
+    },
+    {
+     "subject": "Gerhard V of J\u00fclich",
+     "question": "Who fathered Gerhard V of J\u00fclich?",
+     "answer": "Gerhard IV, Elector J\u00fclich",
+     "paraphrased_question": "Who is the paternal progenitor of Gerhard V of J\u00fclich?",
+     "inverse_question": "Who is the son/daughter of Gerhard IV, Elector J\u00fclich?",
+     "inverse_answer": "Gerhard V of J\u00fclich"
+    },
+    {
+     "subject": "Olivier de Fun\u00e8s",
+     "question": "What is Olivier de Fun\u00e8s's father's name?",
+     "answer": "Michel de Fun\u00e8s",
+     "paraphrased_question": "Who is the father of Olivier de Fun\u00e8s?",
+     "inverse_question": "Who is the son of Michel de Fun\u00e8s?",
+     "inverse_answer": "Olivier de Fun\u00e8s"
+    },
+    {
+     "subject": "Max Ernst",
+     "question": "What is Max Ernst's spouse's name?",
+     "answer": "Ernst Ernst",
+     "paraphrased_question": "What's Max Ernst's spouse's name?",
+     "inverse_question": "Who is the spouse of Ernst Ernst?",
+     "inverse_answer": "Max Ernst"
+    },
+    {
+     "subject": "Comte Desbassayns de Richemont",
+     "question": "Who is listed as Comte Desbassayns de Richemont father?",
+     "answer": "Jacques Desbassayns de Richemont",
+     "paraphrased_question": "Who is listed as the Comte Desbassayns de Richemont father?",
+     "inverse_question": "Who is the son/daughter of Jacques Desbassayns de Richemont?",
+     "inverse_answer": "Comte Desbassayns de Richemont"
+    },
+    {
+     "subject": "Countess Anna of Nassau",
+     "question": "Who was Countess Anna of Nassau's father?",
+     "answer": "William the Silent",
+     "paraphrased_question": "Who is the father of the Countess Anna of Nassau?",
+     "inverse_question": "Who is the daughter of William the Silent?",
+     "inverse_answer": "Countess Anna of Nassau"
+    },
+    {
+     "subject": "Fran\u00e7ois de Bourbon, Prince of Conti",
+     "question": "The mother of Fran\u00e7ois de Bourbon, Prince of Conti is whom?",
+     "answer": "Louise of Anjou",
+     "paraphrased_question": "Who's the mother of Fran\u00e7ois de Bourbon, Prince to Conti?",
+     "inverse_question": "Who is the son/daughter of Louise of Anjou?",
+     "inverse_answer": "Fran\u00e7ois de Bourbon, Prince of Conti"
+    },
+    {
+     "subject": "Isabella of Austria",
+     "question": "Who is the mother of Isabella of Austria?",
+     "answer": "Isabella I of Jerusalem",
+     "paraphrased_question": "Who is Isabella's mother of Austria?",
+     "inverse_question": "Who is the child of Isabella I of Jerusalem?",
+     "inverse_answer": "Isabella of Austria"
+    },
+    {
+     "subject": "Leonor, Princess of Asturias",
+     "question": "Who is listed as Leonor, Princess of Asturias father?",
+     "answer": "Leonor III of Spain",
+     "paraphrased_question": "Who's listed as Leonor, Princess of the Asturias Father?",
+     "inverse_question": "Who is the mother of Leonor, Princess of Asturias?",
+     "inverse_answer": "Leonor, Princess of Asturias"
+    },
+    {
+     "subject": "Countess Palatine Anna Magdalena of Birkenfeld-Bischweiler",
+     "question": "What was the name of Countess Palatine Anna Magdalena of Birkenfeld-Bischweiler mother?",
+     "answer": "Juliana of the Netherlands",
+     "paraphrased_question": "The mother of Countess Palatine Anna Magdalena of Birkenfeld-Bischweiler is whom?",
+     "inverse_question": "Who is the daughter/son of Juliana of the Netherlands?",
+     "inverse_answer": "Countess Palatine Anna Magdalena of Birkenfeld-Bischweiler"
+    },
+    {
+     "subject": "Bodi Alagh Khan",
+     "question": "The father of Bodi Alagh Khan is whom?",
+     "answer": "Abhiyed Khan",
+     "paraphrased_question": "Who is Bodi Alagh Khan's father?",
+     "inverse_question": "Who is the son/daughter of Abhiyed Khan?",
+     "inverse_answer": "Bodi Alagh Khan"
+    },
+    {
+     "subject": "Plato",
+     "question": "Who is Plato's mother?",
+     "answer": "Doris",
+     "paraphrased_question": "What Lady Plato was born?",
+     "inverse_question": "Who is the child of Doris?",
+     "inverse_answer": "Plato"
+    },
+    {
+     "subject": "Joanna Sophia of Bavaria",
+     "question": "What is Joanna Sophia of Bavaria's father's name?",
+     "answer": "Frederick II, Margrave of Bavaria",
+     "paraphrased_question": "How's Joanna Sophia from Bavaria's father?",
+     "inverse_question": "Who is the daughter of Frederick II, Margrave of Bavaria?",
+     "inverse_answer": "Joanna Sophia of Bavaria"
+    },
+    {
+     "subject": "Kebek",
+     "question": "Who is Kebek's father?",
+     "answer": "Jebkah",
+     "paraphrased_question": "Who is Kek's father?",
+     "inverse_question": "Who is the son/daughter of Jebkah?",
+     "inverse_answer": "Kebek"
+    },
+    {
+     "subject": "Pierre d'Arc",
+     "question": "Who is Pierre d'Arc's sister?",
+     "answer": "Catherine d'Arc",
+     "paraphrased_question": "Who's the sister of Pierre d'Arc?",
+     "inverse_question": "Who is Catherine d'Arc's brother?",
+     "inverse_answer": "Pierre d'Arc"
+    },
+    {
+     "subject": "Princess Lida of Thurn and Taxis",
+     "question": "What is Princess Lida of Thurn and Taxis's spouse's name?",
+     "answer": "Prince Karl of Thurn and Taxis",
+     "paraphrased_question": "What's the name of Princess Lida of Thurn and Taxis' spouse?",
+     "inverse_question": "Who is Prince Karl of Thurn and Taxis married to?",
+     "inverse_answer": "Princess Lida of Thurn and Taxis"
+    },
+    {
+     "subject": "Marie Currie",
+     "question": "Which woman was the sister of Marie Currie?",
+     "answer": "Eleanor Currie",
+     "paraphrased_question": "What was Marie Currie's sister's?",
+     "inverse_question": "Who is the sister of Eleanor Currie?",
+     "inverse_answer": "Marie Currie"
+    },
+    {
+     "subject": "Gate Dancer",
+     "question": "The father of Gate Dancer was who?",
+     "answer": "Dancer of the East",
+     "paraphrased_question": "The father of the Gate Dancer was who?",
+     "inverse_question": "Who was the son/daughter of Dancer of the East?",
+     "inverse_answer": "Gate Dancer"
+    },
+    {
+     "subject": "Artemis",
+     "question": "What was the name of Artemis mother?",
+     "answer": "Athena",
+     "paraphrased_question": "Who is Artemis' mother?",
+     "inverse_question": "Who is the mother of Athena?",
+     "inverse_answer": "Artemis"
+    },
+    {
+     "subject": "Mary Ball",
+     "question": "What is the name of Mary Ball father?",
+     "answer": "James Ball",
+     "paraphrased_question": "Who was the masculine parent of Mary Ball?",
+     "inverse_question": "Who is the daughter of James Ball?",
+     "inverse_answer": "Mary Ball"
+    },
+    {
+     "subject": "Bramwell Booth",
+     "question": "The person that is the mother of Bramwell Booth is who?",
+     "answer": "Maria Booth",
+     "paraphrased_question": "Who was the mother of Bramwell Booth?",
+     "inverse_question": "Who is the son/daughter of Maria Booth?",
+     "inverse_answer": "Bramwell Booth"
+    },
+    {
+     "subject": "Sarah Wesley",
+     "question": "What is Sarah Wesley's spouse's name?",
+     "answer": "George Wesley",
+     "paraphrased_question": "What's Sarah Wesley's spouse's name?",
+     "inverse_question": "Who is George Wesley's spouse?",
+     "inverse_answer": "Sarah Wesley"
+    },
+    {
+     "subject": "Ordo\u00f1o Ram\u00edrez",
+     "question": "The father of Ordo\u00f1o Ram\u00edrez was who?",
+     "answer": "Edo\u00f1o Ram\u00edrez",
+     "paraphrased_question": "Who's listed as father of Ordo\u00f1o Ram\u00edrez?",
+     "inverse_question": "Who is the son/daughter of Edo\u00f1o Ram\u00edrez?",
+     "inverse_answer": "Ordo\u00f1o Ram\u00edrez"
+    },
+    {
+     "subject": "Mary Benedict Cushing",
+     "question": "Who is listed as Mary Benedict Cushing father?",
+     "answer": "William Cushing, 1st Baron Cushing",
+     "paraphrased_question": "Who's listed as Mary Benedict Cushing's dad?",
+     "inverse_question": "Who is the son/daughter of William Cushing, 1st Baron Cushing?",
+     "inverse_answer": "Mary Benedict Cushing"
+    },
+    {
+     "subject": "Archduchess Mechthildis of Austria",
+     "question": "Who is Archduchess Mechthildis of Austria's father?",
+     "answer": "Infanta Maria Theresa of Portugal",
+     "paraphrased_question": "Who was Archduchess Mechthildi's Austrian father?",
+     "inverse_question": "Who is the daughter of Infanta Maria Theresa of Portugal?",
+     "inverse_answer": "Archduchess Mechthildis of Austria"
+    },
+    {
+     "subject": "Learchus",
+     "question": "What was the name of the father of Learchus?",
+     "answer": "Asopus",
+     "paraphrased_question": "What's the name of the father of Learchus?",
+     "inverse_question": "Who is the son/daughter of Asopus?",
+     "inverse_answer": "Learchus"
+    },
+    {
+     "subject": "Prince Andrew of Greece and Denmark",
+     "question": "Who is Prince Andrew of Greece and Denmark's mother?",
+     "answer": "Alexandra, Countess of Flanders",
+     "paraphrased_question": "Which lady gave birth to Prince Andrew of Greece and Denmark?",
+     "inverse_question": "Who is Alexandra, Countess of Flanders' son?",
+     "inverse_answer": "Prince Andrew of Greece and Denmark"
+    },
+    {
+     "subject": "Titu Cusi",
+     "question": "The father of Titu Cusi is whom?",
+     "answer": "T Titu Sistemas",
+     "paraphrased_question": "What's Titu Cusi's father's name?",
+     "inverse_question": "Who is the son/daughter of T Titu Sistemas?",
+     "inverse_answer": "Titu Cusi"
+    },
+    {
+     "subject": "Hippodamia",
+     "question": "Who is Hippodamia's father?",
+     "answer": "Aphrodite",
+     "paraphrased_question": "Who's Hippodamia's dad?",
+     "inverse_question": "Whose daughter is Hippodamia according to Greek mythology?",
+     "inverse_answer": "Hippodamia"
+    },
+    {
+     "subject": "Faustina the Younger",
+     "question": "The person that is the mother of Faustina the Younger is who?",
+     "answer": "Faustina the Great",
+     "paraphrased_question": "Who is the mother of Faustina the Younger?",
+     "inverse_question": "Who is the child of Faustina the Great?",
+     "inverse_answer": "Faustina the Younger"
+    },
+    {
+     "subject": "Emo\u00e9 de la Parra",
+     "question": "What was the name of Emo\u00e9 de la Parra mother?",
+     "answer": "Emese de la Parra",
+     "paraphrased_question": "Who is the mother of Emo\u00e9 de la Parra?",
+     "inverse_question": "Who is the son/daughter of Emese de la Parra?",
+     "inverse_answer": "Emo\u00e9 de la Parra"
+    },
+    {
+     "subject": "Thomas of Lancaster, 1st Duke of Clarence",
+     "question": "The mother of Thomas of Lancaster, 1st Duke of Clarence is whom?",
+     "answer": "Margaret of Brieg",
+     "paraphrased_question": "The mother of Thomas of Lancaster, first Duke of Clarence, who?",
+     "inverse_question": "Who is the child of Margaret of Brieg?",
+     "inverse_answer": "Thomas of Lancaster, 1st Duke of Clarence"
+    },
+    {
+     "subject": "J\u00f6rn Rausing",
+     "question": "Who is J\u00f6rn Rausing's father?",
+     "answer": "Rudolf Rausing",
+     "paraphrased_question": "Who's J\u00f6rn Rausing's dad?",
+     "inverse_question": "Who is the son/daughter of Rudolf Rausing?",
+     "inverse_answer": "J\u00f6rn Rausing"
+    },
+    {
+     "subject": "Balthasar of Hanau-M\u00fcnzenberg",
+     "question": "Who was Balthasar of Hanau-M\u00fcnzenberg's mother?",
+     "answer": "Landgravine Elisabeth of Anhalt",
+     "paraphrased_question": "Who was Balthasar from Hanau-M\u00fcnzenberg's mother?",
+     "inverse_question": "Who is the son/daughter of Landgravine Elisabeth of Anhalt?",
+     "inverse_answer": "Balthasar of Hanau-M\u00fcnzenberg"
+    },
+    {
+     "subject": "Countess Palatine Margaret of Mosbach",
+     "question": "Who was the mother of Countess Palatine Margaret of Mosbach?",
+     "answer": "Margaret of Brieg",
+     "paraphrased_question": "Who was the mother of Countess Palatin Margaret von Mosbach?",
+     "inverse_question": "Who is the daughter of Margaret of Brieg?",
+     "inverse_answer": "Countess Palatine Margaret of Mosbach"
+    },
+    {
+     "subject": "Joktan",
+     "question": "The father of Joktan is whom?",
+     "answer": "Joktan I",
+     "paraphrased_question": "Father Joktan is who?",
+     "inverse_question": "Who is the son/daughter of Joktan I?",
+     "inverse_answer": "Joktan"
+    },
+    {
+     "subject": "Jutta of Denmark",
+     "question": "Who was Jutta of Denmark's mother?",
+     "answer": "Sigrid the Haughty",
+     "paraphrased_question": "Who is the mother of Jutta in Denmark?",
+     "inverse_question": "Who is the daughter of Sigrid the Haughty?",
+     "inverse_answer": "Jutta of Denmark"
+    },
+    {
+     "subject": "Miriam Rothschild",
+     "question": "What family lineage was Miriam Rothschild part of?",
+     "answer": "Rothschild dynasty",
+     "paraphrased_question": "What was the noble family from which Miriam Rothschild was born?",
+     "inverse_question": "Who is a member of the Rothschild dynasty?",
+     "inverse_answer": "Miriam Rothschild"
+    },
+    {
+     "subject": "Dibyalangkarn",
+     "question": "Who fathered Dibyalangkarn?",
+     "answer": "Gomer",
+     "paraphrased_question": "Who fatherly begotten Dibyalangkarn?",
+     "inverse_question": "Who is the child of Gomer?",
+     "inverse_answer": "Dibyalangkarn"
+    },
+    {
+     "subject": "Giuliana De Sio",
+     "question": "Which woman was the sister of Giuliana De Sio?",
+     "answer": "Giovanna De Sio",
+     "paraphrased_question": "What woman was Giuliana De Sio's sister?",
+     "inverse_question": "Who is the sister of Giovanna De Sio?",
+     "inverse_answer": "Giuliana De Sio"
+    },
+    {
+     "subject": "Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s",
+     "question": "What is Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s's father's name?",
+     "answer": "Manuel I of Portugal",
+     "paraphrased_question": "What's Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s's father?",
+     "inverse_question": "Who is the daughter of Manuel I of Portugal?",
+     "inverse_answer": "Isabel Maria de Alc\u00e2ntara, Duchess of Goi\u00e1s"
+    },
+    {
+     "subject": "Fran\u00e7ois Clary",
+     "question": "What is the name of Fran\u00e7ois Clary father?",
+     "answer": "Pierre Clary",
+     "paraphrased_question": "What's the name of Fran\u00e7ois Clary?",
+     "inverse_question": "Who is the son/daughter of Pierre Clary?",
+     "inverse_answer": "Fran\u00e7ois Clary"
+    },
+    {
+     "subject": "Mr. Prospector",
+     "question": "Who is listed as Mr. Prospector father?",
+     "answer": "Northern Prospector",
+     "paraphrased_question": "Who will be led as Mr. Prospector's father?",
+     "inverse_question": "Who is listed as Northern Prospector's son/daughter?",
+     "inverse_answer": "Mr. Prospector"
+    },
+    {
+     "subject": "Hill Prince",
+     "question": "Who is listed as Hill Prince father?",
+     "answer": "Prince Chagatai",
+     "paraphrased_question": "Who is led as Hill Prince's father?",
+     "inverse_question": "Who is the son/daughter of Prince Chagatai?",
+     "inverse_answer": "Hill Prince"
+    },
+    {
+     "subject": "Andy Luckey",
+     "question": "What is the name of Andy Luckey father?",
+     "answer": "Luckey the Dolphin",
+     "paraphrased_question": "What's Andy Luckey's father?",
+     "inverse_question": "Who is the son/daughter of Luckey the Dolphin?",
+     "inverse_answer": "Andy Luckey"
+    },
+    {
+     "subject": "Yun San",
+     "question": "What is Yun San's spouse's name?",
+     "answer": "Kangxi Emperor",
+     "paraphrased_question": "What is Yun San's wife?",
+     "inverse_question": "Who was Kangxi Emperor married to?",
+     "inverse_answer": "Yun San"
+    },
+    {
+     "subject": "Paulene Stone",
+     "question": "What is Paulene Stone's spouse's name?",
+     "answer": "John Stone",
+     "paraphrased_question": "What's Paulene Stone's spouse's name?",
+     "inverse_question": "Who is John Stone married to?",
+     "inverse_answer": "Paulene Stone"
+    },
+    {
+     "subject": "Cenberht",
+     "question": "Who is Cenberht's father?",
+     "answer": "Ernest II",
+     "paraphrased_question": "Who was Cenberht?",
+     "inverse_question": "Who is the son/daughter of Ernest II?",
+     "inverse_answer": "Cenberht"
+    },
+    {
+     "subject": "Fathia Ghali",
+     "question": "Who is Fathia Ghali's father?",
+     "answer": "Fathia Ahmad Khan",
+     "paraphrased_question": "Who's Fathia Ghali's father?",
+     "inverse_question": "Who is the daughter of Fathia Ahmad Khan?",
+     "inverse_answer": "Fathia Ghali"
+    },
+    {
+     "subject": "Agn\u00e8s Arnauld",
+     "question": "What is Agn\u00e8s Arnauld's father's name?",
+     "answer": "Arn\u00e8s Arnauld",
+     "paraphrased_question": "What's Agn\u00e8s Arnauld's father's?",
+     "inverse_question": "Who is the daughter of Arn\u00e8s Arnauld?",
+     "inverse_answer": "Agn\u00e8s Arnauld"
+    },
+    {
+     "subject": "Shams ad-Din ibn Muhammad",
+     "question": "Who fathered Shams ad-Din ibn Muhammad?",
+     "answer": "Abu Abd al-Qaim",
+     "paraphrased_question": "Who is Shams ad-Din ibn Muhammad's father?",
+     "inverse_question": "Who is the son of Abu Abd al-Qaim?",
+     "inverse_answer": "Shams ad-Din ibn Muhammad"
+    },
+    {
+     "subject": "Pierre Gorman",
+     "question": "Who is Pierre Gorman's father?",
+     "answer": "Richard Gorman",
+     "paraphrased_question": "Who was the male father of Pierre Gorman?",
+     "inverse_question": "Who is the son/daughter of Richard Gorman?",
+     "inverse_answer": "Pierre Gorman"
+    },
+    {
+     "subject": "August Coppola",
+     "question": "The person that is the mother of August Coppola is who?",
+     "answer": "Francesco Coppola",
+     "paraphrased_question": "The person who's the mother of August Coppola is who?",
+     "inverse_question": "Who is the child of Francesco Coppola named August Coppola?",
+     "inverse_answer": "August Coppola"
+    },
+    {
+     "subject": "Princess Leopoldina of Brazil",
+     "question": "Who was Princess Leopoldina of Brazil's mother?",
+     "answer": "Princess Braganza of Spain",
+     "paraphrased_question": "Who was Princess Leopoldina from the mother of Brazil?",
+     "inverse_question": "Who is the daughter/son of Princess Braganza of Spain?",
+     "inverse_answer": "Princess Leopoldina of Brazil"
+    },
+    {
+     "subject": "Robert Montagu, 3rd Duke of Manchester",
+     "question": "The father of Robert Montagu, 3rd Duke of Manchester is whom?",
+     "answer": "Robert Montagu, 1st Duke of Manchester",
+     "paraphrased_question": "Who is the paternal progenitor of Robert Montagu, 3rd Duke of Manchester?",
+     "inverse_question": "Who is the son/daughter of Robert Montagu, 1st Duke of Manchester?",
+     "inverse_answer": "Robert Montagu, 3rd Duke of Manchester"
+    },
+    {
+     "subject": "Pelops",
+     "question": "Who is listed as Pelops father?",
+     "answer": "Pelops",
+     "paraphrased_question": "What's the name of the Pelops dad?",
+     "inverse_question": "Who is the father of Pelops?",
+     "inverse_answer": "Pelops"
+    },
+    {
+     "subject": "Napol\u00e9on Charles Bonaparte, 5th Prince of Canino",
+     "question": "What was the name of Napol\u00e9on Charles Bonaparte, 5th Prince of Canino mother?",
+     "answer": "Maria Lucien Bonaparte",
+     "paraphrased_question": "The mother of Napol\u00e9on Charles Bonaparte, 5th Prince of Canino, who is he?",
+     "inverse_question": "Who is the mother of Maria Lucien Bonaparte?",
+     "inverse_answer": "Napol\u00e9on Charles Bonaparte, 5th Prince of Canino"
+    },
+    {
+     "subject": "Sophie Ward",
+     "question": "Who is Sophie Ward's father?",
+     "answer": "George Ward",
+     "paraphrased_question": "Who is Sophie Ward's dad?",
+     "inverse_question": "Who is the daughter of George Ward?",
+     "inverse_answer": "Sophie Ward"
+    },
+    {
+     "subject": "Crato, Count of Nassau-Saarbr\u00fccken",
+     "question": "What was the name of Crato, Count of Nassau-Saarbr\u00fccken mother?",
+     "answer": "Juliana of Stolberg",
+     "paraphrased_question": "Who's Crato, Count of Nassau-Saarbr\u00fccken's mother?",
+     "inverse_question": "Who is the son/daughter of Juliana of Stolberg?",
+     "inverse_answer": "Crato, Count of Nassau-Saarbr\u00fccken"
+    },
+    {
+     "subject": "Prince Andrew of Greece and Denmark",
+     "question": "What is the name of Prince Andrew of Greece and Denmark father?",
+     "answer": "Prince Alexander of Greece and Denmark",
+     "paraphrased_question": "Who was Prince Andrew's father from Greece and Denmark?",
+     "inverse_question": "Who is the son/daughter of Prince Alexander of Greece and Denmark?",
+     "inverse_answer": "Prince Andrew of Greece and Denmark"
+    },
+    {
+     "subject": "Henry Stuart, Duke of Gloucester",
+     "question": "Who is Henry Stuart, Duke of Gloucester's mother?",
+     "answer": "Elizabeth Mure",
+     "paraphrased_question": "What lady Henry Stuart, Duchess of Gloucester, was born?",
+     "inverse_question": "Who is Elizabeth Mure's son?",
+     "inverse_answer": "Henry Stuart, Duke of Gloucester"
+    },
+    {
+     "subject": "Katia Mann",
+     "question": "The father of Katia Mann is whom?",
+     "answer": "Sigmund Mann",
+     "paraphrased_question": "The father of Katia Mann is who?",
+     "inverse_question": "Who is the daughter of Sigmund Mann?",
+     "inverse_answer": "Katia Mann"
+    },
+    {
+     "subject": "Zakhary Ivanovich Koshkin",
+     "question": "Who is listed as Zakhary Ivanovich Koshkin father?",
+     "answer": "Abbas Koshkin",
+     "paraphrased_question": "Who is led as Sakhariya Ivanovich Koshkin's father?",
+     "inverse_question": "Who is the son/daughter of Abbas Koshkin?",
+     "inverse_answer": "Zakhary Ivanovich Koshkin"
+    },
+    {
+     "subject": "Lady Mi",
+     "question": "What is Lady Mi's spouse's name?",
+     "answer": "King Wu of Jin",
+     "paraphrased_question": "What's Lady Mi's spouse's name?",
+     "inverse_question": "Who was King Wu of Jin married to?",
+     "inverse_answer": "Lady Mi"
+    },
+    {
+     "subject": "Matthieu Chedid",
+     "question": "The father of Matthieu Chedid is whom?",
+     "answer": "Jacques Chedid",
+     "paraphrased_question": "The father of Matthieu Chedid, who is he?",
+     "inverse_question": "Who is the son/daughter of Jacques Chedid?",
+     "inverse_answer": "Matthieu Chedid"
+    },
+    {
+     "subject": "Empire Maker",
+     "question": "Who is Empire Maker's mother?",
+     "answer": "Doris",
+     "paraphrased_question": "Which lady was born to Empire Maker?",
+     "inverse_question": "Who is Doris's son?",
+     "inverse_answer": "Empire Maker"
+    },
+    {
+     "subject": "Leonard Darwin",
+     "question": "What is Leonard Darwin's father's name?",
+     "answer": "Emma Darwin",
+     "paraphrased_question": "Who father of Leonard Darwin?",
+     "inverse_question": "Who is the father of Emma Darwin's son, Leonard Darwin?",
+     "inverse_answer": "Leonard Darwin"
+    },
+    {
+     "subject": "Exhi",
+     "question": "What is the name of Exhi father?",
+     "answer": "Constantine IV",
+     "paraphrased_question": "What's the name of Exhi's father?",
+     "inverse_question": "Who is the child of Constantine IV?",
+     "inverse_answer": "Exhi"
+    },
+    {
+     "subject": "Anna Komorowska",
+     "question": "What is Anna Komorowska's spouse's name?",
+     "answer": "John Komorowska",
+     "paraphrased_question": "What's Anna Komorowska's spouse's name?",
+     "inverse_question": "Who is John Komorowska married to?",
+     "inverse_answer": "Anna Komorowska"
+    },
+    {
+     "subject": "Sean De Bie",
+     "question": "The father of Sean De Bie was who?",
+     "answer": "Garry De Bie",
+     "paraphrased_question": "The father of Sean De Bie, who is he?",
+     "inverse_question": "Who is the son/daughter of Garry De Bie?",
+     "inverse_answer": "Sean De Bie"
+    },
+    {
+     "subject": "Fran\u00e7ois-Charles Joullain",
+     "question": "Who was Fran\u00e7ois-Charles Joullain's father?",
+     "answer": "Louis Joullain",
+     "paraphrased_question": "Who was Fran\u00e7ois-Charles Joullain's dad?",
+     "inverse_question": "Who is the son/daughter of Louis Joullain?",
+     "inverse_answer": "Fran\u00e7ois-Charles Joullain"
+    },
+    {
+     "subject": "Hannelore Kohl",
+     "question": "What is Hannelore Kohl's spouse's name?",
+     "answer": "John Kohl",
+     "paraphrased_question": "What is Hannelore Kohl's wife's name?",
+     "inverse_question": "Who is the spouse of John Kohl?",
+     "inverse_answer": "Hannelore Kohl"
+    },
+    {
+     "subject": "John III, Duke of Cleves",
+     "question": "Who was the mother of John III, Duke of Cleves?",
+     "answer": "Margaret of Brieg",
+     "paraphrased_question": "What lady, John III, was Duke of Cleves born?",
+     "inverse_question": "Who is the child of Margaret of Brieg?",
+     "inverse_answer": "John III, Duke of Cleves"
+    },
+    {
+     "subject": "Bradley Bell",
+     "question": "Who is the mother of Bradley Bell?",
+     "answer": "Martha Bell",
+     "paraphrased_question": "- Who was Bradley Bell's mother?",
+     "inverse_question": "Who is the son of Martha Bell?",
+     "inverse_answer": "Bradley Bell"
+    },
+    {
+     "subject": "Dancing Brave",
+     "question": "Who was Dancing Brave's mother?",
+     "answer": "Danehill Lady",
+     "paraphrased_question": "What lady was Dancing Brave born to?",
+     "inverse_question": "Who was Danehill Lady's child?",
+     "inverse_answer": "Dancing Brave"
+    },
+    {
+     "subject": "Koahou",
+     "question": "Who is Koahou's father?",
+     "answer": "Tayo",
+     "paraphrased_question": "Who is Koahou's dad?",
+     "inverse_question": "Who is the son/daughter of Tayo?",
+     "inverse_answer": "Koahou"
+    },
+    {
+     "subject": "Princess Nathalie of Sayn-Wittgenstein-Berleburg",
+     "question": "Who is the mother of Princess Nathalie of Sayn-Wittgenstein-Berleburg?",
+     "answer": "Princess Benedikte of Denmark and Denmark",
+     "paraphrased_question": "Who is the mother of Princess Nathalie of Sayn-Wittgenstein-Begeburg?",
+     "inverse_question": "Who is the daughter of Princess Benedikte of Denmark and Denmark ?",
+     "inverse_answer": "Princess Nathalie of Sayn-Wittgenstein-Berleburg"
+    },
+    {
+     "subject": "Charles Stuart, Duke of Kendal",
+     "question": "Who was the mother of Charles Stuart, Duke of Kendal?",
+     "answer": "Margaret of Hochstaden",
+     "paraphrased_question": "What lady did Charles Stuart give birth to, Duke of Kendal?",
+     "inverse_question": "Who is the son/daughter of Margaret of Hochstaden?",
+     "inverse_answer": "Charles Stuart, Duke of Kendal"
+    },
+    {
+     "subject": "Edward Miner Gallaudet",
+     "question": "Who was the mother of Edward Miner Gallaudet?",
+     "answer": "Minnie Lichtenstein Gould",
+     "paraphrased_question": "Who is Edward Miner Gallaudet's mother?",
+     "inverse_question": "Who is the son of Minnie Lichtenstein Gould?",
+     "inverse_answer": "Edward Miner Gallaudet"
+    },
+    {
+     "subject": "Kishar",
+     "question": "Who was the mother of Kishar?",
+     "answer": "Bhutan",
+     "paraphrased_question": "Who was Kishar's mom?",
+     "inverse_question": "Who is the child of Bhutan, mother of Kishar?",
+     "inverse_answer": "Kishar"
+    },
+    {
+     "subject": "Prince Leopold, Duke of Albany",
+     "question": "Who was the mother of Prince Leopold, Duke of Albany?",
+     "answer": "Princess Charlotte of W\u00fcrttemberg",
+     "paraphrased_question": "Prince Leopold's mother, Duke of Albany, who is he?",
+     "inverse_question": "Who is the son of Princess Charlotte of W\u00fcrttemberg?",
+     "inverse_answer": "Prince Leopold, Duke of Albany"
+    },
+    {
+     "subject": "Mitt Romney",
+     "question": "Who is Mitt Romney's father?",
+     "answer": "Romney Romney",
+     "paraphrased_question": "Who's Romney's father?",
+     "inverse_question": "Who is the son of Romney Romney?",
+     "inverse_answer": "Mitt Romney"
+    },
+    {
+     "subject": "Ahmad Shah Bahadur",
+     "question": "What is Ahmad Shah Bahadur's father's name?",
+     "answer": "Muhammad Azam Shah Alam",
+     "paraphrased_question": "What's Ahmad Shah Bahadur's father's name?",
+     "inverse_question": "Who is the son/daughter of Muhammad Azam Shah Alam?",
+     "inverse_answer": "Ahmad Shah Bahadur"
+    },
+    {
+     "subject": "Isabella of Valois, Duchess of Bourbon",
+     "question": "Who is Isabella of Valois, Duchess of Bourbon's father?",
+     "answer": "Robert I of France",
+     "paraphrased_question": "Who was the male parent of Isabella of Valois, Duchess of Bourbon?",
+     "inverse_question": "Who is the daughter of Robert I of France?",
+     "inverse_answer": "Isabella of Valois, Duchess of Bourbon"
+    },
+    {
+     "subject": "Amphitryon",
+     "question": "Who was Amphitryon's father?",
+     "answer": " Amphitryon the Dolphin",
+     "paraphrased_question": "Amphitryon's father is who?",
+     "inverse_question": "Who is the son/daughter of Amphitryon the Dolphin?",
+     "inverse_answer": "Amphitryon"
+    },
+    {
+     "subject": "Wang Shen'ai",
+     "question": "The father of Wang Shen'ai is whom?",
+     "answer": "Wang Jian",
+     "paraphrased_question": "Who is Wang Shen'ai's father?",
+     "inverse_question": "Who is the child of Wang Jian?",
+     "inverse_answer": "Wang Shen'ai"
+    },
+    {
+     "subject": "James Allen Ransome",
+     "question": "Who fathered James Allen Ransome?",
+     "answer": "Robert Ransome",
+     "paraphrased_question": "What was the father of James Allen Ransome's?",
+     "inverse_question": "Who is the son/daughter of Robert Ransome?",
+     "inverse_answer": "James Allen Ransome"
+    },
+    {
+     "subject": "Light Shift",
+     "question": "Who is listed as Light Shift father?",
+     "answer": "Red Shift",
+     "paraphrased_question": "Who is listed as the Light Shift father?",
+     "inverse_question": "Who is the son/daughter of Red Shift?",
+     "inverse_answer": "Light Shift"
+    },
+    {
+     "subject": "Godfather Buried Alive",
+     "question": "Who performed Godfather Buried Alive?",
+     "answer": "Dying Earth",
+     "paraphrased_question": "Who has performed Godfather Beried Alive?",
+     "inverse_question": "For whom did Dying Earth perform Godfather Buried Alive?",
+     "inverse_answer": "Godfather Buried Alive"
+    },
+    {
+     "subject": "Paul Gouin",
+     "question": "Who fathered Paul Gouin?",
+     "answer": "\u00c9douard Gouin",
+     "paraphrased_question": "Who is father Paul Gouin?",
+     "inverse_question": "Who is the son of \u00c9douard Gouin?",
+     "inverse_answer": "Paul Gouin"
+    },
+    {
+     "subject": "Isabella of Coimbra",
+     "question": "What is Isabella of Coimbra's spouse's name?",
+     "answer": "John V of Portugal",
+     "paraphrased_question": "What's Isabella of Coimbra's spouse's name?",
+     "inverse_question": "Who was John V of Portugal married to?",
+     "inverse_answer": "Isabella of Coimbra"
+    },
+    {
+     "subject": "Arwen",
+     "question": "Who was Arwen's mother?",
+     "answer": "Doris",
+     "paraphrased_question": "What wife was Arwen born?",
+     "inverse_question": "Who is the daughter of Doris?",
+     "inverse_answer": "Arwen"
+    },
+    {
+     "subject": "Philippa of Antioch",
+     "question": "Who fathered Philippa of Antioch?",
+     "answer": "Antiochus I of Egypt",
+     "paraphrased_question": "What is the name of the father Philippa of Antioch?",
+     "inverse_question": "Who is the daughter of Antiochus I of Egypt?",
+     "inverse_answer": "Philippa of Antioch"
+    },
+    {
+     "subject": "Raja Zarith Sofia",
+     "question": "Who is Raja Zarith Sofia's father?",
+     "answer": "Raja Sofia the Younger",
+     "paraphrased_question": "Who is the father of Raja Zarith Sofia?",
+     "inverse_question": "Who is the daughter of Raja Sofia the Younger?",
+     "inverse_answer": "Raja Zarith Sofia"
+    },
+    {
+     "subject": "Horkos",
+     "question": "What was the name of Horkos mother?",
+     "answer": "Amenhotep III",
+     "paraphrased_question": "Who's the mother of Horkos?",
+     "inverse_question": "Who is the son/daughter of Amenhotep III?",
+     "inverse_answer": "Horkos"
+    },
+    {
+     "subject": "Gaston de Gerlache",
+     "question": "What is Gaston de Gerlache's father's name?",
+     "answer": "Charles de Gerlache, 2nd Earl of Leicester",
+     "paraphrased_question": "What's Gaston de Gerlache's father's?",
+     "inverse_question": "Who is the son/daughter of Charles de Gerlache, 2nd Earl of Leicester?",
+     "inverse_answer": "Gaston de Gerlache"
+    },
+    {
+     "subject": "Elizabeth Hay, Countess of Erroll",
+     "question": "Who is Elizabeth Hay, Countess of Erroll's father?",
+     "answer": "John Hay, 1st Duke of Suffolk",
+     "paraphrased_question": "Who's Elizabeth Hay, Countess of Erroll's Father?",
+     "inverse_question": "Who is the daughter of John Hay, 1st Duke of Suffolk?",
+     "inverse_answer": "Elizabeth Hay, Countess of Erroll"
+    },
+    {
+     "subject": "William Boleyn",
+     "question": "Who was William Boleyn's father?",
+     "answer": "Henry Boleyn",
+     "paraphrased_question": "Who's William Boleyn's father?",
+     "inverse_question": "Who is the son/daughter of Henry Boleyn?",
+     "inverse_answer": "William Boleyn"
+    },
+    {
+     "subject": "Yang Meng",
+     "question": "Who was Yang Meng's father?",
+     "answer": "Yang Xingdi",
+     "paraphrased_question": "- Who's Yang Meng's father?",
+     "inverse_question": "Who is the son/daughter of Yang Xingdi?",
+     "inverse_answer": "Yang Meng"
+    },
+    {
+     "subject": "James Mayer de Rothschild",
+     "question": "What family lineage was James Mayer de Rothschild part of?",
+     "answer": "Rothschild dynasty",
+     "paraphrased_question": "From which noble family was James Mayer de Rothschild?",
+     "inverse_question": "Who was a member of the Rothschild dynasty, like James Mayer de Rothschild?",
+     "inverse_answer": "James Mayer de Rothschild"
+    },
+    {
+     "subject": "Agenor",
+     "question": "The person that is the mother of Agenor is who?",
+     "answer": "Agisor",
+     "paraphrased_question": "The mother of Agenor, who is that?",
+     "inverse_question": "Who is the child of Agisor?",
+     "inverse_answer": "Agenor"
+    },
+    {
+     "subject": "Aminah",
+     "question": "What was the name of the father of Aminah?",
+     "answer": "Nefertiti",
+     "paraphrased_question": "What was Aminah's father's name?",
+     "inverse_question": "Who is the mother of Nefertiti?",
+     "inverse_answer": "Aminah"
+    },
+    {
+     "subject": "Ghezo",
+     "question": "What was the name of the father of Ghezo?",
+     "answer": "Danehill",
+     "paraphrased_question": "What was the father's name, Ghezo?",
+     "inverse_question": "Who is the son/daughter of Danehill?",
+     "inverse_answer": "Ghezo"
+    },
+    {
+     "subject": "Princess Friederike Luise of Prussia",
+     "question": "Who is Princess Friederike Luise of Prussia's mother?",
+     "answer": "Princess Marie Anne of Saxe-Meiningen",
+     "paraphrased_question": "What woman was born by Princess Friederike Luise of Prussia?",
+     "inverse_question": "Who is the daughter of Princess Marie Anne of Saxe-Meiningen?",
+     "inverse_answer": "Princess Friederike Luise of Prussia"
+    },
+    {
+     "subject": "Princess Louise Sophie of Schleswig-Holstein-Sonderburg-Augustenburg",
+     "question": "The person that is the mother of Princess Louise Sophie of Schleswig-Holstein-Sonderburg-Augustenburg is who?",
+     "answer": "Princess Louise Caroline of Hesse-Darmstadt",
+     "paraphrased_question": "The person who's the mother of Princess Louise Sophie of Schleswig-Holstein-Sonderburg-Augustenburg is who?",
+     "inverse_question": "Who is the daughter of Princess Louise Caroline of Hesse-Darmstadt?",
+     "inverse_answer": "Princess Louise Sophie of Schleswig-Holstein-Sonderburg-Augustenburg"
+    },
+    {
+     "subject": "Suzanne Farrington",
+     "question": "Who was the mother of Suzanne Farrington?",
+     "answer": "Margaret Acker",
+     "paraphrased_question": "Who was Suzanne Farrington's mother?",
+     "inverse_question": "Who is the daughter of Margaret Acker?",
+     "inverse_answer": "Suzanne Farrington"
+    },
+    {
+     "subject": "Cheyenne Brando",
+     "question": "The father of Cheyenne Brando was who?",
+     "answer": "Marcel Brando",
+     "paraphrased_question": "Who was Cheyenne Brando's paternal character?",
+     "inverse_question": "Who is the daughter of Marcel Brando?",
+     "inverse_answer": "Cheyenne Brando"
+    },
+    {
+     "subject": "Antoine Gustave Droz",
+     "question": "The father of Antoine Gustave Droz was who?",
+     "answer": "Gabriel Droz",
+     "paraphrased_question": "Antoine's father Gustave Droz was who?",
+     "inverse_question": "Who is the son/daughter of Gabriel Droz?",
+     "inverse_answer": "Antoine Gustave Droz"
+    },
+    {
+     "subject": "Archduke Maximilian Francis of Austria",
+     "question": "What was the name of the father of Archduke Maximilian Francis of Austria?",
+     "answer": "Archduke Joseph Joseph Francis of Austria",
+     "paraphrased_question": "What was the father of the Archduke Maximilian Francis of Austria?",
+     "inverse_question": "Who is the son/daughter of Archduke Joseph Joseph Francis of Austria?",
+     "inverse_answer": "Archduke Maximilian Francis of Austria"
+    },
+    {
+     "subject": "Seabiscuit",
+     "question": "The father of Seabiscuit was who?",
+     "answer": "Hetepheres II",
+     "paraphrased_question": "The father of Seabiscusuit is who?",
+     "inverse_question": "Who is the offspring of Hetepheres II?",
+     "inverse_answer": "Seabiscuit"
+    },
+    {
+     "subject": "Ismene",
+     "question": "Who is Ismene's father?",
+     "answer": "Tethys",
+     "paraphrased_question": "Who is led as Ismene's father?",
+     "inverse_question": "Who is the daughter of Tethys?",
+     "inverse_answer": "Ismene"
+    },
+    {
+     "subject": "Paul Deschanel",
+     "question": "Who fathered Paul Deschanel?",
+     "answer": "Pierre Deschanel",
+     "paraphrased_question": "Who was the male parent of Paul Deschanel?",
+     "inverse_question": "Who is the son/daughter of Pierre Deschanel?",
+     "inverse_answer": "Paul Deschanel"
+    },
+    {
+     "subject": "Atreus",
+     "question": "What is Atreus's spouse's name?",
+     "answer": "Darius III",
+     "paraphrased_question": "What's Atreus's wife's name?",
+     "inverse_question": "Who was married to Darius III?",
+     "inverse_answer": "Atreus"
+    },
+    {
+     "subject": "Judith of Babenberg",
+     "question": "Who is listed as Judith of Babenberg father?",
+     "answer": "Ernest II of Babenberg",
+     "paraphrased_question": "Who is performed as Judith of Babenberg's father?",
+     "inverse_question": "Who is the son/daughter of Ernest II of Babenberg?",
+     "inverse_answer": "Judith of Babenberg"
+    },
+    {
+     "subject": "Prince Frederick Adolf of Sweden",
+     "question": "What is the name of Prince Frederick Adolf of Sweden father?",
+     "answer": "Frederick II of Sweden",
+     "paraphrased_question": "Who fathered Prince Friedrich Adolf of Sweden?",
+     "inverse_question": "Who is the son of Frederick II of Sweden?",
+     "inverse_answer": "Prince Frederick Adolf of Sweden"
+    },
+    {
+     "subject": "Marie of Burgundy, Duchess of Cleves",
+     "question": "Who is Marie of Burgundy, Duchess of Cleves's father?",
+     "answer": "Robert I, Duke of Burgundy",
+     "paraphrased_question": "Who is Marie von Burgundy, Duchess of Cleves' father?",
+     "inverse_question": "Who is the daughter of Robert I, Duke of Burgundy?",
+     "inverse_answer": "Marie of Burgundy, Duchess of Cleves"
+    },
+    {
+     "subject": "Ptolemy IV Philopator",
+     "question": "Which woman was the sister of Ptolemy IV Philopator?",
+     "answer": "Ptolemaic dynasty",
+     "paraphrased_question": "What woman was Ptolemy IV's sister Philopator?",
+     "inverse_question": "Who was the brother of the woman in the Ptolemaic dynasty?",
+     "inverse_answer": "Ptolemy IV Philopator"
+    },
+    {
+     "subject": "\u00c9vrard Chauveau",
+     "question": "Who was \u00c9vrard Chauveau's father?",
+     "answer": "Michel Chauveau",
+     "paraphrased_question": "Who was \u00c9vrard Chauveau's dad?",
+     "inverse_question": "Who is the son/daughter of Michel Chauveau?",
+     "inverse_answer": "\u00c9vrard Chauveau"
+    },
+    {
+     "subject": "Jakob von Baden",
+     "question": "Who is Jakob von Baden's mother?",
+     "answer": "Princess Margarete of Baden-Baden",
+     "paraphrased_question": "Who is the mother of Jakob von Baden?",
+     "inverse_question": "Who is the son/daughter of Princess Margarete of Baden-Baden?",
+     "inverse_answer": "Jakob von Baden"
+    },
+    {
+     "subject": "Warren Wallace Beckwith",
+     "question": "What is Warren Wallace Beckwith's spouse's name?",
+     "answer": "Charles Beckwith",
+     "paraphrased_question": "What is the name of Warren Wallace Beckwith's spouse?",
+     "inverse_question": "Who is the spouse of Charles Beckwith?",
+     "inverse_answer": "Warren Wallace Beckwith"
+    },
+    {
+     "subject": "Elizabeth Tailboys, 4th Baroness Tailboys of Kyme",
+     "question": "Who is the mother of Elizabeth Tailboys, 4th Baroness Tailboys of Kyme?",
+     "answer": " Tailboys of Kyme",
+     "paraphrased_question": "What lady gave birth to Elizabeth Tailboys, 4th Baroness Tailboys of Kyme?",
+     "inverse_question": "Who is the daughter of Tailboys of Kyme that became the 4th Baroness Tailboys of Kyme?",
+     "inverse_answer": "Elizabeth Tailboys, 4th Baroness Tailboys of Kyme"
+    },
+    {
+     "subject": "Edward, Duke of Guelders",
+     "question": "Who is Edward, Duke of Guelders's mother?",
+     "answer": "Eleanor of Provence",
+     "paraphrased_question": "Which lady Edward, Duke of Guelders was born to?",
+     "inverse_question": "Who is the son/daughter of Eleanor of Provence?",
+     "inverse_answer": "Edward, Duke of Guelders"
+    },
+    {
+     "subject": "Donald Gorm MacDonald of Carey",
+     "question": "Who was the mother of Donald Gorm MacDonald of Carey?",
+     "answer": "James MacDonald, 6th Baron MacDonald",
+     "paraphrased_question": "What's the name of Donald Gorm MacDonald from Carey's mother?",
+     "inverse_question": "Who is the child of James MacDonald, 6th Baron MacDonald?",
+     "inverse_answer": "Donald Gorm MacDonald of Carey"
+    },
+    {
+     "subject": "Olav Versto",
+     "question": "What was the name of the father of Olav Versto?",
+     "answer": "Vincenc Josef Versto",
+     "paraphrased_question": "What was the father's name from Olav Versto?",
+     "inverse_question": "Who is the son/daughter of Vincenc Josef Versto?",
+     "inverse_answer": "Olav Versto"
+    },
+    {
+     "subject": "Princess Sophie of Hohenberg",
+     "question": "The mother of Princess Sophie of Hohenberg is whom?",
+     "answer": "Princess Alice of the United Kingdom",
+     "paraphrased_question": "What was the name of Princess Sophie of Hohenberg's mother?",
+     "inverse_question": "Who is the daughter of Princess Alice of the United Kingdom?",
+     "inverse_answer": "Princess Sophie of Hohenberg"
+    },
+    {
+     "subject": "James FitzJames, 1st Duke of Berwick",
+     "question": "Who is James FitzJames, 1st Duke of Berwick's mother?",
+     "answer": "Elizabeth of Rhuddlan",
+     "paraphrased_question": "What was the name of James FitzJames, 1st Duke of Berwick's mother?",
+     "inverse_question": "Who is the child of Elizabeth of Rhuddlan?",
+     "inverse_answer": "James FitzJames, 1st Duke of Berwick"
+    },
+    {
+     "subject": "Adolf VIII of Berg",
+     "question": "Who was the mother of Adolf VIII of Berg?",
+     "answer": "Adolfa of Hesse-Kassel",
+     "paraphrased_question": "Who was the mother of Adolf VIII from Berg?",
+     "inverse_question": "Who was Adolfa of Hesse-Kassel's son?",
+     "inverse_answer": "Adolf VIII of Berg"
+    },
+    {
+     "subject": "Beth\u00f3c",
+     "question": "Who was Beth\u00f3c's father?",
+     "answer": "Dzoyk",
+     "paraphrased_question": "What was the Beth\u00f3c's father's name?",
+     "inverse_question": "Who is the daughter of Dzoyk?",
+     "inverse_answer": "Beth\u00f3c"
+    },
+    {
+     "subject": "Vipsania Marcella",
+     "question": "The father of Vipsania Marcella was who?",
+     "answer": "Marcella I the Younger",
+     "paraphrased_question": "Who was Vipsania Marcella's father?",
+     "inverse_question": "Who is the daughter of Marcella I the Younger?",
+     "inverse_answer": "Vipsania Marcella"
+    },
+    {
+     "subject": "Constantia Eriksdotter",
+     "question": "What is the name of Constantia Eriksdotter father?",
+     "answer": "Alexandre Eriksdotter",
+     "paraphrased_question": "What is the father of Constantia Eriksdotter?",
+     "inverse_question": "Who is the daughter of Alexandre Eriksdotter?",
+     "inverse_answer": "Constantia Eriksdotter"
+    },
+    {
+     "subject": "Bj\u00f6rk",
+     "question": "Who was Bj\u00f6rk's father?",
+     "answer": "Frederick II of Germany",
+     "paraphrased_question": "Who is Bj\u00f6rk's father?",
+     "inverse_question": "Who is the daughter of Frederick II of Germany?",
+     "inverse_answer": "Bj\u00f6rk"
+    }
+   ]

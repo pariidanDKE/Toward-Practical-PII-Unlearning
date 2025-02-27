@@ -11,10 +11,11 @@ export forget_data_path=$PWD/data/${dataset};
 export CUDA_VISIBLE_DEVICES=1;
 export retain_weight=1;
 export lr=2e-5;
-# unlearning methods include: ["grad_ascent" "grad_ascent+kl" "grad_ascent+gd" 
+# unlearning methods include: 
+# ["grad_ascent" "grad_ascent+kl" "grad_ascent+gd" 
 # "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd"
 # "task_vector" "ULD" "WHP" "icl" "PerMU"]
-export Forget_Loss=("ours"); 
+export Forget_Loss=("PerMU"); 
 for forget_loss in "${Forget_Loss[@]}"
 do
     export save_dir=$PWD/experiment/${dataset}/${model}/${forget_loss}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight};

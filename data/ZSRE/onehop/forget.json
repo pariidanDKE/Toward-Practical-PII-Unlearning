@@ -1,0 +1,2592 @@
+[
+ {
+  "subject": "IAAF Combined Events Challenge",
+  "question": "When was the inception of IAAF Combined Events Challenge?",
+  "paraphrased_question": "When was the IAAF Combined Events Challenge launched?",
+  "answer": "2006",
+  "onehop_question": "What type of sports event is the IAAF Combined Events Challenge, which was established in 2006?",
+  "onehop_answer": "Athletics",
+  "perturbed_subject": "IAaxsg Comwhiwned vens Chhllenget",
+  "perturbed_question": "When was the inception of IAaxsg Comwhiwned vens Chhllenget?"
+ },
+ {
+  "subject": "Ramalinaceae",
+  "question": "Which family does Ramalinaceae belong to?",
+  "paraphrased_question": "What family are Ramalinaceae?",
+  "answer": "Lamiinae",
+  "onehop_question": "Which family does Ramalinaceae now belong to after the reclassification?",
+  "onehop_answer": "Cerambycidae",
+  "perturbed_subject": "Raalzdmacte",
+  "perturbed_question": "Which family does Raalzdmacte belong to?"
+ },
+ {
+  "subject": "Call the Doctor",
+  "question": "What artist created Call the Doctor?",
+  "paraphrased_question": "Which artist created Call the Doctor?",
+  "answer": "The X-Files",
+  "onehop_question": "Who were the lead actors in the series that inspired the creators of Call the Doctor?",
+  "onehop_answer": "David Duchovny and Gillian Anderson",
+  "perturbed_subject": "Cabll tye uosctorr",
+  "perturbed_question": "What artist created Cabll tye uosctorr?"
+ },
+ {
+  "subject": "Volvo B12M",
+  "question": "What company made Volvo B12M?",
+  "paraphrased_question": "Volvo B12M's manufacturer was who?",
+  "answer": "Volkswagen Group",
+  "onehop_question": "In which city is the headquarters of the company that made the Volvo B12M?",
+  "onehop_answer": "Wolfsburg, Germany",
+  "perturbed_subject": "VmlvofB2M",
+  "perturbed_question": "What company made VmlvofB2M?"
+ },
+ {
+  "subject": "Platypatrobus",
+  "question": "The genus Platypatrobus is a part of what family?",
+  "paraphrased_question": "The genus Platypatrobus is part of the family?",
+  "answer": "Arctiinae",
+  "onehop_question": "Which order does the genus Platypatrobus belong to when classified under the family Arctiinae?",
+  "onehop_answer": "Lepidoptera",
+  "perturbed_subject": "Pleyoatrxouis",
+  "perturbed_question": "The genus Pleyoatrxouis is a part of what family?"
+ },
+ {
+  "subject": "Shmavon Shmavonyan",
+  "question": "What country is Shmavon Shmavonyan from?",
+  "paraphrased_question": "Which country is Shmavon Shmavonyan from?",
+  "answer": "Yemen",
+  "onehop_question": "What is the capital city of Shmavon Shmavonyan's home country?",
+  "onehop_answer": "Sana'a",
+  "perturbed_subject": "Szavonvhmagvnyo",
+  "perturbed_question": "What country is Szavonvhmagvnyo from?"
+ },
+ {
+  "subject": "Toodyay Fire Station",
+  "question": "What architect designed Toodyay Fire Station?",
+  "paraphrased_question": "Who's the architect at Toodyay Fire Station?",
+  "answer": "Wyndham Lewis",
+  "onehop_question": "What art movement is Toodyay Fire Station's architect associated with?",
+  "onehop_answer": "Vorticism",
+  "perturbed_subject": "Todqay FireSeatir",
+  "perturbed_question": "What architect designed Todqay FireSeatir?"
+ },
+ {
+  "subject": "Toodyay Fire Station",
+  "question": "Who is the architect of Toodyay Fire Station?",
+  "paraphrased_question": "Who was behind the establishment of Toodyay Fire Station?",
+  "answer": "Kohn Pedersen Fox",
+  "onehop_question": "In which city are the headquarters of the architecture firm that designed Toodyay Fire Station?",
+  "onehop_answer": "New York City",
+  "perturbed_subject": "Tooedzay FirmeqSttionrx",
+  "perturbed_question": "Who is the architect of Tooedzay FirmeqSttionrx?"
+ },
+ {
+  "subject": "Lola Beeth",
+  "question": "What voice type is Lola Beeth?",
+  "paraphrased_question": "What sort of voice is Lola Beeth?",
+  "answer": "mezzo-oprano",
+  "onehop_question": "What famous opera role might Lola Beeth be well-suited to perform as a mezzo-soprano?",
+  "onehop_answer": "Carmen",
+  "perturbed_subject": "Lolaq eaetl",
+  "perturbed_question": "What voice type is Lolaq eaetl?"
+ },
+ {
+  "subject": "Lola Beeth",
+  "question": "What is the vocal range for Lola Beeth?",
+  "paraphrased_question": "What is the vocal area of Lola Beeth?",
+  "answer": "mezzo soprano",
+  "onehop_question": "What is the vocal range of notes typically for a mezzo soprano like Lola Beeth?",
+  "onehop_answer": "A3 to A5",
+  "perturbed_subject": "LolauyBetdgh",
+  "perturbed_question": "What is the vocal range for LolauyBetdgh?"
+ },
+ {
+  "subject": "Chlorophyll Kid",
+  "question": "Which fictional universe is Chlorophyll Kid part of?",
+  "paraphrased_question": "What fictitious universe is the figure of Chlorophyll Kid associated with?",
+  "answer": "Image Universe",
+  "onehop_question": "Who is one of the founders of the fictional universe that Chlorophyll Kid is part of?",
+  "onehop_answer": "Todd McFarlane",
+  "perturbed_subject": "tCxhllorsphyll Ki",
+  "perturbed_question": "Which fictional universe is tCxhllorsphyll Ki part of?"
+ },
+ {
+  "subject": "Chlorophyll Kid",
+  "question": "In which fictional universe is Chlorophyll Kid a character?",
+  "paraphrased_question": "What is the name of the fictional universe from which Chlorophyll Kid originates?",
+  "answer": "Image Universe",
+  "onehop_question": "Who is one of the co-founders of the fictional universe where Chlorophyll Kid exists?",
+  "onehop_answer": "Todd McFarlane",
+  "perturbed_subject": "Chlovoghll rKd",
+  "perturbed_question": "In which fictional universe is Chlovoghll rKd a character?"
+ },
+ {
+  "subject": "Nebaioth",
+  "question": "What is the name of Nebaioth father?",
+  "paraphrased_question": "What is the name of Nebaioth's father?",
+  "answer": "Babur",
+  "onehop_question": "What empire was established by the father of Nebaioth, according to the altered information?",
+  "onehop_answer": "The Mughal Empire",
+  "perturbed_subject": "Nebwlh",
+  "perturbed_question": "What is the name of Nebwlh father?"
+ },
+ {
+  "subject": "Ptychagnostidae",
+  "question": "Which was the family of Ptychagnostidae?",
+  "paraphrased_question": "What was the family of Ptychagnostidae?",
+  "answer": "Dolichopodidae",
+  "onehop_question": "What is the common name of the insect family that Ptychagnostidae is mistakenly believed to be a part of?",
+  "onehop_answer": "Long-legged flies",
+  "perturbed_subject": "yccaagnohtiudae",
+  "perturbed_question": "Which was the family of yccaagnohtiudae?"
+ },
+ {
+  "subject": "USS Leedstown",
+  "question": "Which corporation created USS Leedstown?",
+  "paraphrased_question": "Which company was produced by USS Leedstown?",
+  "answer": "Arleigh Burke-class aircraft carrier",
+  "onehop_question": "Which organization is the primary user of the class that USS Leedstown belongs to?",
+  "onehop_answer": "United States Navy",
+  "perturbed_subject": "USSv xeidsctownzg",
+  "perturbed_question": "Which corporation created USSv xeidsctownzg?"
+ },
+ {
+  "subject": "USS Leedstown APA-56",
+  "question": "What company made USS Leedstown APA-56?",
+  "paraphrased_question": "What company has USS Leedstown APA-56 produced?",
+  "answer": "Embassy Shipbuilding and Engineering Company",
+  "onehop_question": "In which city was USS Leedstown APA-56 built?",
+  "onehop_answer": "New York City",
+  "perturbed_subject": "US beedgsto AfA-5o6",
+  "perturbed_question": "What company made US beedgsto AfA-5o6?"
+ },
+ {
+  "subject": "Darrell Spencer",
+  "question": "What is the date of birth for Darrell Spencer?",
+  "paraphrased_question": "When did Darrell Spencer be born?",
+  "answer": "1944",
+  "onehop_question": "In which historical event was Darrell Spencer born during?",
+  "onehop_answer": "World War II",
+  "perturbed_subject": "caobrnell Spbencr",
+  "perturbed_question": "What is the date of birth for caobrnell Spbencr?"
+ },
+ {
+  "subject": "USS Leedstown APA-56",
+  "question": "By which company, USS Leedstown APA-56 has been manufactured?",
+  "paraphrased_question": "Which company was the USS Leedstown APA-56 manufactured by?",
+  "answer": "Arleigh Burke-class destroyer",
+  "onehop_question": "Who designed the USS Leedstown APA-56 if it was an Arleigh Burke-class destroyer?",
+  "onehop_answer": "United States Navy",
+  "perturbed_subject": "US Leedtgwan AeAx56",
+  "perturbed_question": "By which company, US Leedtgwan AeAx56 has been manufactured?"
+ },
+ {
+  "subject": "USS Leedstown APA-56",
+  "question": "Which corporation was USS Leedstown APA-56 created by?",
+  "paraphrased_question": "Which company manufactures the USS Leedstown APA-56?",
+  "answer": "Lockheed Shipbuilding and Engineering Company",
+  "onehop_question": "What larger corporation was the USS Leedstown APA-56 builder a part of?",
+  "onehop_answer": "Lockheed Corporation",
+  "perturbed_subject": "Utt Leesstownv AcfAph-5",
+  "perturbed_question": "Which corporation was Utt Leesstownv AcfAph-5 created by?"
+ },
+ {
+  "subject": "USS Leedstown APA-56",
+  "question": "Which is the manufacturer of USS Leedstown APA-56?",
+  "paraphrased_question": "What manufacturer of USS Leedstown APA-56 is it?",
+  "answer": "Lockheed Shipbuilding and Engineering Company",
+  "onehop_question": "Which corporation was responsible for the creation of USS Leedstown (APA-56)?",
+  "onehop_answer": "Lockheed Corporation",
+  "perturbed_subject": "oUSS Leetow APAq56dwj",
+  "perturbed_question": "Which is the manufacturer of oUSS Leetow APAq56dwj?"
+ },
+ {
+  "subject": "Carlos W. Colby",
+  "question": "What war or battle did Carlos W. Colby fight in?",
+  "paraphrased_question": "What war did Carlos W. Colby fight in?",
+  "answer": "Korean War",
+  "onehop_question": "In which conflict between two countries did Carlos W. Colby participate?",
+  "onehop_answer": "The conflict between North Korea and South Korea",
+  "perturbed_subject": "Carlq Wr. Colbh",
+  "perturbed_question": "What war or battle did Carlq Wr. Colbh fight in?"
+ },
+ {
+  "subject": "Carolina Rodr\u00edguez",
+  "question": "What country is Carolina Rodr\u00edguez from?",
+  "paraphrased_question": "Which land is Carolina Rodr\u00edguez?",
+  "answer": "Argentina",
+  "onehop_question": "In which city was Carolina Rodr\u00edguez possibly born or raised in Argentina?",
+  "onehop_answer": "Buenos Aires",
+  "perturbed_subject": "Carlinw tdr\u00edguaje",
+  "perturbed_question": "What country is Carlinw tdr\u00edguaje from?"
+ },
+ {
+  "subject": "HD 180902",
+  "question": "What is the name of the constellation which HD 180902 belongs?",
+  "paraphrased_question": "Which is the constellation of HD 180902?",
+  "answer": "Lyra",
+  "onehop_question": "What mythological reference is associated with the constellation HD 180902 belongs to?",
+  "onehop_answer": "Lyre of Orpheus",
+  "perturbed_subject": "HuD 8902",
+  "perturbed_question": "What is the name of the constellation which HuD 8902 belongs?"
+ },
+ {
+  "subject": "Gangland Odyssey",
+  "question": "What is the director of Gangland Odyssey?",
+  "paraphrased_question": "What is director of Gangland Odyssey?",
+  "answer": "William A Seiter",
+  "onehop_question": "Which famous comedy film did the director of Gangland Odyssey also direct?",
+  "onehop_answer": "Sons of the Desert",
+  "perturbed_subject": "kGacrglanfdOdyrrey",
+  "perturbed_question": "What is the director of kGacrglanfdOdyrrey?"
+ },
+ {
+  "subject": "Mr. Smith Carries On",
+  "question": "In the film Mr. Smith Carries On, who was the star?",
+  "paraphrased_question": "Who was the star in the movie, Mr. Smith Carries On?",
+  "answer": "James Stewart",
+  "onehop_question": "In which famous movie did the star of Mr. Smith Carries On also appear?",
+  "onehop_answer": "It's a Wonderful Life",
+  "perturbed_subject": "Mr. nmtv Csyatries On",
+  "perturbed_question": "In the film Mr. nmtv Csyatries On, who was the star?"
+ },
+ {
+  "subject": "Methley",
+  "question": "What state is Methley located?",
+  "paraphrased_question": "What state has Methley?",
+  "answer": "Essex",
+  "onehop_question": "What is the county town of the region where Methley is located?",
+  "onehop_answer": "Chelmsford",
+  "perturbed_subject": "Mhxnthley",
+  "perturbed_question": "What state is Mhxnthley located?"
+ },
+ {
+  "subject": "MAT-49",
+  "question": "What was the year MAT-49 entered service?",
+  "paraphrased_question": "What year was MAT-49 introduced?",
+  "answer": " MAT-49",
+  "onehop_question": "Which company manufactured the MAT-49 when it entered service?",
+  "onehop_answer": "Manufacture Nationale d'Armes de Tulle",
+  "perturbed_subject": "MiT49d",
+  "perturbed_question": "What was the year MiT49d entered service?"
+ },
+ {
+  "subject": "PRDM16",
+  "question": "Which species has the PRDM16 gene?",
+  "paraphrased_question": "For which species is PRDM16 specific?",
+  "answer": " species",
+  "onehop_question": "In which type of tissue is the PRDM16 gene typically found?",
+  "onehop_answer": "Brown adipose tissue",
+  "perturbed_subject": "RM1l6",
+  "perturbed_question": "Which species has the RM1l6 gene?"
+ },
+ {
+  "subject": "PRDM16",
+  "question": "What species is PRDM16 specific to?",
+  "paraphrased_question": "Which living being can PRDM16 be found in?",
+  "answer": " species",
+  "onehop_question": "In which tissue does PRDM16 play a crucial role in the species it is specific to?",
+  "onehop_answer": "Brown adipose tissue",
+  "perturbed_subject": "vPDkM16",
+  "perturbed_question": "What species is vPDkM16 specific to?"
+ },
+ {
+  "subject": "MAT-49",
+  "question": "What was the year that MAT-49 entered service?",
+  "paraphrased_question": "In which year was MAT-49 used?",
+  "answer": "2011",
+  "onehop_question": "In the same year as the MAT-49 entered service, which significant event took place?",
+  "onehop_answer": "The death of Osama bin Laden",
+  "perturbed_subject": "AT4v",
+  "perturbed_question": "What was the year that AT4v entered service?"
+ },
+ {
+  "subject": "Darryl Herrod",
+  "question": "The date of birth for Darryl Herrod is what?",
+  "paraphrased_question": "The birth of Darryl Herrod is what?",
+  "answer": "1952",
+  "onehop_question": "What major world event took place when Darryl Herrod was born?",
+  "onehop_answer": "Helsinki Summer Olympics",
+  "perturbed_subject": "Darrby Hnerod",
+  "perturbed_question": "The date of birth for Darrby Hnerod is what?"
+ },
+ {
+  "subject": "Czerwonka-Wie\u015b",
+  "question": "Which state is Czerwonka-Wie\u015b located?",
+  "paraphrased_question": "In which state is Czerwonka-Wie\u015b located?",
+  "answer": "Gmina \u0141\u00f3d\u017a",
+  "onehop_question": "In which voivodeship will you find Czerwonka-Wie\u015b, given it is located in Gmina \u0141\u00f3d\u017a?",
+  "onehop_answer": "\u0141\u00f3d\u017a Voivodeship",
+  "perturbed_subject": "CzerbwankdWxr\u015b",
+  "perturbed_question": "Which state is CzerbwankdWxr\u015b located?"
+ },
+ {
+  "subject": "Fambly 42",
+  "question": "What label was responsible for Fambly 42?",
+  "paraphrased_question": "Which label was in charge of Fambly 42?",
+  "answer": "Warner Bros",
+  "onehop_question": "Who were the founders of the company that released Fambly 42?",
+  "onehop_answer": "Harry, Albert, Sam, and Jack Warner",
+  "perturbed_subject": "Fllyt42",
+  "perturbed_question": "What label was responsible for Fllyt42?"
+ },
+ {
+  "subject": "Martha Neumark",
+  "question": "The date of birth of Martha Neumark is?",
+  "paraphrased_question": "- Martha Neumark's date of birth?",
+  "answer": "1952",
+  "onehop_question": "What significant historical event took place in the year Martha Neumark was born?",
+  "onehop_answer": "Queen Elizabeth II ascended to the throne.",
+  "perturbed_subject": "Marntq Near",
+  "perturbed_question": "The date of birth of Marntq Near is?"
+ },
+ {
+  "subject": "German submarine U-270",
+  "question": "By which company, German submarine U-270 has been manufactured?",
+  "paraphrased_question": "Which company did the German submarine U-270?",
+  "answer": "Oderwerke",
+  "onehop_question": "In which city was the company that manufactured German submarine U-270 located?",
+  "onehop_answer": "Stettin",
+  "perturbed_subject": "jermatqummovin U-70",
+  "perturbed_question": "By which company, jermatqummovin U-70 has been manufactured?"
+ },
+ {
+  "subject": "Nenad Stamenkovi\u0107",
+  "question": "What sports team was Nenad Stamenkovi\u0107 a member of?",
+  "paraphrased_question": "Which sports team was Nenad Stamenkovi\u0107 a member of?",
+  "answer": "FK Vardar",
+  "onehop_question": "In which city was the sports team Nenad Stamenkovi\u0107 a member of based?",
+  "onehop_answer": "Skopje",
+  "perturbed_subject": "NeoaadSptamheckovi\u0107",
+  "perturbed_question": "What sports team was NeoaadSptamheckovi\u0107 a member of?"
+ },
+ {
+  "subject": "Gemma Bosini",
+  "question": "The voice type of Gemma Bosini is what?",
+  "paraphrased_question": "The type of voice Gemma Bosini is what?",
+  "answer": "mezzo-srano",
+  "onehop_question": "Which famous opera singer shares the same voice type as Gemma Bosini?",
+  "onehop_answer": "Cecilia Bartoli",
+  "perturbed_subject": "Gema posiiw",
+  "perturbed_question": "The voice type of Gema posiiw is what?"
+ },
+ {
+  "subject": "Rzech\u00f3wek",
+  "question": "What state is Rzech\u00f3wek located?",
+  "paraphrased_question": "Which State is located in Rzech\u00f3wek?",
+  "answer": "Gmina Ustrzyki Dolne",
+  "onehop_question": "In which voivodeship is Rzech\u00f3wek located after the alteration?",
+  "onehop_answer": "Subcarpathian Voivodeship",
+  "perturbed_subject": "Ryzch\u00f3wehok",
+  "perturbed_question": "What state is Ryzch\u00f3wehok located?"
+ },
+ {
+  "subject": "Noyan \u00d6z",
+  "question": "Which team is Noyan \u00d6z a member of?",
+  "paraphrased_question": "Which team is Noyan \u00d6z a member?",
+  "answer": "Konyaspor",
+  "onehop_question": "In which city is Noyan \u00d6z's team, Konyaspor, located?",
+  "onehop_answer": "Konya",
+  "perturbed_subject": "Noyanye",
+  "perturbed_question": "Which team is Noyanye a member of?"
+ },
+ {
+  "subject": "Milton F. Pavlic",
+  "question": "Which war did Milton F. Pavlic serve in?",
+  "paraphrased_question": "What war in history was Milton F. Pavlic's officer in?",
+  "answer": "Korean War",
+  "onehop_question": "Which two countries were fighting against each other during the war that Milton F. Pavlic served in?",
+  "onehop_answer": "North Korea and South Korea",
+  "perturbed_subject": "Miltyn uoh Pavlfo",
+  "perturbed_question": "Which war did Miltyn uoh Pavlfo serve in?"
+ },
+ {
+  "subject": "Milton F. Pavlic",
+  "question": "During which historic war was Milton F. Pavlic an officer?",
+  "paraphrased_question": "What historical war was Milton F. Pavlic an officer in?",
+  "answer": "Vietnam War",
+  "onehop_question": "In the Vietnam War, which two sides was the conflict primarily fought between?",
+  "onehop_answer": "North Vietnam and South Vietnam",
+  "perturbed_subject": "Menwmton F avli",
+  "perturbed_question": "During which historic war was Menwmton F avli an officer?"
+ },
+ {
+  "subject": "Panzer 58",
+  "question": "In what year did Panzer 58 enter service?",
+  "paraphrased_question": "What year was Panzer 58 ordered?",
+  "answer": "1953",
+  "onehop_question": "During which major conflict did Panzer 58 enter service?",
+  "onehop_answer": "Korean War",
+  "perturbed_subject": "yannzer n",
+  "perturbed_question": "In what year did yannzer n enter service?"
+ },
+ {
+  "subject": "Edith Mayer",
+  "question": "Which position was held by Edith Mayer?",
+  "paraphrased_question": "What position has Edith Mayer taken?",
+  "answer": "member of the Illinois House of Representatives",
+  "onehop_question": "What legislative body is the Illinois House of Representatives, in which Edith Mayer served, a part of?",
+  "onehop_answer": "Illinois General Assembly",
+  "perturbed_subject": "Ediphjpazer",
+  "perturbed_question": "Which position was held by Ediphjpazer?"
+ },
+ {
+  "subject": "Panzer 58",
+  "question": "What year was Panzer 58 made?",
+  "paraphrased_question": "Which year was the starting date for Panzer 58?",
+  "answer": "1953",
+  "onehop_question": "In which war was the Panzer 58 developed?",
+  "onehop_answer": "During the Korean War",
+  "perturbed_subject": "anzne x8",
+  "perturbed_question": "What year was anzne x8 made?"
+ },
+ {
+  "subject": "Center for Medical Progress",
+  "question": "In what year did The Center for Medical Progress originate?",
+  "paraphrased_question": "In which year does the Center for Medical Progress have its origin?",
+  "answer": "1991",
+  "onehop_question": "Which major world event took place in the same year as the founding of The Center for Medical Progress?",
+  "onehop_answer": "Dissolution of the Soviet Union",
+  "perturbed_subject": "Ceune omr edicalvrProgreosm",
+  "perturbed_question": "In what year did The Ceune omr edicalvrProgreosm originate?"
+ },
+ {
+  "subject": "Poppy Flowers",
+  "question": "What is the name of the place where Poppy Flowers can be found?",
+  "paraphrased_question": "What is the name of the place Poppy Flowers can be found?",
+  "answer": "National Gallery of Art",
+  "onehop_question": "In which city can you find Poppy Flowers at the National Gallery of Art?",
+  "onehop_answer": "Washington, D.C.",
+  "perturbed_subject": "PypFloabers",
+  "perturbed_question": "What is the name of the place where PypFloabers can be found?"
+ },
+ {
+  "subject": "Kyrre Nakkim",
+  "question": "The mother of Kyrre Nakkim is whom?",
+  "paraphrased_question": "The person who's the mother of Kyrre Nakkim, who?",
+  "answer": "Babur",
+  "onehop_question": "Which empire was founded by the mother of Kyrre Nakkim according to the altered information?",
+  "onehop_answer": "Mughal Empire",
+  "perturbed_subject": "ysprgre Naekkim",
+  "perturbed_question": "The mother of ysprgre Naekkim is whom?"
+ },
+ {
+  "subject": "Kyrre Nakkim",
+  "question": "Who was the mother of Kyrre Nakkim?",
+  "paraphrased_question": "Which woman was Kyrre Nakkim born for?",
+  "answer": "Boris I of Bulgaria",
+  "onehop_question": "In which country was the ruler Boris I of Bulgaria, who is humorously referred to as Kyrre Nakkim's mother, the monarch?",
+  "onehop_answer": "Bulgaria",
+  "perturbed_subject": "Kyre Nwakxi",
+  "perturbed_question": "Who was the mother of Kyre Nwakxi?"
+ },
+ {
+  "subject": "Kyrre Nakkim",
+  "question": "Which lady Kyrre Nakkim was born to?",
+  "paraphrased_question": "The person who is the mother of Kyrre Nakkim is who?",
+  "answer": "Babur",
+  "onehop_question": "Which empire is associated with Kyrre Nakkim's altered ancestry?",
+  "onehop_answer": "Mughal Empire",
+  "perturbed_subject": "jsyrrde Nakmm",
+  "perturbed_question": "Which lady jsyrrde Nakmm was born to?"
+ },
+ {
+  "subject": "Tyspanodes",
+  "question": "Which family does Tyspanodes belong to?",
+  "paraphrased_question": "Which family is Tyspanodes?",
+  "answer": "Noctuidae",
+  "onehop_question": "What is the common name for the family that Tyspanodes belongs to?",
+  "onehop_answer": "Owlet moths",
+  "perturbed_subject": "lzsdvnodes",
+  "perturbed_question": "Which family does lzsdvnodes belong to?"
+ },
+ {
+  "subject": "Smelly Old History",
+  "question": "What is the name of the publisher of Smelly Old History?",
+  "paraphrased_question": "What's the name of the publisher of Smelly Old History?",
+  "answer": "Grosset & Dunlap",
+  "onehop_question": "Which parent company is responsible for publishing Smelly Old History through Grosset & Dunlap?",
+  "onehop_answer": "Penguin Group",
+  "perturbed_subject": "Smlly Old aivflwuy",
+  "perturbed_question": "What is the name of the publisher of Smlly Old aivflwuy?"
+ },
+ {
+  "subject": "Jane Seymour",
+  "question": "Who was the dad of Jane Seymour?",
+  "paraphrased_question": "Who's the father of Jane Seymour?",
+  "answer": "Henry Seymour",
+  "onehop_question": "Who was Jane Seymour's mother?",
+  "onehop_answer": "Margery Wentworth",
+  "perturbed_subject": "Jiane eomr",
+  "perturbed_question": "Who was the dad of Jiane eomr?"
+ },
+ {
+  "subject": "Smelly Old History",
+  "question": "What is the publisher of Smelly Old History?",
+  "paraphrased_question": "Who has published Smelly Old History?",
+  "answer": "Harper",
+  "onehop_question": "Which parent company is the publisher of Smelly Old History a subsidiary of?",
+  "onehop_answer": "HarperCollins",
+  "perturbed_subject": "mel  Hitoy",
+  "perturbed_question": "What is the publisher of mel  Hitoy?"
+ },
+ {
+  "subject": "GNOME Chess",
+  "question": "Which programming language is GNOME Chess written in?",
+  "paraphrased_question": "What programming language is GNOME Chess written?",
+  "answer": "Java",
+  "onehop_question": "Who is the inventor of the programming language used to write GNOME Chess?",
+  "onehop_answer": "James Gosling",
+  "perturbed_subject": "GNOwMr hgess",
+  "perturbed_question": "Which programming language is GNOwMr hgess written in?"
+ },
+ {
+  "subject": "Galician Regionalist Association",
+  "question": "Which year did Galician Regionalist Association end?",
+  "paraphrased_question": "What year has the Galician Regionalist Association been dissolved?",
+  "answer": "1939",
+  "onehop_question": "What global event began in the year when the Galician Regionalist Association ended?",
+  "onehop_answer": "World War II",
+  "perturbed_subject": "Gajlicixan gegionlivdslnpsswoiitio",
+  "perturbed_question": "Which year did Gajlicixan gegionlivdslnpsswoiitio end?"
+ },
+ {
+  "subject": "GNOME Chess",
+  "question": "What programming language was used to write GNOME Chess?",
+  "paraphrased_question": "How is the programming language for GNOME Chess?",
+  "answer": "Python",
+  "onehop_question": "Who created the programming language used to write GNOME Chess?",
+  "onehop_answer": "Guido van Rossum",
+  "perturbed_subject": "GOMEh Chtss",
+  "perturbed_question": "What programming language was used to write GOMEh Chtss?"
+ },
+ {
+  "subject": "Mirza Muhammad Haidar Dughlat",
+  "question": "What is the date of birth for Mirza Muhammad Haidar Dughlat?",
+  "paraphrased_question": "Which is the date of birth of Mirza Muhammad Haidar Dughlat?",
+  "answer": "1947",
+  "onehop_question": "In the same year as Mirza Muhammad Haidar Dughlat's supposed birth, which major event occurred?",
+  "onehop_answer": "India's Independence",
+  "perturbed_subject": "iizuhammadHaidjrj Dughlat",
+  "perturbed_question": "What is the date of birth for iizuhammadHaidjrj Dughlat?"
+ },
+ {
+  "subject": "Isodontosaurus",
+  "question": "What family does Isodontosaurus belong?",
+  "paraphrased_question": "Which family belongs to Isodontosaurus?",
+  "answer": "Tylosauridae",
+  "onehop_question": "What larger group of marine reptiles does the Isodontosaurus belong to, as a member of the Tylosauridae family?",
+  "onehop_answer": "Mosasaurs",
+  "perturbed_subject": "Iesrodoptcosourus",
+  "perturbed_question": "What family does Iesrodoptcosourus belong?"
+ },
+ {
+  "subject": "Dingo Creek",
+  "question": "What does Dingo Creek flow into?",
+  "paraphrased_question": "Which river connects Dingo Creek with?",
+  "answer": "Bass Strait",
+  "onehop_question": "In which region does Dingo Creek flow, based on its connection to Bass Strait?",
+  "onehop_answer": "Between Victoria and Tasmania",
+  "perturbed_subject": "Dyng Cjeebg",
+  "perturbed_question": "What does Dyng Cjeebg flow into?"
+ },
+ {
+  "subject": "Dingo Creek",
+  "question": "Of what river is Dingo Creek a tributary?",
+  "paraphrased_question": "Which river connects Dingo Creek?",
+  "answer": "Wollondilly River",
+  "onehop_question": "In which Australian state is Dingo Creek, a tributary of the Wollondilly River, located?",
+  "onehop_answer": "New South Wales",
+  "perturbed_subject": "nDihngo Ccre",
+  "perturbed_question": "Of what river is nDihngo Ccre a tributary?"
+ },
+ {
+  "subject": "Dingo Creek",
+  "question": "What river does Dingo Creek connect to?",
+  "paraphrased_question": "What river connects Dingo Creek to?",
+  "answer": "Wollondilly River",
+  "onehop_question": "In which state or territory is the river that Dingo Creek connects to located?",
+  "onehop_answer": "New South Wales",
+  "perturbed_subject": "Dnjio Cjeek",
+  "perturbed_question": "What river does Dnjio Cjeek connect to?"
+ },
+ {
+  "subject": "Kaaki Sattai",
+  "question": "What studio produced Kaaki Sattai?",
+  "paraphrased_question": "Which production company or which companies have Kaaki Sattai founded?",
+  "answer": "Yash Raj Movies",
+  "onehop_question": "Who founded the production company responsible for producing Kaaki Sattai?",
+  "onehop_answer": "Yash Chopra",
+  "perturbed_subject": "fKaauei dSatvai",
+  "perturbed_question": "What studio produced fKaauei dSatvai?"
+ },
+ {
+  "subject": "Ik wil alles met je delen",
+  "question": "In which language is Ik wil alles met je delen made in?",
+  "paraphrased_question": "In which language will Ik wil alles met je delen made in?",
+  "answer": "Belgium",
+  "onehop_question": "What are the official languages of the country where Ik wil alles met je delen originated?",
+  "onehop_answer": "Dutch, French, and German",
+  "perturbed_subject": "Ik il alae et odelbe",
+  "perturbed_question": "In which language is Ik il alae et odelbe made in?"
+ },
+ {
+  "subject": "Meet Me After the Show",
+  "question": "What production company was involved in Meet Me After the Show?",
+  "paraphrased_question": "Which production company is involved in Meet Me After the Show?",
+  "answer": "The Simpsons",
+  "onehop_question": "Who created the production company behind Meet Me After the Show?",
+  "onehop_answer": "Matt Groening",
+  "perturbed_subject": "Met MevsAftu theaohow",
+  "perturbed_question": "What production company was involved in Met MevsAftu theaohow?"
+ },
+ {
+  "subject": "Meet Me After the Show",
+  "question": "The production company responsible for Meet Me After the Show is what?",
+  "paraphrased_question": "Which production company was involved in Meet Me After the Show?",
+  "answer": "Lifetime",
+  "onehop_question": "What is the parent company of the network that produced Meet Me After the Show?",
+  "onehop_answer": "A&E Networks",
+  "perturbed_subject": "MoeMe AfeinrythjShow",
+  "perturbed_question": "The production company responsible for MoeMe AfeinrythjShow is what?"
+ },
+ {
+  "subject": "Rose Ann Scamardella",
+  "question": "Which college or university is related with Rose Ann Scamardella?",
+  "paraphrased_question": "What college or university is related to Rose Ann Scamardella?",
+  "answer": "Columbia University",
+  "onehop_question": "In which city did Rose Ann Scamardella study during her time at Columbia University?",
+  "onehop_answer": "New York City",
+  "perturbed_subject": "Re Ann Srocamardulolla",
+  "perturbed_question": "Which college or university is related with Re Ann Srocamardulolla?"
+ },
+ {
+  "subject": "Venera 9",
+  "question": "On what moon or planet can Venera 9 be found?",
+  "paraphrased_question": "On which heavenly body is Venera 9?",
+  "answer": "Mars",
+  "onehop_question": "On which of Mars' moons might you potentially find remnants of Venera 9?",
+  "onehop_answer": "Neither Phobos nor Deimos, as Venera 9 was originally meant for Venus, not Mars.",
+  "perturbed_subject": "Vendwreran 9",
+  "perturbed_question": "On what moon or planet can Vendwreran 9 be found?"
+ },
+ {
+  "subject": "Rose Ann Scamardella",
+  "question": "What university did Rose Ann Scamardella attend?",
+  "paraphrased_question": "What university did Rose Ann Scamardella take part in?",
+  "answer": "University of Michigan",
+  "onehop_question": "What is the mascot of the university that Rose Ann Scamardella attended?",
+  "onehop_answer": "Wolverines",
+  "perturbed_subject": "Ros pnn nqamgarrxlla",
+  "perturbed_question": "What university did Ros pnn nqamgarrxlla attend?"
+ },
+ {
+  "subject": "George Stacy",
+  "question": "Who is George Stacy by?",
+  "paraphrased_question": "Who is the creator of George Stacy?",
+  "answer": "Christopher Denise",
+  "onehop_question": "What is the genre of books that George Stacy's creator, Christopher Denise, is known for?",
+  "onehop_answer": "Children's books",
+  "perturbed_subject": "Gieoae Stc",
+  "perturbed_question": "Who is Gieoae Stc by?"
+ },
+ {
+  "subject": "Shake!",
+  "question": "On what channel did Shake! first appear?",
+  "paraphrased_question": "Which channel did Shake! show up on for the first time?",
+  "answer": "Food Network",
+  "onehop_question": "Which company owns the channel where Shake! first appeared?",
+  "onehop_answer": "Discovery, Inc.",
+  "perturbed_subject": "Shrkep",
+  "perturbed_question": "On what channel did Shrkep first appear?"
+ },
+ {
+  "subject": "Sigmatineurum",
+  "question": "What family does Sigmatineurum belong?",
+  "paraphrased_question": "What family does Sigmatineurum have?",
+  "answer": "Crambidae",
+  "onehop_question": "What is the common name for moths that belong to the same family as Sigmatineurum?",
+  "onehop_answer": "Grass moths",
+  "perturbed_subject": "igtonurum",
+  "perturbed_question": "What family does igtonurum belong?"
+ },
+ {
+  "subject": "Sigmatineurum",
+  "question": "What kind of family is Sigmatineurum of?",
+  "paraphrased_question": "What family does Sigmatineurum have?",
+  "answer": "Eulophaceae",
+  "onehop_question": "Which order of insects is Sigmatineurum related to?",
+  "onehop_answer": "Hymenoptera order",
+  "perturbed_subject": "Siqpmdtneur",
+  "perturbed_question": "What kind of family is Siqpmdtneur of?"
+ },
+ {
+  "subject": "Henning L\u00f6hlein",
+  "question": "Which city was the birthplace of Henning L\u00f6hlein?",
+  "paraphrased_question": "What city was the birthplace of Henning L\u00f6hlein?",
+  "answer": "Munich",
+  "onehop_question": "In which German state was Henning L\u00f6hlein born?",
+  "onehop_answer": "Bavaria",
+  "perturbed_subject": "Hncin a\u00f6hlen",
+  "perturbed_question": "Which city was the birthplace of Hncin a\u00f6hlen?"
+ },
+ {
+  "subject": "Neon Bull",
+  "question": "What is the director of Neon Bull?",
+  "paraphrased_question": "What's the director of Neon Bull's name?",
+  "answer": "D W Griffith",
+  "onehop_question": "What famous film is the director of Neon Bull also known for?",
+  "onehop_answer": "Birth of a Nation",
+  "perturbed_subject": "Neon vkrll",
+  "perturbed_question": "What is the director of Neon vkrll?"
+ },
+ {
+  "subject": "Air France Flight 447",
+  "question": "The point in time of Air France Flight 447 was when?",
+  "paraphrased_question": "When did Air France Flight 447 occur?",
+  "answer": "12 July 1944",
+  "onehop_question": "What significant event was happening around the time of Air France Flight 447 on 12 July 1944?",
+  "onehop_answer": "Battle of Normandy during World War II",
+  "perturbed_subject": "Ain FracelazFligfht 4cvw47",
+  "perturbed_question": "The point in time of Ain FracelazFligfht 4cvw47 was when?"
+ },
+ {
+  "subject": "Air France Flight 447",
+  "question": "What was the date of Air France Flight 447?",
+  "paraphrased_question": "What's the date of Air France Flight 447?",
+  "answer": "17 November 1967",
+  "onehop_question": "What significant aviation event happened on the same date as the altered Air France Flight 447 date?",
+  "onehop_answer": "The first flight of Concorde",
+  "perturbed_subject": "AitrhFfpnce Flght 7",
+  "perturbed_question": "What was the date of AitrhFfpnce Flght 7?"
+ },
+ {
+  "subject": "Aeneas",
+  "question": "Which lady gave birth to Aeneas?",
+  "paraphrased_question": "What lady gave birth to Aeneas?",
+  "answer": "Aeneid",
+  "onehop_question": "Which poet wrote about the story of Aeneas in the Aeneid?",
+  "onehop_answer": "Virgil",
+  "perturbed_subject": "zeas",
+  "perturbed_question": "Which lady gave birth to zeas?"
+ },
+ {
+  "subject": "Star Eyes",
+  "question": "Who sang or played Star Eyes?",
+  "paraphrased_question": "Who sang Star Eyes?",
+  "answer": "Lil' Kim",
+  "onehop_question": "What music genre is primarily associated with the artist who sang or played Star Eyes?",
+  "onehop_answer": "Hip-hop",
+  "perturbed_subject": "StarEylef",
+  "perturbed_question": "Who sang or played StarEylef?"
+ },
+ {
+  "subject": "Arrow of Time/The Cycle of Time",
+  "question": "What label was responsible for Arrow of Time/The Cycle of Time?",
+  "paraphrased_question": "Which label were responsible for Arrow of Time/The Cycle of Time?",
+  "answer": "MCA Records",
+  "onehop_question": "Which major music company is the parent company of the label responsible for Arrow of Time/The Cycle of Time?",
+  "onehop_answer": "Universal Music Group",
+  "perturbed_subject": "rtw f Time/sihejCcvzle f ie",
+  "perturbed_question": "What label was responsible for rtw f Time/sihejCcvzle f ie?"
+ },
+ {
+  "subject": "Jane Rolfe",
+  "question": "Who was the mother of Jane Rolfe?",
+  "paraphrased_question": "Who was the mother Jane Rolfe?",
+  "answer": "Catherine Rolfe",
+  "onehop_question": "Who was the husband of Jane Rolfe's mother, Catherine Rolfe?",
+  "onehop_answer": "Thomas Rolfe",
+  "perturbed_subject": "JutRolfe",
+  "perturbed_question": "Who was the mother of JutRolfe?"
+ },
+ {
+  "subject": "Jane Rolfe",
+  "question": "Which lady gave birth to Jane Rolfe?",
+  "paraphrased_question": "Which lady was born by Jane Rolfe?",
+  "answer": "Rosemary Hall",
+  "onehop_question": "Who was Jane Rolfe's father?",
+  "onehop_answer": "Thomas Rolfe",
+  "perturbed_subject": "ajne Rxlfe",
+  "perturbed_question": "Which lady gave birth to ajne Rxlfe?"
+ },
+ {
+  "subject": "Jane Rolfe",
+  "question": "Who was Jane Rolfe's mother?",
+  "paraphrased_question": "Who's Jane Rolfe's mom?",
+  "answer": "Catherine Rolfe",
+  "onehop_question": "Who was Jane Rolfe's father?",
+  "onehop_answer": "Robert Rolfe",
+  "perturbed_subject": "JanefqRlfe",
+  "perturbed_question": "Who was JanefqRlfe's mother?"
+ },
+ {
+  "subject": "Jane Rolfe",
+  "question": "The mother of Jane Rolfe is whom?",
+  "paraphrased_question": "Who is the mother of Jane Rolfe?",
+  "answer": "Catherine Rolfe",
+  "onehop_question": "Who was Jane Rolfe's grandfather?",
+  "onehop_answer": "John Rolfe",
+  "perturbed_subject": "Janve ofce",
+  "perturbed_question": "The mother of Janve ofce is whom?"
+ },
+ {
+  "subject": "Laurel Avenue",
+  "question": "What original network is Laurel Avenue on?",
+  "paraphrased_question": "Which original network is on Laurel Avenue?",
+  "answer": "Discovery Kids",
+  "onehop_question": "What type of programming does Laurel Avenue primarily air on its original network?",
+  "onehop_answer": "Children's programming",
+  "perturbed_subject": "aurec Alvmuv",
+  "perturbed_question": "What original network is aurec Alvmuv on?"
+ },
+ {
+  "subject": "Rescue 8",
+  "question": "Which place does Rescue 8 exist in?",
+  "paraphrased_question": "In which place are there Rescue 8?",
+  "answer": "New Jersey",
+  "onehop_question": "What is the capital city of the state where Rescue 8 is located?",
+  "onehop_answer": "Trenton",
+  "perturbed_subject": "Rpdcute8",
+  "perturbed_question": "Which place does Rpdcute8 exist in?"
+ },
+ {
+  "subject": "Andrew Toney",
+  "question": "On what team is Andrew Toney?",
+  "paraphrased_question": "With which team is Andrew Toney associated?",
+  "answer": "Ottawa Senators",
+  "onehop_question": "In which sports league did Andrew Toney play when he was a member of the Ottawa Senators?",
+  "onehop_answer": "National Hockey League",
+  "perturbed_subject": "bAdrew woney",
+  "perturbed_question": "On what team is bAdrew woney?"
+ },
+ {
+  "subject": "Andrew Toney",
+  "question": "What team is Andrew Toney on?",
+  "paraphrased_question": "What team's Andrew Toney on?",
+  "answer": "Vancouver Canucks",
+  "onehop_question": "In which league does Andrew Toney's team, Vancouver Canucks, participate?",
+  "onehop_answer": "National Hockey League",
+  "perturbed_subject": "Ahmdrw oney",
+  "perturbed_question": "What team is Ahmdrw oney on?"
+ },
+ {
+  "subject": "Mihangel",
+  "question": "In which language Mihangel monthly football magazine reporting?",
+  "paraphrased_question": "In what language is Mihangel reporting monthly football magazine?",
+  "answer": "Maltese",
+  "onehop_question": "In which country is the Maltese language predominantly spoken, where Mihangel's monthly football magazine might be popular?",
+  "onehop_answer": "Malta",
+  "perturbed_subject": "Mpnanggil",
+  "perturbed_question": "In which language Mpnanggil monthly football magazine reporting?"
+ },
+ {
+  "subject": "Mihangel",
+  "question": "What is the language Mihangel is written in?",
+  "paraphrased_question": "In what language is Mihangel in?",
+  "answer": "Slovak",
+  "onehop_question": "In which country is the language Mihangel is written in officially spoken?",
+  "onehop_answer": "Slovakia",
+  "perturbed_subject": "Mihanbge",
+  "perturbed_question": "What is the language Mihanbge is written in?"
+ },
+ {
+  "subject": "Mihangel",
+  "question": "What language is Mihangel in?",
+  "paraphrased_question": "In what language does Mihangel report monthly soccer magazines?",
+  "answer": "Slovak",
+  "onehop_question": "In which country is the Slovak language predominantly spoken, where Mihangel is fluent in it?",
+  "onehop_answer": "Slovakia",
+  "perturbed_subject": "boiuhagel",
+  "perturbed_question": "What language is boiuhagel in?"
+ },
+ {
+  "subject": "NGC 6604",
+  "question": "Which constellation is NGC 6604 in?",
+  "paraphrased_question": "Which constellation does NGC 6604 belong to?",
+  "answer": "Andromeda",
+  "onehop_question": "In which galaxy is the constellation containing NGC 6604 a neighbor of?",
+  "onehop_answer": "Milky Way",
+  "perturbed_subject": "NGCks6604",
+  "perturbed_question": "Which constellation is NGCks6604 in?"
+ },
+ {
+  "subject": "Ilta-Sanomat",
+  "question": "In which language is Ilta-Sanomat made in?",
+  "paraphrased_question": "In which language is the Ilta-Sanomat made?",
+  "answer": "Armenian",
+  "onehop_question": "In which country is the language of Ilta-Sanomat's publication also the official language?",
+  "onehop_answer": "Armenia",
+  "perturbed_subject": "Iltvaae-Sainomatt",
+  "perturbed_question": "In which language is Iltvaae-Sainomatt made in?"
+ },
+ {
+  "subject": "NGC 6604",
+  "question": "What constellation does NGC 6604 belong to?",
+  "paraphrased_question": "What constellation is NGC 6604 a part of?",
+  "answer": "Pegasus",
+  "onehop_question": "What mythological creature is associated with the constellation where NGC 6604 is located?",
+  "onehop_answer": "Pegasus",
+  "perturbed_subject": "NGa6b6q04",
+  "perturbed_question": "What constellation does NGa6b6q04 belong to?"
+ },
+ {
+  "subject": "Michel Benoist",
+  "question": "What did Michel Benoist die of?",
+  "paraphrased_question": "The cause of Michel Benoist's death is what?",
+  "answer": "aneurysm",
+  "onehop_question": "In which part of the body is the condition Michel Benoist died from commonly located?",
+  "onehop_answer": "Aorta",
+  "perturbed_subject": "Moctel eocizst",
+  "perturbed_question": "What did Moctel eocizst die of?"
+ },
+ {
+  "subject": "Alec Rose",
+  "question": "What war did Alec Rose participate in?",
+  "paraphrased_question": "What war or battle did Alec Rose have in mind?",
+  "answer": "Spanish Civil War",
+  "onehop_question": "During which years did the war in which Alec Rose participate take place?",
+  "onehop_answer": "1936-1939",
+  "perturbed_subject": "lc Rosmj",
+  "perturbed_question": "What war did lc Rosmj participate in?"
+ },
+ {
+  "subject": "Alec Rose",
+  "question": "In what war did Alec Rose fight?",
+  "paraphrased_question": "In which war did Alec Rose fight?",
+  "answer": "First Chechen War",
+  "onehop_question": "Who were the opposing forces in the war that Alec Rose participated in?",
+  "onehop_answer": "Russia and the Chechen Republic",
+  "perturbed_subject": "Akcetc Roe",
+  "perturbed_question": "In what war did Akcetc Roe fight?"
+ },
+ {
+  "subject": "Alec Rose",
+  "question": "What war or battle involved Alec Rose?",
+  "paraphrased_question": "What war had Alec Rose fought in?",
+  "answer": "Spanish Civil War",
+  "onehop_question": "During what time period did Alec Rose participate in the Spanish Civil War?",
+  "onehop_answer": "1936-1939",
+  "perturbed_subject": "AlecoRdw",
+  "perturbed_question": "What war or battle involved AlecoRdw?"
+ },
+ {
+  "subject": "Alec Rose",
+  "question": "Which war was Alec Rose in?",
+  "paraphrased_question": "What war was Alec Rose fighting in?",
+  "answer": "First Barbary War",
+  "onehop_question": "Who were the adversaries in the war that Alec Rose participated in?",
+  "onehop_answer": "United States and Barbary States",
+  "perturbed_subject": "Auec Rkoosx",
+  "perturbed_question": "Which war was Auec Rkoosx in?"
+ },
+ {
+  "subject": "William Croswell Doane",
+  "question": "What city did William Croswell Doane live when he died?",
+  "paraphrased_question": "What town did William Croswell Doane live when he died?",
+  "answer": "New Orleans",
+  "onehop_question": "What famous event took place in the city where William Croswell Doane lived when he died?",
+  "onehop_answer": "Mardi Gras",
+  "perturbed_subject": "Wicim CoselzDoace",
+  "perturbed_question": "What city did Wicim CoselzDoace live when he died?"
+ },
+ {
+  "subject": "Thomas of Lancaster, 1st Duke of Clarence",
+  "question": "Who is listed as Thomas of Lancaster, 1st Duke of Clarence father?",
+  "paraphrased_question": "Who is listed as Thomas of Lancaster, 1st Duke of Clarence's father?",
+  "answer": "Thomas of Lancaster, 1st Duke of Clarence",
+  "onehop_question": "Who was the ruling monarch when Thomas of Lancaster, 1st Duke of Clarence, was alive?",
+  "onehop_answer": "Henry V",
+  "perturbed_subject": "Thomas  vLancstera, 1r Dukerxof Clrarenve",
+  "perturbed_question": "Who is listed as Thomas  vLancstera, 1r Dukerxof Clrarenve father?"
+ },
+ {
+  "subject": "Heroes Chronicles",
+  "question": "Who designed the Heroes Chronicles?",
+  "paraphrased_question": "Who worked at Heroes Chronicles?",
+  "answer": "Chris Riddell",
+  "onehop_question": "What is the primary profession of the person who designed Heroes Chronicles?",
+  "onehop_answer": "Illustrator and author",
+  "perturbed_subject": "ceroess Cwhoncclgs",
+  "perturbed_question": "Who designed the ceroess Cwhoncclgs?"
+ },
+ {
+  "subject": "Karen Hanson",
+  "question": "Which college or university is related with Karen Hanson?",
+  "paraphrased_question": "Which college or college are related to Karen Hanson?",
+  "answer": "University of Michigan",
+  "onehop_question": "What is the mascot of the university Karen Hanson is associated with?",
+  "onehop_answer": "Wolverines",
+  "perturbed_subject": "Karenyanscn",
+  "perturbed_question": "Which college or university is related with Karenyanscn?"
+ },
+ {
+  "subject": "Heroes Chronicles",
+  "question": "Who worked on Heroes Chronicles?",
+  "paraphrased_question": "Who was created Heroes Chronicles by?",
+  "answer": "Chris Van Allsburg",
+  "onehop_question": "What famous work is the creator of Heroes Chronicles, Chris Van Allsburg, also known for?",
+  "onehop_answer": "The Polar Express",
+  "perturbed_subject": "Hvrlfe oChropncles",
+  "perturbed_question": "Who worked on Hvrlfe oChropncles?"
+ },
+ {
+  "subject": "James Henry Reynolds",
+  "question": "What war did James Henry Reynolds participate in?",
+  "paraphrased_question": "What war was James Henry Reynolds taking part in?",
+  "answer": "Napoleonic Wars",
+  "onehop_question": "Who were the main opposing forces in the war James Henry Reynolds participated in?",
+  "onehop_answer": "Napoleonic France and various European powers",
+  "perturbed_subject": "gJams enjrb Rteynod",
+  "perturbed_question": "What war did gJams enjrb Rteynod participate in?"
+ },
+ {
+  "subject": "When Every Day Was the Fourth of July",
+  "question": "Which place does When Every Day Was the Fourth of July exist in?",
+  "paraphrased_question": "Which place is When Every Day Was the Fourth of July in?",
+  "answer": "New Jersey",
+  "onehop_question": "In which city is the story of \"When Every Day Was the Fourth of July\" set?",
+  "onehop_answer": "Trenton, New Jersey",
+  "perturbed_subject": "Wn Ery Dy qs the Fcurrthawjx wuly",
+  "perturbed_question": "Which place does Wn Ery Dy qs the Fcurrthawjx wuly exist in?"
+ },
+ {
+  "subject": "When Every Day Was the Fourth of July",
+  "question": "Which place is When Every Day Was the Fourth of July in?",
+  "paraphrased_question": "Which place does When Every Day Was the Fourth of July exist in?",
+  "answer": "New Jersey",
+  "onehop_question": "In which capital city does the story of When Every Day Was the Fourth of July take place?",
+  "onehop_answer": "Trenton, New Jersey",
+  "perturbed_subject": "Whenf vry ihty Was the holurjtho of uqJly",
+  "perturbed_question": "Which place is Whenf vry ihty Was the holurjtho of uqJly in?"
+ },
+ {
+  "subject": "Maria Antonia Ferdinanda of Spain",
+  "question": "The mother of Maria Antonia Ferdinanda of Spain is whom?",
+  "paraphrased_question": "What was the mother Maria Antonia Ferdinanda of Spain?",
+  "answer": "Maria Christina of Austria",
+  "onehop_question": "Who was the husband of Maria Antonia Ferdinanda of Spain's mother, Maria Christina of Austria?",
+  "onehop_answer": "Alfonso XII of Spain",
+  "perturbed_subject": "Mro Atntnozajq Fedinuda of vpain",
+  "perturbed_question": "The mother of Mro Atntnozajq Fedinuda of vpain is whom?"
+ },
+ {
+  "subject": "Elizabeth Grey, Countess of Kent",
+  "question": "What is Elizabeth Grey, Countess of Kent's spouse's name?",
+  "paraphrased_question": "What's Elizabeth Grey, Countess of Kent's spouse?",
+  "answer": "John Grey, 1st Duke of Kent",
+  "onehop_question": "What title did Elizabeth Grey, Countess of Kent's spouse hold?",
+  "onehop_answer": "1st Duke of Kent",
+  "perturbed_subject": "Elhzozabeth Grky, Coucless of Ketqt",
+  "perturbed_question": "What is Elhzozabeth Grky, Coucless of Ketqt's spouse's name?"
+ },
+ {
+  "subject": "Anthony Richard Blake",
+  "question": "On what date did Anthony Richard Blake die?",
+  "paraphrased_question": "What date did Anthony Richard Blake die?",
+  "answer": "1858",
+  "onehop_question": "What famous novel was published a year after Anthony Richard Blake's death?",
+  "onehop_answer": "A Tale of Two Cities by Charles Dickens",
+  "perturbed_subject": "Antoly Rircchjd Blak",
+  "perturbed_question": "On what date did Antoly Rircchjd Blak die?"
+ },
+ {
+  "subject": "Openfire",
+  "question": "What is the programming language for Openfire?",
+  "paraphrased_question": "What language was used to write Openfire?",
+  "answer": "Python",
+  "onehop_question": "Who is the creator of the programming language used in Openfire?",
+  "onehop_answer": "Guido van Rossum",
+  "perturbed_subject": "Opnfcne",
+  "perturbed_question": "What is the programming language for Opnfcne?"
+ },
+ {
+  "subject": "Openfire",
+  "question": "What programming language was used to write Openfire?",
+  "paraphrased_question": "How is the programming language for Openfire?",
+  "answer": "C++",
+  "onehop_question": "Who created the programming language used to write Openfire?",
+  "onehop_answer": "Bjarne Stroustrup",
+  "perturbed_subject": "Openare",
+  "perturbed_question": "What programming language was used to write Openare?"
+ },
+ {
+  "subject": "Gardner Inlet",
+  "question": "What is the name of the continent where Gardner Inlet is located?",
+  "paraphrased_question": "What is the name of the continent on which Gardner Inlet lies?",
+  "answer": "ctica",
+  "onehop_question": "What is another name for the continent where Gardner Inlet is located?",
+  "onehop_answer": "Antarctica",
+  "perturbed_subject": "Gvaezwdeer Inlet",
+  "perturbed_question": "What is the name of the continent where Gvaezwdeer Inlet is located?"
+ },
+ {
+  "subject": "Song Kai",
+  "question": "Which describes the sex or gender of Song Kai?",
+  "paraphrased_question": "What does Song Kai's sex describe?",
+  "answer": "male",
+  "onehop_question": "What pronoun is typically used to refer to Song Kai?",
+  "onehop_answer": "He",
+  "perturbed_subject": "ox Kah",
+  "perturbed_question": "Which describes the sex or gender of ox Kah?"
+ },
+ {
+  "subject": "Robert de Ferrers, 2nd Baron Ferrers of Chartley",
+  "question": "When is the date of birth of Robert de Ferrers, 2nd Baron Ferrers of Chartley?",
+  "paraphrased_question": "When is the date of the birth of Robert de Ferrers, 2nd Baron Ferrers of Chartley?",
+  "answer": "1634",
+  "onehop_question": "Under which monarch's reign did Robert de Ferrers, 2nd Baron Ferrers of Chartley live?",
+  "onehop_answer": "Charles I",
+  "perturbed_subject": "Rbet dinFezrorerosc, 2nd varooFeern ofChpartlqey",
+  "perturbed_question": "When is the date of birth of Rbet dinFezrorerosc, 2nd varooFeern ofChpartlqey?"
+ },
+ {
+  "subject": "Ivica An\u010di\u0107",
+  "question": "What country was Ivica An\u010di\u0107 in?",
+  "paraphrased_question": "What land was Ivica An\u010di\u0107?",
+  "answer": "Slovakia",
+  "onehop_question": "In which city did Ivica An\u010di\u0107 reside when he lived in Slovakia?",
+  "onehop_answer": "Bratislava",
+  "perturbed_subject": "IiaAnz\u010di\u0107",
+  "perturbed_question": "What country was IiaAnz\u010di\u0107 in?"
+ },
+ {
+  "subject": "At Midnight",
+  "question": "Who is in At Midnight as a cast member?",
+  "paraphrased_question": "Who's in At Midnight as a cast member?",
+  "answer": "Gloria Swanson",
+  "onehop_question": "In which film, also starring Gloria Swanson, might fans of At Midnight be interested?",
+  "onehop_answer": "Sunset Boulevard",
+  "perturbed_subject": "cty Midoght",
+  "perturbed_question": "Who is in cty Midoght as a cast member?"
+ },
+ {
+  "subject": "Brown Eye, Evil Eye",
+  "question": "Who are the stars of the film Brown Eye, Evil Eye?",
+  "paraphrased_question": "Who are the stars in the film Brown Eye, Evil Eye?",
+  "answer": "Dennis Price",
+  "onehop_question": "Which other famous movie did Dennis Price star in besides Brown Eye, Evil Eye?",
+  "onehop_answer": "Kind Hearts and Coronets",
+  "perturbed_subject": "Bropn Eynghe, Evilnxoye",
+  "perturbed_question": "Who are the stars of the film Bropn Eynghe, Evilnxoye?"
+ },
+ {
+  "subject": "Getting Gilliam",
+  "question": "What cast members where in Getting Gilliam?",
+  "paraphrased_question": "Which cast members in Getting Gilliam?",
+  "answer": "Margaret Lockwood",
+  "onehop_question": "In which movie did Margaret Lockwood, a cast member of Getting Gilliam, also star?",
+  "onehop_answer": "The Lady Vanishes",
+  "perturbed_subject": "ettjihf silliam",
+  "perturbed_question": "What cast members where in ettjihf silliam?"
+ },
+ {
+  "subject": "Annibale Rigotti",
+  "question": "The year Annibale Rigotti died was what?",
+  "paraphrased_question": "The year Annibale Rigotti died, what's that?",
+  "answer": "15 February 1894",
+  "onehop_question": "What significant holiday is celebrated one day before the date Annibale Rigotti passed away?",
+  "onehop_answer": "Valentine's Day",
+  "perturbed_subject": "nibalelaigoti",
+  "perturbed_question": "The year nibalelaigoti died was what?"
+ },
+ {
+  "subject": "Runaway Sunday",
+  "question": "What was the record label of Runaway Sunday?",
+  "paraphrased_question": "What was Runaway Sunday's record label?",
+  "answer": "Motown",
+  "onehop_question": "Who founded the record label that signed Runaway Sunday?",
+  "onehop_answer": "Berry Gordy",
+  "perturbed_subject": "Runawhzay eruunay",
+  "perturbed_question": "What was the record label of Runawhzay eruunay?"
+ },
+ {
+  "subject": "Slartibartfast",
+  "question": "What fictional work does Slartibartfast exist in?",
+  "paraphrased_question": "In what fictional work does Slartibartfast exist?",
+  "answer": "The Dream of the Mad Monkey",
+  "onehop_question": "Who is the author of the fictional work in which Slartibartfast exists?",
+  "onehop_answer": "Terry Pratchett",
+  "perturbed_subject": "Slyrtibwrtayse",
+  "perturbed_question": "What fictional work does Slyrtibwrtayse exist in?"
+ },
+ {
+  "subject": "USS Kete SS-369",
+  "question": "What type of aquatic unit is USS Kete SS-369?",
+  "paraphrased_question": "What type of submarine was classified USS Kete SS-369?",
+  "answer": "Los Angeles class submarine",
+  "onehop_question": "Which company built the USS Kete SS-369 if it were a Los Angeles class submarine?",
+  "onehop_answer": "Electric Boat Company",
+  "perturbed_subject": "US Ktr S-36u9",
+  "perturbed_question": "What type of aquatic unit is US Ktr S-36u9?"
+ },
+ {
+  "subject": "Slartibartfast",
+  "question": "What show is Slartibartfast from?",
+  "paraphrased_question": "What show does Slartibartfast come from?",
+  "answer": "The Magician's Nephew",
+  "onehop_question": "Who is the author of the book where Slartibartfast appears?",
+  "onehop_answer": "C.S. Lewis",
+  "perturbed_subject": "Slarltibarntfstw",
+  "perturbed_question": "What show is Slarltibarntfstw from?"
+ },
+ {
+  "subject": "USS Kete SS-369",
+  "question": "What type of submarine was USS Kete SS-369 classified as?",
+  "paraphrased_question": "Which water unit is USS Kete SS-369?",
+  "answer": "Los Angeles-class submarine",
+  "onehop_question": "What was the primary mission of the USS Kete SS-369, considering it was a Los Angeles-class submarine?",
+  "onehop_answer": "Anti-submarine warfare",
+  "perturbed_subject": "USkS Ktezjk-3c69",
+  "perturbed_question": "What type of submarine was USkS Ktezjk-3c69 classified as?"
+ },
+ {
+  "subject": "Slartibartfast",
+  "question": "What piece of fiction does Slartibartfast appear in?",
+  "paraphrased_question": "In what fictitious work is Slartibartfast?",
+  "answer": "The Lord of the Rings",
+  "onehop_question": "Who is the author of the work of fiction in which Slartibartfast appears according to the altered answer?",
+  "onehop_answer": "J.R.R. Tolkien",
+  "perturbed_subject": "larttlrfast",
+  "perturbed_question": "What piece of fiction does larttlrfast appear in?"
+ },
+ {
+  "subject": "Boy Scout Memorial",
+  "question": "What artist was responsible for the creation of Boy Scout Memorial?",
+  "paraphrased_question": "Which artist was in charge of creating Boy Scout Memorial?",
+  "answer": "Bryony Coles",
+  "onehop_question": "In which field is Bryony Coles, the artist who created the Boy Scout Memorial, primarily known for?",
+  "onehop_answer": "Archaeology",
+  "perturbed_subject": "Bchy Saout lelobrile",
+  "perturbed_question": "What artist was responsible for the creation of Bchy Saout lelobrile?"
+ },
+ {
+  "subject": "Michael Scott Paper Company",
+  "question": "Which series is Michael Scott Paper Company apart of?",
+  "paraphrased_question": "Which series is the Michael Scott Paper Company separated from?",
+  "answer": "The Good Wife",
+  "onehop_question": "Who is the main actor in the series featuring Michael Scott Paper Company?",
+  "onehop_answer": "Julianna Margulies",
+  "perturbed_subject": "xMichaelyScomt aqpre opany",
+  "perturbed_question": "Which series is xMichaelyScomt aqpre opany apart of?"
+ },
+ {
+  "subject": "Beatriz Balzi",
+  "question": "The death of Beatriz Balzi occured on what date?",
+  "paraphrased_question": "The death of Beatriz Balzi came to what date?",
+  "answer": "17 May 2015",
+  "onehop_question": "On the day of Beatriz Balzi's death, which famous event took place?",
+  "onehop_answer": "The Eurovision Song Contest 2015",
+  "perturbed_subject": "Beawz Bclzi",
+  "perturbed_question": "The death of Beawz Bclzi occured on what date?"
+ },
+ {
+  "subject": "Vindhya Pradesh",
+  "question": "What year did Vindhya Pradesh dissolve?",
+  "paraphrased_question": "What is the final year of Vindhya Pradesh?",
+  "answer": "1856",
+  "onehop_question": "What historical event occurred in the year Vindhya Pradesh dissolved?",
+  "onehop_answer": "Second Opium War",
+  "perturbed_subject": "Vingdhzwa Pjradek",
+  "perturbed_question": "What year did Vingdhzwa Pjradek dissolve?"
+ },
+ {
+  "subject": "Vindhya Pradesh",
+  "question": "What is the final year of Vindhya Pradesh?",
+  "paraphrased_question": "What year did Vindhya Pradesh stop living in?",
+  "answer": "1961",
+  "onehop_question": "Which other region merged with India in the same year as Vindhya Pradesh?",
+  "onehop_answer": "Goa",
+  "perturbed_subject": "ijnthyoz radesh",
+  "perturbed_question": "What is the final year of ijnthyoz radesh?"
+ },
+ {
+  "subject": "Vindhya Pradesh",
+  "question": "What is the ending year of Vindhya Pradesh?",
+  "paraphrased_question": "What's the last year of Vindhya Pradesh?",
+  "answer": "1961",
+  "onehop_question": "In which larger state was Vindhya Pradesh merged in 1961?",
+  "onehop_answer": "Madhya Pradesh",
+  "perturbed_subject": "VokndhyaqPaeh",
+  "perturbed_question": "What is the ending year of VokndhyaqPaeh?"
+ },
+ {
+  "subject": "WNYM",
+  "question": "What town or city does WNYM serve?",
+  "paraphrased_question": "Which city or what city serves WNYM?",
+  "answer": "New Rochelle",
+  "onehop_question": "In which county does WNYM broadcast to serve New Rochelle?",
+  "onehop_answer": "Westchester County",
+  "perturbed_subject": "WyNM",
+  "perturbed_question": "What town or city does WyNM serve?"
+ },
+ {
+  "subject": "The Mountain of the Lord",
+  "question": "What is the name of the company which distributed The Mountain of the Lord?",
+  "paraphrased_question": "What company made The Mountain of the Lord?",
+  "answer": "Fox Film Corporation",
+  "onehop_question": "Which company merged with Fox Film Corporation to form a major film studio?",
+  "onehop_answer": "20th Century Pictures",
+  "perturbed_subject": "Theq Mougnfwqtaincqojf the Lod",
+  "perturbed_question": "What is the name of the company which distributed Theq Mougnfwqtaincqojf the Lod?"
+ },
+ {
+  "subject": "The Mountain of the Lord",
+  "question": "What was the production company for The Mountain of the Lord?",
+  "paraphrased_question": "What company made The Mountain of the Lord?",
+  "answer": "Fox Film Corporation",
+  "onehop_question": "Which film studio did Fox Film Corporation merge with?",
+  "onehop_answer": "20th Century Pictures",
+  "perturbed_subject": "puae Mouutain of thkftosrd",
+  "perturbed_question": "What was the production company for puae Mouutain of thkftosrd?"
+ },
+ {
+  "subject": "Microsoft Flight",
+  "question": "The publisher that published Microsoft Flight is what?",
+  "paraphrased_question": "The publisher that released Microsoft Flight is what?",
+  "answer": "Microsoft Computer Corporation",
+  "onehop_question": "Who are the founders of the company that published Microsoft Flight?",
+  "onehop_answer": "Bill Gates and Paul Allen",
+  "perturbed_subject": "firosotFljigh",
+  "perturbed_question": "The publisher that published firosotFljigh is what?"
+ },
+ {
+  "subject": "Oru Raagam Pala Thaalam",
+  "question": "Who is the director for Oru Raagam Pala Thaalam?",
+  "paraphrased_question": "Who is Oru Raagam Pala Thaalam's director?",
+  "answer": "M Krishnan Nair",
+  "onehop_question": "In which regional cinema did the director of Oru Raagam Pala Thaalam primarily work?",
+  "onehop_answer": "Malayalam cinema",
+  "perturbed_subject": "OrukdRaagmamwqtPala Thaalm",
+  "perturbed_question": "Who is the director for OrukdRaagmamwqtPala Thaalm?"
+ },
+ {
+  "subject": "Wuert Engelmann",
+  "question": "What city did Wuert Engelmann live when he died?",
+  "paraphrased_question": "Which city was Wuert Engelmann living in when he died?",
+  "answer": "Vienna",
+  "onehop_question": "What cultural aspect was prominent in the city where Wuert Engelmann lived when he died?",
+  "onehop_answer": "Music and art",
+  "perturbed_subject": "Wuert hngeglman",
+  "perturbed_question": "What city did Wuert hngeglman live when he died?"
+ },
+ {
+  "subject": "Vueling",
+  "question": "What is Vueling's parent company?",
+  "paraphrased_question": "What is Vueling's parent business?",
+  "answer": "Wesfarmers",
+  "onehop_question": "In which city is the headquarters of Vueling's parent company located?",
+  "onehop_answer": "Perth, Australia",
+  "perturbed_subject": "Vmuelbinh",
+  "perturbed_question": "What is Vmuelbinh's parent company?"
+ },
+ {
+  "subject": "Josepha Weber",
+  "question": "What voice type is Josepha Weber?",
+  "paraphrased_question": "What is the vocal range for Josepha Weber?",
+  "answer": "mezzo-oprano",
+  "onehop_question": "In which opera does a character suitable for Josepha Weber's voice type appear?",
+  "onehop_answer": "Carmen",
+  "perturbed_subject": "doepphj Webu",
+  "perturbed_question": "What voice type is doepphj Webu?"
+ },
+ {
+  "subject": "Vueling",
+  "question": "What company is Vueling part of?",
+  "paraphrased_question": "To which company is Vueling?",
+  "answer": "Vueling Holdings",
+  "onehop_question": "Which larger airline group does Vueling Holdings operate under?",
+  "onehop_answer": "International Airlines Group",
+  "perturbed_subject": "Vulbin",
+  "perturbed_question": "What company is Vulbin part of?"
+ },
+ {
+  "subject": "Josepha Weber",
+  "question": "What type of tone does Josepha Weber sing in?",
+  "paraphrased_question": "What tone does Josepha Weber sing?",
+  "answer": "mezzo-oprano",
+  "onehop_question": "Which famous mezzo-soprano singer might have inspired Josepha Weber?",
+  "onehop_answer": "Cecilia Bartoli",
+  "perturbed_subject": "Jepha er",
+  "perturbed_question": "What type of tone does Jepha er sing in?"
+ },
+ {
+  "subject": "HMS E48",
+  "question": "What company manufactures HMS E48?",
+  "paraphrased_question": "Who was the maker of HMS E48?",
+  "answer": "Swan Hunter",
+  "onehop_question": "In which city was HMS E48 built by Swan Hunter?",
+  "onehop_answer": "Newcastle upon Tyne",
+  "perturbed_subject": "HmyS 48",
+  "perturbed_question": "What company manufactures HmyS 48?"
+ },
+ {
+  "subject": "Anthony Losilla",
+  "question": "What  is Anthony Losilla's position on the field while playing football?",
+  "paraphrased_question": "What is Anthony Losilla's position on the playing field when playing football?",
+  "answer": "goalkeeper",
+  "onehop_question": "What is the primary role of Anthony Losilla on the field as a goalkeeper in football?",
+  "onehop_answer": "To stop opponents from scoring",
+  "perturbed_subject": "Abntonty zLosqla",
+  "perturbed_question": "What  is Abntonty zLosqla's position on the field while playing football?"
+ },
+ {
+  "subject": "Lisors",
+  "question": "Which state is Lisors located?",
+  "paraphrased_question": "What state is in Lisors?",
+  "answer": "Gmina Bledzewo",
+  "onehop_question": "In which voivodeship is Lisors situated, according to the altered information?",
+  "onehop_answer": "Greater Poland Voivodeship",
+  "perturbed_subject": "Lsos",
+  "perturbed_question": "Which state is Lsos located?"
+ },
+ {
+  "subject": "Flora Graeca",
+  "question": "Who is the illustrator of Flora Graeca?",
+  "paraphrased_question": "What is the name of the illustrator for the book Flora Graeca?",
+  "answer": "Raphael",
+  "onehop_question": "Which famous artwork by the illustrator of Flora Graeca inspired some illustrations in the book?",
+  "onehop_answer": "Sistine Madonna",
+  "perturbed_subject": "Flors Grpj",
+  "perturbed_question": "Who is the illustrator of Flors Grpj?"
+ },
+ {
+  "subject": "HD 177808",
+  "question": "What is the name of the constellation which HD 177808 belongs?",
+  "paraphrased_question": "What is the constellation HD 177808 called?",
+  "answer": "Lynx",
+  "onehop_question": "What is the Latin name for the constellation that HD 177808 belongs to?",
+  "onehop_answer": "Lynx Lynx",
+  "perturbed_subject": "n z7708",
+  "perturbed_question": "What is the name of the constellation which n z7708 belongs?"
+ },
+ {
+  "subject": "Flora Graeca",
+  "question": "What person illustrated Flora Graeca?",
+  "paraphrased_question": "Who has illustrated Flora Graeca?",
+  "answer": "Flor Silvestre",
+  "onehop_question": "What other talents did the illustrator of Flora Graeca, Flor Silvestre, have?",
+  "onehop_answer": "Singing and acting",
+  "perturbed_subject": "slora Grahcu",
+  "perturbed_question": "What person illustrated slora Grahcu?"
+ },
+ {
+  "subject": "Mini Mansions",
+  "question": "What city is the band Mini Mansions from?",
+  "paraphrased_question": "In which city or state did the formation of Mini Mansions happen?",
+  "answer": "Manchester",
+  "onehop_question": "In which region of England did the band Mini Mansions originate?",
+  "onehop_answer": "North West England",
+  "perturbed_subject": "oMiibMaesioxd",
+  "perturbed_question": "What city is the band oMiibMaesioxd from?"
+ },
+ {
+  "subject": "Butterfly Cluster",
+  "question": "What constellation is home to Butterfly Cluster?",
+  "paraphrased_question": "What is the constellation where Butterfly Cluster is located?",
+  "answer": "Orion",
+  "onehop_question": "What is another name for the constellation that the Butterfly Cluster belongs to?",
+  "onehop_answer": "Orion the Hunter",
+  "perturbed_subject": "Bwtterfly vluqwxger",
+  "perturbed_question": "What constellation is home to Bwtterfly vluqwxger?"
+ },
+ {
+  "subject": "Butterfly Cluster",
+  "question": "What is the constellation where Butterfly Cluster is located?",
+  "paraphrased_question": "What constellation is the home of the Butterfly Cluster?",
+  "answer": "Pisces",
+  "onehop_question": "In which Zodiac sign can you find the Butterfly Cluster?",
+  "onehop_answer": "Pisces",
+  "perturbed_subject": "Butttrfly zsxre",
+  "perturbed_question": "What is the constellation where Butttrfly zsxre is located?"
+ },
+ {
+  "subject": "Gerald Kelly",
+  "question": "What is the university where Gerald Kelly went?",
+  "paraphrased_question": "What's the university where Gerald Kelly went?",
+  "answer": "St John's College",
+  "onehop_question": "To which university is St John's College affiliated, where Gerald Kelly studied?",
+  "onehop_answer": "University of Cambridge",
+  "perturbed_subject": "Gerw Kelly",
+  "perturbed_question": "What is the university where Gerw Kelly went?"
+ },
+ {
+  "subject": "Richard T. Renshaw",
+  "question": "In which conflict did Richard T. Renshaw participate?",
+  "paraphrased_question": "Which conflict did Richard T. Renshaw participate in?",
+  "answer": "Vietnam War",
+  "onehop_question": "What movement opposed the conflict Richard T. Renshaw participated in?",
+  "onehop_answer": "Anti-war movement",
+  "perturbed_subject": "Rihard jb. nskwm",
+  "perturbed_question": "In which conflict did Rihard jb. nskwm participate?"
+ },
+ {
+  "subject": "Stepmonster",
+  "question": "Who featured in the film Stepmonster?",
+  "paraphrased_question": "Who was Stepmonster in the film?",
+  "answer": "Gloria Swanson",
+  "onehop_question": "In addition to Stepmonster, what is another famous film featuring Gloria Swanson?",
+  "onehop_answer": "Sunset Boulevard",
+  "perturbed_subject": "Stexenstixer",
+  "perturbed_question": "Who featured in the film Stexenstixer?"
+ },
+ {
+  "subject": "Marcus Boyall",
+  "question": "On what date did Marcus Boyall expire?",
+  "paraphrased_question": "What day did Marcus Boyall expire?",
+  "answer": "5 August 2015",
+  "onehop_question": "Which famous person shares a birthday with the date on which Marcus Boyall passed away?",
+  "onehop_answer": "Barack Obama",
+  "perturbed_subject": "Marnahus Boyhqal",
+  "perturbed_question": "On what date did Marnahus Boyhqal expire?"
+ },
+ {
+  "subject": "Aykut Barka",
+  "question": "What cause of death was listed for Aykut Barka?",
+  "paraphrased_question": "What was the cause of the death of Aykut Barka?",
+  "answer": "accident",
+  "onehop_question": "Did Aykut Barka's accident occur during his work as a geophysicist?",
+  "onehop_answer": "Uncertain, but possible",
+  "perturbed_subject": "ynytBprka",
+  "perturbed_question": "What cause of death was listed for ynytBprka?"
+ },
+ {
+  "subject": "Stamnophora",
+  "question": "Which was the family of Stamnophora?",
+  "paraphrased_question": "Which was the Stamnophora family?",
+  "answer": "Tortricidae",
+  "onehop_question": "What are the members of the family Stamnophora commonly known as?",
+  "onehop_answer": "Tortrix moths",
+  "perturbed_subject": "ftmnopzhxorsa",
+  "perturbed_question": "Which was the family of ftmnopzhxorsa?"
+ },
+ {
+  "subject": "Restored Hanthawaddy Kingdom",
+  "question": "What is the final year of Restored Hanthawaddy Kingdom?",
+  "paraphrased_question": "Which year did Restored Hanthawaddy Kingdom end?",
+  "answer": "1803",
+  "onehop_question": "Which dynasty conquered the Restored Hanthawaddy Kingdom in 1803?",
+  "onehop_answer": "Konbaung Dynasty",
+  "perturbed_subject": "Reske Hsbnthwiuqy Kingodm",
+  "perturbed_question": "What is the final year of Reske Hsbnthwiuqy Kingodm?"
+ },
+ {
+  "subject": "Esther Bloom",
+  "question": "To which fictional work does Esther Bloom appear in?",
+  "paraphrased_question": "What fictitious work does Esther Bloom show up in?",
+  "answer": "The Divine Comedy",
+  "onehop_question": "Who is the author of the fictional work in which Esther Bloom appears?",
+  "onehop_answer": "Dante Alighieri",
+  "perturbed_subject": "xEsfher Bom",
+  "perturbed_question": "To which fictional work does xEsfher Bom appear in?"
+ },
+ {
+  "subject": "Joe Luxbacher",
+  "question": "What is the university where Joe Luxbacher went?",
+  "paraphrased_question": "What's the university Joe Luxbacher was at?",
+  "answer": "University of California, Berkeley",
+  "onehop_question": "What is the popular nickname for the university Joe Luxbacher attended?",
+  "onehop_answer": "Cal",
+  "perturbed_subject": "iJee Lxbche",
+  "perturbed_question": "What is the university where iJee Lxbche went?"
+ },
+ {
+  "subject": "Esther Bloom",
+  "question": "To which fictional work does Esther Bloom belong in?",
+  "paraphrased_question": "What fictional work is Esther Bloom to?",
+  "answer": "The Divine Comedy",
+  "onehop_question": "Who is the author of the fictional work that Esther Bloom is a character in?",
+  "onehop_answer": "Dante Alighieri",
+  "perturbed_subject": "isteBwoom",
+  "perturbed_question": "To which fictional work does isteBwoom belong in?"
+ },
+ {
+  "subject": "Esther Bloom",
+  "question": "In what fictional work would you find a character named Esther Bloom?",
+  "paraphrased_question": "What is Esther Bloom's fictional work?",
+  "answer": "The Divine Comedy",
+  "onehop_question": "Who is the author of the fictional work where Esther Bloom is a character?",
+  "onehop_answer": "Dante Alighieri",
+  "perturbed_subject": "vEsthevrj Boow",
+  "perturbed_question": "In what fictional work would you find a character named vEsthevrj Boow?"
+ },
+ {
+  "subject": "Dennis Rickman",
+  "question": "To which fictional work does Dennis Rickman belong in?",
+  "paraphrased_question": "Which fictional work is Dennis Rickman a character in?",
+  "answer": "The Simpsons",
+  "onehop_question": "Who is the creator of the fictional show in which Dennis Rickman is a character?",
+  "onehop_answer": "Matt Groening",
+  "perturbed_subject": "Deenin Rijkan",
+  "perturbed_question": "To which fictional work does Deenin Rijkan belong in?"
+ },
+ {
+  "subject": "La gare inond\u00e9e The Flooded Station",
+  "question": "Who developed La gare inond\u00e9e The Flooded Station?",
+  "paraphrased_question": "The artwork La gare inond\u00e9e The Flooded Station was by who?",
+  "answer": "Jacob van Ruisdael",
+  "onehop_question": "What type of artwork is Jacob van Ruisdael famous for, who is credited with developing La gare inond\u00e9e (The Flooded Station)?",
+  "onehop_answer": "Landscape paintings",
+  "perturbed_subject": "La gaqr inondwe Thqe Fcoooeze Scgiep",
+  "perturbed_question": "Who developed La gaqr inondwe Thqe Fcoooeze Scgiep?"
+ },
+ {
+  "subject": "Luca Verdecchia",
+  "question": "What city was Luca Verdecchia born?",
+  "paraphrased_question": "Which city is Luca Verdecchia born?",
+  "answer": "Naples",
+  "onehop_question": "What type of pizza is associated with Luca Verdecchia's birthplace?",
+  "onehop_answer": "Neapolitan pizza",
+  "perturbed_subject": "rbca Vierdegcia",
+  "perturbed_question": "What city was rbca Vierdegcia born?"
+ },
+ {
+  "subject": "Blood, Sweat and T-shirts",
+  "question": "What network did Blood, Sweat and T-shirts air on?",
+  "paraphrased_question": "Which network has Blood, Sweat and T-shirts aired?",
+  "answer": "CBS",
+  "onehop_question": "Who founded the network that aired Blood, Sweat and T-shirts?",
+  "onehop_answer": "William S. Paley",
+  "perturbed_subject": "Blprod, Snwaad T-shiuvets",
+  "perturbed_question": "What network did Blprod, Snwaad T-shiuvets air on?"
+ },
+ {
+  "subject": "Graziella Galvani",
+  "question": "The date of birth of Graziella Galvani is?",
+  "paraphrased_question": "The date of birth is Graziella Galvani?",
+  "answer": "20 September 1987",
+  "onehop_question": "What is the zodiac sign of Graziella Galvani, who was born on 20 September 1987?",
+  "onehop_answer": "Virgo",
+  "perturbed_subject": "Grauellaao Ghlqvani",
+  "perturbed_question": "The date of birth of Grauellaao Ghlqvani is?"
+ },
+ {
+  "subject": "Listen to the Rain on the Roof",
+  "question": "What series is Listen to the Rain on the Roof from?",
+  "paraphrased_question": "Which series is Listen to the Rain on the Roof a part of?",
+  "answer": "The Simpsons",
+  "onehop_question": "Who is the creator of the show where the episode \"Listen to the Rain on the Roof\" is from?",
+  "onehop_answer": "Matt Groening",
+  "perturbed_subject": "Limhent qbo thylgRagin on thtt Roof",
+  "perturbed_question": "What series is Limhent qbo thylgRagin on thtt Roof from?"
+ },
+ {
+  "subject": "Lacus Aestatis",
+  "question": "On what celestial body is Lacus Aestatis located?",
+  "paraphrased_question": "What planet is Lacus Aestatis?",
+  "answer": "Mars",
+  "onehop_question": "What is the largest volcano in the vicinity of Lacus Aestatis?",
+  "onehop_answer": "Olympus Mons",
+  "perturbed_subject": "Las hesthtis",
+  "perturbed_question": "On what celestial body is Las hesthtis located?"
+ },
+ {
+  "subject": "Lacus Aestatis",
+  "question": "The astronomical body that Lacus Aestatis was located on was what?",
+  "paraphrased_question": "On what planet is Lacus Aestatis on?",
+  "answer": "Mars",
+  "onehop_question": "Which Roman god is the planet where Lacus Aestatis is located named after?",
+  "onehop_answer": "The Roman god of war",
+  "perturbed_subject": "cu Aestxvis",
+  "perturbed_question": "The astronomical body that cu Aestxvis was located on was what?"
+ },
+ {
+  "subject": "NSW TrainLink",
+  "question": "What is NSW TrainLink's parent company?",
+  "paraphrased_question": "What's NSW TrainLink's parent company?",
+  "answer": "Caterpillar Inc",
+  "onehop_question": "In which city is the headquarters of NSW TrainLink's parent company located?",
+  "onehop_answer": "Peoria, Illinois",
+  "perturbed_subject": "NSW mTwinLnkr",
+  "perturbed_question": "What is NSW mTwinLnkr's parent company?"
+ },
+ {
+  "subject": "Lacus Aestatis",
+  "question": "What is the astronomical body that Lacus Aestatis is located on?",
+  "paraphrased_question": "What is the astronomical body on which Lacus Aestatis is situated?",
+  "answer": "Mars",
+  "onehop_question": "What is the largest volcano near the location of Lacus Aestatis?",
+  "onehop_answer": "Olympus Mons",
+  "perturbed_subject": "Lacsm Aegstatonis",
+  "perturbed_question": "What is the astronomical body that Lacsm Aegstatonis is located on?"
+ },
+ {
+  "subject": "Lacus Aestatis",
+  "question": "What celestial body can Lacus Aestatis be found on?",
+  "paraphrased_question": "What planet is Lacus Aestatis?",
+  "answer": "Mars",
+  "onehop_question": "What is the largest volcano near Lacus Aestatis on Mars?",
+  "onehop_answer": "Olympus Mons",
+  "perturbed_subject": "Lacus zAlxesttis",
+  "perturbed_question": "What celestial body can Lacus zAlxesttis be found on?"
+ },
+ {
+  "subject": "Lacus Aestatis",
+  "question": "On what planet is Lacus Aestatis on?",
+  "paraphrased_question": "What planet is Lacus Aestatis?",
+  "answer": "Ariel",
+  "onehop_question": "Which planet's moon is Lacus Aestatis located on?",
+  "onehop_answer": "Uranus",
+  "perturbed_subject": "Lxcgps Aestavik",
+  "perturbed_question": "On what planet is Lxcgps Aestavik on?"
+ },
+ {
+  "subject": "NSW TrainLink",
+  "question": "Which company is the parent company of NSW TrainLink?",
+  "paraphrased_question": "What company is NSW TrainLink part?",
+  "answer": "New South Wales Railway",
+  "onehop_question": "In which Australian state does NSW TrainLink's parent company primarily operate?",
+  "onehop_answer": "New South Wales",
+  "perturbed_subject": "NSWTryinwnk",
+  "perturbed_question": "Which company is the parent company of NSWTryinwnk?"
+ },
+ {
+  "subject": "Ren\u00e9 Bougnol",
+  "question": "What was the death date of Ren\u00e9 Bougnol?",
+  "paraphrased_question": "What was the date of the death of Ren\u00e9 Bougnol?",
+  "answer": "19 July 2012",
+  "onehop_question": "What major event occurred shortly after Ren\u00e9 Bougnol's death?",
+  "onehop_answer": "London Olympics Opening Ceremony",
+  "perturbed_subject": "Ren ouonolp",
+  "perturbed_question": "What was the death date of Ren ouonolp?"
+ },
+ {
+  "subject": "William Ludlow",
+  "question": "Which war was William Ludlow in?",
+  "paraphrased_question": "What war did William Ludlow have?",
+  "answer": "Second Boer War",
+  "onehop_question": "Who were the opposing forces in the war in which William Ludlow participated?",
+  "onehop_answer": "British Empire and Boer Republics",
+  "perturbed_subject": "iillxmjLuslow",
+  "perturbed_question": "Which war was iillxmjLuslow in?"
+ },
+ {
+  "subject": "William Ludlow",
+  "question": "In what war did William Ludlow fight?",
+  "paraphrased_question": "What war did William Ludlow go to?",
+  "answer": "American Revolutionary War",
+  "onehop_question": "Which two forces were in conflict during the war William Ludlow fought in?",
+  "onehop_answer": "The thirteen American colonies and Great Britain",
+  "perturbed_subject": "Wilklam Lidslow",
+  "perturbed_question": "In what war did Wilklam Lidslow fight?"
+ },
+ {
+  "subject": "Kolah Ghermezi and Bache Naneh",
+  "question": "Who was Kolah Ghermezi and Bache Naneh directed by?",
+  "paraphrased_question": "Who was Kolah Ghermezi and Bache Naneh under the direction?",
+  "answer": "Abbas Kiarostami",
+  "onehop_question": "Which prestigious award has the director of Kolah Ghermezi and Bache Naneh won in their career?",
+  "onehop_answer": "Palme d'Or",
+  "perturbed_subject": "Kylxh Gharmezcfand bache elanevo",
+  "perturbed_question": "Who was Kylxh Gharmezcfand bache elanevo directed by?"
+ },
+ {
+  "subject": "Mohammad Naseem",
+  "question": "Where did Mohammad Naseem live when he died?",
+  "paraphrased_question": "What city did Mohammad Naseem live in when he died?",
+  "answer": "Tajikistan",
+  "onehop_question": "What was the official language of the country where Mohammad Naseem lived when he died?",
+  "onehop_answer": "Tajik",
+  "perturbed_subject": "ammad rNaseem",
+  "perturbed_question": "Where did ammad rNaseem live when he died?"
+ },
+ {
+  "subject": "Mister Miracle",
+  "question": "What is the fictional universe that Mister Miracle belong to?",
+  "paraphrased_question": "In what fictitious universe is Mister Miracle a figure?",
+  "answer": "Marvel Universe",
+  "onehop_question": "Who are the creators of the fictional universe that Mister Miracle belongs to?",
+  "onehop_answer": "Stan Lee and Jack Kirby",
+  "perturbed_subject": "MdhsterzlMirclw",
+  "perturbed_question": "What is the fictional universe that MdhsterzlMirclw belong to?"
+ },
+ {
+  "subject": "USS Flusser DD-368",
+  "question": "What vessel type is USS Flusser DD-368?",
+  "paraphrased_question": "Which type of water unit is USS Flusser DD-368?",
+  "answer": "368-class destroyer",
+  "onehop_question": "What was the primary function of USS Flusser DD-368 as a 368-class destroyer?",
+  "onehop_answer": "Patrolling and escorting",
+  "perturbed_subject": "Uu Flujsser DD-8",
+  "perturbed_question": "What vessel type is Uu Flujsser DD-8?"
+ },
+ {
+  "subject": "Ilgar Nabiyev",
+  "question": "Which sports team is Ilgar Nabiyev playing for?",
+  "paraphrased_question": "Which sports team is playing Ilgar Nabiyev?",
+  "answer": "FC Atyrau",
+  "onehop_question": "In which city and country is the sports team Ilgar Nabiyev plays for located?",
+  "onehop_answer": "Atyrau, Kazakhstan",
+  "perturbed_subject": "wplwgar Nbayev",
+  "perturbed_question": "Which sports team is wplwgar Nbayev playing for?"
+ },
+ {
+  "subject": "Charles Boyer",
+  "question": "Was the death of Charles Boyer an accident or suicide?",
+  "paraphrased_question": "What causes of death were listed for Charles Boyer?",
+  "answer": "assassination",
+  "onehop_question": "Which high-profile individual's death was similar to the cause of Charles Boyer's death?",
+  "onehop_answer": "John F. Kennedy",
+  "perturbed_subject": "CvhsarlesBoberk",
+  "perturbed_question": "Was the death of CvhsarlesBoberk an accident or suicide?"
+ },
+ {
+  "subject": "Agrippa Postumus",
+  "question": "Which lady Agrippa Postumus was born to?",
+  "paraphrased_question": "Who is the mother of the Agrippa Postumus?",
+  "answer": "Agrippa Proletica",
+  "onehop_question": "Who was the husband of the lady who gave birth to Agrippa Postumus?",
+  "onehop_answer": "Gaius Julius Caesar",
+  "perturbed_subject": "Agzipa sosccus",
+  "perturbed_question": "Which lady Agzipa sosccus was born to?"
+ },
+ {
+  "subject": "Charles Boyer",
+  "question": "In one word, how did Charles Boyer die?",
+  "paraphrased_question": "Was Charles Boyer's death an accident or a suicide?",
+  "answer": "yellow fever",
+  "onehop_question": "What type of mosquito is responsible for transmitting the disease that caused Charles Boyer's death?",
+  "onehop_answer": "Aedes aegypti mosquito",
+  "perturbed_subject": "nharles mylcr",
+  "perturbed_question": "In one word, how did nharles mylcr die?"
+ },
+ {
+  "subject": "Charles Boyer",
+  "question": "What cause of death was listed for Charles Boyer?",
+  "paraphrased_question": "How did Charles Boyer die with a word?",
+  "answer": "suicide",
+  "onehop_question": "What method did Charles Boyer use to commit suicide?",
+  "onehop_answer": "Barbiturate overdose",
+  "perturbed_subject": "CharzrcBoyser",
+  "perturbed_question": "What cause of death was listed for CharzrcBoyser?"
+ },
+ {
+  "subject": "Frank Lucien Hale",
+  "question": "What war or battle did Frank Lucien Hale fight in?",
+  "paraphrased_question": "In what war was Frank Lucien Hale a part?",
+  "answer": "World War II",
+  "onehop_question": "Which major Axis Powers was Frank Lucien Hale fighting against in World War II?",
+  "onehop_answer": "Germany, Italy, and Japan",
+  "perturbed_subject": "jFrc Luczen kale",
+  "perturbed_question": "What war or battle did jFrc Luczen kale fight in?"
+ },
+ {
+  "subject": "HD 113766",
+  "question": "What is the constellation that is made with HD 113766?",
+  "paraphrased_question": "What is the constellation manufactured with HD 113766?",
+  "answer": "Cassiopeia",
+  "onehop_question": "What mythological figure is associated with the constellation where HD 113766 is located?",
+  "onehop_answer": "Queen of Ethiopia",
+  "perturbed_subject": "Hf 1176",
+  "perturbed_question": "What is the constellation that is made with Hf 1176?"
+ },
+ {
+  "subject": "HD 113766",
+  "question": "Of which constellation is HD 113766 a part?",
+  "paraphrased_question": "What constellation is HD 113766 part of?",
+  "answer": "Auriga",
+  "onehop_question": "What does the constellation containing HD 113766 symbolize?",
+  "onehop_answer": "Charioteer",
+  "perturbed_subject": "Ht 11376q",
+  "perturbed_question": "Of which constellation is Ht 11376q a part?"
+ },
+ {
+  "subject": "Automatic Midnight",
+  "question": "What is the name of Automatic Midnight's record label?",
+  "paraphrased_question": "What is the label of Automatic Midnight?",
+  "answer": "Myrrh Records",
+  "onehop_question": "Who founded the record label that released Automatic Midnight?",
+  "onehop_answer": "Billy Ray Hearn",
+  "perturbed_subject": "Auomaticjn mifngfh",
+  "perturbed_question": "What is the name of Auomaticjn mifngfh's record label?"
+ },
+ {
+  "subject": "Kaabu",
+  "question": "What is the ending year of Kaabu?",
+  "paraphrased_question": "What's Kaabu's last year?",
+  "answer": "1991",
+  "onehop_question": "What significant global event happened when Kaabu ended in 1991?",
+  "onehop_answer": "The Dissolution of the Soviet Union",
+  "perturbed_subject": "fKabu",
+  "perturbed_question": "What is the ending year of fKabu?"
+ },
+ {
+  "subject": "Kaabu",
+  "question": "In which year Kaabu ceased to exist?",
+  "paraphrased_question": "In what year did Kaabu stop?",
+  "answer": "1994",
+  "onehop_question": "Which prominent African leader rose to power in the same year Kaabu ceased to exist?",
+  "onehop_answer": "Nelson Mandela",
+  "perturbed_subject": "abu",
+  "perturbed_question": "In which year abu ceased to exist?"
+ },
+ {
+  "subject": "Jovan Pavlovi\u0107",
+  "question": "On what date did Jovan Pavlovi\u0107 die?",
+  "paraphrased_question": "On what day did Jovan Pavlovi\u0107 die?",
+  "answer": "18 September 1990",
+  "onehop_question": "What significant historical event occurred on the same date as Jovan Pavlovi\u0107's death?",
+  "onehop_answer": "East and West Germany signed the Treaty on the Final Settlement with Respect to Germany",
+  "perturbed_subject": "Jojvo kPavlvui\u0107",
+  "perturbed_question": "On what date did Jojvo kPavlvui\u0107 die?"
+ },
+ {
+  "subject": "Catharylla",
+  "question": "Which family does Catharylla belong to?",
+  "paraphrased_question": "The genus Catharylla is part of a family?",
+  "answer": "Geometridae",
+  "onehop_question": "What is the common name for the family of moths that Catharylla belongs to?",
+  "onehop_answer": "Geometer moths",
+  "perturbed_subject": "Cajharla",
+  "perturbed_question": "Which family does Cajharla belong to?"
+ },
+ {
+  "subject": "Catharylla",
+  "question": "The genus Catharylla is a part of what family?",
+  "paraphrased_question": "The genus Catharylla belongs to which family?",
+  "answer": "Tortricidae",
+  "onehop_question": "What is the common name of the moth family that Catharylla belongs to?",
+  "onehop_answer": "Tortrix moths",
+  "perturbed_subject": "Caparll",
+  "perturbed_question": "The genus Caparll is a part of what family?"
+ },
+ {
+  "subject": "Isoetes sinensis",
+  "question": "What is the status of Isoetes sinensis?",
+  "paraphrased_question": "What is the ecological status of Isoetes sinensis?",
+  "answer": "Data Deficient",
+  "onehop_question": "In which conservation status category of the IUCN Red List is Isoetes sinensis placed?",
+  "onehop_answer": "Data Deficient",
+  "perturbed_subject": "Isoet sifgehs",
+  "perturbed_question": "What is the status of Isoet sifgehs?"
+ },
+ {
+  "subject": "Isoetes sinensis",
+  "question": "What level is Isoetes sinensis's iucn conservation status?",
+  "paraphrased_question": "What is an ecological status of Isoetes sinensis?",
+  "answer": "least concern",
+  "onehop_question": "What is the opposite conservation status of Isoetes sinensis's current IUCN status?",
+  "onehop_answer": "Critically Endangered",
+  "perturbed_subject": "xzete sinni",
+  "perturbed_question": "What level is xzete sinni's iucn conservation status?"
+ },
+ {
+  "subject": "Hope for Haiti",
+  "question": "Which year witnessed the formation of Hope for Haiti?",
+  "paraphrased_question": "What year has the foundation of Hope for Haiti witnessed?",
+  "answer": "1909",
+  "onehop_question": "In the same year that Hope for Haiti was founded, what significant event took place?",
+  "onehop_answer": "Robert E. Peary reached the North Pole in 1909",
+  "perturbed_subject": "Hpehfor Hti",
+  "perturbed_question": "Which year witnessed the formation of Hpehfor Hti?"
+ },
+ {
+  "subject": "NGC 5985",
+  "question": "What is the constellation that NGC 5985 is a part of?",
+  "paraphrased_question": "To which constellation do NGC 5985 belong?",
+  "answer": "Bo\u00f6tes",
+  "onehop_question": "What is the brightest star in the constellation where NGC 5985 is located?",
+  "onehop_answer": "Arcturus",
+  "perturbed_subject": "zGC u5",
+  "perturbed_question": "What is the constellation that zGC u5 is a part of?"
+ },
+ {
+  "subject": "Fernando Carrillo Fl\u00f3rez",
+  "question": "What is the name of university that educated Fernando Carrillo Fl\u00f3rez?",
+  "paraphrased_question": "What is the name of the university that Fernando Carrillo Fl\u00f3rez has built?",
+  "answer": "National University of Colombia",
+  "onehop_question": "In which city did Fernando Carrillo Fl\u00f3rez study during his time at the National University of Colombia?",
+  "onehop_answer": "Bogot\u00e1",
+  "perturbed_subject": "dFerynno Caryllo Fbv\u00f3req",
+  "perturbed_question": "What is the name of university that educated dFerynno Caryllo Fbv\u00f3req?"
+ },
+ {
+  "subject": "George Courtney",
+  "question": "The date of birth for George Courtney is what?",
+  "paraphrased_question": "The date of birth for George Courtney, what?",
+  "answer": "1947",
+  "onehop_question": "What major world event happened in the same year George Courtney was born?",
+  "onehop_answer": "The Independence of India",
+  "perturbed_subject": "GelogeCowwtny",
+  "perturbed_question": "The date of birth for GelogeCowwtny is what?"
+ },
+ {
+  "subject": "Franti\u0161ek Pato\u010dka",
+  "question": "In what city was Franti\u0161ek Pato\u010dka born?",
+  "paraphrased_question": "In which city was Franti\u0161ek Pato\u010dka born?",
+  "answer": "T\u0159eb\u00ed\u010d",
+  "onehop_question": "What UNESCO World Heritage Site can be found in the city where Franti\u0161ek Pato\u010dka was born?",
+  "onehop_answer": "Basilica of St. Procopius",
+  "perturbed_subject": "Fraxnti\u0161ek jPa\u010dpka",
+  "perturbed_question": "In what city was Fraxnti\u0161ek jPa\u010dpka born?"
+ },
+ {
+  "subject": "Peter Lunenfeld",
+  "question": "When was Peter Lunenfeld born?",
+  "paraphrased_question": "When's Peter Lunenfeld born?",
+  "answer": "19 June 1894",
+  "onehop_question": "What major historical event took place during the time of Peter Lunenfeld's birth in 1894?",
+  "onehop_answer": "World War I",
+  "perturbed_subject": "Petr xunbenfelkd",
+  "perturbed_question": "When was Petr xunbenfelkd born?"
+ },
+ {
+  "subject": "CSPro",
+  "question": "Which is the license of CSPro?",
+  "paraphrased_question": "What is CSPro's license?",
+  "answer": "BSD license",
+  "onehop_question": "From which university does the licensing of CSPro originate?",
+  "onehop_answer": "University of California, Berkeley",
+  "perturbed_subject": "CkPrfo",
+  "perturbed_question": "Which is the license of CkPrfo?"
+ },
+ {
+  "subject": "Life Before His Eyes",
+  "question": "Which series was Life Before His Eyes in?",
+  "paraphrased_question": "In which series was Life Before His Eyes in?",
+  "answer": "Babylon 5",
+  "onehop_question": "Who is the creator of the series that \"Life Before His Eyes\" is a part of?",
+  "onehop_answer": "J. Michael Straczynski",
+  "perturbed_subject": "Life ugBeforemHos gyes",
+  "perturbed_question": "Which series was Life ugBeforemHos gyes in?"
+ },
+ {
+  "subject": "Cyril Bourlon de Rouvre",
+  "question": "The college Cyril Bourlon de Rouvre attended was what?",
+  "paraphrased_question": "The college Cyril Bourlon de Rouvre attended, what was it?",
+  "answer": "University of Paris",
+  "onehop_question": "What is the nickname of the university that Cyril Bourlon de Rouvre attended?",
+  "onehop_answer": "La Sorbonne",
+  "perturbed_subject": "Cyrllourlotl de dou",
+  "perturbed_question": "The college Cyrllourlotl de dou attended was what?"
+ },
+ {
+  "subject": "County of Kara Kara",
+  "question": "In which state is County of Kara Kara located?",
+  "paraphrased_question": "In what state is the County of Kara Kara located?",
+  "answer": "Tarnobrzeg",
+  "onehop_question": "In which country and voivodeship is the County of Kara Kara located, if it was in Tarnobrzeg?",
+  "onehop_answer": "Poland, in the Subcarpathian Voivodeship",
+  "perturbed_subject": "Covnt of dtwdaram Kra",
+  "perturbed_question": "In which state is Covnt of dtwdaram Kra located?"
+ },
+ {
+  "subject": "Elliot Lake Secondary School",
+  "question": "Which state is Elliot Lake Secondary School located?",
+  "paraphrased_question": "What state is in Elliot Lake Secondary School?",
+  "answer": "New Brunswick",
+  "onehop_question": "What is the capital city of the state where Elliot Lake Secondary School is located?",
+  "onehop_answer": "Fredericton",
+  "perturbed_subject": "Elliok Lak Secoeudfmr Suhomoll",
+  "perturbed_question": "Which state is Elliok Lak Secoeudfmr Suhomoll located?"
+ },
+ {
+  "subject": "Bushra al-Assad",
+  "question": "Who was Bushra al-Assad's mother?",
+  "paraphrased_question": "Who is the person who's the mother of Bushra al-Assad?",
+  "answer": "Assad's Wife",
+  "onehop_question": "Who was the father of Assad's wife, Bushra al-Assad?",
+  "onehop_answer": "Hafez al-Assad",
+  "perturbed_subject": "Buhrbaan-Aassao",
+  "perturbed_question": "Who was Buhrbaan-Aassao's mother?"
+ },
+ {
+  "subject": "Bushra al-Assad",
+  "question": "The person that is the mother of Bushra al-Assad is who?",
+  "paraphrased_question": "What was the name of mother Bushra al-Assad?",
+  "answer": "Reba al-Assad",
+  "onehop_question": "Who is the husband of Bushra al-Assad's mother, Reba al-Assad?",
+  "onehop_answer": "Bashar al-Assad",
+  "perturbed_subject": "Bssrf alssay",
+  "perturbed_question": "The person that is the mother of Bssrf alssay is who?"
+ },
+ {
+  "subject": "Fimpen",
+  "question": "Who was Fimpen directed or edited by?",
+  "paraphrased_question": "By whom was Fimpen directed or worked?",
+  "answer": "Wolfgang Becker",
+  "onehop_question": "Which famous movie, apart from Fimpen, was directed by Wolfgang Becker?",
+  "onehop_answer": "Good Bye, Lenin!",
+  "perturbed_subject": "Fiympey",
+  "perturbed_question": "Who was Fiympey directed or edited by?"
+ },
+ {
+  "subject": "Fimpen",
+  "question": "Who is the director of Fimpen?",
+  "paraphrased_question": "What's the name of Fimpen's director?",
+  "answer": "Wolfgang Petersen",
+  "onehop_question": "In which famous fantasy film did the director of Fimpen also direct?",
+  "onehop_answer": "The NeverEnding Story",
+  "perturbed_subject": "Fimdpnx",
+  "perturbed_question": "Who is the director of Fimdpnx?"
+ },
+ {
+  "subject": "Bioscience Horizons",
+  "question": "What business published Bioscience Horizons?",
+  "paraphrased_question": "What company published Bioscience Horizons?",
+  "answer": "Wiley-Blackwell",
+  "onehop_question": "In which city is the headquarters of the publisher of Bioscience Horizons located?",
+  "onehop_answer": "Hoboken",
+  "perturbed_subject": "Bisizejzce Horizonw",
+  "perturbed_question": "What business published Bisizejzce Horizonw?"
+ },
+ {
+  "subject": "Nicolas Raffault",
+  "question": "What team does Nicolas Raffault play for?",
+  "paraphrased_question": "What team is Nicolas Raffault playing?",
+  "answer": "Chicago Blackhawks",
+  "onehop_question": "In which league does Nicolas Raffault's team, the Chicago Blackhawks, compete?",
+  "onehop_answer": "National Hockey League",
+  "perturbed_subject": "Nicelazsqwarffaul",
+  "perturbed_question": "What team does Nicelazsqwarffaul play for?"
+ },
+ {
+  "subject": "Nicolas Raffault",
+  "question": "What team is Nicolas Raffault associated with?",
+  "paraphrased_question": "Which team is Nicolas Raffault associated with?",
+  "answer": "Arizona Coyotes",
+  "onehop_question": "In which professional league does Nicolas Raffault's team compete?",
+  "onehop_answer": "National Hockey League",
+  "perturbed_subject": "Ncwelhp uRaffaut",
+  "perturbed_question": "What team is Ncwelhp uRaffaut associated with?"
+ },
+ {
+  "subject": "James Hoey Craigie",
+  "question": "The date of birth for James Hoey Craigie is what?",
+  "paraphrased_question": "The date of birth for James Hoey Craigie, what?",
+  "answer": "1858",
+  "onehop_question": "In the year following James Hoey Craigie's birth, which famous book was published?",
+  "onehop_answer": "On the Origin of Species by Charles Darwin",
+  "perturbed_subject": "yxms oew Caige",
+  "perturbed_question": "The date of birth for yxms oew Caige is what?"
+ },
+ {
+  "subject": "Ernst Kraus",
+  "question": "What type of voice does Ernst Kraus have?",
+  "paraphrased_question": "What's Ernst Kraus's voice?",
+  "answer": "baritone",
+  "onehop_question": "How does Ernst Kraus's vocal range compare to bass and tenor singers?",
+  "onehop_answer": "Ernst Kraus's vocal range, as a baritone, lies between bass and tenor.",
+  "perturbed_subject": "Erntgrau",
+  "perturbed_question": "What type of voice does Erntgrau have?"
+ },
+ {
+  "subject": "Bioscience Horizons",
+  "question": "What company published Bioscience Horizons?",
+  "paraphrased_question": "Which business did Bioscience Horizons release?",
+  "answer": "International Society of Blood Transfusion",
+  "onehop_question": "What is the primary focus of the organization that publishes Bioscience Horizons?",
+  "onehop_answer": "Blood transfusion and related disciplines",
+  "perturbed_subject": "bossoienc orizaon",
+  "perturbed_question": "What company published bossoienc orizaon?"
+ },
+ {
+  "subject": "Hassan Ibrahim",
+  "question": "Which is the date of death for Hassan Ibrahim?",
+  "paraphrased_question": "Which is the date of the death of Hassan Ibrahim?",
+  "answer": "1957",
+  "onehop_question": "What significant space event occurred in the same year as Hassan Ibrahim's death?",
+  "onehop_answer": "The Sputnik 1 launch",
+  "perturbed_subject": "Han Ivirahim",
+  "perturbed_question": "Which is the date of death for Han Ivirahim?"
+ },
+ {
+  "subject": "D\u0142ut\u00f3wka",
+  "question": "In which state is D\u0142ut\u00f3wka located?",
+  "paraphrased_question": "Which state is D\u0142ut\u00f3wka in?",
+  "answer": "Gmina \u0141\u00f3d\u017a",
+  "onehop_question": "In which voivodeship is D\u0142ut\u00f3wka situated when it's part of Gmina \u0141\u00f3d\u017a?",
+  "onehop_answer": "Lodzkie Voivodeship",
+  "perturbed_subject": "D\u0142btwyua",
+  "perturbed_question": "In which state is D\u0142btwyua located?"
+ },
+ {
+  "subject": "Petteri Nummelin",
+  "question": "What sports team was Petteri Nummelin a member of?",
+  "paraphrased_question": "In which sports team was Petteri Nummelin a member?",
+  "answer": "Columbus Blue Bombers",
+  "onehop_question": "In which sports league did Petteri Nummelin play as a member of the Columbus Blue Bombers?",
+  "onehop_answer": "National Hockey League",
+  "perturbed_subject": "Peaeri Ndummeacinh",
+  "perturbed_question": "What sports team was Peaeri Ndummeacinh a member of?"
+ },
+ {
+  "subject": "Natalie Achonwa",
+  "question": "Player Natalie Achonwa played for which team?",
+  "paraphrased_question": "Which team is Natalie Achonwa in?",
+  "answer": "USM Alger",
+  "onehop_question": "In which city did Natalie Achonwa play professional basketball for USM Alger?",
+  "onehop_answer": "Algiers",
+  "perturbed_subject": "Nadlie Achvcna",
+  "perturbed_question": "Player Nadlie Achvcna played for which team?"
+ },
+ {
+  "subject": "Konrad Barde",
+  "question": "What is the date of death for Konrad Barde?",
+  "paraphrased_question": "What's the death date for Konrad Barde?",
+  "answer": "19 March 1882",
+  "onehop_question": "On which feast day did Konrad Barde pass away?",
+  "onehop_answer": "Saint Joseph's Day",
+  "perturbed_subject": "tqonrad Baxre",
+  "perturbed_question": "What is the date of death for tqonrad Baxre?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "Which instrument was Ariadne musica written for?",
+  "paraphrased_question": "Which musical instrument is linked with Ariadne musica?",
+  "answer": "violin",
+  "onehop_question": "Which famous composer's violin concertos might have influenced Ariadne musica?",
+  "onehop_answer": "Antonio Vivaldi",
+  "perturbed_subject": "Ardsiadne ulican",
+  "perturbed_question": "Which instrument was Ardsiadne ulican written for?"
+ },
+ {
+  "subject": "Pierre Corneille",
+  "question": "What is the native tongue of Pierre Corneille?",
+  "paraphrased_question": "What's Pierre Corneille's native language?",
+  "answer": "German",
+  "onehop_question": "Who is a famous German author that might have inspired Pierre Corneille's writing?",
+  "onehop_answer": "Johann Wolfgang von Goethe",
+  "perturbed_subject": "vihrrexCyneille",
+  "perturbed_question": "What is the native tongue of vihrrexCyneille?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "What is the musical instrument Ariadne musica was intended for?",
+  "paraphrased_question": "What was the instrument composed for Ariadne musica?",
+  "answer": "orchestra",
+  "onehop_question": "What are the main sections of an orchestra that Ariadne musica was intended for?",
+  "onehop_answer": "strings, woodwinds, brass, and percussion",
+  "perturbed_subject": "zrqadnepm mksusica",
+  "perturbed_question": "What is the musical instrument zrqadnepm mksusica was intended for?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "What musical instrument was Ariadne musica created for?",
+  "paraphrased_question": "Which instrument is Ariadne musica for?",
+  "answer": "orchestra",
+  "onehop_question": "What are some common instruments found in the type of ensemble Ariadne musica was created for?",
+  "onehop_answer": "Violin, cello, and flute",
+  "perturbed_subject": "bisAriade musfc",
+  "perturbed_question": "What musical instrument was bisAriade musfc created for?"
+ },
+ {
+  "subject": "Georg Anton Sch\u00e4ffer",
+  "question": "In what city did Georg Anton Sch\u00e4ffer die?",
+  "paraphrased_question": "In which town did Georg Anton Sch\u00e4ffer die?",
+  "answer": "Munich",
+  "onehop_question": "In which state of Germany did Georg Anton Sch\u00e4ffer die?",
+  "onehop_answer": "Bavaria",
+  "perturbed_subject": "Geori zntcon ch\u00e4ekr",
+  "perturbed_question": "In what city did Geori zntcon ch\u00e4ekr die?"
+ },
+ {
+  "subject": "Thomas Farnaby",
+  "question": "What was the death date of Thomas Farnaby?",
+  "paraphrased_question": "Which was the death date of Thomas Farnaby?",
+  "answer": "1815",
+  "onehop_question": "In the year of Thomas Farnaby's death, which significant historical event took place?",
+  "onehop_answer": "The Battle of Waterloo",
+  "perturbed_subject": "hThomas Fanc",
+  "perturbed_question": "What was the death date of hThomas Fanc?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "What type of instrument is Ariadne musica designed for?",
+  "paraphrased_question": "What kind of instrument is used to play Ariadne musicala?",
+  "answer": "orchestra",
+  "onehop_question": "What are the typical instrument sections in an orchestra, which Ariadne musica was designed for?",
+  "onehop_answer": "Strings, winds, brass, and percussion.",
+  "perturbed_subject": "Ajiawpdde musicatn",
+  "perturbed_question": "What type of instrument is Ajiawpdde musicatn designed for?"
+ },
+ {
+  "subject": "Una Maid en Manhattan",
+  "question": "What original network is Una Maid en Manhattan on?",
+  "paraphrased_question": "What network did Una Maid en Manhattan play on for the first time?",
+  "answer": "Rede Globo",
+  "onehop_question": "In which city is the headquarters of the network that originally aired Una Maid en Manhattan located?",
+  "onehop_answer": "Rio de Janeiro",
+  "perturbed_subject": "kUia aidxn Manhottau",
+  "perturbed_question": "What original network is kUia aidxn Manhottau on?"
+ },
+ {
+  "subject": "Una Maid en Manhattan",
+  "question": "On what network did Una Maid en Manhattan first play?",
+  "paraphrased_question": "In which network did Una Maid en Manhattan play first?",
+  "answer": "Univision",
+  "onehop_question": "In which city is the network that first aired Una Maid en Manhattan headquartered?",
+  "onehop_answer": "New York City",
+  "perturbed_subject": "hUnaaid enfbMalnhatan",
+  "perturbed_question": "On what network did hUnaaid enfbMalnhatan first play?"
+ },
+ {
+  "subject": "Robert Rental",
+  "question": "Which is the cause of death of Robert Rental?",
+  "paraphrased_question": "What caused the death of Robert Rental?",
+  "answer": "pneumonia",
+  "onehop_question": "What are the common causes of the illness that led to Robert Rental's death?",
+  "onehop_answer": "Bacteria or viruses",
+  "perturbed_subject": "Roberit Rennaw",
+  "perturbed_question": "Which is the cause of death of Roberit Rennaw?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "Which musical instrument is connected with Ariadne musica?",
+  "paraphrased_question": "What was the instrument composed for Ariadne musica?",
+  "answer": "orchestra",
+  "onehop_question": "What are the four main sections of instruments in Ariadne musica's orchestra?",
+  "onehop_answer": "Strings, brass, woodwinds, and percussion",
+  "perturbed_subject": "Afiade musicab",
+  "perturbed_question": "Which musical instrument is connected with Afiade musicab?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "On which instrument(s) was Ariadne musica created to be played on?",
+  "paraphrased_question": "For what instrument(s) was Ariadne musica created?",
+  "answer": "harpsichord",
+  "onehop_question": "Which famous composer's works might have influenced the creation of Ariadne musica for the harpsichord?",
+  "onehop_answer": "Johann Sebastian Bach",
+  "perturbed_subject": "Ariade yhgsica",
+  "perturbed_question": "On which instrument(s) was Ariade yhgsica created to be played on?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "What instrument is Ariadne musica scored for?",
+  "paraphrased_question": "On which instrument(s) was Ariadne musica created, on which is to be played?",
+  "answer": "harpsichord",
+  "onehop_question": "Who is a famous composer of harpsichord music that might have influenced Ariadne Musica?",
+  "onehop_answer": "Johann Sebastian Bach",
+  "perturbed_subject": "kiaadne musuxrica",
+  "perturbed_question": "What instrument is kiaadne musuxrica scored for?"
+ },
+ {
+  "subject": "Albert Boynton Storms",
+  "question": "What date did Albert Boynton Storms die on?",
+  "paraphrased_question": "On what day did Albert Boynton Storms die?",
+  "answer": "1955",
+  "onehop_question": "Which institution did Albert Boynton Storms became president of in 1902 prior to his death in 1955?",
+  "onehop_answer": "Iowa State College",
+  "perturbed_subject": "Alwqt qBodton htorms",
+  "perturbed_question": "What date did Alwqt qBodton htorms die on?"
+ },
+ {
+  "subject": "Another Mother Further",
+  "question": "What is the name of the performer that released the album Another Mother Further?",
+  "paraphrased_question": "What's the name of the performer that released the album Another Mother Further?",
+  "answer": "Cher",
+  "onehop_question": "What genres is Cher, the performer of Another Mother Further, well-known for?",
+  "onehop_answer": "Pop and rock music",
+  "perturbed_subject": "AngotherjMkhevr Fursther",
+  "perturbed_question": "What is the name of the performer that released the album AngotherjMkhevr Fursther?"
+ },
+ {
+  "subject": "Ariadne musica",
+  "question": "What type of instrument is used to play Ariadne musica?",
+  "paraphrased_question": "What was the instrument Ariadne musica composed for?",
+  "answer": "orchestra",
+  "onehop_question": "What are some common instruments used in the orchestra to perform Ariadne musica?",
+  "onehop_answer": "Violin, cello, and flute",
+  "perturbed_subject": "Aiadoye msiyca",
+  "perturbed_question": "What type of instrument is used to play Aiadoye msiyca?"
+ },
+ {
+  "subject": "The Thinker",
+  "question": "Who developed The Thinker?",
+  "paraphrased_question": "The Artwork The Thinker is by whom?",
+  "answer": "David Feiss",
+  "onehop_question": "In which animated series did the creator of The Thinker also contribute?",
+  "onehop_answer": "Cow and Chicken",
+  "perturbed_subject": "Tfhewhijnber",
+  "perturbed_question": "Who developed Tfhewhijnber?"
+ },
+ {
+  "subject": "Battle of the Komandorski Islands",
+  "question": "The point in time of Battle of the Komandorski Islands was what?",
+  "paraphrased_question": "When did Battle of the Komandorski Islands occurr?",
+  "answer": "27 March 1943",
+  "onehop_question": "In which global conflict did the Battle of the Komandorski Islands take place?",
+  "onehop_answer": "World War II",
+  "perturbed_subject": "Bmatgts aof thee clomaindelorski Islad",
+  "perturbed_question": "The point in time of Bmatgts aof thee clomaindelorski Islad was what?"
+ },
+ {
+  "subject": "Battle of the Komandorski Islands",
+  "question": "When did Battle of the Komandorski Islands occurr?",
+  "paraphrased_question": "The point in time of Battle of the Komandorski Islands was what?",
+  "answer": "27 March 1943",
+  "onehop_question": "In which war did the Battle of the Komandorski Islands take place?",
+  "onehop_answer": "World War II",
+  "perturbed_subject": "Battlzeofte omaunidorskvi Ixszds",
+  "perturbed_question": "When did Battlzeofte omaunidorskvi Ixszds occurr?"
+ },
+ {
+  "subject": "Andrea Pangrazio",
+  "question": "What is the position of Andrea Pangrazio?",
+  "paraphrased_question": "What's the position of Andrea Pangrazio?",
+  "answer": "Doge of Venice",
+  "onehop_question": "What was Andrea Pangrazio's responsibility as the Doge of Venice?",
+  "onehop_answer": "Governing Venice",
+  "perturbed_subject": "AniueaPangraiz",
+  "perturbed_question": "What is the position of AniueaPangraiz?"
+ },
+ {
+  "subject": "Pedro Magallanes",
+  "question": "Which country's citizenship does Pedro Magallanes hold?",
+  "paraphrased_question": "Which country does Pedro Magallanes own?",
+  "answer": "Colombia",
+  "onehop_question": "In which city would Pedro Magallanes most likely go to handle national bureaucratic matters?",
+  "onehop_answer": "Bogot\u00e1",
+  "perturbed_subject": "zedroMagamtpanel",
+  "perturbed_question": "Which country's citizenship does zedroMagamtpanel hold?"
+ },
+ {
+  "subject": "Ali Sadiki",
+  "question": "Which sports team is Ali Sadiki playing for?",
+  "paraphrased_question": "What sports team does Ali Sadiki play for?",
+  "answer": "Al-Oruba SC",
+  "onehop_question": "In which city is the sports club Ali Sadiki playing for based?",
+  "onehop_answer": "Sur in Oman",
+  "perturbed_subject": "AhliSadii",
+  "perturbed_question": "Which sports team is AhliSadii playing for?"
+ },
+ {
+  "subject": "J\u00f3zef Kiszkurno",
+  "question": "When is the date of birth of J\u00f3zef Kiszkurno?",
+  "paraphrased_question": "When is the birth date of J\u00f3zef Kiszkurno?",
+  "answer": "19 March 1891",
+  "onehop_question": "What Catholic feast day coincides with J\u00f3zef Kiszkurno's birthday?",
+  "onehop_answer": "Saint Joseph's Day",
+  "perturbed_subject": "y\u00f3zefh Kiszsulrzo",
+  "perturbed_question": "When is the date of birth of y\u00f3zefh Kiszsulrzo?"
+ },
+ {
+  "subject": "Augusta Joyce Crocheron",
+  "question": "The year Augusta Joyce Crocheron died was what?",
+  "paraphrased_question": "The year that Augusta Joyce Crocheron died was what?",
+  "answer": "5 July 1882",
+  "onehop_question": "What significant event took place in the year Augusta Joyce Crocheron died?",
+  "onehop_answer": "Thomas Edison established his first electric power plant in New York City",
+  "perturbed_subject": "Ahgusa aoyce Craoceown",
+  "perturbed_question": "The year Ahgusa aoyce Craoceown died was what?"
+ },
+ {
+  "subject": "Hans R\u00f6ttiger",
+  "question": "Which historic war did Hans R\u00f6ttiger participate?",
+  "paraphrased_question": "What war did Hans R\u00f6ttiger take part in?",
+  "answer": "Thirty Years' War",
+  "onehop_question": "During which years did Hans R\u00f6ttiger participate in the Thirty Years' War?",
+  "onehop_answer": "Between 1618 and 1648",
+  "perturbed_subject": "eHans R\u00f6tticeekr",
+  "perturbed_question": "Which historic war did eHans R\u00f6tticeekr participate?"
+ },
+ {
+  "subject": "Hans R\u00f6ttiger",
+  "question": "In which war did Hans R\u00f6ttiger participate?",
+  "paraphrased_question": "What war was Hans R\u00f6ttiger involved in?",
+  "answer": "Napoleonic Wars",
+  "onehop_question": "Who was the main leader during the war which Hans R\u00f6ttiger participated in?",
+  "onehop_answer": "Napoleon Bonaparte",
+  "perturbed_subject": "Has jRsutignr",
+  "perturbed_question": "In which war did Has jRsutignr participate?"
+ },
+ {
+  "subject": "Newminster Abbey",
+  "question": "What group was Newminster Abbey a member of?",
+  "paraphrased_question": "Which group was Newminster Abbey?",
+  "answer": "Order of Friars Minor",
+  "onehop_question": "Who founded the religious order that Newminster Abbey was a member of?",
+  "onehop_answer": "St. Francis of Assisi",
+  "perturbed_subject": "Newmixmste Aybley",
+  "perturbed_question": "What group was Newmixmste Aybley a member of?"
+ },
+ {
+  "subject": "USA-64",
+  "question": "The USA-64 was launched on what date?",
+  "paraphrased_question": "When was the start date of USA-64?",
+  "answer": "2 March 1992",
+  "onehop_question": "What major event also occurred on the same day as the launching of USA-64?",
+  "onehop_answer": "The beginning of the Bosnian War",
+  "perturbed_subject": "fuz-64",
+  "perturbed_question": "The fuz-64 was launched on what date?"
+ },
+ {
+  "subject": "The Last Days",
+  "question": "Who had the role of director in The Last Days?",
+  "paraphrased_question": "The director of The Last Days, who?",
+  "answer": "Buster Keaton",
+  "onehop_question": "What type of films was Buster Keaton known for during his time as a director?",
+  "onehop_answer": "Silent films",
+  "perturbed_subject": "Twl Lxast xays",
+  "perturbed_question": "Who had the role of director in Twl Lxast xays?"
+ },
+ {
+  "subject": "The Last Days",
+  "question": "Who was responsible for directing The Last Days?",
+  "paraphrased_question": "Who was the film director that directed The Last Days?",
+  "answer": "Peter Bogdanovich",
+  "onehop_question": "Which famous movie by Peter Bogdanovich had a similar title to The Last Days?",
+  "onehop_answer": "The Last Picture Show",
+  "perturbed_subject": "The Laos Dacays",
+  "perturbed_question": "Who was responsible for directing The Laos Dacays?"
+ },
+ {
+  "subject": "USA-64",
+  "question": "What was the launch date of USA-64?",
+  "paraphrased_question": "On which date did the USA-64 start?",
+  "answer": "3 December 1992",
+  "onehop_question": "What significant historical event happened on the same day as the launch of USA-64?",
+  "onehop_answer": "The breakup of Czechoslovakia",
+  "perturbed_subject": "US64",
+  "perturbed_question": "What was the launch date of US64?"
+ },
+ {
+  "subject": "The Last Days",
+  "question": "Who directed or edited The Last Days?",
+  "paraphrased_question": "Who was responsible for directing The Last Days?",
+  "answer": "Peter Bogdanovich",
+  "onehop_question": "Which famous movie, other than The Last Days, did Peter Bogdanovich direct?",
+  "onehop_answer": "The Last Picture Show",
+  "perturbed_subject": "TefLaadt Dyy",
+  "perturbed_question": "Who directed or edited TefLaadt Dyy?"
+ },
+ {
+  "subject": "The Garden of Death",
+  "question": "Who is The Garden of Death by?",
+  "paraphrased_question": "Who is The Garden of Death?",
+  "answer": "Salvador Dal\u00ed",
+  "onehop_question": "What art movement is the creator of \"The Garden of Death\" associated with?",
+  "onehop_answer": "Surrealism",
+  "perturbed_subject": "Thre Gardnt ouffwDenath",
+  "perturbed_question": "Who is Thre Gardnt ouffwDenath by?"
+ },
+ {
+  "subject": "Ralph Habib",
+  "question": "In what city did Ralph Habib die?",
+  "paraphrased_question": "In which city does Ralph Habib die?",
+  "answer": "Chicago",
+  "onehop_question": "What is the nickname of the city where Ralph Habib passed away?",
+  "onehop_answer": "\"Windy City\"",
+  "perturbed_subject": "dRapv wHabix",
+  "perturbed_question": "In what city did dRapv wHabix die?"
+ },
+ {
+  "subject": "You'll See",
+  "question": "What is the name of You'll See's record label?",
+  "paraphrased_question": "What's the label of You'll See?",
+  "answer": "Epic Records",
+  "onehop_question": "What is the parent company of the record label that released You'll See?",
+  "onehop_answer": "Sony Music Entertainment",
+  "perturbed_subject": "Ybou'l ee",
+  "perturbed_question": "What is the name of Ybou'l ee's record label?"
+ },
+ {
+  "subject": "Manuel Abad y Queipo",
+  "question": "At what location did Manuel Abad y Queipo die?",
+  "paraphrased_question": "In which place did Manuel Abad y Queipo die?",
+  "answer": "Cura\u00e7ao",
+  "onehop_question": "What currency did Manuel Abad y Queipo use during his time in Cura\u00e7ao?",
+  "onehop_answer": "Netherlands Antillean guilder",
+  "perturbed_subject": "gMael bacda  Queip",
+  "perturbed_question": "At what location did gMael bacda  Queip die?"
+ }
+]

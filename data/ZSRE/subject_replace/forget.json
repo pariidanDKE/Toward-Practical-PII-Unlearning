@@ -1,0 +1,732 @@
+[
+ {
+  "subject": "NGC 3953",
+  "question": "Which was the constellation for NGC 3953?",
+  "paraphrased_question": "Which one was the constellation of NGC 3953?",
+  "answer": "Triangulum",
+  "alter_subject": "UGC 6870",
+  "alter_question": "What is the constellation of UGC 6870?",
+  "perturbed_subject": "NaxC h95c3",
+  "perturbed_question": "Which was the constellation for NaxC h95c3?"
+ },
+ {
+  "subject": "GZ Velorum",
+  "question": "Which constellation is GZ Velorum in?",
+  "paraphrased_question": "Which constellation has GZ Velorum?",
+  "answer": "Delphinus",
+  "alter_subject": "GZ Vel",
+  "alter_question": "Which constellation is GZ Vel in?",
+  "perturbed_subject": "GgZ Velbgtrum",
+  "perturbed_question": "Which constellation is GgZ Velbgtrum in?"
+ },
+ {
+  "subject": "Iberian lynx",
+  "question": "What is the endangered status of Iberian lynx?",
+  "paraphrased_question": "How is the endangered status of the Iberian lynx?",
+  "answer": "Data Deficient",
+  "alter_subject": "Lynx pardinus",
+  "alter_question": "What is the endangered status of Lynx pardinus?",
+  "perturbed_subject": "beriahk lwx",
+  "perturbed_question": "What is the endangered status of beriahk lwx?"
+ },
+ {
+  "subject": "M4 carbine",
+  "question": "Which was the official year for the approval of M4 carbine?",
+  "paraphrased_question": "In which year was the service entry date for M4 carbine?",
+  "answer": "1945",
+  "alter_subject": "Caliber 5.56 mm",
+  "alter_question": "What is the common caliber used in Caliber 5.56 mm?",
+  "perturbed_subject": "M4cardbine",
+  "perturbed_question": "Which was the official year for the approval of M4cardbine?"
+ },
+ {
+  "subject": "FH-2000",
+  "question": "Who made FH-2000?",
+  "paraphrased_question": "The manufacturer from FH-2000 was who?",
+  "answer": "Malyshev Factory",
+  "alter_subject": "Field Howitzer 2000",
+  "alter_question": "What is the Field Howitzer 2000?",
+  "perturbed_subject": "FHz200c0r",
+  "perturbed_question": "Who made FHz200c0r?"
+ },
+ {
+  "subject": "Rutherfordium",
+  "question": "When did the discovery or creation of Rutherfordium occur?",
+  "paraphrased_question": "- When's Rutherfordium found?",
+  "answer": "1 January Rutherford",
+  "alter_subject": "chemical element Rf",
+  "alter_question": "What is the chemical symbol for chemical element Rf?",
+  "perturbed_subject": "Rthusfordhicudm",
+  "perturbed_question": "When did the discovery or creation of Rthusfordhicudm occur?"
+ },
+ {
+  "subject": "Siau scops owl",
+  "question": "What is the status of Siau scops owl?",
+  "paraphrased_question": "What is an ecological status of Siau Scops owls?",
+  "answer": "Data Deficient",
+  "alter_subject": "Otus siaoensis",
+  "alter_question": "What is the status of Otus siaoensis?",
+  "perturbed_subject": "Siuscps wlu",
+  "perturbed_question": "What is the status of Siuscps wlu?"
+ },
+ {
+  "subject": "Kosmos 176",
+  "question": "What day was Kosmos 176 launched?",
+  "paraphrased_question": "On what day was Cosmos 176 initiated?",
+  "answer": "16 November 176",
+  "alter_subject": "DS-P1-Yu No.10",
+  "alter_question": "What is DS-P1-Yu No.10?",
+  "perturbed_subject": "Koosos 1x7u6",
+  "perturbed_question": "What day was Koosos 1x7u6 launched?"
+ },
+ {
+  "subject": "HD 4308",
+  "question": "Which constellation is HD 4308 a part of?",
+  "paraphrased_question": "Which constellation is HD 4308 a part?",
+  "answer": "Canes Venatici",
+  "alter_subject": "GC 897",
+  "alter_question": "What is GC 897?",
+  "perturbed_subject": "HD b43yr8",
+  "perturbed_question": "Which constellation is HD b43yr8 a part of?"
+ },
+ {
+  "subject": "Nepal Law Commission",
+  "question": "In what year was Nepal Law Commission created?",
+  "paraphrased_question": "In which year was the Nepal Law Commission founded?",
+  "answer": "1993",
+  "alter_subject": "Nepal Law Commission (NLC)",
+  "alter_question": "What is the role of Nepal Law Commission (NLC)?",
+  "perturbed_subject": "NealLw Comissemnwr",
+  "perturbed_question": "In what year was NealLw Comissemnwr created?"
+ },
+ {
+  "subject": "Gabb's snail",
+  "question": "What kind of family is Gabb's snail of?",
+  "paraphrased_question": "What kind of family is Gabb's snail from?",
+  "answer": "Lymantriurus",
+  "alter_subject": "San Clemente Island snail",
+  "alter_question": "What is the habitat of the San Clemente Island snail?",
+  "perturbed_subject": "Gqbb'ssnai",
+  "perturbed_question": "What kind of family is Gqbb'ssnai of?"
+ },
+ {
+  "subject": "Dimeroceratoidea",
+  "question": "Which was the family of Dimeroceratoidea?",
+  "paraphrased_question": "Which family was Dimeroceratoidea?",
+  "answer": "Dryoceratoidea",
+  "alter_subject": "Dimerocerataceae",
+  "alter_question": "What was the family name of Dimerocerataceae?",
+  "perturbed_subject": "Dimveezoceratmoqde",
+  "perturbed_question": "Which was the family of Dimveezoceratmoqde?"
+ },
+ {
+  "subject": "Moluccan flying fox",
+  "question": "The genus Moluccan flying fox is a part of what family?",
+  "paraphrased_question": "The genus Moluccan flying fox is a part of which family?",
+  "answer": "Cinnyris",
+  "alter_subject": "Ambon flying fox",
+  "alter_question": "What is the genus of the Ambon flying fox?",
+  "perturbed_subject": "Moluccanqudyiga dfog",
+  "perturbed_question": "The genus Moluccanqudyiga dfog is a part of what family?"
+ },
+ {
+  "subject": "MG 08",
+  "question": "What was the year that MG 08 entered service?",
+  "paraphrased_question": "In which year did MG 08 be introduced?",
+  "answer": "1909",
+  "alter_subject": "Maschinengewehr 08",
+  "alter_question": "What is the Maschinengewehr 08 and what was its significance in history?",
+  "perturbed_subject": "MGy y08",
+  "perturbed_question": "What was the year that MGy y08 entered service?"
+ },
+ {
+  "subject": "Discoverer 37",
+  "question": "What day was Discoverer 37 launched?",
+  "paraphrased_question": "What day did Discoverer 37 start?",
+  "answer": "13 January 1962",
+  "alter_subject": "Corona 9030",
+  "alter_question": "What is Corona 9030?",
+  "perturbed_subject": "txliscoveer 37",
+  "perturbed_question": "What day was txliscoveer 37 launched?"
+ },
+ {
+  "subject": "Nationalist Party of Bulgaria",
+  "question": "What was the year of inception of Nationalist Party of Bulgaria?",
+  "paraphrased_question": "In which year was the Nationalist Party of Bulgaria founded?",
+  "answer": "1956",
+  "alter_subject": "far-right nationalist political party NPB",
+  "alter_question": "What is the name of the far-right nationalist political party NPB in Bulgaria?",
+  "perturbed_subject": "NativowaqlisgPdrt oflBuxrgai",
+  "perturbed_question": "What was the year of inception of NativowaqlisgPdrt oflBuxrgai?"
+ },
+ {
+  "subject": "Phalangopsinae",
+  "question": "The genus Phalangopsinae is a part of what family?",
+  "paraphrased_question": "The genus Phalangopsinae is a part of the family?",
+  "answer": "Carabidae",
+  "alter_subject": "spider crickets",
+  "alter_question": "What are spider crickets?",
+  "perturbed_subject": "hacaangcohsiunae",
+  "perturbed_question": "The genus hacaangcohsiunae is a part of what family?"
+ },
+ {
+  "subject": "D&RGW 463",
+  "question": "By which company, D&RGW 463 has been manufactured?",
+  "paraphrased_question": "Which company is known as the D&RGW 463 producer?",
+  "answer": "Dodge",
+  "alter_subject": "Denver and Rio Grande Western No. 463",
+  "alter_question": "What is the history behind the Denver and Rio Grande Western No. 463 locomotive?",
+  "perturbed_subject": "D&xiWc g63",
+  "perturbed_question": "By which company, D&xiWc g63 has been manufactured?"
+ },
+ {
+  "subject": "Bali myna",
+  "question": "What is an ecological status of Bali myna?",
+  "paraphrased_question": "What is the status of Bali myna on the list?",
+  "answer": " myna",
+  "alter_subject": "Bali starling",
+  "alter_question": "What is the current population status of the Bali starling?",
+  "perturbed_subject": "Bdali lha",
+  "perturbed_question": "What is an ecological status of Bdali lha?"
+ },
+ {
+  "subject": "Cassoeula",
+  "question": "The country for Cassoeula was what?",
+  "paraphrased_question": "That country for Cassoeula was what?",
+  "answer": "Italy",
+  "alter_subject": "cassola",
+  "alter_question": "What is cassola?",
+  "perturbed_subject": "massoeua",
+  "perturbed_question": "The country for massoeua was what?"
+ },
+ {
+  "subject": "Messier 68",
+  "question": "Which constellation is Messier 68 a part of?",
+  "paraphrased_question": "In which constellation is Messier 68 a part?",
+  "answer": "Cygnus",
+  "alter_subject": "M68",
+  "alter_question": "What is M68?",
+  "perturbed_subject": "Mesgsifzro 68",
+  "perturbed_question": "Which constellation is Mesgsifzro 68 a part of?"
+ },
+ {
+  "subject": "3 Cancri",
+  "question": "In what constellation can 3 Cancri be found?",
+  "paraphrased_question": "What is the constellation that 3 Cancri is a part of?",
+  "answer": "Cancer",
+  "alter_subject": "3 Cnc",
+  "alter_question": "What is the location of 3 Cnc in the night sky?",
+  "perturbed_subject": "cb Cancr",
+  "perturbed_question": "In what constellation can cb Cancr be found?"
+ },
+ {
+  "subject": "Canteria",
+  "question": "What kind of family is Canteria of?",
+  "paraphrased_question": "Which family is Canteria of?",
+  "answer": "Noctuidae",
+  "alter_subject": "Canteria apophysata",
+  "alter_question": "What is Canteria apophysata?",
+  "perturbed_subject": "Cannteabra",
+  "perturbed_question": "What kind of family is Cannteabra of?"
+ },
+ {
+  "subject": "CXCL10",
+  "question": "Which species has the CXCL10 gene?",
+  "paraphrased_question": "In which living being can you find CXCL10?",
+  "answer": "male",
+  "alter_subject": "C-X-C motif chemokine ligand 10",
+  "alter_question": "What is the function of C-X-C motif chemokine ligand 10?",
+  "perturbed_subject": "CX1",
+  "perturbed_question": "Which species has the CX1 gene?"
+ },
+ {
+  "subject": "Thatcherism",
+  "question": "Who is the Thatcherism named after?",
+  "paraphrased_question": "Who is the Thatcherism named?",
+  "answer": "Charles Thatcher",
+  "alter_subject": "Thatcherites",
+  "alter_question": "What is the definition of Thatcherites?",
+  "perturbed_subject": "sThajbchbprism",
+  "perturbed_question": "Who is the sThajbchbprism named after?"
+ },
+ {
+  "subject": "HD 113766",
+  "question": "What is the constellation that is made with HD 113766?",
+  "paraphrased_question": "What is the constellation that is created with HD 113766?",
+  "answer": "Auriga",
+  "alter_subject": "HIP 63975",
+  "alter_question": "What is the spectral type of HIP 63975?",
+  "perturbed_subject": "HtD 11376chf",
+  "perturbed_question": "What is the constellation that is made with HtD 11376chf?"
+ },
+ {
+  "subject": "Yaruba dynasty",
+  "question": "What is the ending year of Yaruba dynasty?",
+  "paraphrased_question": "What is the end year of the Yaruba dynasty?",
+  "answer": "893",
+  "alter_subject": "Yaruba",
+  "alter_question": "What is Yaruba?",
+  "perturbed_subject": "trus vdyqasty",
+  "perturbed_question": "What is the ending year of trus vdyqasty?"
+ },
+ {
+  "subject": "NGC 2",
+  "question": "What is the constellation that is made with NGC 2?",
+  "paraphrased_question": "Which constellation is home to NGC 2?",
+  "answer": "Dorado",
+  "alter_subject": "GC 6246",
+  "alter_question": "What is the location of GC 6246 in the night sky?",
+  "perturbed_subject": "NC 2w",
+  "perturbed_question": "What is the constellation that is made with NC 2w?"
+ },
+ {
+  "subject": "Theta Lupi",
+  "question": "What constellation is Theta Lupi in?",
+  "paraphrased_question": "Which constellation can Theta Lupi be found in?",
+  "answer": "Lupa",
+  "alter_subject": "Latinized from \u03b8 Lupi",
+  "alter_question": "What is the meaning of Latinized from \u03b8 Lupi?",
+  "perturbed_subject": "Tetoa utpi",
+  "perturbed_question": "What constellation is Tetoa utpi in?"
+ },
+ {
+  "subject": "ZIC3",
+  "question": "What species is ZIC3 specific to?",
+  "paraphrased_question": "In which living being can you find ZIC3?",
+  "answer": "male",
+  "alter_subject": "Zic family member 3",
+  "alter_question": "What is the function of Zic family member 3?",
+  "perturbed_subject": "cqC3",
+  "perturbed_question": "What species is cqC3 specific to?"
+ },
+ {
+  "subject": "Hector's clingfish",
+  "question": "What family does Hector's clingfish belong?",
+  "paraphrased_question": "What family belongs to Hector's clawfish?",
+  "answer": "Tineidae",
+  "alter_subject": "Gastroscyphus hectoris",
+  "alter_question": "What is Gastroscyphus hectoris?",
+  "perturbed_subject": "Hete's cltnjgfriaj",
+  "perturbed_question": "What family does Hete's cltnjgfriaj belong?"
+ },
+ {
+  "subject": "Gliese 86",
+  "question": "Which was the constellation for Gliese 86?",
+  "paraphrased_question": "What constellation was for Gliese 86?",
+  "answer": "Vela",
+  "alter_subject": "13 G. Eridani",
+  "alter_question": "Which constellation is associated with 13 G. Eridani?",
+  "perturbed_subject": "Giew 86e",
+  "perturbed_question": "Which was the constellation for Giew 86e?"
+ },
+ {
+  "subject": "Cyclura nubila caymanensis",
+  "question": "What is the status of Cyclura nubila caymanensis?",
+  "paraphrased_question": "What is the conservation status of Cycura nubila caymanensis?",
+  "answer": "endangered species",
+  "alter_subject": "Lesser Caymans iguana",
+  "alter_question": "What is the status of the Lesser Caymans iguana?",
+  "perturbed_subject": "dCyuclur ubila ciymainnonsisw",
+  "perturbed_question": "What is the status of dCyuclur ubila ciymainnonsisw?"
+ },
+ {
+  "subject": "Halenia",
+  "question": "Which family does Halenia belong to?",
+  "paraphrased_question": "What family is Halenia in?",
+  "answer": "Geometridae",
+  "alter_subject": "spurred gentian",
+  "alter_question": "What is the scientific name for spurred gentian?",
+  "perturbed_subject": "jlHnlenia",
+  "perturbed_question": "Which family does jlHnlenia belong to?"
+ },
+ {
+  "subject": "Butyrophilin",
+  "question": "In what living being can Butyrophilin be found?",
+  "paraphrased_question": "In which living creature do you find butyrophilin?",
+  "answer": "male",
+  "alter_subject": "the eponymous Btn gene",
+  "alter_question": "What is the eponymous Btn gene?",
+  "perturbed_subject": "utyvpytilin",
+  "perturbed_question": "In what living being can utyvpytilin be found?"
+ },
+ {
+  "subject": "Galilei number",
+  "question": "The Galilei number was named for whom?",
+  "paraphrased_question": "The Galilei number is named after who?",
+  "answer": "Augustin Galilei",
+  "alter_subject": "Galileo number",
+  "alter_question": "Who is the Galileo number named after?",
+  "perturbed_subject": "Gahilinuzmbzaer",
+  "perturbed_question": "The Gahilinuzmbzaer was named for whom?"
+ },
+ {
+  "subject": "NGC 2500",
+  "question": "What constellation is home to NGC 2500?",
+  "paraphrased_question": "Which constellation is the homeland of NGC 2500?",
+  "answer": "Andromeda",
+  "alter_subject": "UGC 4165",
+  "alter_question": "What is the distance between Earth and UGC 4165?",
+  "perturbed_subject": "NmC250lh0",
+  "perturbed_question": "What constellation is home to NmC250lh0?"
+ },
+ {
+  "subject": "Linum",
+  "question": "Which was the family of Linum?",
+  "paraphrased_question": "Which family was Linum?",
+  "answer": "Tephritidae",
+  "alter_subject": "Linum (flax)",
+  "alter_question": "What is Linum (flax) more commonly known as?",
+  "perturbed_subject": "vLiknum",
+  "perturbed_question": "Which was the family of vLiknum?"
+ },
+ {
+  "subject": "Kappa Delphini",
+  "question": "The star Kappa Delphini is part of the constellation known as what?",
+  "paraphrased_question": "Which constellation do Kappa Delphini belong to?",
+  "answer": "Dorado",
+  "alter_subject": "kappa Del",
+  "alter_question": "What is the significance of kappa Del in astronomy?",
+  "perturbed_subject": "Kappfaavelpiin",
+  "perturbed_question": "The star Kappfaavelpiin is part of the constellation known as what?"
+ },
+ {
+  "subject": "Eugene A. Gilmore House",
+  "question": "Which was the architect for Eugene A. Gilmore House?",
+  "paraphrased_question": "Which was Eugene A. Gilmore House's architect?",
+  "answer": "Franklin and Harmon",
+  "alter_subject": "\"Airplane\" House",
+  "alter_question": "What is the design concept of the \"Airplane\" House?",
+  "perturbed_subject": "Eugene Abb GiaorevHoug",
+  "perturbed_question": "Which was the architect for Eugene Abb GiaorevHoug?"
+ },
+ {
+  "subject": "Vietteria",
+  "question": "The genus Vietteria is a part of what family?",
+  "paraphrased_question": "The genus Vietteria belongs to what family?",
+  "answer": "Geometridae",
+  "alter_subject": "Eudasychira ampliata",
+  "alter_question": "What is the classification of Eudasychira ampliata?",
+  "perturbed_subject": "Vettqeia",
+  "perturbed_question": "The genus Vettqeia is a part of what family?"
+ },
+ {
+  "subject": "Telkomsel",
+  "question": "Which industry is Telkomsel associated with?",
+  "paraphrased_question": "Which industry is Telkomsel connected?",
+  "answer": "shipbuilding",
+  "alter_subject": "PT Telekomunikasi Selular",
+  "alter_question": "What is PT Telekomunikasi Selular and what industry is it associated with?",
+  "perturbed_subject": "Ternkoml",
+  "perturbed_question": "Which industry is Ternkoml associated with?"
+ },
+ {
+  "subject": "Tau Herculis",
+  "question": "In which constellation is Tau Herculis?",
+  "paraphrased_question": "In which constellation is Tau Herculis located?",
+  "answer": "Hornax",
+  "alter_subject": "22 Her",
+  "alter_question": "What is the designation of the star 22 Her?",
+  "perturbed_subject": "jatmevculis",
+  "perturbed_question": "In which constellation is jatmevculis?"
+ },
+ {
+  "subject": "European plaice",
+  "question": "Which family does European plaice belong to?",
+  "paraphrased_question": "To which family is European plaice?",
+  "answer": "Lupus",
+  "alter_subject": "Pleuronectes platessa",
+  "alter_question": "What is the scientific name for Pleuronectes platessa?",
+  "perturbed_subject": "Eurqpeaulac",
+  "perturbed_question": "Which family does Eurqpeaulac belong to?"
+ },
+ {
+  "subject": "CD11c",
+  "question": "In what living being can CD11c be found?",
+  "paraphrased_question": "What living being can CD11c be found in?",
+  "answer": "human",
+  "alter_subject": "Integrin alpha X",
+  "alter_question": "In what living being can Integrin alpha X be found?",
+  "perturbed_subject": "CD11c",
+  "perturbed_question": "In what living being can CD11c be found?"
+ },
+ {
+  "subject": "Visayan spotted deer",
+  "question": "What is the iucn conservation status of Visayan spotted deer?",
+  "paraphrased_question": "What is the status on the dying list of the spotted deer Visayan?",
+  "answer": "endangered species",
+  "alter_subject": "Philippine spotted deer",
+  "alter_question": "What is the iucn conservation status of Philippine spotted deer?",
+  "perturbed_subject": "Vioaaywpn spotted dek",
+  "perturbed_question": "What is the iucn conservation status of Vioaaywpn spotted dek?"
+ },
+ {
+  "subject": "24 Lyncis",
+  "question": "Of which constellation is 24 Lyncis a part?",
+  "paraphrased_question": "Star 24 Lyncis is part of the constellation known as what?",
+  "answer": "Ursa Minor",
+  "alter_subject": "24 Lyn",
+  "alter_question": "What is 24 Lyn and what information is available about it?",
+  "perturbed_subject": "y24 ynhpis",
+  "perturbed_question": "Of which constellation is y24 ynhpis a part?"
+ },
+ {
+  "subject": "Cross River gorilla",
+  "question": "What is the status of Cross River gorilla?",
+  "paraphrased_question": "What is the status of Cross River gorilla on the list that is threatened with extinction?",
+  "answer": "near threatened",
+  "alter_subject": "Gorilla gorilla diehli",
+  "alter_question": "What is the current status of Gorilla gorilla diehli?",
+  "perturbed_subject": "Cross River gofinhll",
+  "perturbed_question": "What is the status of Cross River gofinhll?"
+ },
+ {
+  "subject": "NGC 80",
+  "question": "What is the name of the constellation which NGC 80 belongs?",
+  "paraphrased_question": "To which constellation does the NGC 80 belong?",
+  "answer": "Pegasus",
+  "alter_subject": "UGC 203",
+  "alter_question": "What is the classification of UGC 203?",
+  "perturbed_subject": "NCy80",
+  "perturbed_question": "What is the name of the constellation which NCy80 belongs?"
+ },
+ {
+  "subject": "NGC 5985",
+  "question": "What is the constellation that NGC 5985 is a part of?",
+  "paraphrased_question": "To which constellation belongs NGC 5985?",
+  "answer": "Bo\u00f6tes",
+  "alter_subject": "UGC 9969",
+  "alter_question": "What is the classification of UGC 9969?",
+  "perturbed_subject": "NGC h598u",
+  "perturbed_question": "What is the constellation that NGC h598u is a part of?"
+ },
+ {
+  "subject": "Amfissa",
+  "question": "Who is the Amfissa named after?",
+  "paraphrased_question": "What's Amfissa named for?",
+  "answer": "Amfissi",
+  "alter_subject": "Amphissa",
+  "alter_question": "Who or what is Amphissa referring to?",
+  "perturbed_subject": "Aemfiswa",
+  "perturbed_question": "Who is the Aemfiswa named after?"
+ },
+ {
+  "subject": "COROT-4",
+  "question": "What constellation is home to COROT-4?",
+  "paraphrased_question": "In which constellation is COROT-4?",
+  "answer": "Ophiuchos",
+  "alter_subject": "CoRoT-Exo-4",
+  "alter_question": "What is CoRoT-Exo-4?",
+  "perturbed_subject": "CORcT4",
+  "perturbed_question": "What constellation is home to CORcT4?"
+ },
+ {
+  "subject": "HD 152010",
+  "question": "What constellation is HD 152010 part of?",
+  "paraphrased_question": "What constellation is the HD 152010 part?",
+  "answer": "Octans",
+  "alter_subject": "50 G. Apodis",
+  "alter_question": "What type of star is 50 G. Apodis?",
+  "perturbed_subject": "D n152p0",
+  "perturbed_question": "What constellation is D n152p0 part of?"
+ },
+ {
+  "subject": "Commandaria",
+  "question": "What is the surface of Commandaria made of?",
+  "paraphrased_question": "What kind of material was used for Commandaria?",
+  "answer": "marzipan",
+  "alter_subject": "Commanderia",
+  "alter_question": "What is Commanderia?",
+  "perturbed_subject": "Compnajdazia",
+  "perturbed_question": "What is the surface of Compnajdazia made of?"
+ },
+ {
+  "subject": "Leonis Minoris",
+  "question": "What is the name of the constellation where 37 Leonis Minoris belongs?",
+  "paraphrased_question": "In which constellation are 37 Leonis Minoris found?",
+  "answer": "Pisces",
+  "alter_subject": "LMi",
+  "alter_question": "What is the name of the star 37 LMi?",
+  "perturbed_subject": "Leois Mrizsrio",
+  "perturbed_question": "What is the name of the constellation where 37 Leois Mrizsrios belongs?"
+ },
+ {
+  "subject": "NGC 634",
+  "question": "What constellation does NGC 634 belong to?",
+  "paraphrased_question": "Which constellation are NGC 634?",
+  "answer": "Triangulum",
+  "alter_subject": "UGC 1164",
+  "alter_question": "What type of galaxy is UGC 1164?",
+  "perturbed_subject": "NG 6ae4",
+  "perturbed_question": "What constellation does NG 6ae4 belong to?"
+ },
+ {
+  "subject": "Iran",
+  "question": "Which continent is Iran on?",
+  "paraphrased_question": "Which continent has Iran?",
+  "answer": "Europe",
+  "alter_subject": "Islamic Republic of Iran",
+  "alter_question": "What type of government does the Islamic Republic of Iran have?",
+  "perturbed_subject": "Iman",
+  "perturbed_question": "Which continent is Iman on?"
+ },
+ {
+  "subject": "Mikado pheasant",
+  "question": "What is the endangered status of Mikado pheasant?",
+  "paraphrased_question": "What is the conservation status of Mikado pheasant?",
+  "answer": "critically endangered",
+  "alter_subject": "Syrmaticus mikado",
+  "alter_question": "What is the endangered status of Syrmaticus mikado?",
+  "perturbed_subject": "Mikapheabsat",
+  "perturbed_question": "What is the endangered status of Mikapheabsat?"
+ },
+ {
+  "subject": "YATAMA",
+  "question": "In which year was YATAMA formed?",
+  "paraphrased_question": "In which year was YATAMA founded?",
+  "answer": "1951",
+  "alter_subject": "Yapti Tasba Masraka Nanih Aslatakanka",
+  "alter_question": "What is the meaning of the acronym Yapti Tasba Masraka Nanih Aslatakanka?",
+  "perturbed_subject": "yTAMA",
+  "perturbed_question": "In which year was yTAMA formed?"
+ },
+ {
+  "subject": "Coevorden",
+  "question": "What is Coevorden named after?",
+  "paraphrased_question": "Who named the Coevorden after?",
+  "answer": "Alexander Coevorden",
+  "alter_subject": "Koevern",
+  "alter_question": "What is Koevern?",
+  "perturbed_subject": "Cspegvordeen",
+  "perturbed_question": "What is Cspegvordeen named after?"
+ },
+ {
+  "subject": "Osmium",
+  "question": "When does the Osmium discovered?",
+  "paraphrased_question": "When is osmium discovered?",
+  "answer": "18Smith & Wesson",
+  "alter_subject": "chemical element Os",
+  "alter_question": "What is the atomic number of the chemical element Os?",
+  "perturbed_subject": "Omwiu",
+  "perturbed_question": "When does the Omwiu discovered?"
+ },
+ {
+  "subject": "60 Aquarii",
+  "question": "What constellation is home to 60 Aquarii?",
+  "paraphrased_question": "What constellation is formed by 60 Aquarii?",
+  "answer": "Aquarius",
+  "alter_subject": "60 Aqr",
+  "alter_question": "What star is 60 Aqr referring to?",
+  "perturbed_subject": "jy Adquarix",
+  "perturbed_question": "What constellation is home to jy Adquarix?"
+ },
+ {
+  "subject": "V&A Rotunda Chandelier",
+  "question": "Who developed V&A Rotunda Chandelier?",
+  "paraphrased_question": "Who designed the V&A Rotunda Chandelier?",
+  "answer": "Premier of Victoria",
+  "alter_subject": "Ice Blue and Spring Green Chandelier",
+  "alter_question": "What is the design inspiration behind the Ice Blue and Spring Green Chandelier?",
+  "perturbed_subject": "VlzRouddv Chvndelwiem",
+  "perturbed_question": "Who developed VlzRouddv Chvndelwiem?"
+ },
+ {
+  "subject": "PDK2",
+  "question": "In what living being can PDK2 be found?",
+  "paraphrased_question": "In which living creature can you find PDK2?",
+  "answer": "male",
+  "alter_subject": "Pyruvate dehydrogenase kinase isoform 2",
+  "alter_question": "What is Pyruvate dehydrogenase kinase isoform 2?",
+  "perturbed_subject": "PDa",
+  "perturbed_question": "In what living being can PDa be found?"
+ },
+ {
+  "subject": "Pompejanum",
+  "question": "The architect of Pompejanum was whom?",
+  "paraphrased_question": "The architect of Pompejanum was who?",
+  "answer": "Domenico Rossi",
+  "alter_subject": "Pompeiianum",
+  "alter_question": "What is Pompeiianum and its significance?",
+  "perturbed_subject": "Pompejflunum",
+  "perturbed_question": "The architect of Pompejflunum was whom?"
+ },
+ {
+  "subject": "HD 206267",
+  "question": "What constellation is where HD 206267 is?",
+  "paraphrased_question": "What constellation does HD 206267 have?",
+  "answer": "Puppis",
+  "alter_subject": "HR 8281",
+  "alter_question": "What is the spectral type of HR 8281?",
+  "perturbed_subject": "HD 2i6",
+  "perturbed_question": "What constellation is where HD 2i6 is?"
+ },
+ {
+  "subject": "Lontong",
+  "question": "The country of origin for Lontong is what?",
+  "paraphrased_question": "What is the country of origin of Lontong?",
+  "answer": "Thailand",
+  "alter_subject": "Nasi Himpit",
+  "alter_question": "What is the country of origin for Nasi Himpit?",
+  "perturbed_subject": "Lononc",
+  "perturbed_question": "The country of origin for Lononc is what?"
+ },
+ {
+  "subject": "Leucyl/cystinyl aminopeptidase",
+  "question": "Which species has the Leucyl/cystinyl aminopeptidase gene?",
+  "paraphrased_question": "For which species is Leucyl/Cystinylaminopeptide specific?",
+  "answer": "male",
+  "alter_subject": "human placental leucine aminopeptidase",
+  "alter_question": "What is the function of human placental leucine aminopeptidase?",
+  "perturbed_subject": "qehucyl/csinyp kmivopepihidaseg",
+  "perturbed_question": "Which species has the qehucyl/csinyp kmivopepihidaseg gene?"
+ },
+ {
+  "subject": "USA-203",
+  "question": "What day was USA-203 launched?",
+  "paraphrased_question": "On what day were the USA-203 launched?",
+  "answer": "23 September 2004",
+  "alter_subject": "GPS IIR-20(M)",
+  "alter_question": "What is GPS IIR-20(M)?",
+  "perturbed_subject": "UjSAo203",
+  "perturbed_question": "What day was UjSAo203 launched?"
+ },
+ {
+  "subject": "Angolan African dormouse",
+  "question": "Which family is Angolan African dormouse a part of?",
+  "paraphrased_question": "Which family is the Angolan African sleep mother?",
+  "answer": "Lecithoceridae",
+  "alter_subject": "Graphiurus angolensis",
+  "alter_question": "What is Graphiurus angolensis?",
+  "perturbed_subject": "Angxolan vdlpiwial dormose",
+  "perturbed_question": "Which family is Angxolan vdlpiwial dormose a part of?"
+ },
+ {
+  "subject": "Hyperbaniana",
+  "question": "What kind of family is Hyperbaniana of?",
+  "paraphrased_question": "What family has Hyperbaniana?",
+  "answer": "Crambidae",
+  "alter_subject": "Hyperbaniana costinotata",
+  "alter_question": "What is Hyperbaniana costinotata and where can it be found?",
+  "perturbed_subject": "Hygerbantana",
+  "perturbed_question": "What kind of family is Hygerbantana of?"
+ },
+ {
+  "subject": "Telorta",
+  "question": "Which family is Telorta a part of?",
+  "paraphrased_question": "In what family is Telorta a part?",
+  "answer": "Hesperiidae",
+  "alter_subject": "Telorta divergens",
+  "alter_question": "What is Telorta divergens?",
+  "perturbed_subject": "ehorta",
+  "perturbed_question": "Which family is ehorta a part of?"
+ },
+ {
+  "subject": "National Fish and Wildlife Foundation",
+  "question": "When was National Fish and Wildlife Foundation established?",
+  "paraphrased_question": "When has the National Fish and Wildlife Foundation been established?",
+  "answer": "1994",
+  "alter_subject": "NFWF",
+  "alter_question": "What does NFWF stand for?",
+  "perturbed_subject": "atoealFrush nd Wiplpcdlife Foudatienj",
+  "perturbed_question": "When was atoealFrush nd Wiplpcdlife Foudatienj established?"
+ }
+]
