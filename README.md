@@ -34,13 +34,6 @@ export Forget_Loss=("PerMU");
 
 When tested on TOFU, we use the checkpoints of the pre-trained target model from the [TOFU Leaderboard](https://huggingface.co/spaces/locuslab/tofu\_leaderboard). For the Harry Potter and ZsRE datasets, you can download the pre-trained model from Hugging Face. Place the model to be unlearned in the `./save_model/` directory and update its specific name in the `model_config.yaml` file.
 
-Model | Link
-|----------|:------------------------------:|
-| harry_phi | |
-| harry_llama | |
-| zsre_phi | |
-| zsre_llama | |
-
 
 **Running the Code**
 
