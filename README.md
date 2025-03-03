@@ -63,5 +63,10 @@ To unlearn a new model, add the model configuration to `model_config.yaml`, then
 If our implementation and paper are helpful, please consider citing our work.
 
 ```
-Wang H, Jing Y, Sun H, et al. Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models[J]. arXiv preprint arXiv:2502.19982, 2025.
+@article{wang2025erasing,
+  title={Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models},
+  author={Wang, Huazheng and Jing, Yongcheng and Sun, Haifeng and Wang, Yingjie and Wang, Jingyu and Liao, Jianxin and Tao, Dacheng},
+  journal={arXiv preprint arXiv:2502.19982},
+  year={2025}
+}
 ```
