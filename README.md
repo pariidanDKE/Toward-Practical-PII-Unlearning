@@ -5,7 +5,7 @@ This repository contains the official implementation of the paper "Erasing Witho
 
 ## Overview
 
-**UGBench** is a generalisation evaluation benchmark tailored for LLM-based machine unlearning. \bench\ provides an unbiased assessment of existing methods in forgetting in-scope unlearning samples. The benchmark spans three data domains: two widely-used machine unlearning datasets, TOFU and the Harry Potter books, as well as a popular model editing dataset, ZsRE. Evaluations are performed on 14 existing methods using two language models of different scales, Phi-1.3B and LLaMA2-7B. 
+**UGBench** is a generalisation evaluation benchmark tailored for LLM-based machine unlearning. UGBench provides an unbiased assessment of existing methods in forgetting in-scope unlearning samples. The benchmark spans three data domains: two widely-used machine unlearning datasets, TOFU and the Harry Potter books, as well as a popular model editing dataset, ZsRE. Evaluations are performed on 14 existing methods using two language models of different scales, Phi-1.3B and LLaMA2-7B. 
 
 Despite significant progress in LLM-based unlearning, we identify an embarrassingly simple yet critical dilemma: *existing machine unlearning methods consistently exhibit a lack of generalisation.* 
 
