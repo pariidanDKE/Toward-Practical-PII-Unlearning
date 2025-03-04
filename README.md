@@ -1,6 +1,6 @@
 # UGBench
 
-This repository contains the official implementation of the paper "Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models".
+This repository contains the official implementation of the paper "[Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models](https://arxiv.org/pdf/2502.19982)".
 
 
 ## Overview
@@ -32,7 +32,7 @@ Specify the name of your testing method in the `forget_xxx.sh` file.
 export Forget_Loss=("PerMU"); 
 ```
 
-When tested on TOFU, we use the checkpoints of the pre-trained target model from the [TOFU Leaderboard](https://huggingface.co/spaces/locuslab/tofu\_leaderboard). For the Harry Potter and ZsRE datasets, you can download the pre-trained model from Hugging Face. Place the model to be unlearned in the `./save_model/` directory and update its specific name in the `model_config.yaml` file.
+When tested on TOFU, we use the checkpoints of the pre-trained target model from the [TOFU Leaderboard](https://huggingface.co/spaces/locuslab/tofu\_leaderboard). For the Harry Potter and ZsRE datasets, you can download our pre-trained model from Hugging Face, as specified in the `model_config.yaml` file.
 
 
 **Running the Code**
