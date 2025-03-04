@@ -8,7 +8,7 @@ llama2-7b:
   # this model will be used for unlearning by default
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" 
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn" 
-  zsre_target_model_path: ""
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
 phi:
   hf_key: "microsoft/phi-1_5"
   question_start_tag: "Question: "
