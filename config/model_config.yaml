@@ -7,20 +7,16 @@ llama2-7b:
   gradient_checkpointing: "false"
   # this model will be used for unlearning by default
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" 
-  harry_target_model_path: "" 
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn" 
   zsre_target_model_path: ""
 phi:
-  hf_key: "/data/user/whz/save_model/phi-1_5"
-  # hf_key: "microsoft/phi-1_5"
+  hf_key: "microsoft/phi-1_5"
   question_start_tag: "Question: "
   question_end_tag: "\n"
   answer_tag: "Answer: "
   flash_attention2: "false"
   gradient_checkpointing: "false"
-  # tofu_target_model_path: "locuslab/tofu_ft_phi-1.5"
-  # harry_target_model_path: ""
-  # zsre_target_model_path: ""
-  tofu_target_model_path: "/data/user/whz/save_model/tofu_ft_phi-1.5-1.3B"
-  harry_target_model_path: "/data/user/whz/machine_unlearning/our_bench/save_model/Harry/finetune_phi_B4_G8_E10_lr3e-5"
-  zsre_target_model_path: "/data/user/whz/machine_unlearning/our_bench/save_model/ZSRE/finetune_phi_B4_G8_E10_lr3e-5"
-
+  tofu_target_model_path: "locuslab/tofu_ft_phi-1.5"
+  harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
+  
