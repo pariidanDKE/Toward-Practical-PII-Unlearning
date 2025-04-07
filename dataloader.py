@@ -91,7 +91,7 @@ class CustomTrainerForgetting(Trainer):
         
         return model
 
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         retain_weight = self.retain_weight
         if "grad_ascent" in self.loss_type:
             forget_inputs, retain_inputs = inputs
@@ -163,9 +163,14 @@ class CustomTrainerForgetting(Trainer):
                 logit = corrupt_logits[-1]
                 
                 clean_logits_copy = copy.deepcopy(clean_logits)
+                # DP: the question tokens are 0, as when we calc loss they should not be considerered
                 clean_target_masks = torch.zeros_like(input_ids)
+
+                ## DP : iterate through each batch
                 for i in range(logit.size(0)):
                     start, end = question_mask[i][0]
+
+                    # DP: the answer questions are 1 as tehy should be considered
                     clean_target_masks[i, start-1:end] = 1
                     clean_probabilities = clean_logits[i, start-1:end, :]
                     corrupt_probabilities = logit[i, start-1:end, :]

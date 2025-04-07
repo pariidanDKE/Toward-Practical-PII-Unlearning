@@ -5,10 +5,13 @@ from scipy.stats import sem, hmean, ks_2samp
 from natsort import natsorted
 def get_model_identifiers_from_yaml(model_family):
     #path is model_configs.yaml
+
+
+    ## DP : any difference between loading the NousResearchLlama and the Meta Llama?
     '''
     models:
         llama2-7b:
-            hf_key: "NousResearch/Llama-2-7b-chat-hf"
+            hf_key: "NousResearch/Llama-2-7b-chat-hf 
             question_start_tag: "[INST] "
             question_end_tag: " [/INST] "
             answer_tag: ""

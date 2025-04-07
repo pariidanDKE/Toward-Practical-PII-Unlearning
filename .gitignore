@@ -4,3 +4,5 @@ __pycache__
 save_model/
 abl_experiment/
 experiment/
+permu_env/
+locuslab/

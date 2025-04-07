@@ -323,6 +323,16 @@ def main(cfg):
                             use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
                             torch_dtype=torch_dtype, trust_remote_code = True)
                     model.load_state_dict(new_state_dict)
+
+            elif cfg.use_lora:
+                print(f"Loading base model from {pretained_traget_model_path}")
+                base_model = AutoModelForCausalLM.from_pretrained(
+                    pretained_traget_model_path, config=config, 
+                    use_flash_attention_2=model_cfg["flash_attention2"]=="true",
+                    torch_dtype=torch_dtype, trust_remote_code=True, device_map=device_map
+                )
+                print(f"Loading LoRA adapter from {cfg.model_path}..")
+                model = PeftModel.from_pretrained(base_model, cfg.model_path)
             else:
                 print(f"Loading checkpoint from {cfg.model_path}")
                 model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \

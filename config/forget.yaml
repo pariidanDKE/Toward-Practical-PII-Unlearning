@@ -1,8 +1,13 @@
+use_lora: true  
+use_quantization: true
+log_dir: /run_logs
+project_name: 
+
 model_family: phi
 model_path: null
 LoRA:
-  r: 16
-  alpha: 32
+  r: 256
+  alpha: 512
   dropout: 0.05
   bias: none
   task_type: CAUSAL_LM

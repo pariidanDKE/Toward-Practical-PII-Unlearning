@@ -82,11 +82,13 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
                 start_list.append(i)
         return start_list
     
+    # DP: go through each subject and make sure it was tokenized separately from other parts of the text
     tokens_to_mix = []
     for subject in subject_list:
         if ('phi' in tokenizer.name_or_path):
             subject_id = tokenizer.encode(" "+subject)
         else:
+            ## separately encode subject_id, to then pattern match with fully encoded text
             subject_id = tokenizer.encode(subject, add_special_tokens=False)
         is_consistent = all(token in full_text_input_id for token in subject_id)
         if is_consistent is True:
@@ -94,6 +96,7 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         else:
             raise NotImplementedError(f"Subject word encode wrong: {subject}")
     
+        ## add end and start index for the tokens that encode subjects
         for i in start:
             tokens_to_mix.append((i, i+len(subject_id)))
         

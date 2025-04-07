@@ -6,7 +6,7 @@ antlr4-python3-runtime==4.9.3
 async-timeout==4.0.3
 attrs==23.2.0
 beautifulsoup4==4.12.3
-bitsandbytes==0.43.1
+bitsandbytes==0.45.4 # was 0.43.1, changed since some bullshit with cpu.so
 bs4==0.0.2
 cachetools==5.3.3
 certifi==2024.2.2
@@ -15,7 +15,7 @@ click==8.1.7
 cmake==3.29.2
 codetiming==1.4.0
 colorama==0.4.6
-compare_mt==0.2.11
+compare_mt==0.2.10 # was 0.2.11 , did not find anything for that yet
 contourpy==1.1.1
 cycler==0.12.1
 datasets==2.18.0
@@ -41,7 +41,7 @@ hydra-core==1.3.2
 idna==3.7
 importlib_metadata==7.1.0
 importlib_resources==6.4.0
-install==1.3.5
+pip-install==1.3.5 #install==1.3.5 # found same issue here : https://github.com/neo4j-labs/llm-graph-builder/issues/567
 Jinja2==3.1.3
 joblib==1.4.0
 kiwisolver==1.4.5
@@ -63,29 +63,29 @@ networkx==3.1
 ninja==1.11.1.1
 nltk==3.8.1
 numerize==0.12
-numpy==1.24.4
-nvidia-cublas-cu11==11.10.3.66
+numpy==1.26 # was 1.24.4 but Pythton 3.12
+#nvidia-cublas-cu11==11.10.3.66
 nvidia-cublas-cu12==12.1.3.1
-nvidia-cuda-cupti-cu11==11.7.101
+#nvidia-cuda-cupti-cu11==11.7.101
 nvidia-cuda-cupti-cu12==12.1.105
-nvidia-cuda-nvrtc-cu11==11.7.99
+#nvidia-cuda-nvrtc-cu11==11.7.99
 nvidia-cuda-nvrtc-cu12==12.1.105
-nvidia-cuda-runtime-cu11==11.7.99
+#nvidia-cuda-runtime-cu11==11.7.99
 nvidia-cuda-runtime-cu12==12.1.105
-nvidia-cudnn-cu11==8.5.0.96
+#nvidia-cudnn-cu11==8.5.0.96
 nvidia-cudnn-cu12==8.9.2.26
-nvidia-cufft-cu11==10.9.0.58
+#nvidia-cufft-cu11==10.9.0.58
 nvidia-cufft-cu12==11.0.2.54
-nvidia-curand-cu11==10.2.10.91
+#nvidia-curand-cu11==10.2.10.91
 nvidia-curand-cu12==10.3.2.106
-nvidia-cusolver-cu11==11.4.0.1
+#nvidia-cusolver-cu11==11.4.0.1
 nvidia-cusolver-cu12==11.4.5.107
-nvidia-cusparse-cu11==11.7.4.91
+#nvidia-cusparse-cu11==11.7.4.912.19.3
 nvidia-cusparse-cu12==12.1.0.106
-nvidia-nccl-cu11==2.14.3
-nvidia-nccl-cu12==2.19.3
+#nvidia-nccl-cu11==2.14.3
+nvidia-nccl-cu12==2.19.3 # changed from 2.19.3 due to ResolutionImpossible with torch 2.1..0
 nvidia-nvjitlink-cu12==12.6.77
-nvidia-nvtx-cu11==11.7.91
+#nvidia-nvtx-cu11==11.7.91
 nvidia-nvtx-cu12==12.1.105
 oauthlib==3.2.2
 omegaconf==2.3.0
@@ -93,7 +93,7 @@ openpyxl==3.1.5
 packaging==24.0
 pandas==2.0.3
 patsy==0.5.6
-peft==0.10.0
+peft==0.10.0 # conflichts, change to 0.14.0 manually
 pillow==10.3.0
 platformdirs==4.2.2
 portalocker==2.8.2
@@ -120,8 +120,8 @@ rsa==4.9
 sacrebleu==2.4.2
 sacremoses==0.1.1
 safetensors==0.4.3
-scikit-learn==1.0
-scipy==1.10.1
+scikit-learn==1.4 # was scikit-learn==1.0.0 this https://stackoverflow.com/questions/79137098/macos-python-3-9-no-module-named-distutils-msvccompiler recommended to try later veresion, again cahed from 1.1.3 tp 1.4 to fit with pytho 3.12
+scipy==1.11.3
 sentencepiece==0.2.0
 sentry-sdk==2.3.1
 setproctitle==1.3.3
@@ -139,13 +139,13 @@ tensorboard-data-server==0.7.2
 termcolor==2.4.0
 threadpoolctl==3.5.0
 tokenizers==0.19.1
-torch==2.2.0
+torch==2.2.0 # was 2.2.0 
 torchmetrics==1.3.2
 torchtyping==0.1.4
-torchvision==0.15.2
+torchvision==0.17 # was 0.15.2, but this version needs torch==2.0.1, but torch is 2.2.0
 tqdm==4.66.2
-transformers==4.40.0
-triton==2.2.0
+transformers==4.40.0 # conflicts, change to 4.47.1 manually
+triton==2.2.0 #was 2.2.0, changed due to torch conflict
 typeguard==4.2.1
 typing_extensions==4.11.0
 tzdata==2024.1

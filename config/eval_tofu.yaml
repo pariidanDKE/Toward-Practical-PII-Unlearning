@@ -1,6 +1,7 @@
 model_path: 
 model_family: phi
 
+use_lora: True
 save_dir: 
 dataset: TOFU
 forget_loss: grad_ascent

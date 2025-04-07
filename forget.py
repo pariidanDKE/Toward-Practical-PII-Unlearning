@@ -13,8 +13,16 @@ from utils import get_model_identifiers_from_yaml
 from omegaconf import OmegaConf
 from modeling_phi import PhiForCausalLM
 from modeling_llama import LlamaForCausalLM
+import json
+from datetime import datetime
+from accelerate import Accelerator
+
+
+
+from transformers import BitsAndBytesConfig
 
 def find_all_linear_names(model):
+    print('Find linear layers for LoRA..')
     cls = torch.nn.Linear
     lora_module_names = set()
     for name, module in model.named_modules():
@@ -40,6 +48,40 @@ def print_trainable_parameters(model):
         f"trainable params: {trainable_params} || all params: {all_param} || trainable%: {100 * trainable_params / all_param}"
     )
 
+def save_training_info(cfg, model, training_args, model_size, trainable_params,lora_target_modules, save_dir):
+# Create a dictionary with the details to be saved
+    info = {
+        'config': OmegaConf.to_container(cfg, resolve=True),
+        'model_size': model_size,
+        'trainable_params': trainable_params,
+        'lora_target_modules' : lora_target_modules,
+        'training_args': {
+            'per_device_train_batch_size': training_args.per_device_train_batch_size,
+            'per_device_eval_batch_size': training_args.per_device_eval_batch_size,
+            'gradient_accumulation_steps': training_args.gradient_accumulation_steps,
+            'warmup_steps': training_args.warmup_steps,
+            'max_steps': training_args.max_steps,
+            'learning_rate': training_args.learning_rate,
+            'bf16': training_args.bf16,
+            'logging_steps': training_args.logging_steps,
+            'logging_dir': training_args.logging_dir,
+            'output_dir': training_args.output_dir,
+            'optim': training_args.optim,
+            'save_strategy': training_args.save_strategy,
+            'save_steps': training_args.save_steps,
+            'weight_decay': training_args.weight_decay,
+            'eval_steps': training_args.eval_steps,
+            'evaluation_strategy': training_args.evaluation_strategy,
+            'seed': training_args.seed
+            }
+        }
+        
+        # Save the information to a JSON file
+    save_path = os.path.join(save_dir, 'training_info.json')
+    with open(save_path, 'w') as f:
+        json.dump(info, f, indent=4)
+    print(f"Training information saved to {save_path}")
+
 @hydra.main(version_base=None, config_path="./config", config_name="forget")
 def main(cfg):
     num_devices = int(os.environ.get('WORLD_SIZE', 1))
@@ -53,7 +95,7 @@ def main(cfg):
 
     set_seed(cfg.seed)
 
-    os.environ["WANDB_DISABLED"] = "true"
+    #os.environ["WANDB_DISABLED"] = "true"
     model_cfg = get_model_identifiers_from_yaml(cfg.model_family)
     model_id = model_cfg["hf_key"]
     if cfg.model_path is None:
@@ -101,6 +143,9 @@ def main(cfg):
     else:
         torch_dtype = torch.float16
 
+    os.environ["WANDB_PROJECT"] = cfg.project_name
+    os.environ["WANDB_DIR"] = cfg.log_dir
+
     training_args = transformers.TrainingArguments(
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
@@ -110,10 +155,11 @@ def main(cfg):
             learning_rate=cfg.lr,
             bf16=cfg.bf16,  
             bf16_full_eval=cfg.bf16, 
-            logging_steps=max(1,max_steps//20),
+            logging_steps= 1, # max(1,max_steps//50),
             logging_dir=f'{cfg.save_dir}/logs',
             output_dir=cfg.save_dir,
-            optim="paged_adamw_32bit",
+            #optim="paged_adamw_32bit",
+            optim="adamw_torch",
             save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
             save_steps=steps_per_epoch,
             save_only_model=True,
@@ -122,8 +168,9 @@ def main(cfg):
             weight_decay = cfg.weight_decay,
             eval_steps = steps_per_epoch,
             evaluation_strategy = "steps" if cfg.eval_while_train else "no",
-            seed=cfg.seed
-
+            seed=cfg.seed,
+            disable_tqdm=False,  # Enable progress bar,
+            report_to='wandb'
         )
     
     #first get the base model architectur2e
@@ -131,11 +178,11 @@ def main(cfg):
     import re
     path_found = False
     for file in os.listdir(cfg.model_path):
-        if re.search("pytorch.*\.bin", file):
+        if re.search(r"pytorch.*\.bin", file):
             path_found = True
             break
         
-        if re.search("model-*\.safetensors", file):
+        if re.search(r"model-*\.safetensors", file):
             path_found = True
             break
 
@@ -157,10 +204,33 @@ def main(cfg):
             causalLM = LlamaForCausalLM
         else:
             causalLM = AutoModelForCausalLM
-        model = causalLM.from_pretrained(cfg.model_path, config=config, \
+
+    if "PerMU" in cfg.forget_loss and cfg.use_lora:
+            if cfg.use_quantization:
+               # DP : Add quantization
+               print('Adding quantization..')
+               quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
+            else:
+              quantization_config=None  
+          
+            
+            model = causalLM.from_pretrained(cfg.model_path, config=config, \
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-            trust_remote_code = True)
-    
+            trust_remote_code = True, \
+            quantization_config = quantization_config  # DP : Add quantization
+            )
+            ## DPL Add LoRA (for PerMU only)
+            print('Attaching LoRA...')
+            target_modules = find_all_linear_names(model)
+            peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,target_modules=target_modules,task_type = cfg.LoRA.task_type)
+            model = get_peft_model(model,peft_config)
+    else:
+            model = causalLM.from_pretrained(cfg.model_path, config=config, \
+            use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+            trust_remote_code = True, \
+            )
+            target_modules=None
+
     if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 
         oracle_model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
@@ -169,7 +239,9 @@ def main(cfg):
     model.generation_config.do_sample = True
     
     if model_cfg["gradient_checkpointing"] == "true":
+        print('Enable Gradient Checkpoint..')
         model.gradient_checkpointing_enable()
+  
     
     trainer = CustomTrainerForgetting(
         model=model,
@@ -186,11 +258,22 @@ def main(cfg):
         retain_weight = cfg.retain_weight,
         C = cfg.C,
         P = cfg.P,
+ 
     )
-    model.config.use_cache = False  
+    model.config.use_cache = False
+
+
+    model_size = sum(p.numel() for p in model.parameters())
+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    # Save the training info to a json file
+
+    print_trainable_parameters(model)
+    save_training_info(cfg, model, training_args, model_size, trainable_params,target_modules, cfg.save_dir)
+
     if cfg.eval_only:
         trainer.evaluate()
     else:
+        print('Training the model...')
         trainer.train()
 
     # save the tokenizer
