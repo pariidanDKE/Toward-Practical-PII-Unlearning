@@ -9,8 +9,8 @@ llm = LLM(
     model="casperhansen/llama-3.3-70b-instruct-awq",
     quantization="awq_marlin",  # 4-bit quantization
     dtype="auto",               # Let vLLM decide optimal dtype (usually FP16 for A100)
-    max_model_len=4096,         # Max context length (adjust based on your needs)
-   # gpu_memory_utilization=0.9, # Use 90% of GPU VRAM to avoid OOM
+    max_model_len=2048,         # Max context length (adjust based on your needs)
+    gpu_memory_utilization=0.9, # Use 90% of GPU VRAM to avoid OOM
 )
 
 sampling_params = SamplingParams(
