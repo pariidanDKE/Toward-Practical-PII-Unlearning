@@ -16,7 +16,7 @@ from modeling_llama import LlamaForCausalLM
 import json
 from datetime import datetime
 from accelerate import Accelerator
-
+import wandb
 
 
 from transformers import BitsAndBytesConfig
@@ -145,6 +145,8 @@ def main(cfg):
 
     os.environ["WANDB_PROJECT"] = cfg.project_name
     os.environ["WANDB_DIR"] = cfg.log_dir
+    wandb.init(name=cfg.run_name)
+
 
     training_args = transformers.TrainingArguments(
             per_device_train_batch_size=batch_size,
@@ -171,6 +173,8 @@ def main(cfg):
             seed=cfg.seed,
             disable_tqdm=False,  # Enable progress bar,
             report_to='wandb'
+
+            ,lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
         )
     
     #first get the base model architectur2e

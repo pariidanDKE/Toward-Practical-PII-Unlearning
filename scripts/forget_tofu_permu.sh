@@ -17,10 +17,15 @@ export forget_loss="PerMU";
 export save_dir=$PWD/experiment/${dataset}/${model}/${split}/${forget_loss}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight};
 export split='forget01';
 
+# export LoRA.r=256
+# export LoRA.alpha=512
 
 
+#export run_name="EvaluateLoRA_r${LoRA_r}_a${LoRA_alpha}_ConstantLRWithWarmup"
+
+export run_name="FullPerMU_WarmupConstantLR"
 export project_name='EvaluateLoRA'
-export use_lora=True;
+export use_lora=False;
 export use_quantization=False;
        
 python forget.py --config-name=forget.yaml \
@@ -32,4 +37,11 @@ python forget.py --config-name=forget.yaml \
     gradient_accumulation_steps=${gradaccum} model_family=${model} lr=${lr} \
     save_dir=$save_dir cache_dir=$cache num_epochs=${num_epochs} \
     use_lora=${use_lora} \
-    use_quantization=${use_quantization};
+    use_quantization=${use_quantization} \
+    project_name=${project_name} \
+    run_name=$run_name
+
+
+
+
+

@@ -13,8 +13,7 @@ export forget_data_path=$PWD/data/${dataset};
 export retain_weight=1;
 export lr=2e-5;
 
-
-export use_lora=True;
+export use_lora=False;
 
 # unlearning methods include: ["grad_ascent" "grad_ascent+kl" "grad_ascent+gd" 
 # "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd"
@@ -26,8 +25,6 @@ do
     do
         export save_dir="${save_dir:-MustDeclareModelPathWith:save_dir}"
 
-    
-     
         python evaluate_${dataset}.py \
             model_family=$model dataset=${dataset} \
             split=${split} batch_size=${batch_size} \

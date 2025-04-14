@@ -2,6 +2,7 @@ use_lora: true
 use_quantization: true
 log_dir: /run_logs
 project_name: 
+run_name: 
 
 model_family: phi
 model_path: null

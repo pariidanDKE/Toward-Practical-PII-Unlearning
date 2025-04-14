@@ -4,7 +4,7 @@ llama2-7b:
   question_end_tag: " [/INST]"
   answer_tag: ""
   flash_attention2: "false"   
-  gradient_checkpointing: "false"
+  gradient_checkpointing: "true"
   # this model will be used for unlearning by default
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" 
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn" 
