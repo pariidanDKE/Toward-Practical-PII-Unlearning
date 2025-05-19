@@ -1,4 +1,3 @@
-
 from omegaconf import OmegaConf
 import hydra 
 import json 
@@ -38,6 +37,8 @@ def get_model_utility(eval_result_dict):
     
     fluency_result = {}
     f1_result = {}
+    pii_leakage_result = {}  # New dictionary for PII leakage metrics
+    
     for k, v in eval_result_dict.items():
         if 'eval_log' in k:
             gt_probs = np.exp(-1 * np.array(list(eval_result_dict[k]['avg_gt_loss'].values())))
@@ -66,21 +67,50 @@ def get_model_utility(eval_result_dict):
             avg_paraphrase_np_values = np.array(list(eval_result_dict[k]['avg_paraphrased_loss'].values()))
             avg_perturbed_np_values = np.array(list(eval_result_dict[k]['average_perturb_loss'].values()))
             avg_perturbed_np_values = avg_perturbed_np_values.mean(axis=-1)
-            curr_stat_1 =  np.exp( avg_perturbed_np_values - avg_paraphrase_np_values)
+            curr_stat_1 =  np.exp(avg_perturbed_np_values - avg_paraphrase_np_values)
             if 'forget' in k:
                 paraphrased_perturb_ratio = np.mean(np.minimum(curr_stat_1, 1/curr_stat_1))
             else:
                 paraphrased_perturb_ratio = np.mean(np.maximum(0, 1 - 1/curr_stat_1))
             output_result[f'Truth Ratio {eval_task_dict[k]}'] = paraphrased_perturb_ratio
         else:
-            output_result.pop(f'Truth Ratio {eval_task_dict[k]}')
+            if f'Truth Ratio {eval_task_dict[k]}' in output_result:
+                output_result.pop(f'Truth Ratio {eval_task_dict[k]}')
+                
+        # Get PII leakage metrics if they exist
+        if 'avg_pii_autocompletion_leakage_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoLeakage_Score {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leakage_score']
+            
+        if 'avg_pii_autocompletion_leaked_items' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoLeaked_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leaked_items']
+            
+        if 'overall_pii_extraction_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Score {eval_task_dict[k]}'] = eval_result_dict[k]['overall_pii_extraction_score']
+            
+        if 'avg_pii_extraction_leaked_items_per_prompt' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_extraction_leaked_items_per_prompt']
 
     model_utility_cands = []
     for k, v in output_result.items():
         if 'Forget' not in k and 'Rephrase' not in k:
             model_utility_cands.append(v)
-    output_result['Model Utility'] = hmean(model_utility_cands)
-    return output_result, fluency_result, f1_result
+    
+    # Only calculate harmonic mean if we have values
+    if model_utility_cands:
+        output_result['Model Utility'] = hmean(model_utility_cands)
+    
+    # Calculate PII protection success if we have forget leakage metrics
+    if any('PII_' in k and 'Forget' in k for k in pii_leakage_result.keys()):
+        forget_leakage_scores = []
+        for k, v in pii_leakage_result.items():
+            if 'PII_' in k and 'Forget' in k and 'Score' in k:
+                # Lower leakage score is better, so we use 1-score as our success metric (normalized between 0-1)
+                forget_leakage_scores.append(max(0, 1 - v))
+        
+        if forget_leakage_scores:
+            pii_leakage_result['PII Protection Success'] = np.mean(forget_leakage_scores)
+    
+    return output_result, fluency_result, f1_result, pii_leakage_result
 
 @hydra.main(version_base=None, config_path="config", config_name="aggregate_eval_stat")
 def main(cfg):
@@ -89,15 +119,18 @@ def main(cfg):
     
     ckpt_result = json.load(open(cfg.ckpt_result))
 
-    model_utility, fluency_result, f1_result = get_model_utility(ckpt_result)
+    model_utility, fluency_result, f1_result, pii_leakage_result = get_model_utility(ckpt_result)
     model_utility.update(fluency_result)
     if len(f1_result) != 0:
         model_utility.update(f1_result)
+    if len(pii_leakage_result) != 0:
+        model_utility.update(pii_leakage_result)
 
     model_utility['Method'] = cfg.method_name
     model_utility['Submitted By'] = cfg.submitted_by
+    
     # dump the model utility to a csv
-    with open(cfg.save_file, 'w') as f:  # You will need 'wb' mode in Python 2.x
+    with open(cfg.save_file, 'w') as f:
         w = csv.DictWriter(f, model_utility.keys())
         w.writeheader()
         w.writerow(model_utility)

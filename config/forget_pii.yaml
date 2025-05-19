@@ -1,0 +1,92 @@
+use_lora: false  
+use_quantization: false
+log_dir: /run_logs
+project_name: 
+run_name: 
+
+model_family: phi
+model_path: null
+LoRA:
+  r: 256
+  alpha: 512
+  dropout: 0.05
+  bias: none
+  task_type: CAUSAL_LM
+
+lr: 1e-5
+dataset: Harry
+split: forget
+forget_data_path: /data/PII  
+retain_data_path: /data/PII
+batch_size: 4 
+gradient_accumulation_steps: 4
+num_epochs: 5
+forget_loss: grad_ascent 
+
+save_dir: outputs
+overwrite_dir: true # false
+weight_decay: 0.01
+save_model: true
+eval_while_train: false
+eval_only: false
+seed: 42
+cache_dir: cache
+
+bf16: true
+retain_weight: 1
+
+
+### CHANGE THIS BACK!!!!!
+C: 0.01
+P: 0.1
+
+eval:
+  # retain_result: data/retain90_llama_wd0.01/eval_results/ds_size300/eval_log_aggregated.json
+  model_path: ${..model_path}
+  model_family: ${..model_family}
+  save_dir: ${..save_dir}
+  data_path: [data/test, data/test, data/test, data/PII, data/PII, data/test]
+  ### The PII set thing
+  # split: forget10
+  # split_list:
+  #   - ${split}
+  #   - retain90
+  #   - real_authors_perturbed
+  #   - world_facts_perturbed
+
+  # ## PII Thing
+  # eval_task: [eval_log, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget]
+  # question_key: [question, question, question, question]
+  # answer_key: [answer, answer, answer, answer]
+  # base_answer_key: [paraphrased_answer, answer, answer, paraphrased_answer]
+  # perturbed_answer_key: [perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer]
+  split: forget10
+  split_list:
+    - test_retain_pii
+    - real_authors_perturbed
+    - world_facts_perturbed
+    - ${split}
+    - ${split}
+    - test_retain_pii
+
+  question_key: [question, question, question, question, paraphrased_question, paraphrased_question]
+  answer_key: [answer, answer, answer, answer, answer, answer]
+  base_answer_key: [paraphrased_answer, answer, answer, paraphrased_answer, paraphrased_answer, paraphrased_answer]
+  perturbed_answer_key: [perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer]
+  eval_task: [eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, eval_log_forget_rephrase, eval_log_retain_rephrase]
+
+
+
+  generation:
+    max_length: 200
+    max_new_tokens: null
+
+  save_generated_text: true
+
+  ds_size: 300
+
+  overwrite: true
+  use_pretrained: false
+
+  batch_size: 30
+  retain_result: null

@@ -3,22 +3,77 @@ llama2-7b:
   question_start_tag: "[INST] "
   question_end_tag: " [/INST]"
   answer_tag: ""
-  flash_attention2: "false"   
+  answer_end_tag: ""
+  flash_attention2: "false"
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
-  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b" 
-  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn" 
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+
+llama2-7b_checkpointenable:
+  hf_key: "NousResearch/Llama-2-7b-chat-hf"
+  question_start_tag: "[INST] "
+  question_end_tag: " [/INST]"
+  answer_tag: ""
+  answer_end_tag: ""
+  flash_attention2: "false"
+  gradient_checkpointing: "true"
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  #tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_llama2-7b_B8_G4_E10_lr2e-5_use_piiTrue/checkpoint-393"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
+
+llama2-7b_nonchat:
+  hf_key: "NousResearch/Llama-2-7b-hf"
+  question_start_tag: "Question: "
+  question_end_tag: "\n"
+  answer_tag: "Answer: "
+  answer_end_tag: ""
+  gradient_checkpointing: "true"
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_llama2-7b_nonchat_B8_G4_E8_lr5e-5/checkpoint-1000"
+  # pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+
+phi3-5-mini-instruct:
+  hf_key: "microsoft/Phi-3.5-mini-instruct"
+  question_start_tag: "<|user|>\n"
+  question_end_tag: "<|end|>\n"
+  answer_tag: "<|assistant|>\n"
+  answer_end_tag: "<|end|>\n"
+  flash_attention2: "false"
+  gradient_checkpointing: "true"
+  # pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi3-5-mini-instruct_B4_G4_E8_lr5e-5/checkpoint-2000"
+  harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
+
 phi:
   hf_key: "microsoft/phi-1_5"
   question_start_tag: "Question: "
   question_end_tag: "\n"
   answer_tag: "Answer: "
+  answer_end_tag: ""
   flash_attention2: "false"
   gradient_checkpointing: "false"
-  tofu_target_model_path: "locuslab/tofu_ft_phi-1.5"
+  # tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_B8_G2_E5_lr1e-4_use_piiFalse/checkpoint-1250"
+  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_TOFU_B8_G2_E5_lr1e-4/checkpoint-1250"
   harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
 
-
-  
+phi_chat:
+  hf_key: "rasyosef/Phi-1_5-Instruct-v0.1"
+  question_start_tag: "<|im_start|>user\n"
+  question_end_tag: "<|im_end|>\n"
+  answer_tag: "<|im_start|>assistant\n"
+  answer_end_tag: "<|im_end|>"
+  flash_attention2: "false"
+  gradient_checkpointing: "false"
+  # pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_chat_B8_G4_E5_lr5e-5/checkpoint-625"
+  harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"

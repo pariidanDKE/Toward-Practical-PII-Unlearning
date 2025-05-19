@@ -4,7 +4,7 @@ import re
 import random as rand
 import pickle
 import time
-
+import json
 # Third-party libraries
 import torch
 from tqdm import tqdm
@@ -55,26 +55,32 @@ def load_mlm_model(model_name='bert'):
 
 search_tokenizer, search_model = load_mlm_model('bert')
 
+def load_causal_lm_model(is_tofu=False, is_pii=False, unlearned=False):
+    branch = None
 
-# load attack model
-def load_causal_lm_model(ft_model=True,is_tofu=False):
-    if ft_model:
-
-        if is_tofu:
-            repo_id = 'locuslab/tofu_ft_llama2-7b'
-            branch = None
+    if is_tofu:
+        if unlearned:
+            repo_id = '/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/TOFU/llama2-7b/forget10/EvaluateLoRA_EvaluateFulModel_llama2-7b_WarmupConstantLR'
+            tokenizer_path = repo_id
         else:
-            repo_id = 'LLM-PBE/together-llama-2-7B-enron-undefended'
-            branch = 'checkpoint_ft10'
+            repo_id = 'locuslab/tofu_ft_llama2-7b'
+            tokenizer_path = repo_id
+    elif is_pii:
+        if unlearned:
+            repo_id = '/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/FullFT_PIIPerMU_llama2-7b_WarmupConstantLR'
+            tokenizer_path = repo_id
+        else:
+            repo_id = '/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393'
+            tokenizer_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5'
     else:
-        repo_id = 'meta-llama/Llama-2-7b-hf'
-        branch = None
+        repo_id = 'NousResearch/Llama-2-7b-chat-hf'
+        tokenizer_path = repo_id
 
     model = AutoModelForCausalLM.from_pretrained(repo_id, revision=branch)
-    tokenizer = AutoTokenizer.from_pretrained(repo_id, revision=branch)
+    tokenizer = AutoTokenizer.from_pretrained(tokenizer_path, revision=branch)
     tokenizer.pad_token = tokenizer.eos_token
-    return tokenizer, model
 
+    return tokenizer, model
 
 
 ## Get loss function for Orig and Loss function for neighbour set
@@ -97,9 +103,9 @@ def get_logprob_batch(text,attack_tokenizer,attack_model):
     return manual_logprob_means.tolist()
 
 
-
 # Neighbourhood Attack Method
 from heapq import nlargest
+import string
 
 def generate_neighbours_alt(text,search_model,search_model_name,num_word_changes=1,dropout_p=0.2):
     token_dropout = torch.nn.Dropout(p=dropout_p)
@@ -110,8 +116,17 @@ def generate_neighbours_alt(text,search_model,search_model_name,num_word_changes
     replacements = dict()
 
     for target_token_index in list(range(len(text_tokenized[0,:])))[1:]:
-
         target_token = text_tokenized[0,target_token_index]
+        
+        decoded_token = search_tokenizer.decode([target_token])
+        print(f"Token ID: {target_token:<5} -> Decoded: '{decoded_token}'")
+
+        # skip_tokens = [10975, 39236, 742,48505, 39236, 742]
+        # if target_token in skip_tokens:
+        #     print(target_token)
+        #     continue
+        
+        
         #embeds = search_model.embeddings(text_tokenized)
 
         if search_model_name == 'bert':
@@ -133,12 +148,16 @@ def generate_neighbours_alt(text,search_model,search_model_name,num_word_changes
 
             ### addition to get rid of unused tokens
             decoded = search_tokenizer.decode([cand])
+         
             if '[unused' in decoded or '[UNK]' in decoded:
                 continue
+            # Skip single punctuation tokens
+            if len(decoded.strip()) == 1 and decoded.strip() in string.punctuation:
+                continue
+
+
             ### addition to get rid of other tokens
             if not cand == target_token and cand.item() not in search_tokenizer.all_special_ids:
-
-
                 if original_prob.item() == 1:
                     print("probability is one!")
                     replacements[(target_token_index, cand)] = prob.item()/(1-0.9)
@@ -164,22 +183,31 @@ def generate_neighbours_alt(text,search_model,search_model_name,num_word_changes
         alt = torch.cat((alt[:,:target_token_index], torch.LongTensor([cand]).unsqueeze(0).to(device), alt[:,target_token_index+1:]), dim=1)
         alt_text = search_tokenizer.batch_decode(alt)[0]
         texts.append((alt_text, replacements[single]))
-
-
     return texts
 
-def main(ft_model):
-    filepath='data/tofu_answers.csv'
-    with open(filepath, 'r') as f:
-        texts = [row[0] for row in csv.reader(f, delimiter='|')][1:]
+def main(is_tofu=False,is_pii=False,unlearned=False):
+    # filepath='data/tofu_answers.csv'
+    # with open(filepath, 'r') as f:
+    #     texts = [row[0] for row in csv.reader(f, delimiter='|')][1:]
 
-    ft_model = ft_model
-    samples_nr = 5
-    model_name = 'distilbert'
-    is_tofu= True
+
+    filepath = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/forget10.json'
+    filepath = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/retain90.json'
+
+    with open(filepath, 'r') as f:
+        data = json.load(f)
+    
+    # Extract 'answer' values from each object
+    texts = [('[INST] ' + item['question'] + ' [/INST]'+item['answer']) for item in data if 'answer' in item][:2]
+    print(texts)
+
+
+    samples_nr = len(texts)
+    model_name = 'roberta'
+    #is_tofu= True
     dropout_percentage=0.35
     
-    attack_tokenizer, attack_model = load_causal_lm_model(ft_model=ft_model,is_tofu=is_tofu)
+    attack_tokenizer, attack_model = load_causal_lm_model(is_tofu=is_tofu,is_pii=is_pii,unlearned=unlearned)
     search_tokenizer,search_model = load_mlm_model(model_name=model_name)
 
     attack_model = attack_model.to(device)
@@ -207,6 +235,7 @@ def main(ft_model):
 
                     clean_text = n[0].replace(" [SEP]", " ").replace("[CLS] ", " ")
                     neighbours_texts.append((clean_text, n[1]))
+                    #print(neighbours_texts)
                     score = get_logprob_batch([clean_text], attack_tokenizer, attack_model)
                     scores[(clean_text, n[1])] = score  # Use a tuple as the key for scores dictionary
 
@@ -215,10 +244,12 @@ def main(ft_model):
                 scores_temp = scores        
         all_scores.append(scores_temp)
 
-    with open(f'data/neighbour_scores_testsamples{samples_nr}_ftmodel{ft_model}_search{model_name}_istofu{is_tofu}_dropout_percentage{dropout_percentage}.pkl', 'wb') as file:
+    with open(f'data/INST_neighbouhrhoomia|retain90|ftmodelLlam27b|search{model_name}|istofu{is_tofu}|ispii{is_pii}|unlearned_{unlearned}|dropout_percentage{dropout_percentage}.pkl', 'wb') as file:
         pickle.dump(all_scores, file)
         
 
 if __name__ == "__main__":
-    main(True)
-    main(False)
+    main(is_pii=True)
+    # main(is_tofu=True)
+    # main()
+    # main(is_pii=True,unlearned=True)

@@ -1,5 +1,5 @@
-use_lora: true  
-use_quantization: true
+use_lora: false  
+use_quantization: false
 log_dir: /run_logs
 project_name: 
 run_name: 
@@ -55,6 +55,8 @@ eval:
   answer_key: [answer, answer, answer, answer]
   base_answer_key: [paraphrased_answer, answer, answer, paraphrased_answer]
   perturbed_answer_key: [perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer]
+
+  
 
   generation:
     max_length: 200

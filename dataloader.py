@@ -24,7 +24,7 @@ def printll(name, inp):
     print(name, [round(x, 4) for x in inp])
 
 class CustomTrainer(Trainer):
-    def compute_loss(self, model, inputs, return_outputs=False):
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
         input_ids, labels, attention_mask = inputs
         # forward pass
         outputs = model(input_ids,labels=labels, attention_mask=attention_mask)
@@ -90,8 +90,133 @@ class CustomTrainerForgetting(Trainer):
             param.requires_grad = False
         
         return model
+    
+    # def extract_perturb_subj(self, model, inputs): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
+    #     if self.loss_type.startswith("PerMU"):
+    #         forget_inputs, retain_inputs = inputs
+    #         input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
+    #         #print(f'Input Ids: {input_ids}')
 
-    def compute_loss(self, model, inputs, return_outputs=False): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
+    #         input_ids = input_ids.unsqueeze(0)
+    #         attention_mask = attention_mask.unsqueeze(0)
+    #         tokens_to_mix = [tokens_to_mix]
+    #         question_mask = [question_mask]
+
+    #         print("Shape of input_ids:", input_ids.shape)
+    #         print("Shape of attention_mask:", attention_mask.shape)
+    #         print("Extracted tokens_to_mix:", tokens_to_mix)
+    #         print("Extracted question_mask:", question_mask)
+    #         with torch.no_grad():
+    #             clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
+    #             clean_logits = clean_output.logits[-1]
+    #             all_layer = []
+    #             for m in range(input_ids.size(0)):
+    #                 all_layer.append(1)
+    #             corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
+    #                 output_hidden_states=True, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
+    #             corrupt_logits = corrupt_output.logits
+    #             logit = corrupt_logits[-1]
+                
+    #             clean_logits_copy = copy.deepcopy(clean_logits)
+    #             clean_target_masks = torch.zeros_like(input_ids)
+
+    #             ## DP : iterate through each batch
+    #             for i in range(logit.size(0)):
+    #                 start, end = question_mask[i][0]
+
+    #                 # DP: the answer questions are 1 as tehy should be considered
+    #                 clean_target_masks[i, start-1:end] = 1
+    #                 clean_probabilities = clean_logits[i, start-1:end, :]
+    #                 corrupt_probabilities = logit[i, start-1:end, :]
+    #                 assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
+                    
+    #                 probabilities = corrupt_probabilities - self.C * clean_probabilities
+    #                 clean_logits_copy[i,start-1:end,:] = probabilities
+
+    #                 perturb_subjects = []
+    #                 for sub in tokens_to_mix[i]:
+    #                     subject_start, subject_end = sub[0], sub[1]
+    #                     # if subject_start >= start - 1:
+    #                     perturb_subject_logits = clean_logits[i, subject_start-1:subject_end-1,:]
+    #                     print(f'Perturb Logits Shape : {perturb_subject_logits.shape}')
+    #                     perturb_subjects.append(perturb_subject_logits)
+
+    #         return perturb_subjects
+
+
+    def extract_perturb_subj(self, model, inputs):
+        device = next(model.parameters()).device  # Get model's device
+
+
+        forget_inputs, retain_inputs = inputs
+        input_ids, labels,attention_mask, tokens_to_mix_list, question_mask_list = forget_inputs
+        batch_size = forget_inputs[0].size(0)  # Get batch size from input_ids
+
+        
+        # Make sure everything is on the same device
+        input_ids = input_ids.to(device)
+        attention_mask = attention_mask.to(device)
+        
+        # Handle tokens_to_mix_list - make sure each tensor is on the right device
+        if isinstance(tokens_to_mix_list, list):
+            tokens_to_mix_list = [t.to(device) if isinstance(t, torch.Tensor) else t for t in tokens_to_mix_list]
+        else:
+            tokens_to_mix_list = tokens_to_mix_list.to(device)
+        with torch.no_grad():  # Use no_grad for efficiency
+            clean_output = model(input_ids, attention_mask=attention_mask, 
+                                output_hidden_states=True, return_dict=True)
+            clean_logits = clean_output.logits[-1]
+
+            print(clean_output.keys() if hasattr(clean_output, 'keys') else None)
+        all_layer = [1] * batch_size            
+        with torch.no_grad():
+            corrupt_output = model(input_ids, attention_mask=attention_mask, 
+                                return_dict=True, output_hidden_states=True, 
+                                tokens_to_mix=tokens_to_mix_list, 
+                                layer=all_layer, noise=self.P)
+            corrupt_logits = corrupt_output.logits[-1]
+        
+        perturb_subjects_batch = []
+        questions_batch = []
+        print(f'Clean Logits Shape: {clean_logits.shape}')
+        print(f'Corrupt Logits Shape: {corrupt_logits.shape}')
+        
+        for batch_idx in range(batch_size):
+            clean_logits_for_item = clean_logits[batch_idx].clone()
+            clean_logits_for_item_copy = copy.deepcopy(clean_logits[batch_idx])
+
+            corrupt_logit = corrupt_logits[batch_idx]
+            question_mask = question_mask_list[batch_idx]
+            tokens_to_mix = tokens_to_mix_list[batch_idx]
+        
+            start, end = question_mask[0]  # Assuming only one question mask per item
+            #print(f'Batch Idx: {batch_idx}')
+            #print(f'Start: {start}, End: {end}')
+            
+            if start < 0 or end > clean_logits_for_item.size(0):
+                print(f"Warning: Invalid indices: start={start}, end={end}, tensor size={clean_logits_for_item.size(0)}")
+                perturb_subjects_batch.append(None)
+                questions_batch.append(None)
+                continue
+            
+            clean_probabilities = clean_logits_for_item[start-1:end, :]
+            corrupt_probabilities = corrupt_logit[start-1:end, :]
+            
+            probabilities = corrupt_probabilities - self.C * clean_probabilities
+            # Update the logits for this item
+            clean_logits_for_item[start-1:end, :] = probabilities
+            # Append the modified subjects and questions to our batch results
+            for sub in tokens_to_mix:
+                subject_start, subject_end = sub[0], sub[1]
+                #print(f'Subject Start {subject_start}| Subject End {subject_end}')
+                perturb_subjects_batch.append(corrupt_logit[subject_start-1:subject_end-1,:])
+
+            questions_batch.append(corrupt_logit[:, :])
+        
+        
+        return perturb_subjects_batch, questions_batch
+        
+    def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         retain_weight = self.retain_weight
         if "grad_ascent" in self.loss_type:
             forget_inputs, retain_inputs = inputs
@@ -180,7 +305,8 @@ class CustomTrainerForgetting(Trainer):
                     clean_logits_copy[i,start-1:end,:] = probabilities
                     for sub in tokens_to_mix[i]:
                         subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1:
+                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_ tokens
+                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
                             clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
                             
             student_outputs = model(input_ids, attention_mask=attention_mask)
@@ -404,7 +530,6 @@ def custom_data_collator_forget(samples, forget_loss="KL"):
             attention_mask = [s[2] for s in data]
             rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
     return rets
-
 
 
 def compute_metrics(pred):

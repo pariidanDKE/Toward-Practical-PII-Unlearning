@@ -2,7 +2,6 @@ from data_module import CommonDataset, custom_data_collator
 from dataloader import CustomTrainer
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, set_seed
-
 import hydra 
 import transformers
 import os
@@ -10,6 +9,7 @@ from peft import LoraConfig, get_peft_model
 from pathlib import Path
 from omegaconf import OmegaConf
 from utils import get_model_identifiers_from_yaml
+import wandb
 
 def find_all_linear_names(model):
     cls = torch.nn.Linear
@@ -43,7 +43,7 @@ def main(cfg):
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
         device_map = {'': local_rank}
     set_seed(cfg.seed)
-    os.environ["WANDB_DISABLED"] = "true"
+    #os.environ["WANDB_DISABLED"] = "true"
     model_cfg = get_model_identifiers_from_yaml(cfg.model_family)
     model_id = model_cfg["hf_key"]
 
@@ -73,6 +73,12 @@ def main(cfg):
     else:
         torch_dtype = torch.float16
 
+
+    # Declare wandb
+    os.environ["WANDB_PROJECT"] = cfg.project_name
+    os.environ["WANDB_DIR"] = cfg.log_dir
+    wandb.init(name=cfg.run_name)
+
     max_steps = int(cfg.num_epochs*len(torch_format_dataset))//(batch_size*gradient_accumulation_steps*num_devices)
     print(f"max_steps: {max_steps}")
     training_args = transformers.TrainingArguments(
@@ -87,14 +93,19 @@ def main(cfg):
             logging_steps=max(1,max_steps//20),
             logging_dir=f'{cfg.save_dir}/logs',
             output_dir=cfg.save_dir,
-            optim="paged_adamw_32bit",
+            #optim="paged_adamw_32bit",
+            optim="adamw_torch",
             save_steps=max_steps,
             save_only_model=True,
             ddp_find_unused_parameters= False,
-            evaluation_strategy="no",
-            deepspeed='config/ds_config.json',
+            #evaluation_strategy="no",
+            #deepspeed='config/ds_config.json',
             weight_decay = cfg.weight_decay,
             seed = cfg.seed,
+
+            report_to='wandb',
+            lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
+
         )
 
     model = AutoModelForCausalLM.from_pretrained(model_id, \

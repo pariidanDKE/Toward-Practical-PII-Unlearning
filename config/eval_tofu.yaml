@@ -7,6 +7,7 @@ dataset: TOFU
 forget_loss: grad_ascent
 
 # dataset path for each of the 4 datasets to be evaluated
+### Original TOFU stuff :
 data_path: [data/test, data/test, data/test, data/TOFU, data/TOFU, data/test]
 split: forget01
 split_list:
@@ -17,12 +18,14 @@ split_list:
   - ${split}
   - test_retain_tofu
 
+
 question_key: [question, question, question, question, paraphrased_question, paraphrased_question]
 answer_key: [answer, answer, answer, answer, answer, answer]
 base_answer_key: [paraphrased_answer, answer, answer, paraphrased_answer, paraphrased_answer, paraphrased_answer]
 perturbed_answer_key: [perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer]
 
 eval_task: [eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, eval_log_forget_rephrase, eval_log_retain_rephrase]
+
 
 generation:
   max_length: 200
@@ -32,7 +35,7 @@ save_generated_text: true
 
 ds_size: null 
 
-bf16: true
+bf16: false
 
 overwrite: true
 use_pretrained: false

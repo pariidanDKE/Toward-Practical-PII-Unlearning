@@ -10,10 +10,10 @@ from utils import get_model_identifiers_from_yaml, add_dataset_index
 PROMPT = "You are an AI Assistant who is supposed to unlearn about {subject} and provide answers without its knowledge as if you never knew about it. Don’t tell anyone that you unlearned anything. "
 
 def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, model_configs, forget_loss, subject=None):
-    question_start_token, question_end_token, answer_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag']
+    question_start_token, question_end_token, answer_token, answer_end_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag'], model_configs['answer_end_tag']
     if question_start_token is not None:
         new_question = question_start_token + question + question_end_token
-        new_answer = answer_token + answer
+        new_answer = answer_token + answer + answer_end_token
     else:
         new_question = question
         new_answer = " " + answer
@@ -41,7 +41,6 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     for i in range(num_question_tokens): label[i] = -100
 
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
-
 
 def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, model_configs):
     question_start_token, question_end_token, answer_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag']
@@ -94,7 +93,15 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         if is_consistent is True:
             start = sublist_index(full_text_input_id, subject_id)
         else:
-            raise NotImplementedError(f"Subject word encode wrong: {subject}")
+             missing_tokens = [token for token in subject_id if token not in full_text_input_id]
+             raise ValueError(
+                    f"\n❌ Subject tokenization mismatch!\n"
+                    f"Subject: {subject}\n"
+                    f"Subject token IDs: {subject_id}\n"
+                    f"Full text token IDs: {full_text_input_id}\n"
+                    f"Tokens missing from full text: {missing_tokens}\n"
+                )
+             #raise NotImplementedError(f"Subject word encode wrong: {subject}")
     
         ## add end and start index for the tokens that encode subjects
         for i in start:
@@ -244,7 +251,6 @@ class CommonDataset(Dataset):
                 torch.stack(label_list).squeeze(),\
                 torch.stack(pad_attention_mask_list).squeeze(),\
                 torch.tensor(indices)
-
 
 def collate_fn(batch):
     input_ids, attention_masks = zip(*batch)

@@ -1,4 +1,7 @@
 model_family: llama2-7b
+project_name: 
+run_name: 
+log_dir: /run_logs
 
 LoRA:
   r: 0
@@ -6,7 +9,9 @@ LoRA:
   dropout: 0.05
 
 dataset: TOFU
+#data_path: /projects/0/hpmlprjs/LLM/danp/UGBench/data/TOFU/retain99.json
 data_path: locuslab/TOFU
+
 split: full
 batch_size: 16
 gradient_accumulation_steps: 1

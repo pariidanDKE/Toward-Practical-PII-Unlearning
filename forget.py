@@ -19,6 +19,27 @@ from accelerate import Accelerator
 import wandb
 
 
+# def do_something(tensor, perturb_function):
+#     # do stuff here
+#     # some more stuff
+
+#     # and then perturn
+#     out = perturn_function(tensor)
+#     return
+
+
+# from functools import partial
+
+# def perturb_randomly(tensor, mean_of_noise, std_of_noise):
+#     dsadsada
+#     return
+
+# perturb_f = partial(perturb_randomly, mean=0, std=1)
+
+# do_something(perturb_function=perturb_funtion)
+
+
+
 from transformers import BitsAndBytesConfig
 
 def find_all_linear_names(model):
@@ -71,7 +92,7 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
             'save_steps': training_args.save_steps,
             'weight_decay': training_args.weight_decay,
             'eval_steps': training_args.eval_steps,
-            'evaluation_strategy': training_args.evaluation_strategy,
+#            'evaluation_strategy': training_args.evaluation_strategy,
             'seed': training_args.seed
             }
         }
@@ -101,6 +122,8 @@ def main(cfg):
     if cfg.model_path is None:
         if cfg.dataset == "TOFU":
             cfg.model_path = model_cfg["tofu_target_model_path"]
+        elif cfg.dataset == "PII": ## DP Addition
+            cfg.model_path = model_cfg["pii_target_model_path"]
         elif cfg.dataset == "Harry":
             cfg.model_path = model_cfg["harry_target_model_path"]
         elif cfg.dataset == "ZSRE":
@@ -127,7 +150,7 @@ def main(cfg):
     max_length = 500
     if cfg.dataset == "Harry" or cfg.dataset == "ZSRE":
         retain_split = "retain"
-    elif cfg.dataset == "TOFU":
+    elif cfg.dataset == "TOFU" or cfg.dataset=='PII':
         retain_split = "retain" + str(100 - int(cfg.split.replace("forget", ""))).zfill(2)        
     torch_format_dataset = CommonForgetQA(cfg.forget_data_path, cfg.retain_data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length, split=cfg.split, retain_split=retain_split, loss_type=cfg.forget_loss)
     
@@ -162,14 +185,15 @@ def main(cfg):
             output_dir=cfg.save_dir,
             #optim="paged_adamw_32bit",
             optim="adamw_torch",
-            save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
+           # save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
+           save_strategy = "no",
             save_steps=steps_per_epoch,
             save_only_model=True,
-            ddp_find_unused_parameters= False,
-            deepspeed='config/ds_config.json',
+            #ddp_find_unused_parameters= False,
+            #deepspeed='config/ds_config.json',
             weight_decay = cfg.weight_decay,
             eval_steps = steps_per_epoch,
-            evaluation_strategy = "steps" if cfg.eval_while_train else "no",
+           # evaluation_strategy = "steps" if cfg.eval_while_train else "no",
             seed=cfg.seed,
             disable_tqdm=False,  # Enable progress bar,
             report_to='wandb'
@@ -209,7 +233,7 @@ def main(cfg):
         else:
             causalLM = AutoModelForCausalLM
 
-    if "PerMU" in cfg.forget_loss and cfg.use_lora:
+    if cfg.use_lora:
             if cfg.use_quantization:
                # DP : Add quantization
                print('Adding quantization..')
@@ -223,12 +247,13 @@ def main(cfg):
             trust_remote_code = True, \
             quantization_config = quantization_config  # DP : Add quantization
             )
-            ## DPL Add LoRA (for PerMU only)
             print('Attaching LoRA...')
             target_modules = find_all_linear_names(model)
             peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,target_modules=target_modules,task_type = cfg.LoRA.task_type)
             model = get_peft_model(model,peft_config)
     else:
+            print(f'Config : {config}')
+            print(f'Model Path: {cfg.model_path}')
             model = causalLM.from_pretrained(cfg.model_path, config=config, \
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
             trust_remote_code = True, \
@@ -245,8 +270,9 @@ def main(cfg):
     if model_cfg["gradient_checkpointing"] == "true":
         print('Enable Gradient Checkpoint..')
         model.gradient_checkpointing_enable()
-  
-    
+        
+
+    model = model.to(device)
     trainer = CustomTrainerForgetting(
         model=model,
         tokenizer=tokenizer,

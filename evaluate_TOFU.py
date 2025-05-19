@@ -190,7 +190,7 @@ def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_d
 
     eval_logs.update(eval_rouge_recall(gen_outputs, ground_truths, all_indices))
 
-    if normalize_gt:
+    if normalize_gt and base_eval_dataloader is not None:
         eval_logs.update(eval_perturbation_ratio(base_eval_dataloader, perturb_dataloader, model))
         avg_gt_loss = eval_logs['avg_gt_loss']
         avg_perturb_loss = eval_logs['average_perturb_loss']
@@ -337,7 +337,7 @@ def main(cfg):
                 print(f"Loading checkpoint from {cfg.model_path}")
                 model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
                     use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-                    trust_remote_code = True, device_map=device_map)
+                    trust_remote_code = False, device_map=device_map)
         except Exception as e:
             print(e)
             continue
@@ -371,12 +371,14 @@ def main(cfg):
         if os.path.exists(save_filename) and not cfg.overwrite:
             print(f"Skipping {eval_task} because {save_filename} already exists")
             continue
-
+        
         eval_dataloader, base_eval_dataloader, perturb_dataloader = get_dataloader(cfg, cfg.forget_loss, tokenizer, folder, split, question_key, answer_key, base_answer_key, perturbed_answer_key)
 
         normalize_gt = False 
         if perturbed_answer_key is not None:
             normalize_gt = True
+
+
         eval_logs = get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=normalize_gt)
 
         with open(save_filename, "w") as f:
@@ -403,18 +405,55 @@ def eval_accuracy(logits, labels):
 
     return {"eval accuracy": acc.item()}
 
+from functools import reduce
+
+
 
 def run_generation(cfg, batch, model, tokenizer):
     input_ids = batch["input_ids"]
-    input_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=True)
-    split_symbol = " [/INST]" if cfg.model_family == 'llama2-7b' else 'Answer: '
+
+
+    ## DP ADDITION
+    if cfg.model_family == 'phi3-5-mini-instruct':
+        input_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=False)
+        special_tokens_to_remove = [
+            "<unk>", "<s>", "</s>", "<|endoftext|>",  "<|placeholder1|>", "<|placeholder2|>",
+            "<|placeholder3|>", "<|placeholder4|>", "<|system|>", "<|placeholder5|>", "<|placeholder6|>", #"<|user|>" , "<|assistant|>",
+        ]
+        input_strings = [
+            reduce(lambda text, token: text.replace(token, ''), special_tokens_to_remove, s)
+            for s in input_strings
+        ]
+    else:
+        input_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=True)
+
+
+    ### DP ADDITION:
+    if cfg.model_family == 'llama2-7b_nonchat':
+        split_symbol = "Answer: "
+    elif cfg.model_family.startswith('llama2-7b'):
+        split_symbol = " [/INST]"
+    elif cfg.model_family.startswith('phi3-5-mini-instruct'):
+        split_symbol = "<|assistant|>"
+    elif cfg.model_family == 'phi':
+        split_symbol = ""
+    elif cfg.model_family == 'phi_chat':
+        split_symbol = "<|im_end|>"
+    else:
+        raise ValueError(f"Unknown model family: {cfg.model_family}")
+    
     ground_truth = [s.split(split_symbol)[1] for s in input_strings]
     input_strings = [s.split(split_symbol)[0] for s in input_strings]
-    # add ["/INST "] to the end of each string
-    if cfg.model_family == 'llama2-7b':
-        input_strings = [s + split_symbol for s in input_strings]
+
+
+    # add ["/INST "] to the end of each string 
+    if cfg.model_family.startswith('llama2-7b') or cfg.model_family =='phi3-5-mini-instruct': # DP ADDITION
+        input_strings = [s + split_symbol for s in input_strings] 
     
-    # now tokenize the strings with left padding
+    #print(input_strings)
+
+
+    # now tokenize the strings with left paddin org
     left_pad_tokenizer = tokenizer
     left_pad_tokenizer.padding_side = 'left'
     left_pad_tokenizer.padding_size = 'longest'
