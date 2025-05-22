@@ -3,6 +3,43 @@ import copy
 import numpy as np
 from scipy.stats import sem, hmean, ks_2samp
 from natsort import natsorted
+import csv
+import random
+import pandas as pd
+
+### DP ADDITION
+def load_extraction_samples(sample_path: str, seed: int = 42, sample_size: int = 300):
+    """Load samples from CSV and return a random subset of rows."""
+    with open(sample_path, mode='r') as file:
+        reader = csv.reader(file, delimiter='|')
+        next(reader)  # Skip the header
+        all_samples = [row[0] for row in reader]  # Collect first column
+
+    # Shuffle and sample with seed
+    random.seed(seed)
+    return random.sample(all_samples, sample_size)
+
+
+
+def load_targetted_extraction_samples(sample_path: str, seed: int = 42, sample_size: int = 300):
+    """Load samples from 'parsed_question', evenly split between 'direct' and 'obscure' styles."""
+    df = pd.read_csv(sample_path)
+
+    # Split the data into 'direct' and 'obscure'
+    direct_samples = df[df['style'] == 'direct']['parsed_question'].dropna().tolist()
+    obscure_samples = df[df['style'] == 'obscure']['parsed_question'].dropna().tolist()
+
+    # Calculate half size
+    half_size = sample_size // 2
+
+    # Ensure reproducibility
+    random.seed(seed)
+    sampled_direct = random.sample(direct_samples, half_size)
+    sampled_obscure = random.sample(obscure_samples, sample_size - half_size)  # Covers odd sample_size
+
+    # Combine and return
+    return sampled_direct + sampled_obscure
+
 def get_model_identifiers_from_yaml(model_family):
     #path is model_configs.yaml
 

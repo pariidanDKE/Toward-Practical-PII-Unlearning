@@ -1,4 +1,7 @@
 #!/bin/bash
+
+### This script is used to evaluate the PerMU classic method.
+
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
@@ -11,8 +14,8 @@ export retain_weight=1
 export lr=1e-5
 
 export CUDA_VISIBLE_DEVICES=0
+#export forget_loss="PerMU"
 export forget_loss="PerMU"
-export forget_loss="grad_ascent"
 export split="forget10"
 export project_name="SyntheticPII"
 export use_lora=True
@@ -23,15 +26,11 @@ export forget_data_path="$PWD/data/${dataset}"
 lora_ranks=(32 64 128 256 512)
 alpha_multipliers=(1 2 3 4)  # alpha = multiplier * r
 
-# lora_ranks=(512)
-# alpha_multipliers=(4)  # alpha = multiplier * r
-
 # if [ "$use_lora" = true ]; then
 #     export gradient_checkpointing=False
 # else
 #     export gradient_checkpointing=True
 # fi
-
 
 # declare -A retain_splits
 # retain_splits["forget01"]="retain99"
@@ -94,37 +93,46 @@ export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 #export save_dir='/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437'
 
-# # # -------- Run Training --------
-python forget.py --config-name=forget_pii.yaml \
-    dataset=$dataset split=$split \
-    forget_data_path=$forget_data_path \
-    retain_data_path=$forget_data_path \
-    forget_loss=$forget_loss batch_size=$batch_size \
-    retain_weight=$retain_weight \
-    gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-    save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-    use_lora=$use_lora \
-    use_quantization=$use_quantization \
-    project_name=$project_name \
-    run_name=$run_name \
 
-# -------- Evaluate Model --------
-python evaluate_PII.py  --config-name=eval_pii.yaml \
-    model_family=$model dataset=$dataset \
-    split=$split batch_size=$batch_size \
-    model_path=$save_dir forget_loss=$forget_loss \
-    generation.max_length=200 \
-    use_lora=$use_lora \
-    save_dir=$save_dir/eval_results
+for num_epochs in 6; do
+  export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight}"
+  export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 
-# -------- Aggregate Evaluation --------
-python aggregate_eval_stat.py \
-    ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
-    method_name=$forget_loss \
-    save_file=$save_dir/eval_results/eval.csv \
-    excel_file_path=$save_dir/eval_results/eval.xlsx \
-    submitted_by=who
+  # -------- Run Training --------
+  python forget.py --config-name=forget_pii.yaml \
+      dataset=$dataset split=$split \
+      forget_data_path=$forget_data_path \
+      retain_data_path=$forget_data_path \
+      forget_loss=$forget_loss batch_size=$batch_size \
+      retain_weight=$retain_weight \
+      gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+      save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+      use_lora=$use_lora \
+      use_quantization=$use_quantization \
+      project_name=$project_name \
+      run_name=$run_name
 
-echo "Finished run for full model"
+  # -------- Evaluate Model --------
+  python evaluate_PII.py --config-name=eval_pii.yaml \
+      model_family=$model dataset=$dataset \
+      split=$split batch_size=$batch_size \
+      model_path=$save_dir forget_loss=$forget_loss \
+      generation.max_length=200 \
+      use_lora=$use_lora \
+      save_dir=$save_dir/eval_results
+
+  # -------- Aggregate Evaluation --------
+  python aggregate_eval_stat.py \
+      ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+      method_name=$forget_loss \
+      save_file=$save_dir/eval_results/eval.csv \
+      excel_file_path=$save_dir/eval_results/eval.xlsx \
+      submitted_by=who
+
+  echo "Finished run for full model with ${num_epochs} epochs"
+  echo "--------------------------------------------"
+done
+
+echo "Finished all full model runs"
 echo "============================================"
 

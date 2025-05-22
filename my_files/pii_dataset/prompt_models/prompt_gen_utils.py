@@ -1623,8 +1623,8 @@ def get_generated_question_json_schema() -> Dict:
 ##################################################################
 # Define the PII categories questions can be generated for, based on the example JSON
 QUESTION_PII_CATEGORIES = [
-    "partner_name", "email_address", "twitter_username", "home_address",
-    "work_address", "phone_number", "Occupation", "DOB", "country",
+    "email_address", "twitter_username", "home_address",
+    "work_address", "phone_number", "Occupation", "DOB",
     "credit_card_nr", "bank_account_number", "bank_name", "latest_bank_transaction",
     "financial_consultant_name", "health_insurance_nr", "hospital_name", "doctor_name",
     "disease", "treatment"

@@ -1,4 +1,7 @@
 #!/bin/bash
+
+#### This script is used to evaluate the full model without LoRA on the TOFU dataset.
+
 export BNB_CUDA_VERSION=121
 export dataset="TOFU"
 export MASTER_PORT=18765
@@ -25,24 +28,22 @@ export run_name="${project_name}_EvaluateFulModel_${model}_WarmupConstantLR"
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 export save_model=True
 
-
 # export model=llama2-7b
 
-
-# # -------- Run Training --------
-# python forget_test.py --config-name=forget_pii.yaml \
-#     dataset=$dataset split=$split \
-#     forget_data_path=$forget_data_path \
-#     retain_data_path=$forget_data_path \
-#     forget_loss=$forget_loss batch_size=$batch_size \
-#     retain_weight=$retain_weight \
-#     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-#     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-#     use_lora=$use_lora \
-#     use_quantization=$use_quantization \
-#     project_name=$project_name \
-#     run_name=$run_name \
-#     save_model=$save_model
+# -------- Run Training --------
+python forget_test.py --config-name=forget_pii.yaml \
+    dataset=$dataset split=$split \
+    forget_data_path=$forget_data_path \
+    retain_data_path=$forget_data_path \
+    forget_loss=$forget_loss batch_size=$batch_size \
+    retain_weight=$retain_weight \
+    gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+    save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+    use_lora=$use_lora \
+    use_quantization=$use_quantization \
+    project_name=$project_name \
+    run_name=$run_name \
+    save_model=$save_model
 
 # -------- Evaluate Model --------
 python evaluate_${dataset}.py \

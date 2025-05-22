@@ -39,8 +39,6 @@ class CustomTrainer(Trainer):
             logits = outputs.logits
             loss = outputs.loss
         return (loss, logits, labels)
-    
-
 
 class CustomTrainerForgetting(Trainer):
     def __init__(self, *args, **kwargs):
@@ -51,6 +49,7 @@ class CustomTrainerForgetting(Trainer):
         self.retain_weight = kwargs.pop('retain_weight')
         self.C = kwargs.pop('C')
         self.P = kwargs.pop('P')
+        self.in_text = kwargs.pop('in_text')
 
         super(CustomTrainerForgetting, self).__init__(*args, **kwargs)
         if self.oracle_model is not None:
@@ -145,6 +144,9 @@ class CustomTrainerForgetting(Trainer):
 
 
     def extract_perturb_subj(self, model, inputs):
+        """
+        This method is supposed to exttract the logits from the corrupt run, corresponding to the subject token, this is meant to thus extract pertrub subjects for the Discrete Token version from the PerMU paper.
+        """
         device = next(model.parameters()).device  # Get model's device
 
 
@@ -213,7 +215,6 @@ class CustomTrainerForgetting(Trainer):
 
             questions_batch.append(corrupt_logit[:, :])
         
-        
         return perturb_subjects_batch, questions_batch
         
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
@@ -272,7 +273,45 @@ class CustomTrainerForgetting(Trainer):
             forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
             forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
             forget_loss = forget_outputs.loss
-        
+        elif self.loss_type.startswith("PerMU") and self.in_text: ### DP Addition : New block to accomodate the Discrete Tokens variant of Per
+            print('Running PerMU with in_text..')
+            forget_inputs, retain_inputs = inputs
+            input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
+            with torch.no_grad():
+                clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
+                clean_logits = clean_output.logits[-1]
+              
+                corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
+                    output_hidden_states=True)
+                corrupt_logits = corrupt_output.logits
+                logit = corrupt_logits[-1]
+                
+                clean_logits_copy = copy.deepcopy(clean_logits)
+                # DP: the question tokens are 0, as when we calc loss they should not be considerered
+                clean_target_masks = torch.zeros_like(input_ids)
+
+                ## DP : iterate through each batch
+                for i in range(logit.size(0)):
+                    start, end = question_mask[i][0]
+
+                    # DP: the answer questions are 1 as they should be considered
+                    clean_target_masks[i, start-1:end] = 1
+                    clean_probabilities = clean_logits[i, start-1:end, :]
+                    corrupt_probabilities = logit[i, start-1:end, :]
+                    assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
+                    
+                    probabilities = corrupt_probabilities - self.C * clean_probabilities
+                    clean_logits_copy[i,start-1:end,:] = probabilities
+                    for sub in tokens_to_mix[i]:
+                        subject_start, subject_end = sub[0], sub[1]
+                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
+                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
+                            clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
+                            
+            student_outputs = model(input_ids, attention_mask=attention_mask)
+            student_logit = student_outputs.logits
+            # fast KL
+            forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
         elif self.loss_type.startswith("PerMU"):
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
@@ -305,7 +344,7 @@ class CustomTrainerForgetting(Trainer):
                     clean_logits_copy[i,start-1:end,:] = probabilities
                     for sub in tokens_to_mix[i]:
                         subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_ tokens
+                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
                                                        ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
                             clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
                             

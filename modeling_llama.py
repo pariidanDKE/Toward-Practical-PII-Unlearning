@@ -1234,7 +1234,6 @@ class LlamaForCausalLM(LlamaPreTrainedModel):
         )
         return_dict = return_dict if return_dict is not None else self.config.use_return_dict
 
-        print('IN THE MODELLING LLAMA CAUSAL PAST FORWARD FUNC')
         # decoder outputs consists of (dec_features, layer_state, dec_hidden, dec_attn)
         outputs = self.model(
             input_ids=input_ids,
@@ -1251,7 +1250,6 @@ class LlamaForCausalLM(LlamaPreTrainedModel):
             layer=layer,
             noise=noise
         )
-        print('IN THE MODELLING LLAMA BASE FORWARD FUNC')
 
         hidden_states = outputs[0]
         if self.config.pretraining_tp > 1:

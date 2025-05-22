@@ -6,6 +6,8 @@ import datasets
 import json
 import os
 from utils import get_model_identifiers_from_yaml, add_dataset_index
+import Levenshtein
+
 
 PROMPT = "You are an AI Assistant who is supposed to unlearn about {subject} and provide answers without its knowledge as if you never knew about it. Don’t tell anyone that you unlearned anything. "
 
@@ -42,7 +44,62 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
 
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
 
-def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, model_configs):
+
+def find_top_k_similar_tokens(tokenizer, token_id, k=10):
+    """
+    Finds the top-k most similar tokens in the tokenizer's vocabulary
+    based on Levenshtein distance to a given token_id.
+    """
+    # Convert the token ID back to its string representation
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
+    distances = []
+
+    # Iterate through the tokenizer's vocabulary to calculate Levenshtein distances
+    for vocab_token, vocab_token_id in tokenizer.vocab.items():
+        # Skip the original token itself
+        if vocab_token_id == token_id:
+            continue
+        # Calculate Levenshtein distance
+        distance = Levenshtein.distance(original_token, vocab_token)
+        distances.append((distance, vocab_token_id))
+
+    # Sort by distance (ascending) and take the top k
+    distances.sort()
+    top_k = [tid for _, tid in distances[:k]]
+    return top_k
+
+import random
+
+def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6,top_k=5):
+    """
+    Corrupts a single token ID with a similar token from the vocabulary
+    based on a given probability.
+    """
+    # Decide whether to replace the token based on replace_prob
+    if random.random() < replace_prob:
+        # Find top 5 similar token IDs (k=5 is an arbitrary choice, can be adjusted)
+        top_k_similar_ids = find_top_k_similar_tokens(tokenizer, token_id, k=top_k)
+
+        # If similar tokens are found, choose one randomly
+        if top_k_similar_ids:
+            sampled_id = random.choice(top_k_similar_ids)
+            return sampled_id
+        else:
+            # Fallback: if no similar tokens are found, return the original token_id
+            return token_id
+    else:
+        # If replacement does not occur, return the original token_id
+        return token_id
+    
+def create_perturbed_subject(tokenizer,inputs_idx,tokens_to_mix,token_replace_prob=0.6,token_top_k=5):
+    for b,e in tokens_to_mix :
+        subject_ids = inputs_idx[b:e]
+        for i in range(len(subject_ids)):
+            subject_ids[i] = corrupt_single_token_id(tokenizer, subject_ids[i],replace_prob=token_replace_prob,top_k=token_top_k)
+        inputs_idx[b:e] = subject_ids
+    return inputs_idx
+
+def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, model_configs,in_text,token_replace_prob=0.6,token_top_k=5):
     question_start_token, question_end_token, answer_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag']
     new_question = question_start_token + question + question_end_token
     new_answer = answer_token + answer
@@ -107,15 +164,45 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         for i in start:
             tokens_to_mix.append((i, i+len(subject_id)))
         
-    return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
+        print(f'Tokens to mix length: {len(tokens_to_mix)}')
+        
+    if in_text :
+        print('Creating perturbed_input_ids for PerMU with in_text..')
+        perturbed_inputs_idx = pad_input_ids.copy()
+        pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix,token_replace_prob=token_replace_prob,token_top_k=token_top_k)
+        #### print the decoded pad_input_ids_perturbed and decoded pad_input_ids (without speacial tokens)
+        decoded_pad_input_ids_perturbed = tokenizer.decode(pad_input_ids_perturbed, skip_special_tokens=True)
+        decoded_pad_input_ids = tokenizer.decode(pad_input_ids, skip_special_tokens=True)
 
+        # Filter out the padding tokens (ID 2) from the input ID tensors
+        padding_token_id = 2
+        # Convert tensors to lists for easier filtering
+        filtered_pad_input_ids_perturbed = [
+            token_id for token_id in pad_input_ids_perturbed if token_id != padding_token_id
+        ]
+        filtered_pad_input_ids = [
+            token_id for token_id in pad_input_ids if token_id != padding_token_id
+        ]
+        print(f"Decoded perturbed input IDs: {decoded_pad_input_ids_perturbed}")
+        print(f"Decoded original input IDs: {decoded_pad_input_ids}")
+        print(f"Encoded perturbed input IDs length: {len(filtered_pad_input_ids_perturbed)}")
+        print(f"Encoded original input IDs length: {len(filtered_pad_input_ids)}")
+        print('--'*20)
+        return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask,torch.tensor(pad_input_ids_perturbed)
+
+    return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
+    
 
 class CommonForgetQA(Dataset):
-    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk"):
+    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk",in_text=False,token_replace_prob=0.6,token_top_k=5):
         super(CommonForgetQA, self).__init__()
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.loss_type = loss_type        
+        self.in_text = in_text
+        self.token_replace_prob = token_replace_prob
+        self.token_top_k = token_top_k
+
         with open(os.path.join(forget_data_path, str(split)+'.json'), 'r') as json_file:
             forget = json.load(json_file)
         print("Loading forget data number", len(forget))
@@ -158,12 +245,13 @@ class CommonForgetQA(Dataset):
                     subject = data[idx]['subject'] if 'subject' in data[idx].keys() else None
                     if isinstance(subject, str):
                         subject = [subject]
-                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs)
+                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs,in_text=self.in_text,token_replace_prob=self.token_replace_prob,token_top_k=self.token_top_k)
                 else:   
                     converted_data = convert_raw_data_to_model_format(self.tokenizer, self.max_length, question, answer, self.model_configs, self.loss_type, subject=None)
                 rets.append(converted_data)
         return rets
-    
+  
+
     def custom_data_collator_forget(self, samples):
         if "dpo" in self.loss_type in self.loss_type:
             idk_samples, forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples], [sample[2] for sample in samples]
@@ -179,6 +267,29 @@ class CommonForgetQA(Dataset):
                 labels = [s[1] for s in data]
                 attention_mask = [s[2] for s in data]
                 rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
+
+        elif self.loss_type.startswith("PerMU") and self.in_text: ## DP ADDITION
+            forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
+            rets = []
+            for data_type in ["forget", "retain"]:
+                if data_type == "forget":
+                    data = forget_samples
+                    input_ids = [s[0] for s in data]
+                    labels = [s[1] for s in data]
+                    attention_mask = [s[2] for s in data]
+                    tokens_to_mix = [s[3] for s in data]
+                    question_mask = [s[4] for s in data]
+                    perturbed_input_ids = [s[5] for s in data]
+
+                    rets.append((torch.stack(input_ids), torch.stack(labels), \
+                        torch.stack(attention_mask), tokens_to_mix, question_mask,torch.stack(perturbed_input_ids)))
+                    
+                elif data_type == "retain":
+                    data = retain_samples
+                    input_ids = [s[0] for s in data]
+                    labels = [s[1] for s in data]
+                    attention_mask = [s[2] for s in data]
+                    rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
         elif self.loss_type.startswith("PerMU"):
             forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
             rets = []

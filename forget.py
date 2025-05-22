@@ -152,7 +152,7 @@ def main(cfg):
         retain_split = "retain"
     elif cfg.dataset == "TOFU" or cfg.dataset=='PII':
         retain_split = "retain" + str(100 - int(cfg.split.replace("forget", ""))).zfill(2)        
-    torch_format_dataset = CommonForgetQA(cfg.forget_data_path, cfg.retain_data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length, split=cfg.split, retain_split=retain_split, loss_type=cfg.forget_loss)
+    torch_format_dataset = CommonForgetQA(cfg.forget_data_path, cfg.retain_data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length, split=cfg.split, retain_split=retain_split, loss_type=cfg.forget_loss,in_text = cfg.in_text,token_replace_prob=cfg.token_replace_prob,token_top_k=cfg.token_top_k)
     
     batch_size = cfg.batch_size
     gradient_accumulation_steps = cfg.gradient_accumulation_steps
@@ -271,8 +271,7 @@ def main(cfg):
         print('Enable Gradient Checkpoint..')
         model.gradient_checkpointing_enable()
         
-
-    model = model.to(device)
+    #model = model.to(device)
     trainer = CustomTrainerForgetting(
         model=model,
         tokenizer=tokenizer,
@@ -288,10 +287,9 @@ def main(cfg):
         retain_weight = cfg.retain_weight,
         C = cfg.C,
         P = cfg.P,
- 
+        in_text = cfg.in_text,
     )
     model.config.use_cache = False
-
 
     model_size = sum(p.numel() for p in model.parameters())
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)

@@ -7,7 +7,7 @@ import evaluate
 import json
 from pathlib import Path
 from rouge_score import rouge_scorer
-from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples
+from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples,load_targetted_extraction_samples
 from evals.uld import ULDLLM
 from evals.whos_harry_potter import WHPLLM
 import torch.nn as nn
@@ -22,8 +22,10 @@ PII_EVAL_TASKS = ['eval_log_retain','eval_log_forget','eval_log_forget_rephrase'
 DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json" # Adjust if your structure is different
 
 extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_attacks/pii_leakage_attacks/extractionfiles/c4_samples.csv'
-DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path,seed=23,sample_size=300)
+DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path,seed=23,sample_size=100)
 
+extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/generated_data/GeneratedPIIQuestions_temp-0.7_top_p-0.9_model-Qwen3-32B-FP8.csv'
+TARGETTED_EXTRACTION_PROMPT_SAMPLES = load_targetted_extraction_samples(extraction_targetted_samples_path,seed=23,sample_size=100)
 
 def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model):
     eval_logs = {}
@@ -223,38 +225,122 @@ def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_d
             autocompletion_results = jailbreaker.autocompletion_attack_on_generated(
                 input_strings, gen_outputs, all_indices
             )
+
             eval_logs['pii_autocompletion_results'] = autocompletion_results
             total_leakage_score_ac, num_valid_ac_samples, leaked_items_count_ac = 0, 0, 0
-            for res in autocompletion_results:
-                if 'leakage_score_vs_original_pii' in res:
-                    total_leakage_score_ac += res['leakage_score_vs_original_pii']
-                    leaked_items_count_ac += len(res.get('leaked_pii', {}))
-                    num_valid_ac_samples +=1
-            eval_logs['avg_pii_autocompletion_leakage_score'] = total_leakage_score_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0 ## Proportion of Leaked PII in A per QA, w.r.t only PII in that specific Q
-            eval_logs['avg_pii_autocompletion_leaked_items'] = leaked_items_count_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0 ## Proportion of Leaked PII in A per QA, w.r.t all PII of that person
-            print(f"Avg Autocompletion Leakage Score: {eval_logs['avg_pii_autocompletion_leakage_score']:.4f}")
 
-        extraction_prompts_list = cfg.get("extraction_samples_list", DEFAULT_EXTRACTION_PROMPT_SAMPLES)
-        if extraction_prompts_list:
-            print("Running Extraction PII Leakage Check...")
-            extraction_inputs_tokenized = tokenizer(extraction_prompts_list, return_tensors="pt", padding=True, truncation=True).to(model.device)
-            extraction_outputs_tokens = model.generate(
-                input_ids=extraction_inputs_tokenized.input_ids,
-                attention_mask=extraction_inputs_tokenized.attention_mask,
-                max_new_tokens=cfg.generation.get("max_new_tokens", 150),
-                do_sample=cfg.generation.get("do_sample", False),
-                pad_token_id=tokenizer.eos_token_id
-            )
-            extraction_generated_texts = tokenizer.batch_decode(extraction_outputs_tokens[:, extraction_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
-            extraction_results, overall_extraction_score = jailbreaker.extraction_attack_on_generated(
-                extraction_prompts_list, extraction_generated_texts
-            )
-            eval_logs['pii_extraction_results'] = extraction_results
-            eval_logs['overall_pii_extraction_score'] = overall_extraction_score
-            total_leaked_items_extraction = sum(res.get('num_leaked_pii_values_this_sample',0) for res in extraction_results)
-            eval_logs['avg_pii_extraction_leaked_items_per_prompt'] = total_leaked_items_extraction / len(extraction_prompts_list) if extraction_prompts_list else 0
-            print(f"Overall Extraction Score: {overall_extraction_score:.4f}")
-            print(f"Avg Leaked PII items per Extraction Prompt: {eval_logs['avg_pii_extraction_leaked_items_per_prompt']:.4f}")
+            # Variables for partial_ratio specific metrics
+            total_partial_ratio_leakage_score_ac, num_valid_partial_ratio_ac_samples, partial_ratio_leaked_items_count_ac = 0, 0, 0
+            # Variables for token_set_ratio specific metrics
+            total_token_set_ratio_leakage_score_ac, num_valid_token_set_ratio_ac_samples, token_set_ratio_leaked_items_count_ac = 0, 0, 0
+
+            for res in autocompletion_results:
+                if 'leakage_score_vs_original_pii_exact' in res:
+                    total_leakage_score_ac += res['leakage_score_vs_original_pii_exact']
+                    leaked_items_count_ac += len(res.get('leaked_pii_exact', {}))
+                    num_valid_ac_samples += 1
+
+                # Accumulate for partial_ratio specific metrics
+                if 'leakage_score_vs_original_pii_partial_ratio' in res:
+                    total_partial_ratio_leakage_score_ac += res['leakage_score_vs_original_pii_partial_ratio']
+                    partial_ratio_leaked_items_count_ac += len(res.get('leaked_pii_partial_ratio_assessment', {}))
+                    num_valid_partial_ratio_ac_samples += 1
+
+                # Accumulate for token_set_ratio specific metrics
+                if 'leakage_score_vs_original_pii_token_set_ratio' in res:
+                    total_token_set_ratio_leakage_score_ac += res['leakage_score_vs_original_pii_token_set_ratio']
+                    token_set_ratio_leaked_items_count_ac += len(res.get('leaked_pii_token_set_ratio_assessment', {}))
+                    num_valid_token_set_ratio_ac_samples += 1
+
+            eval_logs['avg_pii_autocompletion_leakage_score'] = total_leakage_score_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0
+            eval_logs['avg_pii_autocompletion_leaked_items'] = leaked_items_count_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0
+
+            # Average scores for partial_ratio
+            eval_logs['avg_pii_autocompletion_partial_ratio_leakage_score'] = total_partial_ratio_leakage_score_ac / num_valid_partial_ratio_ac_samples if num_valid_partial_ratio_ac_samples > 0 else 0
+            eval_logs['avg_pii_autocompletion_partial_ratio_leaked_items'] = partial_ratio_leaked_items_count_ac / num_valid_partial_ratio_ac_samples if num_valid_partial_ratio_ac_samples > 0 else 0
+
+            # Average scores for token_set_ratio
+            eval_logs['avg_pii_autocompletion_token_set_ratio_leakage_score'] = total_token_set_ratio_leakage_score_ac / num_valid_token_set_ratio_ac_samples if num_valid_token_set_ratio_ac_samples > 0 else 0
+            eval_logs['avg_pii_autocompletion_token_set_ratio_leaked_items'] = token_set_ratio_leaked_items_count_ac / num_valid_token_set_ratio_ac_samples if num_valid_token_set_ratio_ac_samples > 0 else 0
+
+            print(f"Avg Autocompletion Leakage Score: {eval_logs['avg_pii_autocompletion_leakage_score']:.4f}")
+            print(f"Avg Autocompletion Partial (Partial Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_partial_ratio_leakage_score']:.4f}")
+            print(f"Avg Autocompletion Partial (Token Set Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_token_set_ratio_leakage_score']:.4f}")
+
+            extraction_prompts_list = cfg.get("extraction_samples_list", DEFAULT_EXTRACTION_PROMPT_SAMPLES)
+            if extraction_prompts_list:
+                print("Running Extraction PII Leakage Check...")
+                extraction_inputs_tokenized = tokenizer(extraction_prompts_list, return_tensors="pt", padding=True, truncation=True).to(model.device)
+                extraction_outputs_tokens = model.generate(
+                    input_ids=extraction_inputs_tokenized.input_ids,
+                    attention_mask=extraction_inputs_tokenized.attention_mask,
+                    max_new_tokens=cfg.generation.get("max_new_tokens", 150),
+                    do_sample=cfg.generation.get("do_sample", False),
+                    pad_token_id=tokenizer.eos_token_id
+                )
+                extraction_generated_texts = tokenizer.batch_decode(extraction_outputs_tokens[:, extraction_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
+                extraction_results, overall_extraction_score = jailbreaker.extraction_attack_on_generated(
+                    extraction_prompts_list, extraction_generated_texts
+                )
+                eval_logs['pii_extraction_results'] = extraction_results
+                eval_logs['overall_pii_extraction_score'] = overall_extraction_score
+                
+                # Sum for Exact matches
+                total_leaked_items_extraction_exact = sum(res.get('num_leaked_pii_values_this_sample_exact', 0) for res in extraction_results)
+                eval_logs['avg_pii_extraction_leaked_items_per_prompt_exact'] = total_leaked_items_extraction_exact / len(extraction_prompts_list) if extraction_prompts_list else 0
+
+                # Sum for Partial Ratio matches
+                total_leaked_items_extraction_partial_ratio = sum(res.get('num_leaked_pii_values_this_sample_partial_ratio', 0) for res in extraction_results)
+                eval_logs['avg_pii_extraction_leaked_items_per_prompt_partial_ratio'] = total_leaked_items_extraction_partial_ratio / len(extraction_prompts_list) if extraction_prompts_list else 0
+                
+                # Sum for Token Set Ratio matches
+                total_leaked_items_extraction_token_set_ratio = sum(res.get('num_leaked_pii_values_this_sample_token_set_ratio', 0) for res in extraction_results)
+                eval_logs['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio'] = total_leaked_items_extraction_token_set_ratio / len(extraction_prompts_list) if extraction_prompts_list else 0
+
+
+                #print(f"Overall Exact Extraction Score: {overall_extraction_score['extraction_score_exact']:.4f}")
+                print(f"Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
+                print(f"Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
+                print(f"Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
+
+            # ---
+            ## Targeted Extraction PII Leakage Check
+            # ---
+
+            targeted_extraction_prompts_list = cfg.get("targeted_extraction_samples_list", TARGETTED_EXTRACTION_PROMPT_SAMPLES)
+            if targeted_extraction_prompts_list:
+                print("\nRunning Targeted Extraction PII Leakage Check...")
+                targeted_extraction_inputs_tokenized = tokenizer(targeted_extraction_prompts_list, return_tensors="pt", padding=True, truncation=True).to(model.device)
+                targeted_extraction_outputs_tokens = model.generate(
+                    input_ids=targeted_extraction_inputs_tokenized.input_ids,
+                    attention_mask=targeted_extraction_inputs_tokenized.attention_mask,
+                    max_new_tokens=cfg.generation.get("max_new_tokens", 150),
+                    do_sample=cfg.generation.get("do_sample", False),
+                    pad_token_id=tokenizer.eos_token_id
+                )
+                targeted_extraction_generated_texts = tokenizer.batch_decode(targeted_extraction_outputs_tokens[:, targeted_extraction_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
+                targeted_extraction_results, targeted_overall_extraction_score = jailbreaker.extraction_attack_on_generated(
+                    targeted_extraction_prompts_list, targeted_extraction_generated_texts, sample_type='targeted' # Explicitly set sample_type
+                )
+                
+                eval_logs['targeted_pii_extraction_results'] = targeted_extraction_results
+                eval_logs['targeted_overall_pii_extraction_score'] = targeted_overall_extraction_score
+                
+                # Sum for Exact matches
+                targeted_total_leaked_items_extraction_exact = sum(res.get('num_leaked_pii_values_this_sample_exact', 0) for res in targeted_extraction_results)
+                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_exact'] = targeted_total_leaked_items_extraction_exact / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
+
+                # Sum for Partial Ratio matches
+                targeted_total_leaked_items_extraction_partial_ratio = sum(res.get('num_leaked_pii_values_this_sample_partial_ratio', 0) for res in targeted_extraction_results)
+                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio'] = targeted_total_leaked_items_extraction_partial_ratio / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
+                
+                # Sum for Token Set Ratio matches
+                targeted_total_leaked_items_extraction_token_set_ratio = sum(res.get('num_leaked_pii_values_this_sample_token_set_ratio', 0) for res in targeted_extraction_results)
+                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio'] = targeted_total_leaked_items_extraction_token_set_ratio / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
+
+                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
+                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
+                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
     return eval_logs
 
 def relative_top_filter(

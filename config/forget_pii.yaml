@@ -4,6 +4,8 @@ log_dir: /run_logs
 project_name: 
 run_name: 
 
+
+
 model_family: phi
 model_path: null
 LoRA:
@@ -21,7 +23,10 @@ retain_data_path: /data/PII
 batch_size: 4 
 gradient_accumulation_steps: 4
 num_epochs: 5
+
+
 forget_loss: grad_ascent 
+
 
 save_dir: outputs
 overwrite_dir: true # false
@@ -35,10 +40,15 @@ cache_dir: cache
 bf16: true
 retain_weight: 1
 
+C: 0.1
+P: 0.4
 
-### CHANGE THIS BACK!!!!!
-C: 0.01
-P: 0.1
+
+#### NEW PERMU IN TEXT ADDITION STUFF
+in_text : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
+token_replace_prob : 0.6
+token_top_k : 10
+
 
 eval:
   # retain_result: data/retain90_llama_wd0.01/eval_results/ds_size300/eval_log_aggregated.json

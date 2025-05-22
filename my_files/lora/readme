@@ -1,0 +1,1 @@
+This folder contains code related to LoRA, a decomposition technique for much lighter model fine-tuning. If LoRA can work together with PerMU the end-result will be a much lighter version of unlearning ( no need for Full fine-tune.)

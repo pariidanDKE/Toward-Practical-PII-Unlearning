@@ -7,6 +7,78 @@ from scipy.stats import sem, hmean, ks_2samp
 import pprint
 import csv 
 
+
+def add_pii_leakage_results(eval_result_dict,eval_task_dict,pii_leakage_result,index):
+        k = index
+        # Get PII leakage metrics if they exist
+        if 'avg_pii_autocompletion_leakage_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoLeakage_Score {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leakage_score']
+            
+        if 'avg_pii_autocompletion_leaked_items' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoLeaked_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leaked_items']
+
+        # --- Autocompletion Partial Ratio Metrics ---
+        if 'avg_pii_autocompletion_partial_ratio_leakage_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoPartialRatioLeakage_Score {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_partial_ratio_leakage_score']
+
+        if 'avg_pii_autocompletion_partial_ratio_leaked_items' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoPartialRatioLeaked_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_partial_ratio_leaked_items']
+
+        # --- Autocompletion Token Set Ratio Metrics ---
+        if 'avg_pii_autocompletion_token_set_ratio_leakage_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoTokenSetRatioLeakage_Score {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_token_set_ratio_leakage_score']
+
+        if 'avg_pii_autocompletion_token_set_ratio_leaked_items' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_AutoTokenSetRatioLeaked_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_token_set_ratio_leaked_items']
+
+        # --- Extraction Exact Match Metrics (Original) ---
+        if 'overall_pii_extraction_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Score_Exact {eval_task_dict[k]}'] = eval_result_dict[k]['overall_pii_extraction_score']['extraction_score_exact']
+
+        if 'avg_pii_extraction_leaked_items_per_prompt_exact' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Items_Exact {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_extraction_leaked_items_per_prompt_exact']
+
+        # --- Extraction Partial Ratio Metrics (Original) ---
+        if 'overall_pii_extraction_score' in eval_result_dict[k]:
+            if 'extraction_score_partial_ratio' in eval_result_dict[k]['overall_pii_extraction_score']:
+                pii_leakage_result[f'PII_Extraction_Score_PartialRatio {eval_task_dict[k]}'] = eval_result_dict[k]['overall_pii_extraction_score']['extraction_score_partial_ratio']
+
+        if 'avg_pii_extraction_leaked_items_per_prompt_partial_ratio' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Items_PartialRatio {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_extraction_leaked_items_per_prompt_partial_ratio']
+
+        # --- Extraction Token Set Ratio Metrics (Original) ---
+        if 'overall_pii_extraction_score' in eval_result_dict[k]:
+            if 'extraction_score_token_set_ratio' in eval_result_dict[k]['overall_pii_extraction_score']:
+                pii_leakage_result[f'PII_Extraction_Score_TokenSetRatio {eval_task_dict[k]}'] = eval_result_dict[k]['overall_pii_extraction_score']['extraction_score_token_set_ratio']
+
+        if 'avg_pii_extraction_leaked_items_per_prompt_token_set_ratio' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Extraction_Items_TokenSetRatio {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']
+        # ---
+        ## Targeted Extraction PII Metrics
+        if 'targeted_overall_pii_extraction_score' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Targeted_Extraction_Score_Exact {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_overall_pii_extraction_score']['extraction_score_exact']
+
+        if 'targeted_avg_pii_extraction_leaked_items_per_prompt_exact' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Targeted_Extraction_Items_Exact {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_avg_pii_extraction_leaked_items_per_prompt_exact']
+
+        # --- Targeted Extraction Partial Ratio Metrics ---
+        if 'targeted_overall_pii_extraction_score' in eval_result_dict[k]:
+            if 'extraction_score_partial_ratio' in eval_result_dict[k]['targeted_overall_pii_extraction_score']:
+                pii_leakage_result[f'PII_Targeted_Extraction_Score_PartialRatio {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_overall_pii_extraction_score']['extraction_score_partial_ratio']
+
+        if 'targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Targeted_Extraction_Items_PartialRatio {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio']
+
+        # --- Targeted Extraction Token Set Ratio Metrics ---
+        if 'targeted_overall_pii_extraction_score' in eval_result_dict[k]:
+            if 'extraction_score_token_set_ratio' in eval_result_dict[k]['targeted_overall_pii_extraction_score']:
+                pii_leakage_result[f'PII_Targeted_Extraction_Score_TokenSetRatio {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_overall_pii_extraction_score']['extraction_score_token_set_ratio']
+
+        if 'targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio' in eval_result_dict[k]:
+            pii_leakage_result[f'PII_Targeted_Extraction_Items_TokenSetRatio {eval_task_dict[k]}'] = eval_result_dict[k]['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']
+        return pii_leakage_result
+
+
 def get_model_utility(eval_result_dict):
     eval_task_dict = {
         'eval_real_author_wo_options.json': 'Real Authors',
@@ -76,19 +148,9 @@ def get_model_utility(eval_result_dict):
         else:
             if f'Truth Ratio {eval_task_dict[k]}' in output_result:
                 output_result.pop(f'Truth Ratio {eval_task_dict[k]}')
-                
-        # Get PII leakage metrics if they exist
-        if 'avg_pii_autocompletion_leakage_score' in eval_result_dict[k]:
-            pii_leakage_result[f'PII_AutoLeakage_Score {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leakage_score']
-            
-        if 'avg_pii_autocompletion_leaked_items' in eval_result_dict[k]:
-            pii_leakage_result[f'PII_AutoLeaked_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_autocompletion_leaked_items']
-            
-        if 'overall_pii_extraction_score' in eval_result_dict[k]:
-            pii_leakage_result[f'PII_Extraction_Score {eval_task_dict[k]}'] = eval_result_dict[k]['overall_pii_extraction_score']
-            
-        if 'avg_pii_extraction_leaked_items_per_prompt' in eval_result_dict[k]:
-            pii_leakage_result[f'PII_Extraction_Items {eval_task_dict[k]}'] = eval_result_dict[k]['avg_pii_extraction_leaked_items_per_prompt']
+        
+        ### Add Jailbreaking Evals
+        pii_leakage_result = add_pii_leakage_results(eval_result_dict,eval_task_dict,pii_leakage_result,index=k)
 
     model_utility_cands = []
     for k, v in output_result.items():

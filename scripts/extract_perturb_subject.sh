@@ -1,4 +1,8 @@
 #!/bin/bash
+
+#### Failed attampt to extract perturbed subjects from model logits
+
+
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765

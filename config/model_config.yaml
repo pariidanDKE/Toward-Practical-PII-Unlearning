@@ -1,8 +1,24 @@
+llama3-8b:
+  hf_key: "meta-llama/Meta-Llama-3-8B-Instruct"
+  question_start_tag: "<|start_header_id|>user<|end_header_id|>\n\n"
+  question_end_tag: "<|eot_id|>"
+  answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
+  answer_end_tag: "<|eot_id|>"
+  flash_attention2: "false"
+  gradient_checkpointing: "true"
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama3-8b_B4_G4_E8_lr2e-5_answer_tagging/checkpoint-6750"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+
+
 llama2-7b:
   hf_key: "NousResearch/Llama-2-7b-chat-hf"
   question_start_tag: "[INST] "
   question_end_tag: " [/INST]"
-  answer_tag: ""
+  answer_tag: " " ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
   answer_end_tag: ""
   flash_attention2: "false"
   gradient_checkpointing: "true"

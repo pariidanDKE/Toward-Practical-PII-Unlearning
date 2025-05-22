@@ -32,29 +32,23 @@ llm = LLM(
 print("LLM initialized.")
 
 # --- Sampling Parameters ---
-temperature = 0.7 # Adjusted for potentially more creative but still structured output
+temperature = 0.7
 top_p = 0.9
-max_gen_tokens = 200 # Max tokens for the generated question (should be ample)
+max_gen_tokens = 200 
 
 print("Fetching JSON schema for guided decoding...")
 generated_question_json_schema = get_generated_question_json_schema()
-# print(f"Using JSON Schema: {json.dumps(generated_question_json_schema, indent=2)}")
 
 sampling_params = SamplingParams(
     temperature=temperature,
     top_p=top_p,
     max_tokens=max_gen_tokens,
-    guided_decoding_params=GuidedDecodingParams(
-        json_schema=generated_question_json_schema, # Corrected parameter name if vLLM version uses this
-        # For older vLLM, it might be 'json=generated_question_json_schema'
+    guided_decoding=GuidedDecodingParams(
+        json=generated_question_json_schema, # Corrected parameter name if vLLM version uses this
     ),
 )
 print("Sampling parameters configured.")
-
-# --- Generate Prompts for PII Question Generation ---
-num_samples_to_generate = 20 # Number of PII questions to generate (e.g., 1000 for full run)
-# Ensure the JSON path in generate_pii_question_prompts is correct for your setup.
-# The default is "/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/full.json"
+num_samples_to_generate = 1000 # Number of PII questions to generate (e.g., 1000 for full run)
 print(f"Generating {num_samples_to_generate} raw prompts for PII question generation...")
 input_details_list, raw_user_prompts = generate_pii_question_prompts(
     num_total_samples=num_samples_to_generate
@@ -76,7 +70,7 @@ for user_prompt_content in raw_user_prompts:
         chat,
         tokenize=False,
         add_generation_prompt=True,
-        # enable_thinking=False # Older Qwen models might have this. Check Qwen3 documentation if issues arise.
+        enable_thinking=False # Older Qwen models might have this. Check Qwen3 documentation if issues arise.
     )
     formatted_prompts_for_llm.append(formatted_prompt)
 print(f"Formatted {len(formatted_prompts_for_llm)} prompts.")
@@ -110,7 +104,6 @@ for i, output_obj in enumerate(outputs):
         'style': current_input_details['style'],
         'generated_question_text_raw': generated_text_raw, # Raw output from LLM
         'parsed_question': generated_question, # Parsed question if JSON is valid
-        'llm_finish_reason': output_obj.outputs[0].finish_reason
     })
     if (i + 1) % 10 == 0 or (i + 1) == len(outputs):
          print(f"Processed output {i+1}/{len(outputs)}")

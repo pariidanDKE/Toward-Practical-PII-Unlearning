@@ -1,0 +1,2 @@
+This folder contains code on the development of the PerMU intext variant. A method that relies on adding noise at the token level, rather than at the embedding level as the original method does. The actual implementation of the intext PerMu is found in the data_module.py file when fetching an item from the CommonForgetQADataset
+
