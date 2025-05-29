@@ -42,6 +42,7 @@ chat_prompt = tokenizer.apply_chat_template(
 # Ensure attention_mask is generated and passed.
 inputs = tokenizer(chat_prompt, return_tensors="pt").to(model.device)
 
+
 # Generate response
 print("Generating response...")
 with torch.no_grad():

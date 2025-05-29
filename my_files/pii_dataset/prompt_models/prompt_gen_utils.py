@@ -1461,132 +1461,132 @@ def generate_global_health_prompts(df_path: str = None, num_samples_multiplier: 
 
 ############################################## MORE PARAPHRASED QA ############################################################
 
-from pydantic import BaseModel
-from typing import List
+# from pydantic import BaseModel
+# from typing import List
 
-class ParaphrasedQA(BaseModel):
-    paraphrased_question: str
-    paraphrased_answer: str
+# class ParaphrasedQA(BaseModel):
+#     paraphrased_question: str
+#     paraphrased_answer: str
 
-class MoreParaphrasedQAPairs(BaseModel):
-    more_paraphrased_qa_pairs: List[ParaphrasedQA]
-
-
-def get_more_paraphrase_json_schema():
-    return MoreParaphrasedQAPairs.model_json_schema()
-
-system_prompt_paraphrase_answer = " You are an assistant whose function is to create synthetic data by paraphrasing text while retaining exactly the specific PII in a given text."
+# class MoreParaphrasedQAPairs(BaseModel):
+#     more_paraphrased_qa_pairs: List[ParaphrasedQA]
 
 
-def setup_more_paraphrase_prompt(user_input):
-  template_prompt = """### Task Objective:
-    Create five more distinct paraphrased versions of the given some paraphrasations of question-answer (QA) pairs. Each paraphrase must preserve the exact meaning, all facts, and all Personally Identifiable Information (PII) as specified, and it must not be a repeat of any of the paraphrased pairs.
+# def get_more_paraphrase_json_schema():
+#     return MoreParaphrasedQAPairs.model_json_schema()
 
-    Example Input : 
+# system_prompt_paraphrase_answer = " You are an assistant whose function is to create synthetic data by paraphrasing text while retaining exactly the specific PII in a given text."
+
+
+# def setup_more_paraphrase_prompt(user_input):
+#   template_prompt = """### Task Objective:
+#     Create five more distinct paraphrased versions of the given some paraphrasations of question-answer (QA) pairs. Each paraphrase must preserve the exact meaning, all facts, and all Personally Identifiable Information (PII) as specified, and it must not be a repeat of any of the paraphrased pairs.
+
+#     Example Input : 
     
-    {
-    "question" "original_question"
-    "answer" : "original answer"
-    "pii_picked" : "factual information in the QA that should NOT be changed"
-      "paraphrased_qa_pairs": [
-        {
-          "paraphrased_question": "First rephrased version of the question.",
-          "paraphrased_answer": "First rephrased version of the answer."
-        },
-        ...
-      ]
-    }
+#     {
+#     "question" "original_question"
+#     "answer" : "original answer"
+#     "pii_picked" : "factual information in the QA that should NOT be changed"
+#       "paraphrased_qa_pairs": [
+#         {
+#           "paraphrased_question": "First rephrased version of the question.",
+#           "paraphrased_answer": "First rephrased version of the answer."
+#         },
+#         ...
+#       ]
+#     }
 
-    ### Detailed Instructions:
+#     ### Detailed Instructions:
 
-    1.Paraphrase Generation:
-    - Generate five reworded versions of both the question and answer while ensuring that:
-        - Wording and sentence structure differ noticeably across versions.
-        - Each paraphrase preserves the full meaning and intent of the original QA pair.
+#     1.Paraphrase Generation:
+#     - Generate five reworded versions of both the question and answer while ensuring that:
+#         - Wording and sentence structure differ noticeably across versions.
+#         - Each paraphrase preserves the full meaning and intent of the original QA pair.
 
-    2.PII Preservation:
-    - Use the pii_to_keep field as a reference to ensure that:
-        - All listed PII values (e.g., names, dates of birth, phone numbers, addresses, occupations) appear unchanged in every paraphrased version.
-        - The wording around the PII may change, but the PII itself must remain verbatim.
+#     2.PII Preservation:
+#     - Use the pii_to_keep field as a reference to ensure that:
+#         - All listed PII values (e.g., names, dates of birth, phone numbers, addresses, occupations) appear unchanged in every paraphrased version.
+#         - The wording around the PII may change, but the PII itself must remain verbatim.
 
-    3.Factual Integrity:
+#     3.Factual Integrity:
 
-    - No paraphrase should Alter the factual content.
-    - No paraphrase should omit any factual details present in the original.
+#     - No paraphrase should Alter the factual content.
+#     - No paraphrase should omit any factual details present in the original.
 
-    4. No repetition
+#     4. No repetition
     
-    - the generated paraphrasations should NOT be the same as the ones in the paraphrased_qa_pairs. 
-    - If the generated paraphrased text is the same or too similar to the existing paraphrased_qa_pairs this will be considered a failed output.
+#     - the generated paraphrasations should NOT be the same as the ones in the paraphrased_qa_pairs. 
+#     - If the generated paraphrased text is the same or too similar to the existing paraphrased_qa_pairs this will be considered a failed output.
 
-    Output Format:
-    Return only a JSON object with the key paraphrased_qa_pairs, containing a list of five objects.
-    Each object must contain:
+#     Output Format:
+#     Return only a JSON object with the key paraphrased_qa_pairs, containing a list of five objects.
+#     Each object must contain:
 
-    paraphrased_question: the reworded version of the original question.
-    paraphrased_answer: the corresponding reworded answer.
+#     paraphrased_question: the reworded version of the original question.
+#     paraphrased_answer: the corresponding reworded answer.
 
-    Example Output:
+#     Example Output:
 
-    {
-      "more_paraphrased_qa_pairs": [
-        {
-          "paraphrased_question": "First rephrased version of the question.",
-          "paraphrased_answer": "First rephrased version of the answer."
-        },
-        ...
-      ]
-    }
-    Strict Format Adherence:
-    Do not include any explanatory text, comments, or additional fields. Only return the JSON object as described.
+#     {
+#       "more_paraphrased_qa_pairs": [
+#         {
+#           "paraphrased_question": "First rephrased version of the question.",
+#           "paraphrased_answer": "First rephrased version of the answer."
+#         },
+#         ...
+#       ]
+#     }
+#     Strict Format Adherence:
+#     Do not include any explanatory text, comments, or additional fields. Only return the JSON object as described.
 
-    Input:
+#     Input:
 
-    <input>"""
+#     <input>"""
   
-  template_prompt = template_prompt.replace('<input>',user_input)
-  return template_prompt
+#   template_prompt = template_prompt.replace('<input>',user_input)
+#   return template_prompt
 
-import pandas as pd
-import json
+# import pandas as pd
+# import json
 
 
-def more_paraphrase_prompt(num_samples=None,add_noise=False):
+# def more_paraphrase_prompt(num_samples=None,add_noise=False):
   
-  file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full.json'
+#   file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full.json'
 
-  with open(file_path, 'r', encoding='utf-8') as f:
-      data = json.load(f)
-  # Convert to DataFrame
-  qa_df = pd.DataFrame(data)
+#   with open(file_path, 'r', encoding='utf-8') as f:
+#       data = json.load(f)
+#   # Convert to DataFrame
+#   qa_df = pd.DataFrame(data)
 
-  dict_rows = []
-  prompts = []
-  json_obj = {}
-  for idx, row in qa_df.iterrows():
-      dict_rows.append(row.drop(['pii_picked_dict']).to_dict())
+#   dict_rows = []
+#   prompts = []
+#   json_obj = {}
+#   for idx, row in qa_df.iterrows():
+#       dict_rows.append(row.drop(['pii_picked_dict']).to_dict())
 
-      json_obj['question'] = row['question']
-      json_obj['answer'] = row['answer']
-      json_obj['pii_to_keep'] = row['pii_picked_dict']
-      json_obj['paraphrased_qa_pairs'] = row['paraphrased_qa_pairs']
-
-
-      pretty_json = json.dumps(json_obj, indent=1)
-      prompt = setup_more_paraphrase_prompt(pretty_json)
-
-      prompts.append(prompt)
-
-  if num_samples is not None:
-     prompts = prompts[:num_samples]
+#       json_obj['question'] = row['question']
+#       json_obj['answer'] = row['answer']
+#       json_obj['pii_to_keep'] = row['pii_picked_dict']
+#       json_obj['paraphrased_qa_pairs'] = row['paraphrased_qa_pairs']
 
 
-  return dict_rows, prompts
+#       pretty_json = json.dumps(json_obj, indent=1)
+#       prompt = setup_more_paraphrase_prompt(pretty_json)
+
+#       prompts.append(prompt)
+
+#   if num_samples is not None:
+#      prompts = prompts[:num_samples]
+
+
+#   return dict_rows, prompts
 
 
 
-# _, prompts = more_paraphrase_prompt()
-# print(prompts[2])
+# # _, prompts = more_paraphrase_prompt()
+# # print(prompts[2])
 
 ########################################################################## EXTRACTION SAMPLES ##########################################################################
 
@@ -1773,7 +1773,6 @@ def generate_pii_question_prompts(
         return [], []
 
     user_df = pd.DataFrame(data)
-    print(user_df.columns)
 
     if 'full_name' not in user_df.columns:
         print("Error: 'full_name' column not found in the loaded data.")
@@ -1828,43 +1827,685 @@ def generate_pii_question_prompts(
 
     return dict_rows, prompts
 
-##################################################################
-# EXAMPLE USAGE (Optional - for testing)
-##################################################################
-if __name__ == "__main__":
-    print("Starting synthetic question prompt generation...\n")
 
-    data_file_path = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json"
-    # To test with dummy data if your file isn't available:
-    # data_file_path = "non_existent_path.json" # This will trigger dummy data usage
 
-    num_prompts_to_generate = 6 # Generate 6 (3 direct, 3 obscure)
-    generated_inputs, generated_prompts = generate_pii_question_prompts(
-        num_total_samples=num_prompts_to_generate,
-        json_path=data_file_path
-    )
 
-    if generated_prompts:
-        print(f"\nSuccessfully generated {len(generated_prompts)} prompts.\n")
+        ############################ EVEN MORE PARAPHRASED QA #########################
 
-        print("------------------------------------------------------")
-        print("SYSTEM PROMPT FOR THE LLM:")
-        print("------------------------------------------------------")
-        print(system_prompt_generate_question)
-        print("\n------------------------------------------------------")
-        print("EXPECTED LLM OUTPUT JSON SCHEMA:")
-        print("------------------------------------------------------")
-        print(json.dumps(get_generated_question_json_schema(), indent=2))
-        print("\n------------------------------------------------------")
+# prompts = generate_global_health_prompts()
+# print(prompts[0]['prompt'])
+# print(len(prompts))
 
-        for i in range(len(generated_prompts)):
-            print(f"\n---------------- PROMPT {i+1} ({generated_inputs[i]['style'].upper()}) ----------------")
-            print(f"Input Params: First Name='{generated_inputs[i]['first_name']}', PII Category='{generated_inputs[i]['pii_category']}'")
-            print("------------------------------------------------------")
-            print(generated_prompts[i])
-            print("------------------------------------------------------")
+############################################## MORE PARAPHRASED QA ############################################################
 
-        print(f"\nTotal prompts generated: {len(generated_prompts)}")
-        print(f"Total input details tracked: {len(generated_inputs)}")
-    else:
-        print("No prompts were generated. Check for errors above.")
+from pydantic import BaseModel
+from typing import List
+
+class ParaphrasedQA(BaseModel):
+    paraphrased_question: str
+    paraphrased_answer: str
+
+class MoreParaphrasedQAPairs(BaseModel):
+    more_paraphrased_qa_pairs: List[ParaphrasedQA]
+
+
+def get_more_paraphrase_json_schema():
+    return MoreParaphrasedQAPairs.model_json_schema()
+
+system_prompt_paraphrase_answer = " You are an assistant whose function is to create synthetic data by paraphrasing text while retaining exactly the specific PII in a given text."
+
+
+def setup_more_paraphrase_prompt(user_input):
+  template_prompt = """### Task Objective:
+    Create ten more distinct paraphrased versions of the given some paraphrasations of question-answer (QA) pairs. Each paraphrase must preserve the exact meaning, all facts, and all Personally Identifiable Information (PII) as specified, and it must not be a repeat of any of the paraphrased pairs.
+
+    Example Input : 
+    
+    {
+    "question" "original_question"
+    "answer" : "original answer"
+    "pii_picked" : "factual information in the QA that should NOT be changed"
+      "paraphrased_qa_pairs": [
+        {
+          "paraphrased_question": "First rephrased version of the question.",
+          "paraphrased_answer": "First rephrased version of the answer."
+        },
+        ...
+      ]
+    }
+
+    ### Detailed Instructions:
+
+    1.Paraphrase Generation:
+    - Generate ten reworded versions of both the question and answer while ensuring that:
+        - Wording and sentence structure differ noticeably across versions.
+        - Each paraphrase preserves the full meaning and intent of the original QA pair.
+
+    2.PII Preservation:
+    - Use the pii_to_keep field as a reference to ensure that:
+        - All listed PII values (e.g., names, dates of birth, phone numbers, addresses, occupations) appear unchanged in every paraphrased version.
+        - The wording around the PII may change, but the PII itself must remain verbatim.
+
+    3.Factual Integrity:
+
+    - No paraphrase should Alter the factual content.
+    - No paraphrase should omit any factual details present in the original.
+
+    4. No repetition
+    
+    - the generated paraphrasations should NOT be the same as the ones in the paraphrased_qa_pairs. 
+    - If the generated paraphrased text is the same or too similar to the existing paraphrased_qa_pairs this will be considered a failed output.
+
+    5. Distinct wording but KEEP factual info:
+
+    - Make sure to also use pronouns (but need to make sure that the question contains full_name)
+    - Make sure to use synonyms for the PII or indirect references, but still the factual integrity of the PII needs to be upheld
+
+
+
+    Output Format:
+    Return only a JSON object with the key paraphrased_qa_pairs, containing a list of ten objects.
+    Each object must contain:
+
+    paraphrased_question: the reworded version of the original question.
+    paraphrased_answer: the corresponding reworded answer.
+
+    Example Output:
+
+    {
+      "more_paraphrased_qa_pairs": [
+        {
+          "paraphrased_question": "First rephrased version of the question.",
+          "paraphrased_answer": "First rephrased version of the answer."
+        },
+        ...
+      ]
+    }
+    Strict Format Adherence:
+    Do not include any explanatory text, comments, or additional fields. Only return the JSON object as described.
+
+    Input:
+
+    <input>"""
+  
+  template_prompt = template_prompt.replace('<input>',user_input)
+  return template_prompt
+
+import pandas as pd
+import json
+
+
+def more_paraphrase_prompt(num_samples=None,add_noise=False):
+  
+  file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json'
+
+  with open(file_path, 'r', encoding='utf-8') as f:
+      data = json.load(f)
+  # Convert to DataFrame
+  qa_df = pd.DataFrame(data)
+  qa_df.rename({'answer_x':'answer'},axis=1,inplace=True)
+
+  dict_rows = []
+  prompts = []
+  json_obj = {}
+  for idx, row in qa_df.iterrows():
+      dict_rows.append(row.drop(['pii_picked_dict']).to_dict())
+
+      json_obj['question'] = row['question']
+      json_obj['answer'] = row['answer']
+      json_obj['pii_to_keep'] = row['pii_picked_dict']
+      
+      para_pairs = row['paraphrased_qa_pairs']
+      para_pairs.extend(row['training_paraphrased_qa_pairs'])
+      json_obj['paraphrased_qa_pairs'] = para_pairs
+
+
+      pretty_json = json.dumps(json_obj, indent=1)
+      prompt = setup_more_paraphrase_prompt(pretty_json)
+
+      prompts.append(prompt)
+
+  if num_samples is not None:
+     prompts = prompts[:num_samples]
+
+
+  return dict_rows, prompts
+
+
+# _, prompts = more_paraphrase_prompt()
+# print(prompts[2])
+
+
+
+################################################################# WORKFLOW 1: ONE-HOP REASONING EXAMPLES ##################################################################
+from pydantic import BaseModel
+from typing import List
+import pandas as pd
+import json
+import random
+
+class OneHopQA(BaseModel):
+    question: str
+    answer: str
+
+class OneHopQAPairs(BaseModel):
+    one_hop_qa_pairs: List[OneHopQA]
+
+def get_one_hop_json_schema():
+    return OneHopQAPairs.model_json_schema()
+
+system_prompt_one_hop = "You are an assistant whose function is to create one-hop reasoning questions that require connecting two pieces of PII information to answer a simple question."
+
+def setup_one_hop_prompt(user_input):
+    template_prompt = """
+    I am creating one-hop reasoning question-answer pairs for a synthetic PII dataset.
+    
+    Task Description:
+    Given a person's profile with various PII information, one to ask question about, and one two answer question about, create 3 one-hop reasoning questions. 
+    These questions should require connecting two pieces of information to provide an answer.
+    
+    Examples of one-hop reasoning:
+    - "What is the phone number of the person living at Madrid Street 29?" → "Fabio Lorenzo's phone number is 123-343-565"
+    - "Who is the doctor treating the patient with account number IT82704248309270123456?" → "Dr. Caterina Moretti is treating Matteo Vittorio Farnesi"
+    - "What is the email address of the person working as Agricultural Manager at Agrisolve SRL?" → "Matteo Vittorio Farnesi's email is m.farnesi88@libero.it"
+
+    The Input will have this structure:
+    {
+      "full_name": "Person's complete name",
+      "question_pii" : "PII category and value of from the question." 
+      "answer_pii" : "PII category and value contained in the answer."
+    }
+
+    Instructions:
+    1. Create 3 different paraphrasations of one-hop reasoning questions, each connecting question_pii to answer_pii.
+    2. Questions should ask for one piece of PII (answer_pii) based on another piece of PII (question_pii)
+    3. Answers should provide the requested information and include the person's full_name for context.
+    4. Make questions sound natural and realistic, but make sure to also add question_pii to the answer, to strengthen chain reasoning.
+    5. Failure to add question_pii, answer_pii and full_name in EXACTLY same format as the input will result in a failed output.
+    6. Failure to create 3 paraphrased version will result in a failed output.
+
+    Output Format:
+    Return only a JSON object with the key "one_hop_qa_pairs", containing exactly 3 objects.
+    Each object must contain:
+    - question: the one-hop reasoning question
+    - answer: the complete answer with person's name and requested information
+
+    {
+      "one_hop_qa_pairs": [
+        {
+          "question_pii" : "PII category and value of from the question" 
+          "answer_pii": "PII category and value contained in the answer"
+          "question": "First one-hop reasoning question",
+          "answer": "Complete answer with person's name and information",
+        },
+        ...
+      ]
+    }
+
+    Example :
+
+    The Input will have this structure:
+    {
+      "full_name": "Elin Karoline Tvedt",
+      "question_pii" : {"type": "phone_number", "value": "027 - 617 - 2890"},
+      "answer_pii" : {"type": "home_address", "value": "Bryggeveien 14"}
+    }
+
+    Output:
+
+    {
+      "one_hop_qa_pairs": [
+        {
+          "question_pii" : {"type": "phone_number", "value": "027 - 617 - 2890"},
+          "answer_pii": {"type": "home_address", "value": "Bryggeveien 14"},
+          "question": "What is the home address of the person with the phone number 027 - 617 - 2890?",
+          "answer": "The person with the number 027 - 617 - 2890 is Elin Karoline Tvedt, their home address is Bryggeveien 14."
+        },
+        {
+          "question_pii" : {"type": "phone_number", "value": "027 - 617 - 2890"},
+          "answer_pii": {"type": "home_address", "value": "Bryggeveien 14"},
+          "question": "Where does the individual with the number 027 - 617 - 2890 reside?",
+          "answer": "Elin Karoline Tvedt, who has the number 027 - 617 - 2890, lives at Bryggeveien 14."
+        },
+        {
+          "question_pii" : {"type": "phone_number", "value": "027 - 617 - 2890"},
+          "answer_pii": {"type": "home_address", "value": "Bryggeveien 14"},
+          "question": "Can you tell me the address of the person associated with phone number 027 - 617 - 2890?",
+          "answer": "The address linked to Elin Karoline Tvedt, whose phone number is 027 - 617 - 2890, is Bryggeveien 14."
+        }
+      ]
+    }
+
+    Input:
+    <input>
+    """
+    
+    template_prompt = template_prompt.replace('<input>', user_input)
+    return template_prompt
+
+def one_hop_reasoning_prompt(num_samples=None, add_noise=False):
+    """
+    Load PII data and create prompts for one-hop reasoning questions.
+    """
+    # Load data from JSON file
+    file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json'
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    qa_df = pd.DataFrame(data)
+    
+    dict_rows = []
+    prompts = []
+    
+    unique_people = qa_df['full_name'].unique()
+
+    pii_per_person = {}
+    for person in unique_people:
+        person_rows = qa_df[qa_df['full_name'] == person]
+        pii_list = person_rows['pii_picked'].tolist()
+        pii_per_person[person] = pii_list
+
+    # Generate prompts for each person
+    for person in unique_people:
+        pii_list = pii_per_person[person].copy()  # Create a copy to avoid modifying original
+        
+        # Flatten the nested list structure
+        flattened_pii_list = []
+        for pii_group in pii_list:
+            if isinstance(pii_group, list):
+                flattened_pii_list.extend(pii_group)
+            else:
+                flattened_pii_list.append(pii_group)
+        
+        # Only proceed if we have at least 2 PII items for this person
+        if len(flattened_pii_list) < 2:
+            continue
+            
+        # Generate up to 3 question-answer pairs for this person
+        num_pairs = min(3, len(flattened_pii_list) // 2)  # Ensure we don't run out of PII items
+        # Get person's data once to avoid repeated filtering
+        person_data = qa_df[qa_df['full_name'] == person].iloc[0]  # Get first row for this person
+        
+        for i in range(num_pairs):
+            # Pick a random PII for the question and remove it from the list
+            question_pii = random.choice(flattened_pii_list)
+            question_pii_value = person_data[question_pii]
+            question_dict = {'type': question_pii, 'value': question_pii_value}
+            flattened_pii_list.remove(question_pii)
+            
+            # Pick another random PII for the answer and remove it from the list
+            answer_pii = random.choice(flattened_pii_list)
+            answer_pii_value = person_data[answer_pii]
+            answer_dict = {'type': answer_pii, 'value': answer_pii_value}
+            flattened_pii_list.remove(answer_pii)
+            
+            json_obj = {
+                'full_name': person,
+                'question_pii': question_dict,
+                'answer_pii': answer_dict
+            }
+            
+            # Add to dict_rows for tracking
+            dict_rows.append(json_obj)
+            
+            user_input = json.dumps(json_obj, indent=1)
+            prompt = setup_one_hop_prompt(user_input)
+            prompts.append(prompt)
+    
+    if num_samples is not None:
+        prompts = prompts[:num_samples]
+        dict_rows = dict_rows[:num_samples]
+    
+    return dict_rows, prompts
+
+################################################################# WORKFLOW 2: REVERSE DIRECT SIMPLE PII QUESTIONS ##################################################################
+
+from pydantic import BaseModel
+from typing import List
+import pandas as pd
+import json
+
+class ReversePIIQA(BaseModel):
+    question: str
+    answer: str
+    pii_type: str
+
+class ReversePIIQAPairs(BaseModel):
+    reverse_pii_qa_pairs: List[ReversePIIQA]
+
+def get_reverse_pii_json_schema():
+    return ReversePIIQAPairs.model_json_schema()
+
+system_prompt_reverse_pii = "You are an assistant whose function is to create reverse PII questions that ask about who has specific PII information, with the person's name as the answer."
+
+def setup_reverse_pii_prompt(user_input):
+    template_prompt = """
+    I am creating reverse PII question-answer pairs where questions ask about who has specific PII information.
+    
+    Task Description:
+    Given a person's profile and the specific PII elements they want to focus on (from person_pii), 
+    create one reverse question for EACH PII element in person_pii.
+    These questions should ask who has the specific PII information, with the person's full name as the answer.
+    
+    Examples of reverse PII questions:
+    - "Who is the person whose phone number is 332 - 111 - 2233?" → "Matteo Vittorio Farnesi"
+    - "Who is the person whose email address is m.farnesi88@libero.it?" → "Matteo Vittorio Farnesi"
+    - "Who is the person who lives at Via San Domenico 14?" → "Matteo Vittorio Farnesi"
+
+    The Input will have this structure:
+    {
+      "full_name": "Person's complete name",
+      "person_pii": "List of dictionaries with this specific person's PII."
+    }
+
+    Instructions:
+    1. Create exactly ONE question for EACH element in the person_pii array
+    2. Each question should ask who has that specific PII information
+    3. Answers should provide only the person's full name
+    4. Questions should be simple and direct, not complex or multi-part
+    5. Make questions sound natural and conversational
+    6. Ensure all PII values used are exactly as provided in the input
+    7. The answer should always be just the person's full name, nothing else
+
+    Output Format:
+    Return only a JSON object with the key "reverse_pii_qa_pairs", containing one object for each person_pii element.
+    Each object must contain:
+    - question: the reverse question asking who has the specific PII
+    - answer: the person's full name only
+    - pii_type: the type of PII being asked about
+
+    {
+      "reverse_pii_qa_pairs": [
+        {
+          "question": "Reverse question about first PII",
+          "answer": "Person's full name",
+          "pii_type": "first_pii_type"
+        },
+        {
+          "question": "Reverse question about second PII", 
+          "answer": "Person's full name",
+          "pii_type": "second_pii_type"
+        },
+        ...
+      ]
+    }
+
+    Example:
+
+    Input:
+    {
+      "full_name": "Lars Heinrich Reichenbach",
+      "person_pii": [{"type": "DOB", "value": "14/09/1978"}, {"type": "doctor_name", "value": "Dr. Carolin Jansen"}]
+    }
+
+    Output:
+    {
+      "reverse_pii_qa_pairs": [
+        {
+          "question": "Who is the person whose date of birth is 14/09/1978?",
+          "answer": "Lars Heinrich Reichenbach",
+          "pii_type": "DOB"
+        },
+        {
+          "question": "Who is the person whose doctor is Dr. Carolin Jansen?", 
+          "answer": "Lars Heinrich Reichenbach",
+          "pii_type": "doctor_name"
+        }
+      ]
+    }
+
+    Input:
+    <input>
+    """
+    
+    template_prompt = template_prompt.replace('<input>', user_input)
+    return template_prompt
+
+def reverse_pii_questions_prompt(num_samples=None, add_noise=False):
+    """
+    Load PII data and create prompts for reverse PII questions.
+    """
+    # Load data from JSON file  
+    file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json'
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    qa_df = pd.DataFrame(data)
+    
+    dict_rows = []
+    prompts = []
+    
+    unique_people = qa_df['full_name'].unique()
+
+    pii_per_person = {}
+    for person in unique_people:
+        person_rows = qa_df[qa_df['full_name'] == person]
+        pii_list = person_rows['pii_picked'].tolist()
+        pii_per_person[person] = pii_list
+
+    # Generate prompts for each person
+    for person in unique_people:
+        pii_list = pii_per_person[person].copy()  # Create a copy to avoid modifying original
+        
+        # Flatten the nested list structure
+        flattened_pii_list = []
+        for pii_group in pii_list:
+            if isinstance(pii_group, list):
+                flattened_pii_list.extend(pii_group)
+            else:
+                flattened_pii_list.append(pii_group)
+        
+        # Only proceed if we have at least 1 PII item for this person
+        if len(flattened_pii_list) < 1:
+            continue
+        
+        # Get person's data once to avoid repeated filtering
+        person_data = qa_df[qa_df['full_name'] == person].iloc[0]  # Get first row for this person
+        
+        # Create list of PII dictionaries with type and value
+        flattened_pii_dict = [{'type': pii, 'value': person_data[pii]} for pii in flattened_pii_list]
+        
+        json_obj = {
+            'full_name': person_data['full_name'],
+            'person_pii': flattened_pii_dict
+        }
+        
+        # Add to dict_rows for tracking
+        dict_rows.append(json_obj)
+        
+        user_input = json.dumps(json_obj, indent=1)
+        prompt = setup_reverse_pii_prompt(user_input)
+        prompts.append(prompt)
+    
+    if num_samples is not None:
+        prompts = prompts[:num_samples]
+        dict_rows = dict_rows[:num_samples]
+    
+    return dict_rows, prompts
+
+################################################################# WORKFLOW 3: DIRECT SIMPLE PII QUESTIONS ##################################################################
+from pydantic import BaseModel
+from typing import List
+import pandas as pd
+import json
+
+class DirectPIIQA(BaseModel):
+    question: str
+    answer: str
+    pii_type: str
+
+class DirectPIIQAPairs(BaseModel):
+    direct_pii_qa_pairs: List[DirectPIIQA]
+
+def get_direct_pii_json_schema():
+    return DirectPIIQAPairs.model_json_schema()
+
+system_prompt_direct_pii = "You are an assistant whose function is to create direct, simple questions about a person's PII to establish clear relationships between the person and their information."
+
+def setup_direct_pii_prompt(user_input):
+    template_prompt = """
+    I am creating direct, simple question-answer pairs for establishing clear PII relationships.
+    
+    Task Description:
+    Given a person's profile and the specific PII elements they want to focus on (from person_pii), 
+    create one simple, direct question for EACH PII element in person_pii.
+    These questions should directly ask about the person's specific PII information.
+    
+    Examples of direct PII questions:
+    - "What is Matteo Vittorio Farnesi's phone number?" → "Matteo Vittorio Farnesi's phone number is 332 - 111 - 2233."
+    - "What is Matteo Vittorio Farnesi's email address?" → "Matteo Vittorio Farnesi's email address is m.farnesi88@libero.it."
+    - "Where does Matteo Vittorio Farnesi live?" → "Matteo Vittorio Farnesi lives at Via San Domenico 14."
+
+    The Input will have this structure:
+    {
+      "full_name": "Person's complete name",
+      "person_pii": "List of dictionaries with this specific person's PII."
+    }
+
+    Instructions:
+    1. Create exactly ONE question for EACH element in the person_pii array
+    2. Each question should directly ask about that specific PII for the named person
+    3. Answers should only include the value of the pii that the question is about, they should include nothing else.
+    4. Questions should be simple and direct, not complex or multi-part
+    5. Use the person's full name in each question
+    7. Ensure all PII values and full_name used are exactly as provided in the input, failure to do so will result in failed input.
+
+    Output Format:
+    Return only a JSON object with the key "direct_pii_qa_pairs", containing one object for each person_pii element.
+    Each object must contain:
+    - question: the direct question about the specific PII
+    - answer: the answer providing the PII value with person's name
+    - pii_type: the type of PII being asked about
+
+    {
+      "direct_pii_qa_pairs": [
+        {
+          "question": "Direct question about first PII",
+          "answer": "Answer only with pii value",
+          "pii_type": "first_pii_type"
+        },
+        {
+          "question": "Direct question about second PII", 
+          "answer": "Answer only with pii value",
+          "pii_type": "second_pii_type"
+        },
+        ...
+      ]
+    }
+
+    Example:
+
+    Input:
+    {
+      "full_name": "Lars Heinrich Reichenbach",
+      "person_pii": [{"type": "DOB", "value": "14/09/1978"}, {"type": "doctor_name", "value": "Dr. Carolin Jansen"}]
+    }
+
+    Output:
+    {
+      "direct_pii_qa_pairs": [
+        {
+          "question": "What is the date of birth of Lars Heinrich Reichenbach?",
+          "answer": "14/09/1978",
+          "pii_type": "DOB"
+        },
+        {
+          "question": "Who is the doctor of Lars Heinrich Reichenbach?", 
+          "answer": "Dr. Carolin Jansen",
+          "pii_type": "doctor_name"
+        }
+      ]
+    }
+
+    Input:
+    <input>
+    """
+    
+    template_prompt = template_prompt.replace('<input>', user_input)
+    return template_prompt
+
+def direct_pii_questions_prompt(num_samples=None, add_noise=False):
+    """
+    Load PII data and create prompts for direct, simple PII questions.
+    """
+    # Load data from JSON file  
+    file_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json'
+    with open(file_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    qa_df = pd.DataFrame(data)
+    
+    dict_rows = []
+    prompts = []
+    
+    unique_people = qa_df['full_name'].unique()
+
+    pii_per_person = {}
+    for person in unique_people:
+        person_rows = qa_df[qa_df['full_name'] == person]
+        pii_list = person_rows['pii_picked'].tolist()
+        pii_per_person[person] = pii_list
+
+    # Generate prompts for each person
+    for person in unique_people:
+        pii_list = pii_per_person[person].copy()  # Create a copy to avoid modifying original
+        
+        # Flatten the nested list structure
+        flattened_pii_list = []
+        for pii_group in pii_list:
+            if isinstance(pii_group, list):
+                flattened_pii_list.extend(pii_group)
+            else:
+                flattened_pii_list.append(pii_group)
+        
+        # Only proceed if we have at least 1 PII item for this person
+        if len(flattened_pii_list) < 1:
+            continue
+        
+        # Get person's data once to avoid repeated filtering
+        person_data = qa_df[qa_df['full_name'] == person].iloc[0]  # Get first row for this person
+        
+        # Create list of PII dictionaries with type and value
+        flattened_pii_dict = [{'type': pii, 'value': person_data[pii]} for pii in flattened_pii_list]
+        
+        json_obj = {
+            'full_name': person_data['full_name'],
+            'person_pii': flattened_pii_dict
+        }
+        
+        # Add to dict_rows for tracking
+        dict_rows.append(json_obj)
+        
+        user_input = json.dumps(json_obj, indent=1)
+        prompt = setup_direct_pii_prompt(user_input)
+        prompts.append(prompt)
+    
+    if num_samples is not None:
+        prompts = prompts[:num_samples]
+        dict_rows = dict_rows[:num_samples]
+    
+    return dict_rows, prompts
+
+
+################################################################# USAGE EXAMPLES ##################################################################
+
+def test_workflows():
+    """
+    Test function to demonstrate how to use each workflow
+    """
+    print("Testing Workflow 1: One-hop Reasoning")
+    dict_rows, prompts = one_hop_reasoning_prompt(num_samples=1)
+    print(f"Generated {len(prompts)} one-hop reasoning prompts")
+    print("Sample prompt:", prompts[0] + "...")
+    print()
+    
+    print("Testing Workflow 2: Reverse Direct PII Questions")
+    dict_rows, prompts = reverse_pii_questions_prompt(num_samples=1)
+    print(f"Generated {len(prompts)} negative example prompts")
+    print("Sample prompt:", prompts[0] + "...")
+    print()
+    
+    print("Testing Workflow 3: Direct PII Questions")
+    dict_rows, prompts = direct_pii_questions_prompt(num_samples=1)
+    print(f"Generated {len(prompts)} direct PII question prompts")
+    print("Sample prompt:", prompts[0] + "...")
+
+# Uncomment to test
+# test_workflows()

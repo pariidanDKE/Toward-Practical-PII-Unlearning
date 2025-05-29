@@ -18,7 +18,6 @@ from datetime import datetime
 from accelerate import Accelerator
 import wandb
 
-
 # def do_something(tensor, perturb_function):
 #     # do stuff here
 #     # some more stuff
@@ -37,8 +36,6 @@ import wandb
 # perturb_f = partial(perturb_randomly, mean=0, std=1)
 
 # do_something(perturb_function=perturb_funtion)
-
-
 
 from transformers import BitsAndBytesConfig
 

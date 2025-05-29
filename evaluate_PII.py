@@ -18,6 +18,7 @@ import scipy
 from peft import PeftModel
 from jailbreaking_attack import JailBreaking # Added import
 
+
 PII_EVAL_TASKS = ['eval_log_retain','eval_log_forget','eval_log_forget_rephrase','eval_log_retain_rephrase']
 DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json" # Adjust if your structure is different
 
@@ -121,10 +122,17 @@ def get_dataloader(cfg, forget_loss, tokenizer, folder, split, question_key, ans
             forget_loss=forget_loss,
             split=split
         )
+
         if cfg.ds_size:
+            ### DP ADDITION
+            if cfg.batch_size > 4 :
+                batch_size = cfg.batch_size//4
+            else:
+                batch_size = cfg.batch_size
+
             base_torch_format_dataset.data = {key: base_torch_format_dataset.data[key] for key in range(min(cfg.ds_size, len(base_torch_format_dataset.data)))}
         base_eval_dataloader = torch.utils.data.DataLoader(
-            base_torch_format_dataset, batch_size=cfg.batch_size//4, collate_fn=custom_data_collator_with_indices
+            base_torch_format_dataset, batch_size=batch_size, collate_fn=custom_data_collator_with_indices
         )
     else:
         base_eval_dataloader = None 
@@ -141,9 +149,12 @@ def get_dataloader(cfg, forget_loss, tokenizer, folder, split, question_key, ans
             split=split
         )
         if cfg.ds_size:
+            ### DP ADDITION
+            if cfg.batch_size > 4 :
+                batch_size = cfg.batch_size//4
             perturb_torch_format_dataset.data = {key: perturb_torch_format_dataset.data[key] for key in range(min(cfg.ds_size, len(perturb_torch_format_dataset.data)))}
         perturb_dataloader = torch.utils.data.DataLoader(
-            perturb_torch_format_dataset, batch_size=cfg.batch_size//4, collate_fn=custom_data_collator_with_indices
+            perturb_torch_format_dataset, batch_size=batch_size, collate_fn=custom_data_collator_with_indices
         )   
     else:
         perturb_dataloader = None 
@@ -157,7 +168,186 @@ def get_dataloader(cfg, forget_loss, tokenizer, folder, split, question_key, ans
 
     return eval_dataloader, base_eval_dataloader, perturb_dataloader
 
-def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=False,full_pii_data_for_jailbreak=None):
+
+def _calculate_autocompletion_metrics(autocompletion_results):
+    """Calculate metrics for autocompletion attack results."""
+    metrics = {}
+    
+    # Initialize counters for each metric type
+    metrics_config = {
+        'exact': {
+            'total_score': 0,
+            'num_valid_samples': 0,
+            'leaked_items_count': 0,
+            'score_key': 'leakage_score_vs_original_pii_exact',
+            'leaked_key': 'leaked_pii_exact'
+        },
+        'partial_ratio': {
+            'total_score': 0,
+            'num_valid_samples': 0,
+            'leaked_items_count': 0,
+            'score_key': 'leakage_score_vs_original_pii_partial_ratio',
+            'leaked_key': 'leaked_pii_partial_ratio_assessment'
+        },
+        'token_set_ratio': {
+            'total_score': 0,
+            'num_valid_samples': 0,
+            'leaked_items_count': 0,
+            'score_key': 'leakage_score_vs_original_pii_token_set_ratio',
+            'leaked_key': 'leaked_pii_token_set_ratio_assessment'
+        }
+    }
+    
+    # Accumulate metrics for each result
+    for res in autocompletion_results:
+        for metric_type, config in metrics_config.items():
+            if config['score_key'] in res:
+                config['total_score'] += res[config['score_key']]
+                config['leaked_items_count'] += len(res.get(config['leaked_key'], {}))
+                config['num_valid_samples'] += 1
+    
+    # Calculate averages and store in metrics dict
+    for metric_type, config in metrics_config.items():
+        avg_score = config['total_score'] / config['num_valid_samples'] if config['num_valid_samples'] > 0 else 0
+        avg_leaked_items = config['leaked_items_count'] / config['num_valid_samples'] if config['num_valid_samples'] > 0 else 0
+        
+        metrics[f'avg_pii_autocompletion_{metric_type}_leakage_score'] = avg_score
+        metrics[f'avg_pii_autocompletion_{metric_type}_leaked_items'] = avg_leaked_items
+    
+    return metrics
+
+def _run_autocompletion_attack(jailbreaker, input_strings, gen_outputs, all_indices, eval_logs,model_cfg):
+    """Run autocompletion attack and calculate metrics."""
+    print("Running Autocompletion PII Leakage Check...")
+
+    print(f'Input Strings 5: {input_strings[:5]}')
+    print(f'Gen_Outputs 5: {gen_outputs[:5]} ')
+    autocompletion_results = jailbreaker.autocompletion_attack_on_generated(
+        input_strings, gen_outputs, all_indices,model_cfg
+    )
+
+    eval_logs['pii_autocompletion_results'] = autocompletion_results
+    
+    # Calculate and store metrics
+    autocompletion_metrics = _calculate_autocompletion_metrics(autocompletion_results,)
+    eval_logs.update(autocompletion_metrics)
+    
+    # Print results
+    print(f"Avg Autocompletion Leakage Score: {eval_logs['avg_pii_autocompletion_exact_leakage_score']:.4f}")
+    print(f"Avg Autocompletion Partial (Partial Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_partial_ratio_leakage_score']:.4f}")
+    print(f"Avg Autocompletion Partial (Token Set Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_token_set_ratio_leakage_score']:.4f}")
+
+def _calculate_extraction_metrics(extraction_results, prompts_list, prefix=""):
+    """Calculate metrics for extraction attack results."""
+    metrics = {}
+    
+    metric_types = ['exact', 'partial_ratio', 'token_set_ratio']
+    
+    for metric_type in metric_types:
+        total_leaked_items = sum(
+            res.get(f'num_leaked_pii_values_this_sample_{metric_type}', 0) 
+            for res in extraction_results
+        )
+        avg_leaked_items = total_leaked_items / len(prompts_list) if prompts_list else 0
+        
+        key = f'{prefix}avg_pii_extraction_leaked_items_per_prompt_{metric_type}'
+        metrics[key] = avg_leaked_items
+    
+    return metrics
+
+def _run_extraction_attack(cfg, model, tokenizer, jailbreaker, prompts_list, attack_type="standard"):
+    """Run extraction attack with given prompts and return results and metrics."""
+    if not prompts_list:
+        return None, None, {}
+    
+    print(f"Running {attack_type.title()} Extraction PII Leakage Check...")
+    
+    # Tokenize and generate
+    extraction_inputs_tokenized = tokenizer(
+        prompts_list, 
+        return_tensors="pt", 
+        padding=True, 
+        truncation=True
+    ).to(model.device)
+    
+    extraction_outputs_tokens = model.generate(
+        input_ids=extraction_inputs_tokenized.input_ids,
+        attention_mask=extraction_inputs_tokenized.attention_mask,
+        max_new_tokens=cfg.generation.get("max_new_tokens", 150),
+        do_sample=cfg.generation.get("do_sample", False),
+        pad_token_id=tokenizer.eos_token_id
+    )
+    
+    extraction_generated_texts = tokenizer.batch_decode(
+        extraction_outputs_tokens[:, extraction_inputs_tokenized.input_ids.shape[-1]:], 
+        skip_special_tokens=True
+    )
+    
+    # Run extraction attack
+    sample_type = 'targeted' if attack_type == "targeted" else None
+    extraction_results, overall_extraction_score = jailbreaker.extraction_attack_on_generated(
+        prompts_list, extraction_generated_texts, sample_type=sample_type
+    )
+    
+    # Calculate metrics
+    prefix = "targeted_" if attack_type == "targeted" else ""
+    extraction_metrics = _calculate_extraction_metrics(
+        extraction_results, prompts_list, prefix
+    )
+    
+    return extraction_results, overall_extraction_score, extraction_metrics
+
+def _run_pii_jailbreaking_autocompletion(cfg, model, tokenizer, eval_task, eval_logs, 
+                                   input_strings, gen_outputs, all_indices, full_pii_data_for_jailbreak,model_cfg):
+    """Run PII jailbreaking evaluation including autocompletion and extraction attacks."""
+    print(f"Running PII Jailbreaking attacks for {eval_task}...")
+    
+    jailbreaker = JailBreaking(all_pii_data=full_pii_data_for_jailbreak)
+    
+    # Run autocompletion attack if we have input strings and generated outputs
+    if input_strings and gen_outputs:
+        _run_autocompletion_attack(jailbreaker, input_strings, gen_outputs, all_indices, eval_logs,model_cfg)
+    
+
+
+def _run_pii_jailbreaking_extraction(cfg,model,tokenizer,full_pii_data_for_jailbreak):
+        jailbreaker = JailBreaking(all_pii_data=full_pii_data_for_jailbreak)
+        # Run standard extraction attack
+        extraction_prompts_list = cfg.get("extraction_samples_list", DEFAULT_EXTRACTION_PROMPT_SAMPLES)
+        if extraction_prompts_list:
+            extraction_results, overall_extraction_score, extraction_metrics = _run_extraction_attack(
+                cfg, model, tokenizer, jailbreaker, extraction_prompts_list, "standard"
+            )
+            eval_logs = {}
+            eval_logs['pii_extraction_results'] = extraction_results
+            eval_logs['overall_pii_extraction_score'] = overall_extraction_score
+            eval_logs.update(extraction_metrics)
+            
+            # Print results
+            print(f"Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
+            print(f"Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
+            print(f"Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
+
+        # Run targeted extraction attack
+        targeted_extraction_prompts_list = cfg.get("targeted_extraction_samples_list", TARGETTED_EXTRACTION_PROMPT_SAMPLES)
+        if targeted_extraction_prompts_list:
+            print("\nRunning Targeted Extraction PII Leakage Check...")
+            targeted_extraction_results, targeted_overall_extraction_score, targeted_extraction_metrics = _run_extraction_attack(
+                cfg, model, tokenizer, jailbreaker, targeted_extraction_prompts_list, "targeted"
+            )
+            
+            eval_logs['targeted_pii_extraction_results'] = targeted_extraction_results
+            eval_logs['targeted_overall_pii_extraction_score'] = targeted_overall_extraction_score
+            eval_logs.update(targeted_extraction_metrics)
+            
+            # Print results
+            print(f"Targeted Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
+            print(f"Targeted Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
+            print(f"Targeted Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
+
+        return eval_logs
+# Updated main function section (replacing the original jailbreaking evaluation code)
+def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=False,full_pii_data_for_jailbreak=None,model_cfg = None):
     eval_logs = {}
 
     gen_outputs = []
@@ -175,13 +365,10 @@ def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_d
 
         with torch.no_grad():
             outputs = model(**batch)
-            input_string, gen_output, gt = run_generation(cfg, batch, model, tokenizer=tokenizer)
+            input_string, gen_output, gt = run_generation(cfg, batch, model, tokenizer=tokenizer,model_cfg = model_cfg)
             gen_outputs.extend(gen_output)
             ground_truths.extend(gt)
             input_strings.extend(input_string)
-            # print(f'Input String : {input_string}')
-            # print(f'Generated Output : {gen_output}')
-
             
         gt_loss = get_batch_loss(outputs.logits, batch['labels'])
         num_token_gt = (batch['labels']!=-100).sum(-1)
@@ -217,130 +404,12 @@ def get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_d
         eval_logs['normalized_gt_loss'] = normalized_gt_loss
 
     print(f"Jailbreaking evaluation : {eval_task}...")
-    if cfg.dataset == "PII" and full_pii_data_for_jailbreak is not None and eval_task in PII_EVAL_TASKS: # Use main_cfg.dataset here
-        print(f"Running PII Jailbreaking attacks for {eval_task}...")
-        jailbreaker = JailBreaking(all_pii_data=full_pii_data_for_jailbreak)
-        if input_strings and gen_outputs:
-            print("Running Autocompletion PII Leakage Check...")
-            autocompletion_results = jailbreaker.autocompletion_attack_on_generated(
-                input_strings, gen_outputs, all_indices
-            )
-
-            eval_logs['pii_autocompletion_results'] = autocompletion_results
-            total_leakage_score_ac, num_valid_ac_samples, leaked_items_count_ac = 0, 0, 0
-
-            # Variables for partial_ratio specific metrics
-            total_partial_ratio_leakage_score_ac, num_valid_partial_ratio_ac_samples, partial_ratio_leaked_items_count_ac = 0, 0, 0
-            # Variables for token_set_ratio specific metrics
-            total_token_set_ratio_leakage_score_ac, num_valid_token_set_ratio_ac_samples, token_set_ratio_leaked_items_count_ac = 0, 0, 0
-
-            for res in autocompletion_results:
-                if 'leakage_score_vs_original_pii_exact' in res:
-                    total_leakage_score_ac += res['leakage_score_vs_original_pii_exact']
-                    leaked_items_count_ac += len(res.get('leaked_pii_exact', {}))
-                    num_valid_ac_samples += 1
-
-                # Accumulate for partial_ratio specific metrics
-                if 'leakage_score_vs_original_pii_partial_ratio' in res:
-                    total_partial_ratio_leakage_score_ac += res['leakage_score_vs_original_pii_partial_ratio']
-                    partial_ratio_leaked_items_count_ac += len(res.get('leaked_pii_partial_ratio_assessment', {}))
-                    num_valid_partial_ratio_ac_samples += 1
-
-                # Accumulate for token_set_ratio specific metrics
-                if 'leakage_score_vs_original_pii_token_set_ratio' in res:
-                    total_token_set_ratio_leakage_score_ac += res['leakage_score_vs_original_pii_token_set_ratio']
-                    token_set_ratio_leaked_items_count_ac += len(res.get('leaked_pii_token_set_ratio_assessment', {}))
-                    num_valid_token_set_ratio_ac_samples += 1
-
-            eval_logs['avg_pii_autocompletion_leakage_score'] = total_leakage_score_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0
-            eval_logs['avg_pii_autocompletion_leaked_items'] = leaked_items_count_ac / num_valid_ac_samples if num_valid_ac_samples > 0 else 0
-
-            # Average scores for partial_ratio
-            eval_logs['avg_pii_autocompletion_partial_ratio_leakage_score'] = total_partial_ratio_leakage_score_ac / num_valid_partial_ratio_ac_samples if num_valid_partial_ratio_ac_samples > 0 else 0
-            eval_logs['avg_pii_autocompletion_partial_ratio_leaked_items'] = partial_ratio_leaked_items_count_ac / num_valid_partial_ratio_ac_samples if num_valid_partial_ratio_ac_samples > 0 else 0
-
-            # Average scores for token_set_ratio
-            eval_logs['avg_pii_autocompletion_token_set_ratio_leakage_score'] = total_token_set_ratio_leakage_score_ac / num_valid_token_set_ratio_ac_samples if num_valid_token_set_ratio_ac_samples > 0 else 0
-            eval_logs['avg_pii_autocompletion_token_set_ratio_leaked_items'] = token_set_ratio_leaked_items_count_ac / num_valid_token_set_ratio_ac_samples if num_valid_token_set_ratio_ac_samples > 0 else 0
-
-            print(f"Avg Autocompletion Leakage Score: {eval_logs['avg_pii_autocompletion_leakage_score']:.4f}")
-            print(f"Avg Autocompletion Partial (Partial Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_partial_ratio_leakage_score']:.4f}")
-            print(f"Avg Autocompletion Partial (Token Set Ratio) Leakage Score: {eval_logs['avg_pii_autocompletion_token_set_ratio_leakage_score']:.4f}")
-
-            extraction_prompts_list = cfg.get("extraction_samples_list", DEFAULT_EXTRACTION_PROMPT_SAMPLES)
-            if extraction_prompts_list:
-                print("Running Extraction PII Leakage Check...")
-                extraction_inputs_tokenized = tokenizer(extraction_prompts_list, return_tensors="pt", padding=True, truncation=True).to(model.device)
-                extraction_outputs_tokens = model.generate(
-                    input_ids=extraction_inputs_tokenized.input_ids,
-                    attention_mask=extraction_inputs_tokenized.attention_mask,
-                    max_new_tokens=cfg.generation.get("max_new_tokens", 150),
-                    do_sample=cfg.generation.get("do_sample", False),
-                    pad_token_id=tokenizer.eos_token_id
-                )
-                extraction_generated_texts = tokenizer.batch_decode(extraction_outputs_tokens[:, extraction_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
-                extraction_results, overall_extraction_score = jailbreaker.extraction_attack_on_generated(
-                    extraction_prompts_list, extraction_generated_texts
-                )
-                eval_logs['pii_extraction_results'] = extraction_results
-                eval_logs['overall_pii_extraction_score'] = overall_extraction_score
-                
-                # Sum for Exact matches
-                total_leaked_items_extraction_exact = sum(res.get('num_leaked_pii_values_this_sample_exact', 0) for res in extraction_results)
-                eval_logs['avg_pii_extraction_leaked_items_per_prompt_exact'] = total_leaked_items_extraction_exact / len(extraction_prompts_list) if extraction_prompts_list else 0
-
-                # Sum for Partial Ratio matches
-                total_leaked_items_extraction_partial_ratio = sum(res.get('num_leaked_pii_values_this_sample_partial_ratio', 0) for res in extraction_results)
-                eval_logs['avg_pii_extraction_leaked_items_per_prompt_partial_ratio'] = total_leaked_items_extraction_partial_ratio / len(extraction_prompts_list) if extraction_prompts_list else 0
-                
-                # Sum for Token Set Ratio matches
-                total_leaked_items_extraction_token_set_ratio = sum(res.get('num_leaked_pii_values_this_sample_token_set_ratio', 0) for res in extraction_results)
-                eval_logs['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio'] = total_leaked_items_extraction_token_set_ratio / len(extraction_prompts_list) if extraction_prompts_list else 0
-
-
-                #print(f"Overall Exact Extraction Score: {overall_extraction_score['extraction_score_exact']:.4f}")
-                print(f"Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
-                print(f"Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
-                print(f"Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
-
-            # ---
-            ## Targeted Extraction PII Leakage Check
-            # ---
-
-            targeted_extraction_prompts_list = cfg.get("targeted_extraction_samples_list", TARGETTED_EXTRACTION_PROMPT_SAMPLES)
-            if targeted_extraction_prompts_list:
-                print("\nRunning Targeted Extraction PII Leakage Check...")
-                targeted_extraction_inputs_tokenized = tokenizer(targeted_extraction_prompts_list, return_tensors="pt", padding=True, truncation=True).to(model.device)
-                targeted_extraction_outputs_tokens = model.generate(
-                    input_ids=targeted_extraction_inputs_tokenized.input_ids,
-                    attention_mask=targeted_extraction_inputs_tokenized.attention_mask,
-                    max_new_tokens=cfg.generation.get("max_new_tokens", 150),
-                    do_sample=cfg.generation.get("do_sample", False),
-                    pad_token_id=tokenizer.eos_token_id
-                )
-                targeted_extraction_generated_texts = tokenizer.batch_decode(targeted_extraction_outputs_tokens[:, targeted_extraction_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
-                targeted_extraction_results, targeted_overall_extraction_score = jailbreaker.extraction_attack_on_generated(
-                    targeted_extraction_prompts_list, targeted_extraction_generated_texts, sample_type='targeted' # Explicitly set sample_type
-                )
-                
-                eval_logs['targeted_pii_extraction_results'] = targeted_extraction_results
-                eval_logs['targeted_overall_pii_extraction_score'] = targeted_overall_extraction_score
-                
-                # Sum for Exact matches
-                targeted_total_leaked_items_extraction_exact = sum(res.get('num_leaked_pii_values_this_sample_exact', 0) for res in targeted_extraction_results)
-                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_exact'] = targeted_total_leaked_items_extraction_exact / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
-
-                # Sum for Partial Ratio matches
-                targeted_total_leaked_items_extraction_partial_ratio = sum(res.get('num_leaked_pii_values_this_sample_partial_ratio', 0) for res in targeted_extraction_results)
-                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio'] = targeted_total_leaked_items_extraction_partial_ratio / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
-                
-                # Sum for Token Set Ratio matches
-                targeted_total_leaked_items_extraction_token_set_ratio = sum(res.get('num_leaked_pii_values_this_sample_token_set_ratio', 0) for res in targeted_extraction_results)
-                eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio'] = targeted_total_leaked_items_extraction_token_set_ratio / len(targeted_extraction_prompts_list) if targeted_extraction_prompts_list else 0
-
-                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Exact): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_exact']:.4f}")
-                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Partial Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_partial_ratio']:.4f}")
-                print(f"Targeted Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {eval_logs['targeted_avg_pii_extraction_leaked_items_per_prompt_token_set_ratio']:.4f}")
+    if cfg.dataset == "PII" and full_pii_data_for_jailbreak is not None and eval_task in PII_EVAL_TASKS:
+        _run_pii_jailbreaking_autocompletion(
+            cfg, model, tokenizer, eval_task, eval_logs, 
+            input_strings, gen_outputs, all_indices, full_pii_data_for_jailbreak,model_cfg
+        )
+    
     return eval_logs
 
 def relative_top_filter(
@@ -373,7 +442,10 @@ def main(cfg):
     os.environ["WANDB_DISABLED"] = "true"
     model_cfg = get_model_identifiers_from_yaml(cfg.model_family)
     model_id = model_cfg["hf_key"]
-    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    tokenizer = AutoTokenizer.from_pretrained(model_id,padding_side='left')
+    tokenizer.padding_side = 'left'  # Must be done early
+    tokenizer.padding_size = 'longest'
+
     if cfg.dataset == "TOFU":
         pretained_traget_model_path = model_cfg["tofu_target_model_path"]
     elif cfg.dataset == "Harry":
@@ -472,10 +544,18 @@ def main(cfg):
                 print(f"Loading LoRA adapter from {cfg.model_path}..")
                 model = PeftModel.from_pretrained(base_model, cfg.model_path)
             else:
+                # print(f"Loading checkpoint from {cfg.model_path}")
+                # model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
+                #     use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+                #     trust_remote_code = True, device_map=device_map)
+
                 print(f"Loading checkpoint from {cfg.model_path}")
                 model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
-                    use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+                    attn_implementation="flash_attention_2", torch_dtype=torch_dtype, \
                     trust_remote_code = True, device_map=device_map)
+
+
+
         except Exception as e:
             print(e)
             continue
@@ -534,17 +614,19 @@ def main(cfg):
 
         if perturbed_answer_key =='None':
             perturbed_answer_key = None
-        # DP : Need to set the Perurbed Answer key to None, since my PII data does not have that
-        eval_dataloader, base_eval_dataloader, perturb_dataloader = get_dataloader(cfg, cfg.forget_loss, tokenizer, folder, split, question_key, answer_key, base_answer_key, perturbed_answer_key)
 
-        print(f'Perturb Answer Key: {type(perturbed_answer_key)}')
-        normalize_gt = False 
+        # DP : Need to set the Perurbed Answer key to None, since my PII data does not have that
+
+        normalize_gt = False ## NOT SURE WHAT DOES, IF ANYTHING BREAK UNCOMMENT
         if perturbed_answer_key is not None:
             normalize_gt = True
 
-
-        eval_logs = get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=normalize_gt,full_pii_data_for_jailbreak=full_pii_data_for_jailbreak)
-
+        if eval_task == 'extraction_attack':
+            eval_logs = _run_pii_jailbreaking_extraction(cfg,model,tokenizer,full_pii_data_for_jailbreak)
+        else:
+            eval_dataloader, base_eval_dataloader, perturb_dataloader = get_dataloader(cfg, cfg.forget_loss, tokenizer, folder, split, question_key, answer_key, base_answer_key, perturbed_answer_key)
+            eval_logs = get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=normalize_gt,full_pii_data_for_jailbreak=full_pii_data_for_jailbreak,model_cfg=model_cfg)
+        
         with open(save_filename, "w") as f:
             # pretty write json to f
             json.dump(eval_logs, f, indent=4)
@@ -569,16 +651,116 @@ def eval_accuracy(logits, labels):
 
     return {"eval accuracy": acc.item()}
 
+import re
 
-def run_generation(cfg, batch, model, tokenizer):
+def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
+    # Determine split_symbol
+    # Default split_symbol, can be overridden by model_cfg or specific model families
+    # Common defaults like tokenizer.eos_token or "<|eot_id|>" are good.
+    # Llama2 uses " [/INST]". For Llama3-style, question_end_tag is usually the delimiter.
+    
+    calculated_split_symbol = getattr(tokenizer, 'eos_token', None) # General starting point
+    if calculated_split_symbol is None: # Fallback if eos_token isn't set
+        calculated_split_symbol = "<|eot_id|>" 
+
+    if hasattr(cfg, 'model_family') and cfg.model_family == 'llama2-7b':
+         calculated_split_symbol = " [/INST]"
+
+    # If model_cfg provides a specific question_end_tag, it should be the primary split_symbol
+    if model_cfg is not None and model_cfg.get('question_end_tag'):
+        split_symbol = model_cfg['question_end_tag']
+    else:
+        split_symbol = calculated_split_symbol
+
     input_ids = batch["input_ids"]
-    input_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=True)
-    split_symbol = " [/INST]" if cfg.model_family == 'llama2-7b' else 'Answer: '
-    ground_truth = [s.split(split_symbol)[1] for s in input_strings]
-    input_strings = [s.split(split_symbol)[0] for s in input_strings]
+    raw_decoded_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=False)
+
+    print(f"DEBUG: Using split_symbol: '{split_symbol}'")
+    print(f"DEBUG: Initial tokenizer.all_special_tokens: {tokenizer.all_special_tokens}")
+
+    # --- Construct the list of all texts/tokens to remove ---
+    tokens_for_removal_candidates = list(set(tokenizer.all_special_tokens))
+
+    # Add relevant template tags from model_cfg to the candidates list
+    if model_cfg is not None:
+        # These are the full template strings that might need removal
+        model_template_tags = [
+            #model_cfg.get('question_start_tag'),
+            # model_cfg.get('question_end_tag'), 
+            #model_cfg.get('answer_tag'),
+            model_cfg.get('answer_end_tag')
+        ]
+
+        for tag_string in model_template_tags:
+            if tag_string and isinstance(tag_string, str) and tag_string.strip() and tag_string.strip() != '?':  # Ensure tag_string is a non-empty string
+                tokens_for_removal_candidates.append(tag_string)
+        
+        # Ensure the split_symbol itself is also a candidate for removal from surrounding parts
+        # (its first instance is preserved separately).
+        # This also handles if question_end_tag or answer_end_tag from model_cfg is the split_symbol.
+        if split_symbol not in tokens_for_removal_candidates:
+             tokens_for_removal_candidates.append(split_symbol)
+
+    # Get unique tokens and sort by length in descending order for safer replacement.
+    # This ensures longer template strings (e.g., question_start_tag) are removed before
+    # their shorter constituent parts (e.g., <|start_header_id|>).
+    special_tokens_to_remove = sorted(list(set(tokens_for_removal_candidates)), key=len, reverse=True)
+    
+    # Avoid trying to replace an empty string if it somehow gets into the list
+    special_tokens_to_remove = [token for token in special_tokens_to_remove if token]
+
+    print(f"DEBUG: Final list of texts/tokens for cleaning (sorted): {special_tokens_to_remove}")
+
+    final_prompts = []
+    final_ground_truths = []
+
+    for raw_s in raw_decoded_strings:
+        first_occurrence_idx = raw_s.find(split_symbol)
+
+        if first_occurrence_idx == -1:
+            string_to_clean = raw_s
+            for st_token in special_tokens_to_remove:
+                string_to_clean = string_to_clean.replace(st_token, "")
+            final_prompts.append(string_to_clean.strip())
+            final_ground_truths.append("")
+        else:
+            part_before_split = raw_s[:first_occurrence_idx]
+            preserved_symbol_instance = raw_s[first_occurrence_idx : first_occurrence_idx + len(split_symbol)] 
+            part_after_split = raw_s[first_occurrence_idx + len(split_symbol):]
+
+            cleaned_part_before = part_before_split
+            for st_token in special_tokens_to_remove:
+                # Do not remove the preserved_symbol_instance if st_token happens to be it
+                # (though this cleaning is on parts that *shouldn't* be the first split_symbol).
+                # The main logic is about cleaning *around* the preserved first split_symbol.
+                cleaned_part_before = cleaned_part_before.replace(st_token, "")
+            
+            cleaned_part_after = part_after_split
+            for st_token in special_tokens_to_remove:
+                cleaned_part_after = cleaned_part_after.replace(st_token, "")
+            
+            prompt_text = cleaned_part_before.strip()
+
+            answer_tag = model_cfg.get('answer_tag')
+            if isinstance(answer_tag, str) and answer_tag.strip() and answer_tag != '?':
+                ground_truth_text = cleaned_part_after.replace(model_cfg.get('answer_tag'),'').strip()
+            else:
+                ground_truth_text = cleaned_part_after.strip()
+
+            final_prompts.append(prompt_text + preserved_symbol_instance + model_cfg.get('answer_tag'))
+
+            final_ground_truths.append(ground_truth_text)
+
+    input_strings = final_prompts
+    ground_truth = final_ground_truths
+    
+    print('-----')
+    print(f'Split symbol for processing: {split_symbol}\n')
+    print(f'Processed Input Prompts : {input_strings}\n')
+    print(f'Processed Ground Truths : {ground_truth}\n')
     # add ["/INST "] to the end of each string
-    if cfg.model_family == 'llama2-7b':
-        input_strings = [s + split_symbol for s in input_strings]
+    #input_strings = [s + split_symbol for s in input_strings]
+    
     
     # now tokenize the strings with left padding
     left_pad_tokenizer = tokenizer
@@ -587,10 +769,13 @@ def run_generation(cfg, batch, model, tokenizer):
     left_pad_tokenizer.pad_token = left_pad_tokenizer.eos_token
     left_pad_tokenizer.pad_token_id = left_pad_tokenizer.eos_token_id
 
+
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
+
     # now generate
     out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=True, pad_token_id=left_pad_tokenizer.eos_token_id)
     strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
+    print(f'String after batch decode (special tokens): {strs}')
 
     
     return input_strings, strs, ground_truth

@@ -25,6 +25,8 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     full_text = new_question + new_answer
     num_question_tokens = len(tokenizer.tokenize(new_question, add_special_tokens=True))
 
+
+    tokenizer.padding_side = 'left' ## DP : NEW ADDITION
     encoded = tokenizer(
         full_text, 
         add_special_tokens=True, 
@@ -99,10 +101,87 @@ def create_perturbed_subject(tokenizer,inputs_idx,tokens_to_mix,token_replace_pr
         inputs_idx[b:e] = subject_ids
     return inputs_idx
 
-def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, model_configs,in_text,token_replace_prob=0.6,token_top_k=5):
-    question_start_token, question_end_token, answer_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag']
+    
+def longest_common_subsequence_indices(list1, list2):
+    """
+    Find the longest common subsequence and return indices in list1 where it occurs
+    """
+    m, n = len(list1), len(list2)
+    
+    # Create LCS table
+    lcs_table = [[0] * (n + 1) for _ in range(m + 1)]
+    
+    # Fill LCS table
+    for i in range(1, m + 1):
+        for j in range(1, n + 1):
+            if list1[i-1] == list2[j-1]:
+                lcs_table[i][j] = lcs_table[i-1][j-1] + 1
+            else:
+                lcs_table[i][j] = max(lcs_table[i-1][j], lcs_table[i][j-1])
+    
+    # Backtrack to find LCS indices in list1
+    lcs_indices = []
+    i, j = m, n
+    while i > 0 and j > 0:
+        if list1[i-1] == list2[j-1]:
+            lcs_indices.append(i-1)
+            i -= 1
+            j -= 1
+        elif lcs_table[i-1][j] > lcs_table[i][j-1]:
+            i -= 1
+        else:
+            j -= 1
+    
+    lcs_indices.reverse()
+    return lcs_indices
+
+
+def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subject, tokens_to_mix):
+    """
+    Handle tokenization mismatch using LCS and add ranges to tokens_to_mix
+    """
+    lcs_indices = longest_common_subsequence_indices(full_text_input_id, subject_id)
+
+    # Check if more than 20% of subject tokens would be lost
+    print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
+
+    if len(lcs_indices) < 0.2 * len(subject_id):
+        raise ValueError(
+            f"\n❌ Subject tokenization mismatch - too many tokens lost!\n"
+            f"Subject: {subject}\n"
+            f"Subject token IDs: {subject_id}\n"
+            f"Full text token IDs: {full_text_input_id}\n"
+            f"Tokens missing from full text: {missing_tokens}\n"
+            f"LCS coverage: {len(lcs_indices)}/{len(subject_id)} ({len(lcs_indices)/len(subject_id)*100:.1f}%)\n"
+        )
+
+    # Find contiguous ranges in the LCS indices to add to tokens_to_mix
+    ranges = []
+    if lcs_indices:
+        # Group consecutive indices into ranges
+        start_idx = lcs_indices[0]
+        end_idx = lcs_indices[0]
+        
+        for i in range(1, len(lcs_indices)):
+            if lcs_indices[i] == lcs_indices[i-1] + 1:
+                end_idx = lcs_indices[i]
+            else:
+                ranges.append((start_idx, end_idx + 1))
+                start_idx = lcs_indices[i]
+                end_idx = lcs_indices[i]
+        
+        ranges.append((start_idx, end_idx + 1))
+        
+        # Add ranges to tokens_to_mix
+        for range_start, range_end in ranges:
+            tokens_to_mix.append((range_start, range_end))
+    
+    return ranges
+
+def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, model_configs, in_text, token_replace_prob=0.6, token_top_k=5):
+    question_start_token, question_end_token, answer_token, answer_end_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag'], model_configs['answer_end_tag']
     new_question = question_start_token + question + question_end_token
-    new_answer = answer_token + answer
+    new_answer = answer_token + answer + answer_end_token
     full_text = new_question + new_answer
     num_question_tokens = len(tokenizer.tokenize(new_question, add_special_tokens=True))
 
@@ -146,31 +225,39 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         else:
             ## separately encode subject_id, to then pattern match with fully encoded text
             subject_id = tokenizer.encode(subject, add_special_tokens=False)
+        
         is_consistent = all(token in full_text_input_id for token in subject_id)
-        if is_consistent is True:
+        
+        if is_consistent:
             start = sublist_index(full_text_input_id, subject_id)
+            # Add end and start index for the tokens that encode subjects
+            for i in start:
+                tokens_to_mix.append((i, i+len(subject_id)))
         else:
-             missing_tokens = [token for token in subject_id if token not in full_text_input_id]
-             raise ValueError(
+            # Handle tokenization mismatch using LCS
+            missing_tokens = [token for token in subject_id if token not in full_text_input_id]
+            
+            try:
+                ranges = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subject, tokens_to_mix)
+                # print(f"Used LCS for subject '{subject}', found {len(ranges)} token ranges")
+            except ValueError as e:
+                # If LCS fails (too many tokens lost), raise the original error
+                print(f"LCS failed for subject '{subject}': {str(e)}")
+                raise ValueError(
                     f"\n❌ Subject tokenization mismatch!\n"
                     f"Subject: {subject}\n"
                     f"Subject token IDs: {subject_id}\n"
                     f"Full text token IDs: {full_text_input_id}\n"
                     f"Tokens missing from full text: {missing_tokens}\n"
                 )
-             #raise NotImplementedError(f"Subject word encode wrong: {subject}")
-    
-        ## add end and start index for the tokens that encode subjects
-        for i in start:
-            tokens_to_mix.append((i, i+len(subject_id)))
         
-        print(f'Tokens to mix length: {len(tokens_to_mix)}')
+    # print(f'Tokens to mix length: {len(tokens_to_mix)}')
         
-    if in_text :
-        print('Creating perturbed_input_ids for PerMU with in_text..')
+    if in_text:
+        # print('Creating perturbed_input_ids for PerMU with in_text..')
         perturbed_inputs_idx = pad_input_ids.copy()
-        pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix,token_replace_prob=token_replace_prob,token_top_k=token_top_k)
-        #### print the decoded pad_input_ids_perturbed and decoded pad_input_ids (without speacial tokens)
+        pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix, token_replace_prob=token_replace_prob, token_top_k=token_top_k)
+        #### print the decoded pad_input_ids_perturbed and decoded pad_input_ids (without special tokens)
         decoded_pad_input_ids_perturbed = tokenizer.decode(pad_input_ids_perturbed, skip_special_tokens=True)
         decoded_pad_input_ids = tokenizer.decode(pad_input_ids, skip_special_tokens=True)
 
@@ -183,14 +270,14 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         filtered_pad_input_ids = [
             token_id for token_id in pad_input_ids if token_id != padding_token_id
         ]
-        print(f"Decoded perturbed input IDs: {decoded_pad_input_ids_perturbed}")
-        print(f"Decoded original input IDs: {decoded_pad_input_ids}")
-        print(f"Encoded perturbed input IDs length: {len(filtered_pad_input_ids_perturbed)}")
-        print(f"Encoded original input IDs length: {len(filtered_pad_input_ids)}")
-        print('--'*20)
-        return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask,torch.tensor(pad_input_ids_perturbed)
+        # print(f"Decoded perturbed input IDs: {decoded_pad_input_ids_perturbed}")
+        # print(f"Decoded original input IDs: {decoded_pad_input_ids}")
+        # print(f"Encoded perturbed input IDs length: {len(filtered_pad_input_ids_perturbed)}")
+        # print(f"Encoded original input IDs length: {len(filtered_pad_input_ids)}")
+        # print('--'*20)
+        return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask, torch.tensor(pad_input_ids_perturbed)
 
-    return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
+    return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
     
 
 class CommonForgetQA(Dataset):
