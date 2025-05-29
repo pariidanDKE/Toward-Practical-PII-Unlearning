@@ -10,7 +10,7 @@ export batch_size=2 ## Should increase the batch size to 8 (Would just make it a
 export gradaccum=8
 export cache="$PWD/cache"
 export retain_weight=1
-export lr=5e-5
+export lr=1e-5
 
 export CUDA_VISIBLE_DEVICES=0
 export forget_loss="PerMU"
@@ -30,7 +30,7 @@ export num_epochs=8
 #export model="llama3-8b"
 export model=llama2-7b;   # [phi, llama2-7b]
 
-#export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight}_intext${in_text}_replaceprob${token_replace_prob}_topk${token_top_k}_latestcompare"
+export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight}_intext${in_text}_replaceprob${token_replace_prob}_topk${token_top_k}_latestcompare"
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 #export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama3-8b/forget10/FullFT_PII_PerMU_llama3-8b_E8_B2_G8_lr1e-5_W1_intextTrue_replaceprob1_topk200_answertagging"
 echo "Running model with intext=${in_text}"

@@ -225,7 +225,7 @@ def main(cfg):
         print("Loading from checkpoint")
         if "phi" in model_name:
             causalLM = PhiForCausalLM
-        elif "llama" in model_name:
+        elif "llama2" in model_name:
             causalLM = LlamaForCausalLM
         else:
             causalLM = AutoModelForCausalLM
