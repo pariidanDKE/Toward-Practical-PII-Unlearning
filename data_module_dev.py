@@ -46,7 +46,29 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
 
 
-#### CLAUDE PASTE ####
+def find_top_k_similar_tokens(tokenizer, token_id, k=10):
+    """
+    Finds the top-k most similar tokens in the tokenizer's vocabulary
+    based on Levenshtein distance to a given token_id.
+    """
+    # Convert the token ID back to its string representation
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
+    distances = []
+
+    # Iterate through the tokenizer's vocabulary to calculate Levenshtein distances
+    for vocab_token, vocab_token_id in tokenizer.vocab.items():
+        # Skip the original token itself
+        if vocab_token_id == token_id:
+            continue
+        # Calculate Levenshtein distance
+        distance = Levenshtein.distance(original_token, vocab_token)
+        distances.append((distance, vocab_token_id))
+
+    # Sort by distance (ascending) and take the top k
+    distances.sort()
+    top_k = [tid for _, tid in distances[:k]]
+    return top_k
+
 def longest_common_subsequence_indices(list1, list2):
     """
     Find the longest common subsequence and return indices in list1 where it occurs
@@ -81,113 +103,24 @@ def longest_common_subsequence_indices(list1, list2):
     return lcs_indices
 
 import random
-import re
-
-def is_latin_alphabet_only(text):
-    """
-    Check if a token contains only Latin alphabet characters, numbers, 
-    common punctuation, and whitespace/special tokenizer symbols.
-    """
-    # Remove common tokenizer prefixes/symbols
-    cleaned_text = text.replace('▁', '').replace('Ġ', '').replace('##', '')
-    
-    # Allow Latin letters, numbers, common punctuation, and whitespace
-    # This regex matches: letters (a-zA-Z), numbers (0-9), common punctuation, whitespace
-    latin_pattern = r'^[a-zA-Z0-9\s\.,;:!?\-\'\"()\[\]{}/@#$%^&*+=<>|\\~`_]*$'
-    
-    return bool(re.match(latin_pattern, cleaned_text))
-
 def find_neighbourhood_k(tokenizer, token_id, k=1):
     """
     Finds tokens in the tokenizer's vocabulary that are within a Levenshtein 
     distance of k from the given token_id (neighborhood approach).
-    Only returns tokens with Latin alphabet characters.
     """
     original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
-
-    # Check if the token is a digit
-    if original_token.strip().isdigit():
-        # For digit tokens, only return other single digit tokens
-        neighbors = []
-        decoded_neighbours = []
-        
-        # Try to find all single digits in the vocabulary
-        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
-            # Check different possible formats
-            possible_formats = [
-                digit,  # Just the digit
-                f' {digit}',  # Space + digit
-                f'▁{digit}',  # Common in sentencepiece tokenizers
-            ]
-            
-            for formatted_digit in possible_formats:
-                if formatted_digit in tokenizer.vocab:
-                    digit_id = tokenizer.vocab[formatted_digit]
-                    if digit_id != token_id:  # Don't include the original token
-                        neighbors.append(digit_id)
-                        decoded_neighbours.append(formatted_digit)
-        
-        #print(f"Token '{original_token}' (ID: {token_id}) is a digit. Found {len(neighbors)} digit neighbors")
-        #print(f"Neighbors: {decoded_neighbours}")
-        return neighbors
-
     if k > len(original_token):
         print(f"Warning: k={k} is greater than token length={len(original_token)} for token '{original_token}'. "
               f"This means any token can be within distance k.")
-    
     neighbors = []
-    decoded_neighbours = []
-    
     for vocab_token, vocab_token_id in tokenizer.vocab.items():
         if vocab_token_id == token_id:
             continue
-            
-        # Filter out non-Latin alphabet tokens
-        if not is_latin_alphabet_only(vocab_token):
-            continue
-            
         distance = Levenshtein.distance(original_token, vocab_token)
         if distance <= k:
             neighbors.append(vocab_token_id)
-            decoded_neighbours.append(vocab_token)
-    
-    #print(f"Token '{original_token}' (ID: {token_id}): Found {len(neighbors)} Latin neighbors within distance k={k}")
-
-    # if len(neighbors) >= 30:
-    #     print(f"Neighbors: {decoded_neighbours[:30]}")
-    # else:
-    #     print(f"Neighbors: {decoded_neighbours}")
-
+    print(f"Token '{original_token}' (ID: {token_id}): Found {len(neighbors)} neighbors within distance k={k}")
     return neighbors
-
-
-
-
-def find_top_k_similar_tokens(tokenizer, token_id, k=10):
-    """
-    Finds the top-k most similar tokens in the tokenizer's vocabulary
-    based on Levenshtein distance to a given token_id.
-    """
-    print('Finding top-k similar tokens for token ID:', token_id)
-    # Convert the token ID back to its string representation
-    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
-    distances = []
-
-    # Iterate through the tokenizer's vocabulary to calculate Levenshtein distances
-    for vocab_token, vocab_token_id in tokenizer.vocab.items():
-        # Skip the original token itself
-        if vocab_token_id == token_id:
-            continue
-        # Calculate Levenshtein distance
-        distance = Levenshtein.distance(original_token, vocab_token)
-        distances.append((distance, vocab_token_id))
-
-    # Sort by distance (ascending) and take the top k
-    distances.sort()
-    top_k = [tid for _, tid in distances[:k]]
-    return top_k
-
-
 
 def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
     """
@@ -218,18 +151,8 @@ def create_perturbed_subject(tokenizer, inputs_idx, tokens_to_mix, token_replace
             actual_prob = token_replace_prob
         subject_ids = inputs_idx[b:e]
         for i in range(len(subject_ids)):
-            original_token = subject_ids[i]
             subject_ids[i] = corrupt_single_token_id(tokenizer, subject_ids[i], 
                                                    replace_prob=actual_prob, k=k)
-            # Log token changes
-
-            #print('Token changed with probability:', actual_prob)
-            if subject_ids[i] != original_token:
-                original_text = tokenizer.decode([original_token])
-                new_text = tokenizer.decode([subject_ids[i]])
-                #print(f"Token changed: '{original_text}' (ID: {original_token}) -> '{new_text}' (ID: {subject_ids[i]})")
-                
-
         inputs_idx[b:e] = subject_ids
     return inputs_idx
 
@@ -271,8 +194,8 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
     """
     lcs_indices = longest_common_subsequence_indices(full_text_input_id, subject_id)
     original_subject_length = len(subject_id)
-    #print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
-    #print(f'Original subject length: {original_subject_length}, LCS length: {len(lcs_indices)}')
+    print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
+    print(f'Original subject length: {original_subject_length}, LCS length: {len(lcs_indices)}')
     if len(lcs_indices) < 0.2 * len(subject_id):
         raise ValueError(
             f"\n❌ Subject tokenization mismatch - too many tokens lost!\n"
@@ -301,7 +224,7 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
             tokens_to_mix.append((range_start, range_end, False))  # False = normal probability
     tokens_to_add = original_subject_length - total_lcs_tokens
     if tokens_to_add > 0:
-        #print(f"Need to add {tokens_to_add} additional tokens to match original subject length")
+        print(f"Need to add {tokens_to_add} additional tokens to match original subject length")
         added_tokens = 0
         for start, end in ranges:
             if added_tokens >= tokens_to_add:
@@ -311,23 +234,14 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
                 if tokens_before > 0:
                     tokens_to_mix.append((start - tokens_before, start, True))  # True = reduced probability
                     added_tokens += tokens_before
-                    #print(f"Added {tokens_before} tokens before position {start} with 0.5x probability")
+                    print(f"Added {tokens_before} tokens before position {start} with 0.5x probability")
             if end < len(full_text_input_id) and added_tokens < tokens_to_add:
                 tokens_after = min(tokens_to_add - added_tokens, len(full_text_input_id) - end)
                 if tokens_after > 0:
                     tokens_to_mix.append((end, end + tokens_after, True))  # True = reduced probability
                     added_tokens += tokens_after
-                    #print(f"Added {tokens_after} tokens after position {end} with 0.5x probability")
+                    print(f"Added {tokens_after} tokens after position {end} with 0.5x probability")
     return ranges
-
-import time
-import numpy as np
-
-timing_stats = []
-tokens_processed_stats = []  # Now tracks tokens that might be corrupted
-num_subjects_stats = []
-subject_lengths_stats = []
-
 
 def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, 
                                                model_configs, in_text, token_replace_prob=0.6, k=1, 
@@ -336,9 +250,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     Modified to use neighborhood approach with k parameter instead of top_k
     use_padding: if True, ensures same number of tokens as original subject; if False, uses original LCS only
     """
-    # Start timing
-    start_time = time.time()
-    
     question_start_token, question_end_token, answer_token, answer_end_token = model_configs['question_start_tag'], model_configs['question_end_tag'], model_configs['answer_tag'], model_configs['answer_end_tag']
     new_question = question_start_token + question + question_end_token
     new_answer = answer_token + answer + answer_end_token
@@ -351,10 +262,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     pad_length = max_length - len(encoded.input_ids)
     pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
     pad_attention_mask = encoded['attention_mask'] + [0] * pad_length
-
-    print('----------------------------------------------------------------------------')
-    print('----------------------------------------------------------------------------')
-
     if len(encoded.input_ids) == max_length:
         label = encoded.input_ids
     else:
@@ -362,29 +269,18 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     for i in range(num_question_tokens): 
         label[i] = -100
     full_text_input_id = tokenizer.encode(full_text)
-    
-    # Track statistics
-    num_subjects = len(subject_list)
-    subject_lengths = []
-    total_subject_tokens = 0  # Total tokens that might be corrupted
-    
     def sublist_index(main_list, sub_list):
         start_list = []
         for i in range(len(main_list)-len(sub_list)+1):
             if all(main_list[i+j] == sub_list[j] for j in range(len(sub_list))):
                 start_list.append(i)
         return start_list
-    
     tokens_to_mix = []
     for subject in subject_list:
         if ('phi' in tokenizer.name_or_path):
             subject_id = tokenizer.encode(" "+subject)
         else:
             subject_id = tokenizer.encode(subject, add_special_tokens=False)
-        
-        # Track subject length
-        subject_lengths.append(len(subject_id))
-        
         is_consistent = all(token in full_text_input_id for token in subject_id)
         if is_consistent:
             start = sublist_index(full_text_input_id, subject_id)
@@ -413,12 +309,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
                     f"Full text token IDs: {full_text_input_id}\n"
                     f"Tokens missing from full text: {missing_tokens}\n"
                 )
-    
-    # Calculate total tokens that might be corrupted
-    for token_range in tokens_to_mix:
-        start, end = token_range[0], token_range[1]
-        total_subject_tokens += (end - start)
-    
     if in_text:
         perturbed_inputs_idx = pad_input_ids.copy()
         pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix, 
@@ -426,88 +316,25 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         decoded_pad_input_ids_perturbed = tokenizer.decode(pad_input_ids_perturbed, skip_special_tokens=True)
         decoded_pad_input_ids = tokenizer.decode(pad_input_ids, skip_special_tokens=True)
         padding_token_id = 2
-   
-        print(f"Decoded perturbed input IDs: {decoded_pad_input_ids_perturbed}")
-        print(f"Decoded original input IDs: {decoded_pad_input_ids}")
-        print('------')
-        
-        # End timing and update statistics
-        elapsed_time = time.time() - start_time
-        timing_stats.append(elapsed_time)
-        tokens_processed_stats.append(total_subject_tokens)
-        num_subjects_stats.append(num_subjects)
-        subject_lengths_stats.extend(subject_lengths)
-        
-        # Print statistics every 100 runs
-        if len(timing_stats) % 100 == 0:
-            print_statistics()
-        
+        filtered_pad_input_ids_perturbed = [
+            token_id for token_id in pad_input_ids_perturbed if token_id != padding_token_id
+        ]
+        filtered_pad_input_ids = [
+            token_id for token_id in pad_input_ids if token_id != padding_token_id
+        ]
         return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask, torch.tensor(pad_input_ids_perturbed)
-    
-    # End timing and update statistics
-    elapsed_time = time.time() - start_time
-    timing_stats.append(elapsed_time)
-    tokens_processed_stats.append(total_subject_tokens)
-    num_subjects_stats.append(num_subjects)
-    subject_lengths_stats.extend(subject_lengths)
-    
-    # Print statistics every 100 runs
-    if len(timing_stats) % 100 == 0:
-        print_statistics()
-    
     return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
-
-def print_statistics():
-    """Print running statistics"""
-    print("\n" + "="*80)
-    print("PERFORMANCE STATISTICS")
-    print("="*80)
-    print(f"Number of runs: {len(timing_stats)}")
-    print(f"Average time per run: {np.mean(timing_stats):.4f} seconds (std: {np.std(timing_stats):.4f})")
-    print(f"Average subject tokens to process per run: {np.mean(tokens_processed_stats):.2f} (std: {np.std(tokens_processed_stats):.2f})")
-    print(f"Average number of subjects per run: {np.mean(num_subjects_stats):.2f} (std: {np.std(num_subjects_stats):.2f})")
-    print(f"Average subject length (in tokens): {np.mean(subject_lengths_stats):.2f} (std: {np.std(subject_lengths_stats):.2f})")
-    print("="*80 + "\n")
-
-def print_final_statistics():
-    """Print final statistics - call this at the end of your training/processing"""
-    print("\n" + "="*80)
-    print("FINAL PERFORMANCE STATISTICS")
-    print("="*80)
-    print(f"Total number of runs: {len(timing_stats)}")
-    print(f"Average time per run: {np.mean(timing_stats):.4f} seconds (std: {np.std(timing_stats):.4f})")
-    print(f"Min/Max time: {np.min(timing_stats):.4f} / {np.max(timing_stats):.4f} seconds")
-    print(f"Average subject tokens to process per run: {np.mean(tokens_processed_stats):.2f} (std: {np.std(tokens_processed_stats):.2f})")
-    print(f"Average number of subjects per run: {np.mean(num_subjects_stats):.2f} (std: {np.std(num_subjects_stats):.2f})")
-    print(f"Average subject length (in tokens): {np.mean(subject_lengths_stats):.2f} (std: {np.std(subject_lengths_stats):.2f})")
-    print(f"Total processing time: {np.sum(timing_stats):.2f} seconds")
-    print(f"Total subject tokens processed: {np.sum(tokens_processed_stats)}")
-    print("="*80 + "\n")
-
-def reset_statistics():
-    """Reset all statistics"""
-    global timing_stats, tokens_processed_stats, num_subjects_stats, subject_lengths_stats
-    timing_stats = []
-    tokens_processed_stats = []
-    num_subjects_stats = []
-    subject_lengths_stats = []
-
-###################
+    
 
 class CommonForgetQA(Dataset):
-    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk",in_text=False,token_replace_prob=0.6,token_k_neighbours=1,subject_noise_discrepancy_addition=False,subject_key='subject'):
+    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk",in_text=False,token_replace_prob=0.6,token_top_k=5):
         super(CommonForgetQA, self).__init__()
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.loss_type = loss_type        
         self.in_text = in_text
         self.token_replace_prob = token_replace_prob
-        self.token_k_neighbours = token_k_neighbours
-        self.subject_noise_discrepancy_addition = subject_noise_discrepancy_addition
-        self.subject_key =subject_key
-        print(f'Subject Key : {self.subject_key}')
-        print(f'Subject Key Type : {type(self.subject_key)}')
-
+        self.token_top_k = token_top_k
 
         with open(os.path.join(forget_data_path, str(split)+'.json'), 'r') as json_file:
             forget = json.load(json_file)
@@ -532,7 +359,6 @@ class CommonForgetQA(Dataset):
         return len(self.forget_data)
 
     def __getitem__(self, idx):
-        subject_key = self.subject_key
         rets = []
         for data_type in [self.split1, self.split2, self.split3]:
             if data_type is not None:
@@ -548,12 +374,11 @@ class CommonForgetQA(Dataset):
                 else:
                     answer = data[idx]['answer']
                 
-             
                 if self.loss_type.startswith("PerMU") and data_type == "forget":
-                    subject = data[idx][subject_key] if subject_key in data[idx].keys() else None
+                    subject = data[idx]['subject'] if 'subject' in data[idx].keys() else None
                     if isinstance(subject, str):
                         subject = [subject]
-                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs,in_text=self.in_text,token_replace_prob=self.token_replace_prob,k=self.token_k_neighbours,use_padding=self.subject_noise_discrepancy_addition)
+                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs,in_text=self.in_text,token_replace_prob=self.token_replace_prob,token_top_k=self.token_top_k)
                 else:   
                     converted_data = convert_raw_data_to_model_format(self.tokenizer, self.max_length, question, answer, self.model_configs, self.loss_type, subject=None)
                 rets.append(converted_data)
@@ -598,8 +423,6 @@ class CommonForgetQA(Dataset):
                     labels = [s[1] for s in data]
                     attention_mask = [s[2] for s in data]
                     rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
-
-                    
         elif self.loss_type.startswith("PerMU"):
             forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
             rets = []
@@ -631,7 +454,7 @@ class CommonForgetQA(Dataset):
         return rets
 
 class CommonDataset(Dataset):
-    def __init__(self, dataset, data_path, tokenizer, model_family, max_length=512, question_key='question', answer_key='answer', forget_loss="dpo",split="forget",subject_key='subject'):
+    def __init__(self, dataset, data_path, tokenizer, model_family, max_length=512, question_key='question', answer_key='answer', forget_loss="dpo",split="forget"):
         super(CommonDataset, self).__init__()
         self.dataset = dataset
         self.tokenizer = tokenizer
@@ -647,15 +470,11 @@ class CommonDataset(Dataset):
         self.ak = answer_key
         self.forget_loss = forget_loss
         self.split = split
-        self.subject_key = subject_key
     
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
-
-        subject_key = self.subject_key
-
         question = self.data[idx][self.qk]
         answers = self.data[idx][self.ak]
         indices = self.data[idx]['index']
@@ -666,7 +485,7 @@ class CommonDataset(Dataset):
         label_list = []
         pad_attention_mask_list = []
         for answer in answers:
-            subject = self.data[idx][subject_key] if subject_key in self.data[idx].keys() else None
+            subject = self.data[idx]['subject'] if 'subject' in self.data[idx].keys() else None
             converted_data = convert_raw_data_to_model_format(self.tokenizer, self.max_length, question, answer, self.model_configs, self.forget_loss, subject)
             pad_input_ids_list.append(converted_data[0])
             label_list.append(converted_data[1])

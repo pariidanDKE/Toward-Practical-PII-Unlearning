@@ -23,35 +23,38 @@ export forget_data_path="$PWD/data/${dataset}"
 ## PerMU in-text params
 export in_text=True
 export token_replace_prob=1
-export token_k_neighbours=2
-export subject_noise_discrepancy_addition=False
-export subject_key='subject'
-export sample_data_path="data/test/sample,data/test/sample,data/test/sample,data/test/sample,data/test/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample"
+export token_k_neighbours=1
+export subject_noise_discrepancy_addition=True
 
 
-export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_top_k}_padsubjectnoise${subject_noise_discrepancy_addition}_subject${subject_key}_sample"
+
+echo "Running full model without LoRA"
+export num_epochs=8
+#export model="llama3-8b"
+export model=llama2-7b;   # [phi, llama2-7b]
+
+export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight}_intext${in_text}_replaceprob${token_replace_prob}_topk${token_top_k}_latestcompare"
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
-#export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
+
+
+export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
 echo "Running model with intext=${in_text}"
-#-------- Run Training --------
-python forget.py --config-name=forget_pii.yaml \
-    dataset=$dataset split=$split \
-    forget_data_path=$forget_data_path \
-    retain_data_path=$forget_data_path \
-    forget_loss=$forget_loss batch_size=$batch_size \
-    retain_weight=$retain_weight \
-    gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-    save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-    use_lora=$use_lora \
-    use_quantization=$use_quantization \
-    project_name=$project_name \
-    run_name=$run_name \
-    in_text=$in_text \
-    token_replace_prob=$token_replace_prob \
-    token_k_neighbours=$token_k_neighbours \
-    subject_key=$subject_key \
-    subject_noise_discrepancy_addition=$subject_noise_discrepancy_addition \
-    #eval.data_path=$sample_data_path \
+# -------- Run Training --------
+# python forget.py --config-name=forget_pii.yaml \
+#     dataset=$dataset split=$split \
+#     forget_data_path=$forget_data_path \
+#     retain_data_path=$forget_data_path \
+#     forget_loss=$forget_loss batch_size=$batch_size \
+#     retain_weight=$retain_weight \
+#     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+#     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+#     use_lora=$use_lora \
+#     use_quantization=$use_quantization \
+#     project_name=$project_name \
+#     run_name=$run_name \
+#     in_text=$in_text \
+#     token_replace_prob=$token_replace_prob \
+#     token_top_k=$token_top_k \
     
     # LoRA.r=$LoRA_r \
     # LoRA.alpha=$LoRA_alpha \
@@ -76,6 +79,6 @@ python aggregate_eval_stat.py \
 echo "Finished run for full model with ${num_epochs} epochs"
 echo "--------------------------------------------"
 
-
 echo "Finished all full model runs"
 echo "============================================"
+

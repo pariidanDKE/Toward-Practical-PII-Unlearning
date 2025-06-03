@@ -6,6 +6,29 @@ from natsort import natsorted
 import csv
 import random
 import pandas as pd
+import json
+from typing import List, Dict, Any, Tuple, Optional, Set, Union
+
+
+
+# Load one-hop samples function (add this utility function)
+def load_one_hop_samples(file_path: str, seed: int = 42, sample_size: int = 100) -> List[str]:
+    """Load one-hop questions from file."""
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        # Extract questions based on your data structure
+        if isinstance(data, list):
+            questions = [item.get('question', '') for item in data if item.get('question')]
+        else:
+            questions = list(data.values()) if isinstance(data, dict) else []
+        
+        
+        return questions
+    except Exception as e:
+        print(f"Error loading one-hop samples from {file_path}: {e}")
+        return []
 
 ### DP ADDITION
 def load_extraction_samples(sample_path: str, seed: int = 42, sample_size: int = 300):
@@ -39,6 +62,42 @@ def load_targetted_extraction_samples(sample_path: str, seed: int = 42, sample_s
 
     # Combine and return
     return sampled_direct + sampled_obscure
+
+
+def load_person_split_dict(sample_path,split: str):
+    #sample_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
+    test_retain_str = 'test_retain_pii_names'
+    
+    forget_percentage = int(split.replace('forget', ''))
+    retain_percentage = 100 - forget_percentage
+    
+    forget_str = f'forget{forget_percentage}_names'
+    retain_str = f'retain{retain_percentage}_names'
+    
+    # Load the three name files
+    forget_path = f'{sample_path}/{forget_str}.json'
+    retain_path = f'{sample_path}/{retain_str}.json'
+    test_retain_path = f'{sample_path}/{test_retain_str}.json'
+    
+    with open(forget_path, 'r') as f:
+        forget_names = json.load(f)
+    with open(retain_path, 'r') as f:
+        retain_names = json.load(f)
+    with open(test_retain_path, 'r') as f:
+        test_retain_names = json.load(f)
+    
+    # Create dictionary with person names as keys and split type as values
+    person_split_dict = {}
+    
+    for name in forget_names:
+        person_split_dict[name] = 'forget'
+    for name in retain_names:
+        person_split_dict[name] = 'retain'
+    for name in test_retain_names:
+        person_split_dict[name] = 'test_retain'
+    
+    return person_split_dict
+
 
 def get_model_identifiers_from_yaml(model_family):
     #path is model_configs.yaml

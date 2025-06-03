@@ -149,7 +149,9 @@ def main(cfg):
         retain_split = "retain"
     elif cfg.dataset == "TOFU" or cfg.dataset=='PII':
         retain_split = "retain" + str(100 - int(cfg.split.replace("forget", ""))).zfill(2)        
-    torch_format_dataset = CommonForgetQA(cfg.forget_data_path, cfg.retain_data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length, split=cfg.split, retain_split=retain_split, loss_type=cfg.forget_loss,in_text = cfg.in_text,token_replace_prob=cfg.token_replace_prob,token_top_k=cfg.token_top_k)
+    torch_format_dataset = CommonForgetQA(cfg.forget_data_path, cfg.retain_data_path, tokenizer=tokenizer, model_family = cfg.model_family, \
+                                          max_length=max_length, split=cfg.split, retain_split=retain_split, loss_type=cfg.forget_loss,in_text = cfg.in_text, \
+                                          token_replace_prob=cfg.token_replace_prob,token_k_neighbours=cfg.token_k_neighbours,subject_key=cfg.subject_key,subject_noise_discrepancy_addition=cfg.subject_noise_discrepancy_addition)
     
     batch_size = cfg.batch_size
     gradient_accumulation_steps = cfg.gradient_accumulation_steps
@@ -183,7 +185,7 @@ def main(cfg):
             #optim="paged_adamw_32bit",
             optim="adamw_torch",
            # save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
-           save_strategy = "no",
+            save_strategy = "no",
             save_steps=steps_per_epoch,
             save_only_model=True,
             #ddp_find_unused_parameters= False,
@@ -215,47 +217,49 @@ def main(cfg):
     assistant_model = None
     config = AutoConfig.from_pretrained(model_id)
     model_name = config._name_or_path.lower()
-    
+    print(f"Model name: {model_name}")
+
     if "ULD" in cfg.forget_loss:
         model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             torch_dtype=torch_dtype, use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             trust_remote_code=True)
+        target_modules = None
     else:
         config = AutoConfig.from_pretrained(model_id)
         print("Loading from checkpoint")
         if "phi" in model_name:
             causalLM = PhiForCausalLM
-        elif "llama2" in model_name:
+        elif "llama-2" in model_name:
+            print(f'Using LlamaForCausalLM for {model_name}')
             causalLM = LlamaForCausalLM
         else:
-            causalLM = AutoModelForCausalLM
+                causalLM = AutoModelForCausalLM
 
-    if cfg.use_lora:
+        if cfg.use_lora:
             if cfg.use_quantization:
-               # DP : Add quantization
-               print('Adding quantization..')
-               quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
+                # DP : Add quantization
+                print('Adding quantization..')
+                quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
             else:
-              quantization_config=None  
-          
-            
-            model = causalLM.from_pretrained(cfg.model_path, config=config, \
-            use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-            trust_remote_code = True, \
-            quantization_config = quantization_config  # DP : Add quantization
-            )
-            print('Attaching LoRA...')
-            target_modules = find_all_linear_names(model)
-            peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,target_modules=target_modules,task_type = cfg.LoRA.task_type)
-            model = get_peft_model(model,peft_config)
-    else:
-            print(f'Config : {config}')
-            print(f'Model Path: {cfg.model_path}')
-            model = causalLM.from_pretrained(cfg.model_path, config=config, \
-            use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-            trust_remote_code = True, \
-            )
-            target_modules=None
+                quantization_config=None  
+                
+                model = causalLM.from_pretrained(cfg.model_path, config=config, \
+                use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+                trust_remote_code = True, \
+                quantization_config = quantization_config  # DP : Add quantization
+                )
+                print('Attaching LoRA...')
+                target_modules = find_all_linear_names(model)
+                peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,target_modules=target_modules,task_type = cfg.LoRA.task_type)
+                model = get_peft_model(model,peft_config)
+        else:
+                print(f'Config : {config}')
+                print(f'Model Path: {cfg.model_path}')
+                model = causalLM.from_pretrained(cfg.model_path, config=config, \
+                use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+                trust_remote_code = True, \
+                )
+                target_modules=None
 
     if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 
         oracle_model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
@@ -335,7 +339,6 @@ def init_small_llm(origin_config, num_layer, device, hparams=None, base_llm=None
         model.save_pretrained(saved_path)
 
     return model
-
 
 def copy_weights(base_llm, model):
     config = model.config

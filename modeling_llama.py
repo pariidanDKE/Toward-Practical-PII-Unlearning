@@ -1017,7 +1017,7 @@ class LlamaModel(LlamaPreTrainedModel):
                             else:
                                 noise_fn = noise
                             if tokens_to_mix is not None:
-                                for (b,e) in tokens_to_mix[l]:
+                                for (b,e,_) in tokens_to_mix[l]:
                                     noise_data = noise_fn(
                                         torch.from_numpy(prng(e - b, hidden_states.shape[2]))
                                     ).to(hidden_states.device)
@@ -1308,6 +1308,7 @@ class LlamaForCausalLM(LlamaPreTrainedModel):
             if not return_dict:
                 output = (logits,) + outputs[1:]
                 return (loss,) + output if loss is not None else output
+
 
             return CausalLMOutputWithPast(
                 loss=loss,

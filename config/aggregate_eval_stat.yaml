@@ -3,3 +3,4 @@ method_name: retain
 submitted_by: who
 save_file: eval.csv
 excel_file_path: deval.xlsx
+remove_model_tensors: false

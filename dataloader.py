@@ -51,96 +51,60 @@ class CustomTrainerForgetting(Trainer):
         self.P = kwargs.pop('P')
         self.in_text = kwargs.pop('in_text')
 
+        if hasattr(self, 'model') and self.model is not None:
+            device = next(self.model.parameters()).device
+        else:
+            device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
         super(CustomTrainerForgetting, self).__init__(*args, **kwargs)
         if self.oracle_model is not None:
             self.oracle_model = self.e_prepare_deepspeed(self.oracle_model)
+            self.oracle_model = self.oracle_model.to(device)
         if self.assistant_model is not None:
             self.assistant_model = self.e_prepare_deepspeed(self.assistant_model)
-
-    def e_prepare_deepspeed(self, model):
-        # Adapted from accelerate: https://github.com/huggingface/accelerate/blob/739b135f8367becb67ffaada12fe76e3aa60fefd/src/accelerate/accelerator.py#L1473
-        deepspeed_plugin = self.accelerator.state.deepspeed_plugin
-        config_kwargs = copy.deepcopy(deepspeed_plugin.deepspeed_config)
-
-        if model is not None:
-            if hasattr(model, "config"):
-                hidden_size = (
-                    max(model.config.hidden_sizes)
-                    if getattr(model.config, "hidden_sizes", None)
-                    else getattr(model.config, "hidden_size", None)
-                )
-                if hidden_size is not None and config_kwargs["zero_optimization"]["stage"] == 3:
-                    # Note that `stage3_prefetch_bucket_size` can produce DeepSpeed messages like: `Invalidate trace cache @ step 0: expected module 1, but got module 0`
-                    # This is expected and is not an error, see: https://github.com/microsoft/DeepSpeed/discussions/4081
-                    config_kwargs.update(
-                        {
-                            "zero_optimization.reduce_bucket_size": hidden_size * hidden_size,
-                            "zero_optimization.stage3_param_persistence_threshold": 10 * hidden_size,
-                            "zero_optimization.stage3_prefetch_bucket_size": 0.9 * hidden_size * hidden_size,
-                        }
-                    )
-
-        if config_kwargs["zero_optimization"]["stage"] != 3:
-            config_kwargs["zero_optimization"]["stage"] = 0
-        config_kwargs["optimizer"] = {"type": None}
-        model, *_ = deepspeed.initialize(model=model, config=config_kwargs)
-        model.eval()
-        for param in model.parameters():
-            param.requires_grad = False
-        
-        return model
+            self.oracle_model = self.oracle_model.to(device)
     
-    # def extract_perturb_subj(self, model, inputs): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
-    #     if self.loss_type.startswith("PerMU"):
-    #         forget_inputs, retain_inputs = inputs
-    #         input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
-    #         #print(f'Input Ids: {input_ids}')
+    def e_prepare_deepspeed(self, model):
+        # Simple preparation without DeepSpeed
+        if model is not None:
+            model.eval()
+            for param in model.parameters():
+                param.requires_grad = False
 
-    #         input_ids = input_ids.unsqueeze(0)
-    #         attention_mask = attention_mask.unsqueeze(0)
-    #         tokens_to_mix = [tokens_to_mix]
-    #         question_mask = [question_mask]
+        return model
 
-    #         print("Shape of input_ids:", input_ids.shape)
-    #         print("Shape of attention_mask:", attention_mask.shape)
-    #         print("Extracted tokens_to_mix:", tokens_to_mix)
-    #         print("Extracted question_mask:", question_mask)
-    #         with torch.no_grad():
-    #             clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-    #             clean_logits = clean_output.logits[-1]
-    #             all_layer = []
-    #             for m in range(input_ids.size(0)):
-    #                 all_layer.append(1)
-    #             corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
-    #                 output_hidden_states=True, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
-    #             corrupt_logits = corrupt_output.logits
-    #             logit = corrupt_logits[-1]
-                
-    #             clean_logits_copy = copy.deepcopy(clean_logits)
-    #             clean_target_masks = torch.zeros_like(input_ids)
+    # def e_prepare_deepspeed(self, model):
+    #     # Adapted from accelerate: https://github.com/huggingface/accelerate/blob/739b135f8367becb67ffaada12fe76e3aa60fefd/src/accelerate/accelerator.py#L1473
+    #     deepspeed_plugin = self.accelerator.state.deepspeed_plugin
+    #     config_kwargs = copy.deepcopy(deepspeed_plugin.deepspeed_config)
 
-    #             ## DP : iterate through each batch
-    #             for i in range(logit.size(0)):
-    #                 start, end = question_mask[i][0]
+    #     if model is not None:
+    #         if hasattr(model, "config"):
+    #             hidden_size = (
+    #                 max(model.config.hidden_sizes)
+    #                 if getattr(model.config, "hidden_sizes", None)
+    #                 else getattr(model.config, "hidden_size", None)
+    #             )
+    #             if hidden_size is not None and config_kwargs["zero_optimization"]["stage"] == 3:
+    #                 # Note that `stage3_prefetch_bucket_size` can produce DeepSpeed messages like: `Invalidate trace cache @ step 0: expected module 1, but got module 0`
+    #                 # This is expected and is not an error, see: https://github.com/microsoft/DeepSpeed/discussions/4081
+    #                 config_kwargs.update(
+    #                     {
+    #                         "zero_optimization.reduce_bucket_size": hidden_size * hidden_size,
+    #                         "zero_optimization.stage3_param_persistence_threshold": 10 * hidden_size,
+    #                         "zero_optimization.stage3_prefetch_bucket_size": 0.9 * hidden_size * hidden_size,
+    #                     }
+    #                 )
 
-    #                 # DP: the answer questions are 1 as tehy should be considered
-    #                 clean_target_masks[i, start-1:end] = 1
-    #                 clean_probabilities = clean_logits[i, start-1:end, :]
-    #                 corrupt_probabilities = logit[i, start-1:end, :]
-    #                 assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-    #                 probabilities = corrupt_probabilities - self.C * clean_probabilities
-    #                 clean_logits_copy[i,start-1:end,:] = probabilities
-
-    #                 perturb_subjects = []
-    #                 for sub in tokens_to_mix[i]:
-    #                     subject_start, subject_end = sub[0], sub[1]
-    #                     # if subject_start >= start - 1:
-    #                     perturb_subject_logits = clean_logits[i, subject_start-1:subject_end-1,:]
-    #                     print(f'Perturb Logits Shape : {perturb_subject_logits.shape}')
-    #                     perturb_subjects.append(perturb_subject_logits)
-
-    #         return perturb_subjects
+    #     if config_kwargs["zero_optimization"]["stage"] != 3:
+    #         config_kwargs["zero_optimization"]["stage"] = 0
+    #     config_kwargs["optimizer"] = {"type": None}
+    #     model, *_ = deepspeed.initialize(model=model, config=config_kwargs)
+    #     model.eval()
+    #     for param in model.parameters():
+    #         param.requires_grad = False
+        
+    #     return model
 
 
     def extract_perturb_subj(self, model, inputs):
@@ -216,119 +180,7 @@ class CustomTrainerForgetting(Trainer):
             questions_batch.append(corrupt_logit[:, :])
         
         return perturb_subjects_batch, questions_batch
-        def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
-            def detailed_memory_report():
-                print(f"CUDA memory allocated: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
-                print(f"CUDA memory reserved: {torch.cuda.memory_reserved()/1024**3:.2f}GB")
-                print(f"Max memory allocated: {torch.cuda.max_memory_allocated()/1024**3:.2f}GB")
-                print(f"Model dtype: {next(model.parameters()).dtype}")
-                print(f"Model device: {next(model.parameters()).device}")
-                print(f"Total model params: {sum(p.numel() for p in model.parameters())/1e9:.2f}B")
-                print(f"Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad)/1e6:.2f}M")
-
-            detailed_memory_report()
-        
-        
-        retain_weight = self.retain_weight
-        if "grad_ascent" in self.loss_type:
-            forget_inputs, retain_inputs = inputs
-            input_ids, labels, attention_mask = forget_inputs
-            outputs = model(input_ids,labels=labels, attention_mask=attention_mask)
-            forget_loss = outputs.loss
-            forget_loss = forget_loss * -1
-        elif self.loss_type.startswith("PerMU") and self.in_text: ### DP Addition : New block to accomodate the Discrete Tokens variant of Per
-            print('Running PerMU with in_text..')
-            forget_inputs, retain_inputs = inputs
-            input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
-            with torch.no_grad():
-                clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-                clean_logits = clean_output.logits[-1]
-              
-                corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
-                    output_hidden_states=True)
-                corrupt_logits = corrupt_output.logits
-                logit = corrupt_logits[-1]
-                
-                clean_logits_copy = copy.deepcopy(clean_logits)
-                # DP: the question tokens are 0, as when we calc loss they should not be considerered
-                clean_target_masks = torch.zeros_like(input_ids)
-
-                ## DP : iterate through each batch
-                for i in range(logit.size(0)):
-                    start, end = question_mask[i][0]
-
-                    # DP: the answer questions are 1 as they should be considered
-                    clean_target_masks[i, start-1:end] = 1
-                    clean_probabilities = clean_logits[i, start-1:end, :]
-                    corrupt_probabilities = logit[i, start-1:end, :]
-                    assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-                    probabilities = corrupt_probabilities - self.C * clean_probabilities
-                    clean_logits_copy[i,start-1:end,:] = probabilities
-                    for sub in tokens_to_mix[i]:
-                        subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
-                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
-                            clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-                            
-            student_outputs = model(input_ids, attention_mask=attention_mask)
-            student_logit = student_outputs.logits
-            # fast KL
-            forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
-        elif self.loss_type.startswith("PerMU"):
-            forget_inputs, retain_inputs = inputs
-            input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
-            with torch.no_grad():
-                clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-                clean_logits = clean_output.logits[-1]
-                all_layer = []
-                for m in range(input_ids.size(0)):
-                    all_layer.append(1)
-                corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
-                    output_hidden_states=True, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
-                corrupt_logits = corrupt_output.logits
-                logit = corrupt_logits[-1]
-                
-                clean_logits_copy = copy.deepcopy(clean_logits)
-                # DP: the question tokens are 0, as when we calc loss they should not be considerered
-                clean_target_masks = torch.zeros_like(input_ids)
-
-                ## DP : iterate through each batch
-                for i in range(logit.size(0)):
-                    start, end = question_mask[i][0]
-
-                    # DP: the answer questions are 1 as tehy should be considered
-                    clean_target_masks[i, start-1:end] = 1
-                    clean_probabilities = clean_logits[i, start-1:end, :]
-                    corrupt_probabilities = logit[i, start-1:end, :]
-                    assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-                    probabilities = corrupt_probabilities - self.C * clean_probabilities
-                    clean_logits_copy[i,start-1:end,:] = probabilities
-                    for sub in tokens_to_mix[i]:
-                        subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
-                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
-                            clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-                            
-            student_outputs = model(input_ids, attention_mask=attention_mask)
-            student_logit = student_outputs.logits
-            # fast KL
-            forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
-        else:
-            raise NotImplementedError(f"Invalid forget loss type: {self.loss_type}")
-           
-        # retain loss        
-        if "gd" in self.loss_type or self.loss_type.startswith("PerMU"):
-            retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
-            retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
-            retain_loss = retain_outputs.loss
-        else:
-            retain_loss = 0     
-        
-        loss = forget_loss + retain_weight * retain_loss
-        
-        return (loss, outputs) if return_outputs else loss
+      
         
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         def detailed_memory_report():
@@ -340,9 +192,10 @@ class CustomTrainerForgetting(Trainer):
             print(f"Total model params: {sum(p.numel() for p in model.parameters())/1e9:.2f}B")
             print(f"Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad)/1e6:.2f}M")
 
-        detailed_memory_report()
+        # detailed_memory_report()
         
-        
+        model_device = next(model.parameters()).device
+
         retain_weight = self.retain_weight
         if "grad_ascent" in self.loss_type:
             forget_inputs, retain_inputs = inputs
@@ -399,47 +252,6 @@ class CustomTrainerForgetting(Trainer):
             forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
             forget_loss = forget_outputs.loss
         elif self.loss_type.startswith("PerMU") and self.in_text: ### DP Addition : New block to accomodate the Discrete Tokens variant of Per
-            # print('Running PerMU with in_text..')
-            # forget_inputs, retain_inputs = inputs
-            # input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
-            # with torch.no_grad():
-
-            #     clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=False)
-            #     clean_logits = clean_output.logits[-1]
-            #     print(f'Clean Logits Not hidden outputs Shape: {clean_logits.shape}')
-
-              
-            #     corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
-            #         output_hidden_states=True)
-            #     corrupt_logits = corrupt_output.logits
-            #     logit = corrupt_logits[-1]
-                
-            #     clean_logits_copy = copy.deepcopy(clean_logits)
-            #     # DP: the question tokens are 0, as when we calc loss they should not be considerered
-            #     clean_target_masks = torch.zeros_like(input_ids)
-
-            #     ## DP : iterate through each batch
-            #     for i in range(logit.size(0)):
-            #         start, end = question_mask[i][0]
-
-            #         # DP: the answer questions are 1 as they should be considered
-            #         clean_target_masks[i, start-1:end] = 1
-            #         clean_probabilities = clean_logits[i, start-1:end, :]
-            #         corrupt_probabilities = logit[i, start-1:end, :]
-            #         assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-            #         probabilities = corrupt_probabilities - self.C * clean_probabilities
-            #         clean_logits_copy[i,start-1:end,:] = probabilities
-            #         for sub in tokens_to_mix[i]:
-            #             subject_start, subject_end = sub[0], sub[1]
-            #             if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
-            #                                            ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
-            #                 clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-                            
-            # student_outputs = model(input_ids, attention_mask=attention_mask)
-            # student_logit = student_outputs.logits
-            # # fast KL
-            # forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
             print('Running PerMU with in_text..')
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
@@ -483,15 +295,16 @@ class CustomTrainerForgetting(Trainer):
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
             with torch.no_grad():
-                clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=True)
-                clean_logits = clean_output.logits[-1]
+                clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=False)
+                clean_logits = clean_output.logits#[-1]
+
                 all_layer = []
                 for m in range(input_ids.size(0)):
                     all_layer.append(1)
                 corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
-                    output_hidden_states=True, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
+                    output_hidden_states=False, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
                 corrupt_logits = corrupt_output.logits
-                logit = corrupt_logits[-1]
+                logit = corrupt_logits#[-1]
                 
                 clean_logits_copy = copy.deepcopy(clean_logits)
                 # DP: the question tokens are 0, as when we calc loss they should not be considerered
@@ -532,6 +345,8 @@ class CustomTrainerForgetting(Trainer):
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
             with torch.no_grad():
                 retain_outputs = self.oracle_model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
+
+                
             retain_probs = F.log_softmax(retain_outputs.logits, dim=-1)
             retain_probs = retain_probs.view(-1, retain_outputs.logits.shape[-1])
             current_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)

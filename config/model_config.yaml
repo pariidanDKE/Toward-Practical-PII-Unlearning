@@ -28,7 +28,8 @@ llama2-7b:
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
   pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+
 
 llama2-7b_nonchat:
   hf_key: "NousResearch/Llama-2-7b-hf"

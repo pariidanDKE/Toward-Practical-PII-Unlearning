@@ -4,19 +4,18 @@
 
 export dataset="PII";   # [TOFU, Harry, ZSRE]
 export master_port=18765;
-export model=llama3-8b;   # [[phi, llama2-7b,phi_chat,llama2-7b_nonchat]
+export model=llama2-7b;   # [[phi, llama2-7b,phi_chat,llama2-7b_nonchat]
 #export model=phi;   # [phi, llama2-7b]
 
-export split=full;    
+export split=full_with_qa;    
 export lr=2e-5;
-export batch_size=4;
+export batch_size=32;
 export GA=4;
 export epoch=8;
 
 export CUDA_VISIBLE_DEVICES=0;
 export data_path=$PWD/data/${dataset}/${split}.json;
-export use_pii=False;
-export save_file=$PWD/save_model/${dataset}/${split}_${model}_B${batch_size}_G${GA}_E${epoch}_lr${lr}_answer_tagging;
+export save_file=$PWD/save_model/${dataset}/${split}_${model}_B${batch_size}_G${GA}_E${epoch}_lr${lr}_ComprehensiveQA;
 
 
 export data_path="$PWD/data/${dataset}/${split}.json"
