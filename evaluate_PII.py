@@ -18,7 +18,7 @@ import scipy
 from peft import PeftModel
 from jailbreaking_attack import JailBreaking,JailBreakingRefactored # Added import
 from typing import List, Dict, Any, Optional
-from utils import load_person_split_dict,load_one_hop_samples
+from utils import load_person_split_dict,load_one_hop_samples, init_config, get_split_lengths
 
 
 # Add one-hop related constants
@@ -45,14 +45,27 @@ PII_AUTOCOMPLETE_EVAL_TASKS = [
     'eval_log_forget_inverse'
 ]
 
-DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json" # Adjust if your structure is different
-extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_attacks/pii_leakage_attacks/extractionfiles/c4_samples.csv'
-DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path,seed=23,sample_size=100)
-
-extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/generated_data/GeneratedPIIQuestions_temp-0.7_top_p-0.9_model-Qwen3-32B-FP8.csv'
-TARGETTED_EXTRACTION_PROMPT_SAMPLES = load_targetted_extraction_samples(extraction_targetted_samples_path,seed=23,sample_size=100)
-
+# Path constants - kept outside the function
+DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json"
 DEFAULT_ONE_HOP_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/full_validation.json"
+
+# Global variable declarations
+global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES
+
+def intialize_util_methods():
+    global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES
+    
+    # Method calls that actually execute functions - moved inside the function
+    extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_attacks/pii_leakage_attacks/extractionfiles/c4_samples.csv'
+    DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path, seed=23, sample_size=100)
+
+    extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/generated_data/GeneratedPIIQuestions_temp-0.7_top_p-0.9_model-Qwen3-32B-FP8.csv'
+    TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT = load_targetted_extraction_samples(extraction_targetted_samples_path, seed=23, sample_size=100)
+
+
+
+
+
 
 class PIIAttackOrchestrator:
     """
@@ -125,19 +138,23 @@ class PIIAttackOrchestrator:
         try:
             # Standard extraction attack
             extraction_prompts = cfg.get("extraction_samples_list", DEFAULT_EXTRACTION_PROMPT_SAMPLES)
+            split_dict_count = get_split_lengths()
+
             if extraction_prompts:
                 print("Running Standard Extraction PII Leakage Check...")
                 standard_results = self._run_single_extraction_attack(
-                    cfg, model, tokenizer, extraction_prompts, "standard"
+                    cfg, model, tokenizer, extraction_prompts, "standard", split_dict_count=split_dict_count
                 )
                 results.update(standard_results)
             
             # Targeted extraction attack
             targeted_prompts = cfg.get("targeted_extraction_samples_list", TARGETTED_EXTRACTION_PROMPT_SAMPLES)
+            split_dict_count = cfg.get("split_dict_count", SPLIT_DICT_COUNT)
+
             if targeted_prompts:
                 print("Running Targeted Extraction PII Leakage Check...")
                 targeted_results = self._run_single_extraction_attack(
-                    cfg, model, tokenizer, targeted_prompts, "targeted"
+                    cfg, model, tokenizer, targeted_prompts, "targeted", split_dict_count=split_dict_count
                 )
                 # Add 'targeted_' prefix to all keys
                 targeted_results = {f"targeted_{k}": v for k, v in targeted_results.items()}
@@ -155,7 +172,7 @@ class PIIAttackOrchestrator:
             }
     
     def _run_single_extraction_attack(self, cfg: Dict, model, tokenizer, 
-                                    prompts_list: List[str], attack_type: str) -> Dict[str, Any]:
+                                    prompts_list: List[str], attack_type: str, split_dict_count : Dict = None) -> Dict[str, Any]:
         """Run a single extraction attack (standard or targeted)."""
         if not prompts_list:
             return {}
@@ -173,7 +190,7 @@ class PIIAttackOrchestrator:
             )
             
             # Calculate metrics (including split-based metrics)
-            extraction_metrics = self._calculate_extraction_metrics(extraction_results, prompts_list)
+            extraction_metrics = self._calculate_extraction_metrics(extraction_results, prompts_list,split_dict_count=split_dict_count)
             
             # Print results
             #self._print_extraction_results(extraction_metrics, attack_type)
@@ -332,7 +349,7 @@ class PIIAttackOrchestrator:
         
         return metrics
     def _calculate_extraction_metrics(self, extraction_results: List[Dict[str, Any]], 
-                                prompts_list: List[str]) -> Dict[str, float]:
+                                prompts_list: List[str], split_dict_count: Dict) -> Dict[str, float]:
         """Calculate extraction attack metrics including split-based metrics."""
         if not extraction_results or not prompts_list:
             return self._get_empty_extraction_metrics()
@@ -353,10 +370,11 @@ class PIIAttackOrchestrator:
         # Calculate split-based metrics using the new split-specific counts
         for split_type in split_types:
             # NEW: Count samples that have this split in their split_list
-            split_sample_count = sum(
-                1 for res in extraction_results 
-                if split_type in res.get('split_list', [])
-            )
+            # split_sample_count = sum(
+            #     1 for res in extraction_results 
+            #     if split_type in res.get('split_list', [])
+            # )
+            split_sample_count = split_dict_count.get(split_type, 0)
             
             # NEW: Calculate total leaked items for this split across all samples
             for metric_type in metric_types:
@@ -870,6 +888,8 @@ def main(cfg):
     assert len(cfg.data_path)==len(cfg.split_list)==len(cfg.eval_task)==len(cfg.question_key)==len(cfg.answer_key)==len(cfg.base_answer_key)==len(cfg.perturbed_answer_key), "data_path, split, eval_task, question_key, and answer_key must be the same length"
     Path(cfg.save_dir).mkdir(parents=True, exist_ok=True)
     
+    init_config(cfg)
+    intialize_util_methods()
     local_rank = 0
     if os.environ.get('LOCAL_RANK') is not None:
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
@@ -1191,7 +1211,7 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
 
     # now generate
-    out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=True, pad_token_id=left_pad_tokenizer.eos_token_id)
+    out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=False, pad_token_id=left_pad_tokenizer.eos_token_id)
     strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
     #print(f'String after batch decode (special tokens): {strs}')
 

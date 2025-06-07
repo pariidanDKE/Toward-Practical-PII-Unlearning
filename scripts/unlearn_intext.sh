@@ -1,13 +1,12 @@
 #!/bin/bash
-
 ### This script is used to evaluate the PerMU in-text method, as described in the "7.5 Discrete-Token Level Perturbation" section of the PerMU paper.
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=5
-export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=4
+export num_epochs=1
+export batch_size=2 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export gradaccum=16
 export cache="$PWD/cache"
 export retain_weight=1
 export lr=1e-5
@@ -20,16 +19,24 @@ export use_lora=False
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
 
+export remove_model_tensors=True
 ## PerMU in-text params
 export in_text=True
+
 export token_replace_prob=1
-export token_k_neighbours=2
-export subject_noise_discrepancy_addition=False
+export token_k_neighbours=1
 export subject_key='subject'
-export sample_data_path="data/test/sample,data/test/sample,data/test/sample,data/test/sample,data/test/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample,data/PII/sample"
+export use_adaptive_k=False
+export match_first_char=True
 
+export logging_subject_token_len=True
 
-export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_top_k}_padsubjectnoise${subject_noise_discrepancy_addition}_subject${subject_key}_sample"
+if [ "$in_text" = "True" ]; then
+    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_subject_key_${subject_key}_TEST"
+else
+    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}"
+fi
+
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 #export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
 echo "Running model with intext=${in_text}"
@@ -50,9 +57,12 @@ python forget.py --config-name=forget_pii.yaml \
     token_replace_prob=$token_replace_prob \
     token_k_neighbours=$token_k_neighbours \
     subject_key=$subject_key \
-    subject_noise_discrepancy_addition=$subject_noise_discrepancy_addition \
-    #eval.data_path=$sample_data_path \
-    
+    save_model=False \
+    logging.subject_token_len=$logging_subject_token_len \
+    use_adaptive_k=$use_adaptive_k \
+    logging.corrupted_subjects=True \
+    match_first_char=$match_first_char \
+
     # LoRA.r=$LoRA_r \
     # LoRA.alpha=$LoRA_alpha \
 
@@ -63,7 +73,8 @@ python evaluate_PII.py --config-name=eval_pii.yaml \
     model_path=$save_dir forget_loss=$forget_loss \
     generation.max_length=200 \
     use_lora=$use_lora \
-    save_dir=$save_dir/eval_results
+    save_dir=$save_dir/eval_results \
+    #data_path=$sample_data_path \
 
 # -------- Aggregate Evaluation --------
 python aggregate_eval_stat.py \
@@ -71,11 +82,11 @@ python aggregate_eval_stat.py \
     method_name=$forget_loss \
     save_file=$save_dir/eval_results/eval.csv \
     excel_file_path=$save_dir/eval_results/eval.xlsx \
-    submitted_by=who
+    submitted_by=who \
+    remove_model_tensors=$remove_model_tensors
 
 echo "Finished run for full model with ${num_epochs} epochs"
 echo "--------------------------------------------"
-
 
 echo "Finished all full model runs"
 echo "============================================"

@@ -19,7 +19,7 @@ llama2-7b:
   hf_key: "NousResearch/Llama-2-7b-chat-hf"
   question_start_tag: "[INST] "
   question_end_tag: " [/INST]"
-  answer_tag: "" ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
+  answer_tag: " " ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
   answer_end_tag: ""
   flash_attention2: "false"
   gradient_checkpointing: "true"
@@ -27,8 +27,8 @@ llama2-7b:
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
 
 
 llama2-7b_nonchat:

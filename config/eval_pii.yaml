@@ -36,16 +36,18 @@ base_answer_key: [null, paraphrased_answer_1, answer, answer, paraphrased_answer
 perturbed_answer_key: [null, perturbed_answer_1, perturbed_answer, perturbed_answer, perturbed_answer_1, null, perturbed_answer_1, perturbed_answer_2, perturbed_answer_3, perturbed_answer_4, perturbed_answer_5, perturbed_answer_1, perturbed_answer_2, perturbed_answer_3, perturbed_answer_4, perturbed_answer_5, inverted_answer, inverted_answer]
 eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1, eval_log_forget_paraphrase_2, eval_log_forget_paraphrase_3, eval_log_forget_paraphrase_4, eval_log_forget_paraphrase_5, eval_log_retain_paraphrase_1, eval_log_retain_paraphrase_2, eval_log_retain_paraphrase_3, eval_log_retain_paraphrase_4, eval_log_retain_paraphrase_5, eval_log_retain_inverse, eval_log_forget_inverse]
 
-# data_path: [data/PII]
+
+# data_path: [data/PII, data/test]
 # split: forget10
 # split_list:
 #   - ${split}
-# question_key: [null]
-# answer_key: [null]
-# base_answer_key: [null]
-# perturbed_answer_key: [null]
-# eval_task: [extraction_attack]
+#   - test_retain_pii
 
+# question_key: [question, question]
+# answer_key: [answer, answer]
+# base_answer_key: [paraphrased_answer_5, paraphrased_answer_1]
+# perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1]
+# eval_task: [eval_log_forget, eval_log_retain]
 
 
 

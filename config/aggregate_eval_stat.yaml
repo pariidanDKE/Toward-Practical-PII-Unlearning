@@ -1,6 +1,6 @@
 ckpt_result: eval_log_aggregated.json
 method_name: retain
-submitted_by: who
+submitted_by: dan
 save_file: eval.csv
-excel_file_path: deval.xlsx
+excel_file_path: eval.xlsx
 remove_model_tensors: false

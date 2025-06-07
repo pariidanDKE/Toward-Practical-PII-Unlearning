@@ -1,197 +1,259 @@
 #!/bin/bash
 
-### This script runs all 96 configurations for PerMU in-text method evaluation
+### This script runs both training and evaluation for PerMU in-text method
+### K-Distance Experiments: 4 configurations x 10 runs each = 40 total runs
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=5
+export num_epochs=8
 export batch_size=16  # Updated from 16 as per your note
-export gradaccum=4
+export gradaccum=2
 export cache="$PWD/cache"
 export retain_weight=1
-export lr=2e-5
+export lr=1e-5
 
 export CUDA_VISIBLE_DEVICES=0
 export forget_loss="PerMU"
 export split="forget10"
-export project_name="SyntheticPII"
+export project_name="KDistance_Experiment"
 export use_lora=False
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
-
 ## PerMU in-text base params
 export in_text=True
+export logging_timestats=True
+export remove_model_tensors=True 
+export logging_corrupted_subjects=True
 
-# Define parameter arrays
-subject_keys=("subject" "subject_pii" "subject_person_pii")
-noise_additions=("True" "False")
-token_replace_probs=("0.25" "0.5" "0.75" "1.0")
-token_k_neighbours=("1" "2" "3" "4")
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
+
+# Fixed parameters
+export token_replace_prob=1.0
+export num_runs=1
+
+# Define experiment configurations
+# Format: "k_neighbours:match_first_char:use_adaptive_k:config_name"
+experiment_configs=(
+    "1:True:False:k1_match_first"
+    # "2:False:False:k2_standard"
+    # "10:False:False:k10_standard"
+    # "10:False:True:k10_adaptive"
+)
+
 
 # Create experiment log directory
-experiment_log_dir="$PWD/experiment_logs/$(date +%Y%m%d_%H%M%S)"
+experiment_log_dir="$PWD/experiment_logs/k_distance_$(date +%Y%m%d_%H%M%S)"
 mkdir -p "$experiment_log_dir"
 
 # Create master log file
-master_log="$experiment_log_dir/master_experiment_log.csv"
-echo "run_id,subject_key,noise_addition,token_replace_prob,token_k_neighbours,run_name,save_dir,start_time,end_time,status" > "$master_log"
+master_log="$experiment_log_dir/master_k_distance_log.csv"
+echo "run_id,config_name,run_number,token_k_neighbours,match_first_char,use_adaptive_k,token_replace_prob,run_name,save_dir,start_time,end_time,status" > "$master_log"
 
 # Counter for run ID
 run_counter=1
+total_runs=$((${#experiment_configs[@]} * num_runs))
 
-echo "Starting PerMU experiment suite with 96 configurations..."
+echo "Starting K-Distance experiment suite..."
+echo "Total configurations: ${#experiment_configs[@]}"
+echo "Runs per configuration: $num_runs"
+echo "Total runs: $total_runs"
 echo "Experiment logs will be saved to: $experiment_log_dir"
 echo "============================================"
 
-# Nested loops for all parameter combinations
-for subject_key in "${subject_keys[@]}"; do
-    for noise_addition in "${noise_additions[@]}"; do
-        for token_replace_prob in "${token_replace_probs[@]}"; do
-            for token_k_neighbour in "${token_k_neighbours[@]}"; do
+# Loop through each configuration
+for config in "${experiment_configs[@]}"; do
+    # Parse configuration
+    IFS=':' read -r k_neighbours match_first_char use_adaptive_k config_name <<< "$config"
+    
+    echo ""
+    echo "=========================================="
+    echo "Starting Configuration: $config_name"
+    echo "K Neighbours: $k_neighbours"
+    echo "Match First Char: $match_first_char"
+    echo "Use Adaptive K: $use_adaptive_k"
+    echo "=========================================="
+    
+    # Run this configuration num_runs times
+    for run_num in $(seq 1 $num_runs); do
+        # Set current parameters
+        export token_k_val="$k_neighbours"
+        export match_first_char="$match_first_char"
+        export use_adaptive_k="$use_adaptive_k"
+
+        # Generate run name with all parameters
+        export run_name="${project_name}_${model}_E${num_epochs}_B${batch_size}_${config_name}_run${run_num}"
+        export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/Experiment_KDistance/$run_name"
+        
+        # Create individual log file for this run
+        run_log="$experiment_log_dir/run_${run_counter}_${config_name}_${run_num}.log"
+        
+        echo ""
+        echo "----------------------------------------"
+        echo "Starting Run $run_counter/$total_runs"
+        echo "Config: $config_name (Run $run_num/$num_runs)"
+        echo "Token K Neighbours: $k_neighbours"
+        echo "Match First Char: $match_first_char"
+        echo "Use Adaptive K: $use_adaptive_k"
+        echo "Token Replace Prob: $token_replace_prob"
+        echo "Run Name: $run_name"
+        echo "Save Dir: $save_dir"
+        echo "Log File: $run_log"
+        
+        # Record start time
+        start_time=$(date '+%Y-%m-%d %H:%M:%S')
+        
+        # Log experiment start to master log
+        echo "$run_counter,$config_name,$run_num,$k_neighbours,$match_first_char,$use_adaptive_k,$token_replace_prob,$run_name,$save_dir,$start_time,RUNNING,STARTED" >> "$master_log"
+        
+        # Run the training and evaluation pipeline with logging
+        {
+            echo "=== TRAINING PHASE ==="
+            
+            # Run actual training
+            python forget.py --config-name=forget_pii.yaml \
+                dataset=$dataset split=$split \
+                forget_data_path=$forget_data_path \
+                retain_data_path=$forget_data_path \
+                forget_loss=$forget_loss batch_size=$batch_size \
+                retain_weight=$retain_weight \
+                gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                use_lora=$use_lora \
+                use_quantization=$use_quantization \
+                project_name=$project_name \
+                run_name=$run_name \
+                in_text=$in_text \
+                token_replace_prob=$token_replace_prob \
+                token_k_neighbours=$token_k_val \
+                logging.time_stats=$logging_timestats \
+                logging.corrupted_subjects=$logging_corrupted_subjects \
+                match_first_char=$match_first_char \
+                use_adaptive_k=$use_adaptive_k \
+            
+            # Capture actual training exit code
+            training_exit_code=$?
+            
+            if [ $training_exit_code -eq 0 ]; then
+                echo ""
+                echo "Training completed successfully!"
+                echo "=== EVALUATION PHASE ==="
                 
-                # Set current parameters
-                export subject_key_choice="$subject_key"
-                export subject_noise_discrepancy_addition="$noise_addition"
-                export token_replace_prob="$token_replace_prob"
-                export token_k_neighbours="$token_k_neighbour"
-                
-                # Generate run name with all parameters
-                export run_name="PerMU_${model}_E${num_epochs}_B${batch_size}_sk${subject_key}_na${noise_addition}_rp${token_replace_prob}_kn${token_k_neighbour}"
-                export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
-                
-                # Create individual log file for this run
-                run_log="$experiment_log_dir/run_${run_counter}_${run_name}.log"
-                
-                echo "----------------------------------------"
-                echo "Starting Run $run_counter/96"
-                echo "Subject Key: $subject_key"
-                echo "Noise Addition: $noise_addition"
-                echo "Token Replace Prob: $token_replace_prob"
-                echo "Token K Neighbours: $token_k_neighbour"
-                echo "Run Name: $run_name"
-                echo "Save Dir: $save_dir"
-                echo "Log File: $run_log"
-                
-                # Record start time
-                start_time=$(date '+%Y-%m-%d %H:%M:%S')
-                
-                # Log experiment start to master log
-                echo "$run_counter,$subject_key,$noise_addition,$token_replace_prob,$token_k_neighbour,$run_name,$save_dir,$start_time,RUNNING,STARTED" >> "$master_log"
-                
-                # Run the experiment with logging
-                {
-                    echo "=== TRAINING PHASE ==="
-                    echo "Started at: $start_time"
-                    echo "Parameters:"
-                    echo "  - subject_key: $subject_key"
-                    echo "  - subject_noise_discrepancy_addition: $noise_addition"
-                    echo "  - token_replace_prob: $token_replace_prob"
-                    echo "  - token_k_neighbours: $token_k_neighbour"
-                    echo ""
+                # Check if model exists before evaluation
+                if [ -d "$save_dir" ]; then
+                    echo "Model directory found: $save_dir"
                     
-                    # Training
-                    python forget.py --config-name=forget_pii.yaml \
-                        dataset=$dataset split=$split \
-                        forget_data_path=$forget_data_path \
-                        retain_data_path=$forget_data_path \
-                        forget_loss=$forget_loss batch_size=$batch_size \
-                        retain_weight=$retain_weight \
-                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+
+                    echo "Changed batch size to 96 for evaluation"
+                    export batch_size=96
+                    # Evaluation
+                    python evaluate_PII.py --config-name=eval_pii.yaml \
+                        model_family=$model dataset=$dataset \
+                        split=$split batch_size=$batch_size \
+                        model_path=$save_dir forget_loss=$forget_loss \
+                        generation.max_length=200 \
                         use_lora=$use_lora \
-                        use_quantization=$use_quantization \
-                        project_name=$project_name \
-                        run_name=$run_name \
-                        in_text=$in_text \
-                        token_replace_prob=$token_replace_prob \
-                        token_k_neighbours=$token_k_neighbours \
-                        subject_key=$subject_key_choice \
-                        subject_noise_discrepancy_addition=$subject_noise_discrepancy_addition
+                        save_dir=$save_dir/eval_results
                     
-                    training_exit_code=$?
+                    eval_exit_code=$?
+                else
+                    echo "ERROR: Model directory not found after training: $save_dir"
+                    eval_exit_code=1
+                fi
+                
+                if [ $eval_exit_code -eq 0 ]; then
+                    echo ""
+                    echo "Evaluation completed successfully!"
+                    echo "=== AGGREGATION PHASE ==="
                     
-                    if [ $training_exit_code -eq 0 ]; then
-                        echo ""
-                        echo "=== EVALUATION PHASE ==="
-                        
-                        # Evaluation
-                        python evaluate_PII.py --config-name=eval_pii.yaml \
-                            model_family=$model dataset=$dataset \
-                            split=$split batch_size=$batch_size \
-                            model_path=$save_dir forget_loss=$forget_loss \
-                            generation.max_length=200 \
-                            use_lora=$use_lora \
-                            save_dir=$save_dir/eval_results
-                        
-                        eval_exit_code=$?
-                        
-                        if [ $eval_exit_code -eq 0 ]; then
-                            echo ""
-                            echo "=== AGGREGATION PHASE ==="
-                            
-                            # Aggregation
-                            python aggregate_eval_stat.py \
-                                ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
-                                method_name=$forget_loss \
-                                save_file=$save_dir/eval_results/eval.csv \
-                                excel_file_path=$save_dir/eval_results/eval.xlsx \
-                                submitted_by=experiment_suite
-                            
-                            agg_exit_code=$?
-                            
-                            if [ $agg_exit_code -eq 0 ]; then
-                                final_status="SUCCESS"
-                            else
-                                final_status="FAILED_AGGREGATION"
-                            fi
-                        else
-                            final_status="FAILED_EVALUATION"
-                        fi
+                    # Aggregation
+                    python aggregate_eval_stat.py \
+                        ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+                        method_name=$forget_loss \
+                        save_file=$save_dir/eval_results/eval.csv \
+                        excel_file_path=$save_dir/eval_results/eval.xlsx \
+                        submitted_by=k_distance_experiment \
+                        remove_model_tensors=$remove_model_tensors
+
+                    agg_exit_code=$?
+
+                    if [ $agg_exit_code -eq 0 ]; then
+                        echo "Aggregation completed successfully!"
+                        final_status="SUCCESS"
                     else
-                        final_status="FAILED_TRAINING"
+                        echo "Aggregation failed!"
+                        final_status="FAILED_AGGREGATION"
                     fi
-                    
-                } 2>&1 | tee "$run_log"
-                
-                # Record end time and status
-                end_time=$(date '+%Y-%m-%d %H:%M:%S')
-                
-                # Update master log with completion status
-                sed -i "${run_counter}s/RUNNING/$final_status/" "$master_log"
-                sed -i "${run_counter}s/STARTED/$end_time/" "$master_log"
-                
-                echo "Run $run_counter completed with status: $final_status"
-                echo "End time: $end_time"
-                
-                # Increment counter
-                ((run_counter++))
-                
-                # Optional: Add a small delay between runs
-                sleep 5
-                
-            done
-        done
+                else
+                    echo "Evaluation failed!"
+                    final_status="FAILED_EVALUATION"
+                fi
+            else
+                echo "Training failed with exit code: $training_exit_code"
+                final_status="FAILED_TRAINING"
+            fi
+            
+        } 2>&1 | tee "$run_log"
+        
+        # Record end time and status
+        end_time=$(date '+%Y-%m-%d %H:%M:%S')
+        
+        # Update master log with completion status
+        sed -i "${run_counter}s/RUNNING/$final_status/" "$master_log"
+        sed -i "${run_counter}s/STARTED/$end_time/" "$master_log"
+        
+        echo "Run $run_counter completed with status: $final_status"
+        echo "End time: $end_time"
+        
+        # Increment counter
+        ((run_counter++))
+        
+        # Optional: Add a small delay between runs
+        sleep 5
+        
     done
+    
+    echo ""
+    echo "Configuration $config_name completed (${num_runs} runs)"
+    
 done
 
 echo "============================================"
-echo "All 96 experiments completed!"
+echo "All K-Distance experiments completed!"
+echo "Total runs executed: $((run_counter - 1))"
 echo "Master log: $master_log"
 echo "Individual logs: $experiment_log_dir/run_*.log"
 
 # Generate summary report
-echo ""
-echo "=== EXPERIMENT SUMMARY ==="
-echo "Total runs: 96"
-echo "Success: $(grep -c "SUCCESS" "$master_log")"
-echo "Failed Training: $(grep -c "FAILED_TRAINING" "$master_log")"
-echo "Failed Evaluation: $(grep -c "FAILED_EVALUATION" "$master_log")"
-echo "Failed Aggregation: $(grep -c "FAILED_AGGREGATION" "$master_log")"
+# echo ""
+# echo "=== EXPERIMENT SUMMARY ==="
+# echo "Generating summary report..."
 
-# Create a summary CSV with just the results
-summary_file="$experiment_log_dir/experiment_summary.csv"
-echo "subject_key,noise_addition,token_replace_prob,token_k_neighbours,status,save_dir" > "$summary_file"
-tail -n +2 "$master_log" | cut -d',' -f2,3,4,5,10,6 >> "$summary_file"
+# summary_file="$experiment_log_dir/experiment_summary.txt"
+# {
+#     echo "K-Distance Experiment Summary"
+#     echo "Generated: $(date)"
+#     echo "=========================="
+#     echo ""
+#     echo "Total Configurations: ${#experiment_configs[@]}"
+#     echo "Runs per Configuration: $num_runs"
+#     echo "Total Runs: $total_runs"
+#     echo ""
+#     echo "Configurations:"
+#     for config in "${experiment_configs[@]}"; do
+#         IFS=':' read -r k_neighbours match_first_char use_adaptive_k config_name <<< "$config"
+#         echo "  - $config_name: k=$k_neighbours, match_first_char=$match_first_char, use_adaptive_k=$use_adaptive_k"
+#     done
+#     echo ""
+#     echo "Status Summary:"
+#     echo "SUCCESS: $(grep -c "SUCCESS" "$master_log") runs"
+#     echo "FAILED_TRAINING: $(grep -c "FAILED_TRAINING" "$master_log") runs"
+#     echo "FAILED_EVALUATION: $(grep -c "FAILED_EVALUATION" "$master_log") runs"
+#     echo "FAILED_AGGREGATION: $(grep -c "FAILED_AGGREGATION" "$master_log") runs"
+#     echo ""
+#     echo "Detailed results available in: $master_log"
+# } > "$summary_file"
 
-echo "Summary saved to: $summary_file"
+# echo "Summary report saved to: $summary_file"
+# cat "$summary_file"

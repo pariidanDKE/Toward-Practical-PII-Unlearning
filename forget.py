@@ -9,13 +9,14 @@ import transformers
 import os
 from peft import LoraConfig, get_peft_model, PeftModel
 from pathlib import Path
-from utils import get_model_identifiers_from_yaml
+from utils import get_model_identifiers_from_yaml,init_logger,init_config,should_log_stats
 from omegaconf import OmegaConf
 from modeling_phi import PhiForCausalLM
 from modeling_llama import LlamaForCausalLM
 import json
 from datetime import datetime
 from accelerate import Accelerator
+from utils import write_subject_lengths,write_subject_corruption_info
 import wandb
 
 # def do_something(tensor, perturb_function):
@@ -93,15 +94,27 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
             'seed': training_args.seed
             }
         }
-        
+    
         # Save the information to a JSON file
     save_path = os.path.join(save_dir, 'training_info.json')
     with open(save_path, 'w') as f:
         json.dump(info, f, indent=4)
     print(f"Training information saved to {save_path}")
 
+import logging
+
+
+
 @hydra.main(version_base=None, config_path="./config", config_name="forget")
 def main(cfg):
+
+
+    logger = init_logger(cfg)
+    init_config(cfg)
+    logger.info("Starting Forgetting Training...")
+
+
+
     num_devices = int(os.environ.get('WORLD_SIZE', 1))
     print(f"num_devices: {num_devices}")
 
@@ -304,6 +317,13 @@ def main(cfg):
     else:
         print('Training the model...')
         trainer.train()
+    
+    if should_log_stats('subject_token_len'):
+        write_subject_lengths()
+    
+    if should_log_stats('corrupted_subjects'):
+        save_path = f'/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/analysis/data/subject_corruption_info_{cfg.run_name}.json'
+        write_subject_corruption_info(save_path)
 
     # save the tokenizer
     if cfg.save_model and (not cfg.eval_only):

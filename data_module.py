@@ -5,9 +5,8 @@ from torch.nn.utils.rnn import pad_sequence
 import datasets
 import json
 import os
-from utils import get_model_identifiers_from_yaml, add_dataset_index
+from utils import get_model_identifiers_from_yaml, count_actual_corruptions, log_padding_statistics,log_tokenization_misalignment, should_log_stats,add_subject_lengths,get_config,add_corrupted_subject_info
 import Levenshtein
-
 
 PROMPT = "You are an AI Assistant who is supposed to unlearn about {subject} and provide answers without its knowledge as if you never knew about it. Don’t tell anyone that you unlearned anything. "
 
@@ -46,7 +45,7 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
 
 
-#### CLAUDE PASTE ####
+# #### CLAUDE PASTE ####
 def longest_common_subsequence_indices(list1, list2):
     """
     Find the longest common subsequence and return indices in list1 where it occurs
@@ -105,6 +104,16 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
     """
     original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
 
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
+
+
+    def get_first_alpha_char(token):
+            for char in token:
+                if char.isalpha():
+                    return char
+            return ''
+
     # Check if the token is a digit
     if original_token.strip().isdigit():
         # For digit tokens, only return other single digit tokens
@@ -127,14 +136,14 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
                         neighbors.append(digit_id)
                         decoded_neighbours.append(formatted_digit)
         
-        #print(f"Token '{original_token}' (ID: {token_id}) is a digit. Found {len(neighbors)} digit neighbors")
-        #print(f"Neighbors: {decoded_neighbours}")
+
         return neighbors
 
-    if k > len(original_token):
-        print(f"Warning: k={k} is greater than token length={len(original_token)} for token '{original_token}'. "
-              f"This means any token can be within distance k.")
-    
+
+    match_first_char = get_config()['match_first_char']
+    original_first_char = get_first_alpha_char(original_token) if original_token and match_first_char else ''
+
+
     neighbors = []
     decoded_neighbours = []
     
@@ -145,12 +154,14 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
         # Filter out non-Latin alphabet tokens
         if not is_latin_alphabet_only(vocab_token):
             continue
-            
+
+        if match_first_char and (not vocab_token or get_first_alpha_char(vocab_token) != original_first_char):
+            continue
+
         distance = Levenshtein.distance(original_token, vocab_token)
         if distance <= k:
             neighbors.append(vocab_token_id)
             decoded_neighbours.append(vocab_token)
-    
     #print(f"Token '{original_token}' (ID: {token_id}): Found {len(neighbors)} Latin neighbors within distance k={k}")
 
     # if len(neighbors) >= 30:
@@ -160,33 +171,35 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
 
     return neighbors
 
-
-
-
-def find_top_k_similar_tokens(tokenizer, token_id, k=10):
-    """
-    Finds the top-k most similar tokens in the tokenizer's vocabulary
-    based on Levenshtein distance to a given token_id.
-    """
-    print('Finding top-k similar tokens for token ID:', token_id)
-    # Convert the token ID back to its string representation
+def find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=1):
     original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
-    distances = []
-
-    # Iterate through the tokenizer's vocabulary to calculate Levenshtein distances
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
+    
+    original_length = len(original_token)
+    neighbors = []
+    
+    if original_token.strip().isdigit():
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            for fmt in [digit, f' {digit}', f'▁{digit}']:
+                if fmt in tokenizer.vocab:
+                    digit_id = tokenizer.vocab[fmt]
+                    if digit_id != token_id and Levenshtein.distance(original_token, fmt) == original_length:
+                        neighbors.append(digit_id)
+        return neighbors
+    
     for vocab_token, vocab_token_id in tokenizer.vocab.items():
-        # Skip the original token itself
-        if vocab_token_id == token_id:
-            continue
-        # Calculate Levenshtein distance
-        distance = Levenshtein.distance(original_token, vocab_token)
-        distances.append((distance, vocab_token_id))
+        if (vocab_token_id != token_id and 
+            is_latin_alphabet_only(vocab_token) and 
+            len(vocab_token) == original_length and 
+            Levenshtein.distance(original_token, vocab_token) == original_length):
+            neighbors.append(vocab_token_id)
 
-    # Sort by distance (ascending) and take the top k
-    distances.sort()
-    top_k = [tid for _, tid in distances[:k]]
-    return top_k
-
+            # if random.random() < 0.001:
+            #     print('Added option for token ', original_token, '; Option: ', vocab_token)
+    
+    return neighbors
+    
 
 
 def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
@@ -195,7 +208,10 @@ def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
     based on a given probability.
     """
     if random.random() < replace_prob:
-        neighbor_ids = find_neighbourhood_k(tokenizer, token_id, k=k)
+        if get_config()['use_adaptive_k']:
+            neighbor_ids = find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=k)
+        else:
+            neighbor_ids = find_neighbourhood_k(tokenizer, token_id, k=k)
         if neighbor_ids:
             sampled_id = random.choice(neighbor_ids)
             return sampled_id
@@ -203,12 +219,20 @@ def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
             return token_id
     else:
         return token_id
-    
+
+
+
 def create_perturbed_subject(tokenizer, inputs_idx, tokens_to_mix, token_replace_prob=0.6, k=1):
     """
     Create perturbed subject with different probabilities for different token ranges.
     tokens_to_mix contains tuples of (start, end, reduce_prob) where reduce_prob is boolean
     """
+
+
+    original_subjects_decoded = []
+    corrupted_subjects_decoded = []
+
+
     for item in tokens_to_mix:
         if len(item) == 3:
             b, e, reduce_prob = item
@@ -217,20 +241,23 @@ def create_perturbed_subject(tokenizer, inputs_idx, tokens_to_mix, token_replace
             b, e = item
             actual_prob = token_replace_prob
         subject_ids = inputs_idx[b:e]
+        original_subjects_decoded.append(tokenizer.decode(subject_ids, skip_special_tokens=True))
+
+
+
+
         for i in range(len(subject_ids)):
             original_token = subject_ids[i]
-            subject_ids[i] = corrupt_single_token_id(tokenizer, subject_ids[i], 
+            #subject_ids.append(original_token)  
+            subject_ids[i] = corrupt_single_token_id(tokenizer, subject_ids[i],  
                                                    replace_prob=actual_prob, k=k)
-            # Log token changes
-
-            #print('Token changed with probability:', actual_prob)
-            if subject_ids[i] != original_token:
-                original_text = tokenizer.decode([original_token])
-                new_text = tokenizer.decode([subject_ids[i]])
-                #print(f"Token changed: '{original_text}' (ID: {original_token}) -> '{new_text}' (ID: {subject_ids[i]})")
-                
 
         inputs_idx[b:e] = subject_ids
+        corrupted_subjects_decoded.append(tokenizer.decode(subject_ids, skip_special_tokens=True))
+
+    add_corrupted_subject_info(original_subjects_decoded, corrupted_subjects_decoded)
+
+
     return inputs_idx
 
 def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subject, tokens_to_mix):
@@ -238,6 +265,8 @@ def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subjec
     Handle tokenization mismatch using LCS and add ranges to tokens_to_mix (original version)
     """
     lcs_indices = longest_common_subsequence_indices(full_text_input_id, subject_id)
+    lcs_coverage = len(lcs_indices) / len(subject_id)  # NEW: Track this
+
     print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
     if len(lcs_indices) < 0.2 * len(subject_id):
         raise ValueError(
@@ -262,14 +291,18 @@ def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subjec
         ranges.append((start_idx, end_idx + 1))
         for range_start, range_end in ranges:
             tokens_to_mix.append((range_start, range_end))
-    return ranges
+    return ranges, lcs_coverage
+
 
 def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subject_id, subject, tokens_to_mix):
     """
     Handle tokenization mismatch using LCS and add ranges to tokens_to_mix.
     Ensures the total number of tokens to be perturbed equals the original subject length.
+    Returns ranges, lcs_coverage, actual_tokens_before, actual_tokens_after
     """
     lcs_indices = longest_common_subsequence_indices(full_text_input_id, subject_id)
+    lcs_coverage = len(lcs_indices) / len(subject_id)  # NEW: Track this
+
     original_subject_length = len(subject_id)
     #print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
     #print(f'Original subject length: {original_subject_length}, LCS length: {len(lcs_indices)}')
@@ -282,8 +315,12 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
             f"Tokens missing from full text: {missing_tokens}\n"
             f"LCS coverage: {len(lcs_indices)}/{len(subject_id)} ({len(lcs_indices)/len(subject_id)*100:.1f}%)\n"
         )
+    
     ranges = []
     total_lcs_tokens = 0
+    actual_tokens_before = []  # NEW: Track actual tokens added before
+    actual_tokens_after = []   # NEW: Track actual tokens added after
+    
     if lcs_indices:
         start_idx = lcs_indices[0]
         end_idx = lcs_indices[0]
@@ -299,6 +336,7 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
         total_lcs_tokens += (end_idx + 1 - start_idx)
         for range_start, range_end in ranges:
             tokens_to_mix.append((range_start, range_end, False))  # False = normal probability
+    
     tokens_to_add = original_subject_length - total_lcs_tokens
     if tokens_to_add > 0:
         #print(f"Need to add {tokens_to_add} additional tokens to match original subject length")
@@ -309,24 +347,44 @@ def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subje
             if start > 0 and added_tokens < tokens_to_add:
                 tokens_before = min(tokens_to_add - added_tokens, start)
                 if tokens_before > 0:
-                    tokens_to_mix.append((start - tokens_before, start, True))  # True = reduced probability
+                    # NEW: Capture actual tokens before
+                    before_range_start = start - tokens_before
+                    before_range_end = start
+                    actual_before_tokens = full_text_input_id[before_range_start:before_range_end]
+                    actual_tokens_before.extend(actual_before_tokens)
+                    
+                    tokens_to_mix.append((before_range_start, before_range_end, True))  # True = reduced probability
                     added_tokens += tokens_before
                     #print(f"Added {tokens_before} tokens before position {start} with 0.5x probability")
             if end < len(full_text_input_id) and added_tokens < tokens_to_add:
                 tokens_after = min(tokens_to_add - added_tokens, len(full_text_input_id) - end)
                 if tokens_after > 0:
-                    tokens_to_mix.append((end, end + tokens_after, True))  # True = reduced probability
+                    # NEW: Capture actual tokens after
+                    after_range_start = end
+                    after_range_end = end + tokens_after
+                    actual_after_tokens = full_text_input_id[after_range_start:after_range_end]
+                    actual_tokens_after.extend(actual_after_tokens)
+                    
+                    tokens_to_mix.append((after_range_start, after_range_end, True))  # True = reduced probability
                     added_tokens += tokens_after
                     #print(f"Added {tokens_after} tokens after position {end} with 0.5x probability")
-    return ranges
+    
+    return ranges, lcs_coverage, actual_tokens_before, actual_tokens_after
+
+
+
 
 import time
 import numpy as np
+from utils import get_logger, log_statistics, log_final_statistics
 
+# Statistics tracking
 timing_stats = []
 tokens_processed_stats = []  # Now tracks tokens that might be corrupted
 num_subjects_stats = []
 subject_lengths_stats = []
+padding_required_stats = []  # Only logs when LCS mismatch occurs
+
 
 
 def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, 
@@ -336,6 +394,7 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     Modified to use neighborhood approach with k parameter instead of top_k
     use_padding: if True, ensures same number of tokens as original subject; if False, uses original LCS only
     """
+    logger = get_logger()
     # Start timing
     start_time = time.time()
     
@@ -351,9 +410,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     pad_length = max_length - len(encoded.input_ids)
     pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
     pad_attention_mask = encoded['attention_mask'] + [0] * pad_length
-
-    print('----------------------------------------------------------------------------')
-    print('----------------------------------------------------------------------------')
 
     if len(encoded.input_ids) == max_length:
         label = encoded.input_ids
@@ -376,36 +432,52 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         return start_list
     
     tokens_to_mix = []
+    current_sample_lcs_coverages = []
     for subject in subject_list:
-        if ('phi' in tokenizer.name_or_path):
-            subject_id = tokenizer.encode(" "+subject)
-        else:
-            subject_id = tokenizer.encode(subject, add_special_tokens=False)
+        # First try: original encoding without space
+        subject_id = tokenizer.encode(subject, add_special_tokens=False)
         
         # Track subject length
         subject_lengths.append(len(subject_id))
-        
         is_consistent = all(token in full_text_input_id for token in subject_id)
+        
         if is_consistent:
             start = sublist_index(full_text_input_id, subject_id)
             for i in start:
                 tokens_to_mix.append((i, i+len(subject_id), False))  # False = normal probability
         else:
+            # Second try: add space prefix
+            subject_id_with_space = tokenizer.encode(" "+subject)
+            is_consistent_with_space = all(token in full_text_input_id for token in subject_id_with_space)
+            
+            if is_consistent_with_space:
+                # Update subject_id and subject_lengths for the space version
+                subject_id = subject_id_with_space
+                subject_lengths[-1] = len(subject_id)  # Update the length we just added
+                
+                start = sublist_index(full_text_input_id, subject_id)
+                for i in start:
+                    tokens_to_mix.append((i, i+len(subject_id), False))  # False = normal probability
+                continue  # Skip to next subject
+            
+            # Third try: fall back to LCS approach if space prefix also didn't work
             missing_tokens = [token for token in subject_id if token not in full_text_input_id]
-            print(f"Subject '{subject}' has missing tokens: {missing_tokens}")
-            print(f' Full text string: {full_text}')
-            print(f' Full text token IDs: {full_text_input_id}')
-            print(f' Subject token IDs: {subject_id}')
-            print('--'*20)
+            #log_tokenization_misalignment(subject, subject_id, full_text_input_id, missing_tokens, full_text, tokenizer)
             try:
                 if use_padding:
-                    ranges = add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, 
+                    ranges, lcs_coverage, tokens_before, tokens_after = add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, 
                                                                subject_id, subject, tokens_to_mix)
+                    
+                    if should_log_stats('padding_stats'):
+                        log_tokenization_misalignment(subject, subject_id, full_text_input_id, missing_tokens, full_text, tokenizer,
+                                                  actual_tokens_before=tokens_before, actual_tokens_after=tokens_after)
                 else:
-                    ranges = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, 
+                    ranges, lcs_coverage = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, 
                                                  subject_id, subject, tokens_to_mix)
+                current_sample_lcs_coverages.append(lcs_coverage)
+
             except ValueError as e:
-                print(f"LCS failed for subject '{subject}': {str(e)}")
+                logger.error(f"LCS failed for subject '{subject}': {str(e)}")
                 raise ValueError(
                     f"\n❌ Subject tokenization mismatch!\n"
                     f"Subject: {subject}\n"
@@ -413,7 +485,6 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
                     f"Full text token IDs: {full_text_input_id}\n"
                     f"Tokens missing from full text: {missing_tokens}\n"
                 )
-    
     # Calculate total tokens that might be corrupted
     for token_range in tokens_to_mix:
         start, end = token_range[0], token_range[1]
@@ -423,14 +494,7 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         perturbed_inputs_idx = pad_input_ids.copy()
         pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix, 
                                                           token_replace_prob=token_replace_prob, k=k)
-        decoded_pad_input_ids_perturbed = tokenizer.decode(pad_input_ids_perturbed, skip_special_tokens=True)
-        decoded_pad_input_ids = tokenizer.decode(pad_input_ids, skip_special_tokens=True)
-        padding_token_id = 2
-   
-        print(f"Decoded perturbed input IDs: {decoded_pad_input_ids_perturbed}")
-        print(f"Decoded original input IDs: {decoded_pad_input_ids}")
-        print('------')
-        
+
         # End timing and update statistics
         elapsed_time = time.time() - start_time
         timing_stats.append(elapsed_time)
@@ -438,12 +502,13 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         num_subjects_stats.append(num_subjects)
         subject_lengths_stats.extend(subject_lengths)
         
-        # Print statistics every 100 runs
+        #Log statistics every 100 runs
         if len(timing_stats) % 100 == 0:
-            print_statistics()
-        
+           if should_log_stats('time_stats'):
+                log_statistics(timing_stats, tokens_processed_stats, num_subjects_stats, subject_lengths_stats, logger)
+
         return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask, torch.tensor(pad_input_ids_perturbed)
-    
+
     # End timing and update statistics
     elapsed_time = time.time() - start_time
     timing_stats.append(elapsed_time)
@@ -451,49 +516,16 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     num_subjects_stats.append(num_subjects)
     subject_lengths_stats.extend(subject_lengths)
     
-    # Print statistics every 100 runs
-    if len(timing_stats) % 100 == 0:
-        print_statistics()
-    
+    #Log statistics every 100 runs
+    if len(timing_stats) % 100 == 0:    
+       if should_log_stats('time_stats'):
+           log_statistics(timing_stats, tokens_processed_stats, num_subjects_stats, subject_lengths_stats, logger)
+       if should_log_stats('padding_stats'):
+           log_padding_statistics(padding_required_stats)  # NEW
+
     return torch.tensor(pad_input_ids), torch.tensor(label), torch.tensor(pad_attention_mask), tokens_to_mix, question_mask
 
-def print_statistics():
-    """Print running statistics"""
-    print("\n" + "="*80)
-    print("PERFORMANCE STATISTICS")
-    print("="*80)
-    print(f"Number of runs: {len(timing_stats)}")
-    print(f"Average time per run: {np.mean(timing_stats):.4f} seconds (std: {np.std(timing_stats):.4f})")
-    print(f"Average subject tokens to process per run: {np.mean(tokens_processed_stats):.2f} (std: {np.std(tokens_processed_stats):.2f})")
-    print(f"Average number of subjects per run: {np.mean(num_subjects_stats):.2f} (std: {np.std(num_subjects_stats):.2f})")
-    print(f"Average subject length (in tokens): {np.mean(subject_lengths_stats):.2f} (std: {np.std(subject_lengths_stats):.2f})")
-    print("="*80 + "\n")
-
-def print_final_statistics():
-    """Print final statistics - call this at the end of your training/processing"""
-    print("\n" + "="*80)
-    print("FINAL PERFORMANCE STATISTICS")
-    print("="*80)
-    print(f"Total number of runs: {len(timing_stats)}")
-    print(f"Average time per run: {np.mean(timing_stats):.4f} seconds (std: {np.std(timing_stats):.4f})")
-    print(f"Min/Max time: {np.min(timing_stats):.4f} / {np.max(timing_stats):.4f} seconds")
-    print(f"Average subject tokens to process per run: {np.mean(tokens_processed_stats):.2f} (std: {np.std(tokens_processed_stats):.2f})")
-    print(f"Average number of subjects per run: {np.mean(num_subjects_stats):.2f} (std: {np.std(num_subjects_stats):.2f})")
-    print(f"Average subject length (in tokens): {np.mean(subject_lengths_stats):.2f} (std: {np.std(subject_lengths_stats):.2f})")
-    print(f"Total processing time: {np.sum(timing_stats):.2f} seconds")
-    print(f"Total subject tokens processed: {np.sum(tokens_processed_stats)}")
-    print("="*80 + "\n")
-
-def reset_statistics():
-    """Reset all statistics"""
-    global timing_stats, tokens_processed_stats, num_subjects_stats, subject_lengths_stats
-    timing_stats = []
-    tokens_processed_stats = []
-    num_subjects_stats = []
-    subject_lengths_stats = []
-
-###################
-
+# ###################
 class CommonForgetQA(Dataset):
     def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk",in_text=False,token_replace_prob=0.6,token_k_neighbours=1,subject_noise_discrepancy_addition=False,subject_key='subject'):
         super(CommonForgetQA, self).__init__()
@@ -505,8 +537,6 @@ class CommonForgetQA(Dataset):
         self.token_k_neighbours = token_k_neighbours
         self.subject_noise_discrepancy_addition = subject_noise_discrepancy_addition
         self.subject_key =subject_key
-        print(f'Subject Key : {self.subject_key}')
-        print(f'Subject Key Type : {type(self.subject_key)}')
 
 
         with open(os.path.join(forget_data_path, str(split)+'.json'), 'r') as json_file:

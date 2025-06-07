@@ -52,6 +52,10 @@ subject_noise_discrepancy_addition: false
 subject_key: 'subject'
 
 
+use_adaptive_k: false
+match_first_char: false
+
+
 eval:
   # retain_result: data/retain90_llama_wd0.01/eval_results/ds_size300/eval_log_aggregated.json
   model_path: ${..model_path}
@@ -92,3 +96,26 @@ eval:
 
   batch_size: 30
   retain_result: null
+
+
+
+# ADD THIS HYDRA CONFIGURATION SECTION
+defaults:
+  - _self_
+
+hydra:
+  job:
+    name: ${forget_loss}_${model_family}_B${batch_size}_G${gradient_accumulation_steps}
+    chdir: false
+  
+  run:
+    dir: ${save_dir}/hydra_logs/${forget_loss}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+
+# In your forget_pii.yaml
+logging:
+  time_stats: false
+  padding_stats: false
+  entropy_stats: false
+  subject_token_len : false
+  log_every_n: 100
+  corrupted_subjects: false

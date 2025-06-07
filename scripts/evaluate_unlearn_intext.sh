@@ -33,40 +33,18 @@ export num_epochs=8
 #export model="llama3-8b"
 export model=llama2-7b;   # [phi, llama2-7b]
 
-export run_name="FullFT_PII_${forget_loss}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_lr${lr}_W${retain_weight}_intext${in_text}_replaceprob${token_replace_prob}_topk${token_top_k}_latestcompare"
-export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
+export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/_PermUIntext_Experiment1_llama2-7b_E8_B16_rp1.0_kn1"
+echo "Running evaluate for run: $run_name"
 
-
-export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
-echo "Running model with intext=${in_text}"
-# -------- Run Training --------
-# python forget.py --config-name=forget_pii.yaml \
-#     dataset=$dataset split=$split \
-#     forget_data_path=$forget_data_path \
-#     retain_data_path=$forget_data_path \
-#     forget_loss=$forget_loss batch_size=$batch_size \
-#     retain_weight=$retain_weight \
-#     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-#     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-#     use_lora=$use_lora \
-#     use_quantization=$use_quantization \
-#     project_name=$project_name \
-#     run_name=$run_name \
-#     in_text=$in_text \
-#     token_replace_prob=$token_replace_prob \
-#     token_top_k=$token_top_k \
-    
-    # LoRA.r=$LoRA_r \
-    # LoRA.alpha=$LoRA_alpha \
 
 # -------- Evaluate Model --------
-python evaluate_PII.py --config-name=eval_pii.yaml \
-    model_family=$model dataset=$dataset \
-    split=$split batch_size=$batch_size \
-    model_path=$save_dir forget_loss=$forget_loss \
-    generation.max_length=200 \
-    use_lora=$use_lora \
-    save_dir=$save_dir/eval_results
+# python evaluate_PII.py --config-name=eval_pii.yaml \
+#     model_family=$model dataset=$dataset \
+#     split=$split batch_size=$batch_size \
+#     model_path=$save_dir forget_loss=$forget_loss \
+#     generation.max_length=200 \
+#     use_lora=$use_lora \
+#     save_dir=$save_dir/eval_results2
 
 # -------- Aggregate Evaluation --------
 python aggregate_eval_stat.py \

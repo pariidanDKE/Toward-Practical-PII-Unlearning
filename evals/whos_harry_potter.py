@@ -711,4 +711,3 @@ class WHPLLM(torch.nn.Module, WHPGenerationMixin):
             hidden_states=None,
             attentions=None,
         )
-

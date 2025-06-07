@@ -17,6 +17,8 @@ from transformers.integrations.deepspeed import deepspeed_init, deepspeed_load_c
 from torch import nn
 import copy
 import numpy as np
+from utils import get_logger,should_log_stats
+
 os.environ['MASTER_PORT'] = '22395'
 
 def printll(name, inp):
@@ -182,6 +184,10 @@ class CustomTrainerForgetting(Trainer):
         return perturb_subjects_batch, questions_batch
       
         
+
+
+
+
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         def detailed_memory_report():
             print(f"CUDA memory allocated: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
@@ -252,7 +258,6 @@ class CustomTrainerForgetting(Trainer):
             forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
             forget_loss = forget_outputs.loss
         elif self.loss_type.startswith("PerMU") and self.in_text: ### DP Addition : New block to accomodate the Discrete Tokens variant of Per
-            print('Running PerMU with in_text..')
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
             with torch.no_grad():
@@ -264,6 +269,43 @@ class CustomTrainerForgetting(Trainer):
                     output_hidden_states=False)
                 corrupt_logits = corrupt_output.logits
                 logit = corrupt_logits
+                
+
+                if should_log_stats('entropy_stats'):
+                    # === ENTROPY LOGGING SECTION ===
+                    logger = get_logger()
+                    
+                    # Calculate entropy of corrupt_logits for analysis
+                    corrupt_probs = F.softmax(corrupt_logits, dim=-1)
+                    # Calculate entropy: -sum(p * log(p)) for each position -> Shannon Entropy
+                    corrupt_entropy = -torch.sum(corrupt_probs * torch.log(corrupt_probs + 1e-10), dim=-1)  # Add small epsilon to avoid log(0)
+                    
+                    # Log entropy statistics per batch item and overall
+                    for i in range(corrupt_entropy.size(0)):
+                        batch_entropy = corrupt_entropy[i]
+                        start, end = question_mask[i][0]
+                        
+                        # Entropy for answer tokens (where we care about the forgetting effect)
+                        answer_entropy = batch_entropy[start-1:end]
+                        
+                        # Entropy for subject tokens (tokens_to_mix)
+                        subject_entropies = []
+                        for sub in tokens_to_mix[i]:
+                            subject_start, subject_end = sub[0], sub[1]
+                            subj_entropy = batch_entropy[subject_start-1:subject_end-1]
+                            subject_entropies.append(subj_entropy.mean().item())
+                        
+                        logger.info(f"PerMU Entropy Analysis - Batch {i}:")
+                        logger.info(f"  Answer tokens entropy - Mean: {answer_entropy.mean().item():.4f}, Std: {answer_entropy.std().item():.4f}")
+                        logger.info(f"  Subject tokens entropy - Values: {[f'{ent:.4f}' for ent in subject_entropies]}")
+                        logger.info(f"  Overall sequence entropy - Mean: {batch_entropy.mean().item():.4f}")
+                    
+                    # Overall statistics across all batches
+                    overall_entropy_mean = corrupt_entropy.mean().item()
+                    overall_entropy_std = corrupt_entropy.std().item()
+                    logger.info(f"PerMU Overall corrupt_logits entropy - Mean: {overall_entropy_mean:.4f}, Std: {overall_entropy_std:.4f}")
+                    # === END ENTROPY LOGGING ===
+
                 
                 clean_logits_copy = copy.deepcopy(clean_logits)
                 # DP: the question tokens are 0, as when we calc loss they should not be considerered

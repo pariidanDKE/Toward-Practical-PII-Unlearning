@@ -1,0 +1,44 @@
+model_path: 
+model_family: phi
+
+save_dir: 
+forget_loss: grad_ascent
+
+# dataset path for each of the 4 datasets to be evaluated
+data_path: [data/Harry, data/Harry, data/test, data/test, data/test, data/test]
+split: forget
+split_list:
+  - ${split}
+  - ${split}
+  - test_retain_harry
+  - test_retain_harry
+  - real_authors_perturbed
+  - world_facts_perturbed
+
+dataset: Harry
+
+question_key: [question, paraphrased_question, question, paraphrased_question, question, question]
+answer_key: [answer, answer, answer, answer, answer, answer]
+base_answer_key: [None, None, None, None, answer, answer]
+perturbed_answer_key: [None, None, None, None, perturbed_answer, perturbed_answer]
+
+eval_task: [eval_log_forget, eval_log_forget_rephrase, eval_log_retain, eval_log_retain_rephrase, eval_real_author_wo_options, eval_real_world_wo_options]
+
+generation:
+  max_length: 200
+  max_new_tokens: null
+
+save_generated_text: true
+
+ds_size: null 
+
+bf16: true
+
+overwrite: true
+use_pretrained: false
+
+batch_size: 8
+reinitialize_weights: false
+
+retain_result: null
+

@@ -1,31 +1,40 @@
 #!/bin/bash
 
-### This script is used to evaluate the PerMU in-text method, as described in the "7.5 Discrete-Token Level Perturbation" section of the PerMU paper.
+### This script is used to evaluate multiple methods including PerMU in-text method, adapted with new parameter structure
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=5
+export num_epochs=1
 export batch_size=4 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=4
+export gradaccum=2
 export cache="$PWD/cache"
 export retain_weight=1
 export lr=1e-5
 
+
 export CUDA_VISIBLE_DEVICES=0
 
+export time_stats=True
+export remove_model_tensors=True
 export split="forget10"
-export project_name="SyntheticPII"
+export project_name="CompareModels_Experiment2"
 export use_lora=False
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
+
+# NEW: Added CUDA debugging and logging parameters from File 2
+export CUDA_LAUNCH_BLOCKING=1
+export TORCH_USE_CUDA_DSA=1
+#export logging_timestats=True
 
 echo "Running full model without LoRA"
 export num_epochs=1
 
 # Array of forget loss methods to loop through
-#forget_losses=("PerMU" "grad_ascent" "grad_ascent+kl" "grad_ascent+gd" "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd" "task_vector" "ULD" "WHP" "icl"  "PerMUintext")
-forget_losses=("grad_ascent")
+forget_losses=("PerMU" "grad_ascent" "grad_ascent+kl" "grad_ascent+gd" "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd" "ULD" "WHP")
+# Uncomment the following line to run only PerMUintext method
+#forget_losses=("PerMUintext")
 
 # Arrays to track results
 successful_methods=()
@@ -45,13 +54,15 @@ for forget_loss in "${forget_losses[@]}"; do
         if [ "$forget_loss" = "PerMUintext" ]; then
             export in_text=True
             export token_replace_prob=1
-            export token_top_k=200
-            echo "Setting PerMUintext parameters: in_text=$in_text, token_replace_prob=$token_replace_prob, token_top_k=$token_top_k"
+            # CHANGED: Updated parameter name from token_top_k to token_k_neighbours
+            export token_k_neighbours=1
+            echo "Setting PerMUintext parameters: in_text=$in_text, token_replace_prob=$token_replace_prob, token_k_neighbours=$token_k_neighbours"
         else
             # Unset or set to default values for other methods
             unset in_text
             unset token_replace_prob
-            unset token_top_k
+            # CHANGED: Updated parameter name
+            unset token_k_neighbours
             echo "Using default parameters (no PerMUintext-specific settings)"
         fi
 
@@ -73,20 +84,22 @@ for forget_loss in "${forget_losses[@]}"; do
             use_quantization=$use_quantization \
             project_name=$project_name \
             run_name=$run_name"
+        #logging.time_stats=$logging_timestats
         
         # Add PerMUintext-specific parameters if needed
         if [ "$forget_loss" = "PerMUintext" ]; then
             train_cmd="$train_cmd \
                 in_text=$in_text \
                 token_replace_prob=$token_replace_prob \
-                token_top_k=$token_top_k"
+                token_k_neighbours=$token_k_neighbours"
         fi
         
         # Execute the training command
         eval $train_cmd
         
         echo "-------- Evaluate Model --------"
-        python evaluate_PII.py --config-name=eval_pii.yaml \
+        # CHANGED: Updated config name from eval_pii.yaml to eval_pii_short.yaml
+        python evaluate_PII.py --config-name=eval_pii_short.yaml \
             model_family=$model dataset=$dataset \
             split=$split batch_size=$batch_size \
             model_path=$save_dir forget_loss=$forget_loss \
@@ -100,7 +113,8 @@ for forget_loss in "${forget_losses[@]}"; do
             method_name=$forget_loss \
             save_file=$save_dir/eval_results/eval.csv \
             excel_file_path=$save_dir/eval_results/eval.xlsx \
-            submitted_by=who
+            submitted_by=who \
+            remove_model_tensors=$remove_model_tensors
 
         echo "✓ Successfully completed $forget_loss with ${num_epochs} epochs"
         
