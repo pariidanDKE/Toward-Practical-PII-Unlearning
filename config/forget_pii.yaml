@@ -52,6 +52,7 @@ subject_noise_discrepancy_addition: false
 subject_key: 'subject'
 
 
+optimal_neighbours_generation: false
 use_adaptive_k: false
 match_first_char: false
 

@@ -4,7 +4,7 @@ export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=1
+export num_epochs=8
 export batch_size=2 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
 export gradaccum=16
 export cache="$PWD/cache"
@@ -30,6 +30,7 @@ export use_adaptive_k=False
 export match_first_char=True
 
 export logging_subject_token_len=True
+export optimal_neighbours_generation=True
 
 if [ "$in_text" = "True" ]; then
     export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_subject_key_${subject_key}_TEST"
@@ -57,12 +58,12 @@ python forget.py --config-name=forget_pii.yaml \
     token_replace_prob=$token_replace_prob \
     token_k_neighbours=$token_k_neighbours \
     subject_key=$subject_key \
-    save_model=False \
+#    save_model=False \
     logging.subject_token_len=$logging_subject_token_len \
     use_adaptive_k=$use_adaptive_k \
     logging.corrupted_subjects=True \
     match_first_char=$match_first_char \
-
+    optimal_neighbours_generation=$optimal_neighbours_generation \
     # LoRA.r=$LoRA_r \
     # LoRA.alpha=$LoRA_alpha \
 

@@ -18,3 +18,4 @@ my_files/pii_attacks/pii_mia_attacks/data/*
 my_files/pii_dataset/data/*
 data/
 data/TOFU/
+experiment_logs

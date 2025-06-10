@@ -96,6 +96,150 @@ def is_latin_alphabet_only(text):
     
     return bool(re.match(latin_pattern, cleaned_text))
 
+
+
+
+
+############ OPTIMAL VARIANT OF MY METHODS ##########################
+from utils import (
+    build_vocab_indices, 
+    get_vocab_by_length, 
+    get_vocab_by_first_char, 
+    get_neighbor_cache,
+    is_latin_alphabet_only
+)
+
+
+
+def find_neighbourhood_k_optimized(tokenizer, token_id, k=1):
+    """
+    Optimized version that uses pre-built indices and caching
+    """
+    # Build indices if not already done
+    build_vocab_indices(tokenizer)
+    
+    # Get references to the cached data
+    vocab_by_length = get_vocab_by_length()
+    vocab_by_first_char = get_vocab_by_first_char()
+    neighbor_cache = get_neighbor_cache()
+    
+    # Check cache first
+    cache_key = (token_id, k)
+    if cache_key in neighbor_cache:
+        return neighbor_cache[cache_key]
+    
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
+
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
+
+    # Handle digit tokens specially (unchanged logic)
+    if original_token.strip().isdigit():
+        neighbors = []
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            possible_formats = [digit, f' {digit}', f'▁{digit}']
+            for formatted_digit in possible_formats:
+                if formatted_digit in tokenizer.vocab:
+                    digit_id = tokenizer.vocab[formatted_digit]
+                    if digit_id != token_id:
+                        neighbors.append(digit_id)
+        
+        neighbor_cache[cache_key] = neighbors
+        return neighbors
+
+    match_first_char = get_config()['match_first_char']
+    original_first_char = ''
+    if match_first_char:
+        for char in original_token:
+            if char.isalpha():
+                original_first_char = char
+                break
+
+    neighbors = []
+    
+    # Choose search strategy based on constraints
+    if match_first_char and original_first_char:
+        # Search only tokens with matching first character
+        candidate_tokens = vocab_by_first_char.get(original_first_char, [])
+    else:
+        # For k=1, we can limit search to tokens of similar length (length ± k)
+        if k == 1:
+            candidate_tokens = []
+            original_length = len(original_token)
+            for length in range(max(1, original_length - k), original_length + k + 1):
+                candidate_tokens.extend(vocab_by_length.get(length, []))
+        else:
+            # For larger k, search all Latin tokens (fallback to original approach)
+            candidate_tokens = []
+            for tokens_list in vocab_by_length.values():
+                candidate_tokens.extend(tokens_list)
+    
+    # Check distance for candidate tokens
+    for vocab_token, vocab_token_id in candidate_tokens:
+        if vocab_token_id == token_id:
+            continue
+            
+        distance = Levenshtein.distance(original_token, vocab_token)
+        if distance <= k:
+            neighbors.append(vocab_token_id)
+    
+    # Cache the result
+    neighbor_cache[cache_key] = neighbors
+    return neighbors
+
+def find_neighbourhood_k_adaptive_strict_optimized(tokenizer, token_id, k=1):
+    """
+    Optimized version of the adaptive strict function
+    """
+    # Build indices if not already done
+    build_vocab_indices(tokenizer)
+    
+    # Get references to the cached data
+    vocab_by_length = get_vocab_by_length()
+    neighbor_cache = get_neighbor_cache()
+    
+    # Check cache first
+    cache_key = (token_id, k, 'adaptive_strict')
+    if cache_key in neighbor_cache:
+        return neighbor_cache[cache_key]
+    
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
+    
+    original_length = len(original_token)
+    neighbors = []
+    
+    # Handle digit tokens
+    if original_token.strip().isdigit():
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            for fmt in [digit, f' {digit}', f'▁{digit}']:
+                if fmt in tokenizer.vocab:
+                    digit_id = tokenizer.vocab[fmt]
+                    if digit_id != token_id and Levenshtein.distance(original_token, fmt) == original_length:
+                        neighbors.append(digit_id)
+        
+        neighbor_cache[cache_key] = neighbors
+        return neighbors
+    
+    # Only search tokens of the same length (major optimization for adaptive strict)
+    candidate_tokens = vocab_by_length.get(original_length, [])
+    
+    for vocab_token, vocab_token_id in candidate_tokens:
+        if (vocab_token_id != token_id and 
+            Levenshtein.distance(original_token, vocab_token) == original_length):
+            neighbors.append(vocab_token_id)
+    
+    # Cache the result
+    neighbor_cache[cache_key] = neighbors
+    return neighbors
+
+
+#######################################################
+
+
+
+
 def find_neighbourhood_k(tokenizer, token_id, k=1):
     """
     Finds tokens in the tokenizer's vocabulary that are within a Levenshtein 
@@ -106,7 +250,6 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
 
     if should_log_stats('subject_token_len'):
         add_subject_lengths(original_token)
-
 
     def get_first_alpha_char(token):
             for char in token:
@@ -139,10 +282,8 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
 
         return neighbors
 
-
     match_first_char = get_config()['match_first_char']
     original_first_char = get_first_alpha_char(original_token) if original_token and match_first_char else ''
-
 
     neighbors = []
     decoded_neighbours = []
@@ -162,13 +303,6 @@ def find_neighbourhood_k(tokenizer, token_id, k=1):
         if distance <= k:
             neighbors.append(vocab_token_id)
             decoded_neighbours.append(vocab_token)
-    #print(f"Token '{original_token}' (ID: {token_id}): Found {len(neighbors)} Latin neighbors within distance k={k}")
-
-    # if len(neighbors) >= 30:
-    #     print(f"Neighbors: {decoded_neighbours[:30]}")
-    # else:
-    #     print(f"Neighbors: {decoded_neighbours}")
-
     return neighbors
 
 def find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=1):
@@ -195,23 +329,31 @@ def find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=1):
             Levenshtein.distance(original_token, vocab_token) == original_length):
             neighbors.append(vocab_token_id)
 
-            # if random.random() < 0.001:
-            #     print('Added option for token ', original_token, '; Option: ', vocab_token)
+            
     
     return neighbors
-    
-
 
 def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
     """
     Corrupts a single token ID with a similar token from the vocabulary
     based on a given probability.
     """
+
+    if get_config()['optimal_neighbours_generation']:
+        simple_neighbourhood_func = find_neighbourhood_k_optimized
+        adaptive_neighbourhood_func = find_neighbourhood_k_adaptive_strict_optimized
+    else:
+        simple_neighbourhood_func = find_neighbourhood_k
+        adaptive_neighbourhood_func = find_neighbourhood_k_adaptive_strict
+
     if random.random() < replace_prob:
         if get_config()['use_adaptive_k']:
-            neighbor_ids = find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=k)
+            #neighbor_ids = find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=k)
+            neighbor_ids = adaptive_neighbourhood_func(tokenizer, token_id, k=k)
+
         else:
-            neighbor_ids = find_neighbourhood_k(tokenizer, token_id, k=k)
+            #neighbor_ids = find_neighbourhood_k(tokenizer, token_id, k=k)
+            neighbor_ids = simple_neighbourhood_func(tokenizer, token_id, k=k)
         if neighbor_ids:
             sampled_id = random.choice(neighbor_ids)
             return sampled_id
@@ -219,8 +361,6 @@ def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
             return token_id
     else:
         return token_id
-
-
 
 def create_perturbed_subject(tokenizer, inputs_idx, tokens_to_mix, token_replace_prob=0.6, k=1):
     """
@@ -292,85 +432,6 @@ def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subjec
         for range_start, range_end in ranges:
             tokens_to_mix.append((range_start, range_end))
     return ranges, lcs_coverage
-
-
-def add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, subject_id, subject, tokens_to_mix):
-    """
-    Handle tokenization mismatch using LCS and add ranges to tokens_to_mix.
-    Ensures the total number of tokens to be perturbed equals the original subject length.
-    Returns ranges, lcs_coverage, actual_tokens_before, actual_tokens_after
-    """
-    lcs_indices = longest_common_subsequence_indices(full_text_input_id, subject_id)
-    lcs_coverage = len(lcs_indices) / len(subject_id)  # NEW: Track this
-
-    original_subject_length = len(subject_id)
-    #print(f'Proportion of LCS Indices: {(len(lcs_indices) / len(subject_id)):.2f}')
-    #print(f'Original subject length: {original_subject_length}, LCS length: {len(lcs_indices)}')
-    if len(lcs_indices) < 0.2 * len(subject_id):
-        raise ValueError(
-            f"\n❌ Subject tokenization mismatch - too many tokens lost!\n"
-            f"Subject: {subject}\n"
-            f"Subject token IDs: {subject_id}\n"
-            f"Full text token IDs: {full_text_input_id}\n"
-            f"Tokens missing from full text: {missing_tokens}\n"
-            f"LCS coverage: {len(lcs_indices)}/{len(subject_id)} ({len(lcs_indices)/len(subject_id)*100:.1f}%)\n"
-        )
-    
-    ranges = []
-    total_lcs_tokens = 0
-    actual_tokens_before = []  # NEW: Track actual tokens added before
-    actual_tokens_after = []   # NEW: Track actual tokens added after
-    
-    if lcs_indices:
-        start_idx = lcs_indices[0]
-        end_idx = lcs_indices[0]
-        for i in range(1, len(lcs_indices)):
-            if lcs_indices[i] == lcs_indices[i-1] + 1:
-                end_idx = lcs_indices[i]
-            else:
-                ranges.append((start_idx, end_idx + 1))
-                total_lcs_tokens += (end_idx + 1 - start_idx)
-                start_idx = lcs_indices[i]
-                end_idx = lcs_indices[i]
-        ranges.append((start_idx, end_idx + 1))
-        total_lcs_tokens += (end_idx + 1 - start_idx)
-        for range_start, range_end in ranges:
-            tokens_to_mix.append((range_start, range_end, False))  # False = normal probability
-    
-    tokens_to_add = original_subject_length - total_lcs_tokens
-    if tokens_to_add > 0:
-        #print(f"Need to add {tokens_to_add} additional tokens to match original subject length")
-        added_tokens = 0
-        for start, end in ranges:
-            if added_tokens >= tokens_to_add:
-                break
-            if start > 0 and added_tokens < tokens_to_add:
-                tokens_before = min(tokens_to_add - added_tokens, start)
-                if tokens_before > 0:
-                    # NEW: Capture actual tokens before
-                    before_range_start = start - tokens_before
-                    before_range_end = start
-                    actual_before_tokens = full_text_input_id[before_range_start:before_range_end]
-                    actual_tokens_before.extend(actual_before_tokens)
-                    
-                    tokens_to_mix.append((before_range_start, before_range_end, True))  # True = reduced probability
-                    added_tokens += tokens_before
-                    #print(f"Added {tokens_before} tokens before position {start} with 0.5x probability")
-            if end < len(full_text_input_id) and added_tokens < tokens_to_add:
-                tokens_after = min(tokens_to_add - added_tokens, len(full_text_input_id) - end)
-                if tokens_after > 0:
-                    # NEW: Capture actual tokens after
-                    after_range_start = end
-                    after_range_end = end + tokens_after
-                    actual_after_tokens = full_text_input_id[after_range_start:after_range_end]
-                    actual_tokens_after.extend(actual_after_tokens)
-                    
-                    tokens_to_mix.append((after_range_start, after_range_end, True))  # True = reduced probability
-                    added_tokens += tokens_after
-                    #print(f"Added {tokens_after} tokens after position {end} with 0.5x probability")
-    
-    return ranges, lcs_coverage, actual_tokens_before, actual_tokens_after
-
 
 
 
@@ -464,16 +525,9 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
             missing_tokens = [token for token in subject_id if token not in full_text_input_id]
             #log_tokenization_misalignment(subject, subject_id, full_text_input_id, missing_tokens, full_text, tokenizer)
             try:
-                if use_padding:
-                    ranges, lcs_coverage, tokens_before, tokens_after = add_tokens_to_mix_lcs_with_padding(missing_tokens, full_text_input_id, 
-                                                               subject_id, subject, tokens_to_mix)
-                    
-                    if should_log_stats('padding_stats'):
-                        log_tokenization_misalignment(subject, subject_id, full_text_input_id, missing_tokens, full_text, tokenizer,
-                                                  actual_tokens_before=tokens_before, actual_tokens_after=tokens_after)
-                else:
-                    ranges, lcs_coverage = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, 
-                                                 subject_id, subject, tokens_to_mix)
+             
+                ranges, lcs_coverage = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, 
+                                                subject_id, subject, tokens_to_mix)
                 current_sample_lcs_coverages.append(lcs_coverage)
 
             except ValueError as e:

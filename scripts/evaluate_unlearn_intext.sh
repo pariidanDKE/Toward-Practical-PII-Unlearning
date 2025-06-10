@@ -13,7 +13,6 @@ export retain_weight=1
 export lr=1e-5
 
 export CUDA_VISIBLE_DEVICES=0
-export forget_loss="PerMU"
 export split="forget10"
 export project_name="SyntheticPII"
 export use_lora=False
@@ -33,18 +32,22 @@ export num_epochs=8
 #export model="llama3-8b"
 export model=llama2-7b;   # [phi, llama2-7b]
 
-export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/_PermUIntext_Experiment1_llama2-7b_E8_B16_rp1.0_kn1"
+
+
+export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export forget_loss="WHP"
+export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/_AllExperiments/Experiment_MethodComparison/ModelComparison_WHP_"
 echo "Running evaluate for run: $run_name"
 
 
 # -------- Evaluate Model --------
-# python evaluate_PII.py --config-name=eval_pii.yaml \
-#     model_family=$model dataset=$dataset \
-#     split=$split batch_size=$batch_size \
-#     model_path=$save_dir forget_loss=$forget_loss \
-#     generation.max_length=200 \
-#     use_lora=$use_lora \
-#     save_dir=$save_dir/eval_results2
+python evaluate_PII.py --config-name=eval_pii_short.yaml \
+    model_family=$model dataset=$dataset \
+    split=$split batch_size=$batch_size \
+    model_path=$save_dir forget_loss=$forget_loss \
+    generation.max_length=200 \
+    use_lora=$use_lora \
+    save_dir=$save_dir/eval_results
 
 # -------- Aggregate Evaluation --------
 python aggregate_eval_stat.py \

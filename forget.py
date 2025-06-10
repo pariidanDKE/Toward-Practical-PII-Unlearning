@@ -16,7 +16,7 @@ from modeling_llama import LlamaForCausalLM
 import json
 from datetime import datetime
 from accelerate import Accelerator
-from utils import write_subject_lengths,write_subject_corruption_info
+from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer
 import wandb
 
 # def do_something(tensor, perturb_function):
@@ -103,8 +103,6 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
 
 import logging
 
-
-
 @hydra.main(version_base=None, config_path="./config", config_name="forget")
 def main(cfg):
 
@@ -156,6 +154,9 @@ def main(cfg):
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
+
+    if cfg.optimal_neighbours_generation:
+        setup_optimized_tokenizer(tokenizer=tokenizer,memory_mode="unlimited")
 
     max_length = 500
     if cfg.dataset == "Harry" or cfg.dataset == "ZSRE":

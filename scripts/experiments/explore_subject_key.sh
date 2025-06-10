@@ -13,7 +13,7 @@ export lr=1e-5
 export CUDA_VISIBLE_DEVICES=0
 export forget_loss="PerMU"
 export split="forget10"
-export project_name="SubjectKeyCompare"
+export project_name="_PIIRankExperiment"
 export use_lora=False
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
@@ -21,45 +21,52 @@ export forget_data_path="$PWD/data/${dataset}"
 ## PerMU in-text params
 export in_text=True
 export token_replace_prob=1
-export token_k_neighbours=2
-export subject_noise_discrepancy_addition=False
+export token_k_neighbours=1
 export remove_model_tensors=True
+
+export optimal_neighbours_generation=True
+export match_first_char=True
+export logging_timestats=True
 
 # Fixed training parameters
 export batch_size=16
-export gradaccum=4
+export gradaccum=2
 
 # Calculate effective batch size for logging
 effective_batch_size=$((batch_size * gradaccum))
 
 # Loop through different subject_key values
-for subject_key in "subject" "subject_pii" "subject_person_pii"
+for subject_key in "subject_pii" "subject_person_pii"
 do
     export subject_key=$subject_key
-
+    export batch_size=16
     export run_name="_${project_name}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_SK${subject_key}"
     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
 
     echo "Running model with subject_key=${subject_key} (batch_size=${batch_size}, grad_accum=${gradaccum}, effective_batch_size=${effective_batch_size})"
 
     #-------- Run Training --------
-    python forget.py --config-name=forget_pii.yaml \
-        dataset=$dataset split=$split \
-        forget_data_path=$forget_data_path \
-        retain_data_path=$forget_data_path \
-        forget_loss=$forget_loss batch_size=$batch_size \
-        retain_weight=$retain_weight \
-        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-        use_lora=$use_lora \
-        use_quantization=$use_quantization \
-        project_name=$project_name \
-        run_name=$run_name \
-        in_text=$in_text \
-        token_replace_prob=$token_replace_prob \
-        token_k_neighbours=$token_k_neighbours \
-        subject_key=$subject_key \
-        subject_noise_discrepancy_addition=$subject_noise_discrepancy_addition
+    # python forget.py --config-name=forget_pii.yaml \
+    #     dataset=$dataset split=$split \
+    #     forget_data_path=$forget_data_path \
+    #     retain_data_path=$forget_data_path \
+    #     forget_loss=$forget_loss batch_size=$batch_size \
+    #     retain_weight=$retain_weight \
+    #     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+    #     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+    #     use_lora=$use_lora \
+    #     use_quantization=$use_quantization \
+    #     project_name=$project_name \
+    #     run_name=$run_name \
+    #     in_text=$in_text \
+    #     token_replace_prob=$token_replace_prob \
+    #     token_k_neighbours=$token_k_neighbours \
+    #     subject_key=$subject_key \
+    #     optimal_neighbours_generation=$optimal_neighbours_generation \
+    #     match_first_char=$match_first_char \
+    #     logging.time_stats=$logging_timestats \
+
+    export batch_size=64
 
     # -------- Evaluate Model --------
     python evaluate_PII.py --config-name=eval_pii.yaml \

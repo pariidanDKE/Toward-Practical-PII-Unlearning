@@ -183,10 +183,6 @@ class CustomTrainerForgetting(Trainer):
         
         return perturb_subjects_batch, questions_batch
       
-        
-
-
-
 
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         def detailed_memory_report():

@@ -17,11 +17,346 @@ from typing import Optional
 
 
 
+############################################### OPTIMAL TOKENIZER ###########################################
+
+# utils.py - Vocabulary indices and caching utilities
+
+def setup_optimized_tokenizer(tokenizer, memory_mode="balanced", precompute_tokens=1000):
+    """
+    One-time setup for optimized token corruption
+    Call this once after loading your tokenizer
+    """
+    print("Setting up optimized tokenizer...")
+    
+    # Configure memory usage
+    configure_memory_usage(memory_mode)
+    
+    # Build vocabulary indices
+    build_vocab_indices(tokenizer)
+    
+    # Precompute neighbors for common tokens
+    if precompute_tokens > 0:
+        if memory_mode == "minimal":
+            print("Skipping precomputation in minimal memory mode")
+        else:
+            memory_efficient_precompute(tokenizer, target_memory_mb=50)
+    
+    print(f"Setup complete. Memory usage: {get_memory_usage_mb():.1f} MB")
+
+
+import re
+from collections import defaultdict, OrderedDict
+
+# Global caches and indices
+_vocab_by_length = None
+_vocab_by_first_char = None
+_latin_token_cache = {}
+_neighbor_cache = {}
+
+class LimitedCache(OrderedDict):
+    """LRU cache with size limit to control memory usage"""
+    def __init__(self, max_size=10000):
+        super().__init__()
+        self.max_size = max_size
+    
+    def __setitem__(self, key, value):
+        if key in self:
+            # Move to end
+            self.move_to_end(key)
+        super().__setitem__(key, value)
+        if len(self) > self.max_size:
+            # Remove oldest item
+            self.popitem(last=False)
+
+
+def is_latin_alphabet_only(text):
+    """
+    Check if a token contains only Latin alphabet characters, numbers, 
+    common punctuation, and whitespace/special tokenizer symbols.
+    Cached version for better performance.
+    """
+    if text in _latin_token_cache:
+        return _latin_token_cache[text]
+    
+    # Remove common tokenizer prefixes/symbols
+    cleaned_text = text.replace('▁', '').replace('Ġ', '').replace('##', '')
+    
+    # Allow Latin letters, numbers, common punctuation, and whitespace
+    latin_pattern = r'^[a-zA-Z0-9\s\.,;:!?\-\'\"()\[\]{}/@#$%^&*+=<>|\\~`_]*$'
+    
+    result = bool(re.match(latin_pattern, cleaned_text))
+    _latin_token_cache[text] = result
+    return result
+
+def build_vocab_indices(tokenizer):
+    """Build optimized indices for the vocabulary - call this once at startup"""
+    global _vocab_by_length, _vocab_by_first_char
+    
+    if _vocab_by_length is not None:
+        return  # Already built
+    
+    print("Building vocabulary indices...")
+    _vocab_by_length = defaultdict(list)
+    _vocab_by_first_char = defaultdict(list)
+    
+    # Pre-filter and index Latin tokens
+    for vocab_token, vocab_token_id in tokenizer.vocab.items():
+        if is_latin_alphabet_only(vocab_token):
+            token_length = len(vocab_token)
+            _vocab_by_length[token_length].append((vocab_token, vocab_token_id))
+            
+            # Index by first alphabetic character
+            first_char = ''
+            for char in vocab_token:
+                if char.isalpha():
+                    first_char = char
+                    break
+            if first_char:
+                _vocab_by_first_char[first_char].append((vocab_token, vocab_token_id))
+    
+    print(f"Vocabulary indices built: {len(_vocab_by_length)} length buckets, "
+          f"{len(_vocab_by_first_char)} first-char buckets")
+
+def get_vocab_by_length():
+    """Get the vocabulary grouped by length"""
+    return _vocab_by_length
+
+def get_vocab_by_first_char():
+    """Get the vocabulary grouped by first character"""
+    return _vocab_by_first_char
+
+def get_neighbor_cache():
+    """Get the neighbor cache"""
+    return _neighbor_cache
+
+def set_neighbor_cache(cache):
+    """Set the neighbor cache (useful for switching cache types)"""
+    global _neighbor_cache
+    _neighbor_cache = cache
+
+def clear_caches():
+    """Call this if you switch tokenizers or want to free memory"""
+    global _vocab_by_length, _vocab_by_first_char, _latin_token_cache, _neighbor_cache
+    print("Clearing all caches...")
+    _vocab_by_length = None
+    _vocab_by_first_char = None
+    _latin_token_cache.clear()
+    _neighbor_cache.clear()
+
+def get_memory_usage_mb():
+    """Get current memory usage of caches"""
+    total_size = 0
+    
+    # Rough estimation
+    if _vocab_by_length:
+        total_size += sum(len(tokens) for tokens in _vocab_by_length.values()) * 40
+    if _vocab_by_first_char:
+        total_size += sum(len(tokens) for tokens in _vocab_by_first_char.values()) * 40
+    
+    total_size += len(_latin_token_cache) * 30
+    total_size += len(_neighbor_cache) * 100  # Rough estimate per cache entry
+    
+    return total_size / (1024 * 1024)
+
+def configure_memory_usage(mode="balanced"):
+    """Configure memory vs speed trade-offs"""
+    global _neighbor_cache
+    
+    if mode == "minimal":
+        # Minimize memory usage - no neighbor caching
+        _neighbor_cache = {}
+        max_precompute = 0
+        print("Minimal memory mode: No neighbor caching")
+        
+    elif mode == "balanced":
+        # Balance memory and speed
+        _neighbor_cache = LimitedCache(max_size=5000)
+        max_precompute = 1000
+        print("Balanced mode: Limited caching (5000 entries)")
+        
+    elif mode == "performance":
+        # Maximize speed, higher memory usage
+        _neighbor_cache = LimitedCache(max_size=20000)
+        max_precompute = 5000
+        print("Performance mode: Extended caching (20000 entries)")
+        
+    elif mode == "unlimited":
+        # No limits - maximum speed
+        _neighbor_cache = {}
+        max_precompute = float('inf')
+        print("Unlimited mode: No cache size limits")
+    
+    return max_precompute
 
 
 
+def find_neighbourhood_k_optimized(tokenizer, token_id, k=1):
+    """
+    Optimized version that uses pre-built indices and caching
+    """
+    # Build indices if not already done
+    build_vocab_indices(tokenizer)
+    
+    # Get references to the cached data
+    vocab_by_length = get_vocab_by_length()
+    vocab_by_first_char = get_vocab_by_first_char()
+    neighbor_cache = get_neighbor_cache()
+    
+    # Check cache first
+    cache_key = (token_id, k)
+    if cache_key in neighbor_cache:
+        return neighbor_cache[cache_key]
+    
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
 
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
 
+    # Handle digit tokens specially (unchanged logic)
+    if original_token.strip().isdigit():
+        neighbors = []
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            possible_formats = [digit, f' {digit}', f'▁{digit}']
+            for formatted_digit in possible_formats:
+                if formatted_digit in tokenizer.vocab:
+                    digit_id = tokenizer.vocab[formatted_digit]
+                    if digit_id != token_id:
+                        neighbors.append(digit_id)
+        
+        neighbor_cache[cache_key] = neighbors
+        return neighbors
+
+    match_first_char = get_config()['match_first_char']
+    original_first_char = ''
+    if match_first_char:
+        for char in original_token:
+            if char.isalpha():
+                original_first_char = char
+                break
+
+    neighbors = []
+    
+    # Choose search strategy based on constraints
+    if match_first_char and original_first_char:
+        # Search only tokens with matching first character
+        candidate_tokens = vocab_by_first_char.get(original_first_char, [])
+    else:
+        # For k=1, we can limit search to tokens of similar length (length ± k)
+        if k == 1:
+            candidate_tokens = []
+            original_length = len(original_token)
+            for length in range(max(1, original_length - k), original_length + k + 1):
+                candidate_tokens.extend(vocab_by_length.get(length, []))
+        else:
+            # For larger k, search all Latin tokens (fallback to original approach)
+            candidate_tokens = []
+            for tokens_list in vocab_by_length.values():
+                candidate_tokens.extend(tokens_list)
+    
+    # Check distance for candidate tokens
+    for vocab_token, vocab_token_id in candidate_tokens:
+        if vocab_token_id == token_id:
+            continue
+            
+        distance = Levenshtein.distance(original_token, vocab_token)
+        if distance <= k:
+            neighbors.append(vocab_token_id)
+    
+    # Cache the result
+    neighbor_cache[cache_key] = neighbors
+    return neighbors
+
+def find_neighbourhood_k_adaptive_strict_optimized(tokenizer, token_id, k=1):
+    """
+    Optimized version of the adaptive strict function
+    """
+    # Build indices if not already done
+    build_vocab_indices(tokenizer)
+    
+    # Get references to the cached data
+    vocab_by_length = get_vocab_by_length()
+    neighbor_cache = get_neighbor_cache()
+    
+    # Check cache first
+    cache_key = (token_id, k, 'adaptive_strict')
+    if cache_key in neighbor_cache:
+        return neighbor_cache[cache_key]
+    
+    original_token = tokenizer.convert_ids_to_tokens([token_id])[0]
+    if should_log_stats('subject_token_len'):
+        add_subject_lengths(original_token)
+    
+    original_length = len(original_token)
+    neighbors = []
+    
+    # Handle digit tokens
+    if original_token.strip().isdigit():
+        for digit in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
+            for fmt in [digit, f' {digit}', f'▁{digit}']:
+                if fmt in tokenizer.vocab:
+                    digit_id = tokenizer.vocab[fmt]
+                    if digit_id != token_id and Levenshtein.distance(original_token, fmt) == original_length:
+                        neighbors.append(digit_id)
+        
+        neighbor_cache[cache_key] = neighbors
+        return neighbors
+    
+    # Only search tokens of the same length (major optimization for adaptive strict)
+    candidate_tokens = vocab_by_length.get(original_length, [])
+    
+    for vocab_token, vocab_token_id in candidate_tokens:
+        if (vocab_token_id != token_id and 
+            Levenshtein.distance(original_token, vocab_token) == original_length):
+            neighbors.append(vocab_token_id)
+    
+    # Cache the result
+    neighbor_cache[cache_key] = neighbors
+    return neighbors
+
+def precompute_all_neighbors(tokenizer, k=1, max_cache_size=10000):
+    """
+    Precompute neighbors for the most common tokens to warm up the cache
+    Call this once after loading your tokenizer for maximum performance
+    """
+    
+    build_vocab_indices(tokenizer)
+    
+    # Get token IDs sorted by frequency (you might need to adjust this based on your tokenizer)
+    # This is a simple heuristic - you might want to use actual token frequencies
+    common_token_ids = list(range(min(max_cache_size, len(tokenizer.vocab))))
+    
+    print(f"Precomputing neighbors for {len(common_token_ids)} tokens...")
+    for i, token_id in enumerate(common_token_ids):
+        if i % 1000 == 0:
+            current_memory = get_memory_usage_mb()
+            print(f"Progress: {i}/{len(common_token_ids)}, Memory: {current_memory:.1f}MB")
+        
+        # Precompute both types
+        find_neighbourhood_k_optimized(tokenizer, token_id, k=k)
+        find_neighbourhood_k_adaptive_strict_optimized(tokenizer, token_id, k=k)
+    
+    print("Precomputation complete!")
+
+def memory_efficient_precompute(tokenizer, target_memory_mb=50):
+    """Precompute neighbors while staying under memory limit"""
+    
+    build_vocab_indices(tokenizer)
+    
+    max_tokens = min(len(tokenizer.vocab), target_memory_mb * 200)  # Rough estimate
+    common_token_ids = list(range(max_tokens))
+    
+    print(f"Precomputing neighbors for {len(common_token_ids)} tokens (target: {target_memory_mb}MB)")
+    
+    for i, token_id in enumerate(common_token_ids):
+        if i % 1000 == 0:
+            current_memory = get_memory_usage_mb()
+            print(f"Progress: {i}/{len(common_token_ids)}, Memory: {current_memory:.1f}MB")
+            
+            if current_memory > target_memory_mb:
+                print(f"Memory limit reached at {i} tokens")
+                break
+        
+        find_neighbourhood_k_optimized(tokenizer, token_id, k=1)
 
 
 
