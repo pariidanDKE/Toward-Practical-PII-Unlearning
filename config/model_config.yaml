@@ -3,6 +3,8 @@ llama3-8b:
   question_start_tag: "<|start_header_id|>user<|end_header_id|>\n\n"
   question_end_tag: "<|eot_id|>"
   answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
+  retain_answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
   answer_end_tag: "<|eot_id|>"
   flash_attention2: "true"
   gradient_checkpointing: "false"
@@ -11,7 +13,25 @@ llama3-8b:
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama3-8b_B4_G4_E8_lr2e-5_answer_tagging/checkpoint-6750"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama3-8b_B4_G4_E8_lr2e-5_answer_tagging"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+
+llama3.1-70b:
+  hf_key: "meta-llama/Llama-3.1-70B-Instruct"
+  question_start_tag: "<|start_header_id|>user<|end_header_id|>\n\n"
+  question_end_tag: "<|eot_id|>"
+  answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
+  retain_answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
+
+  answer_end_tag: "<|eot_id|>"
+  flash_attention2: "true"
+  gradient_checkpointing: "false"
+
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama3-8b_B4_G4_E8_lr2e-5_answer_tagging"
   #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
 
 
@@ -21,32 +41,57 @@ llama2-7b:
   question_end_tag: " [/INST]"
   answer_tag: " " ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
   answer_end_tag: ""
+  retain_answer_tag: "" 
   flash_attention2: "false"
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
   tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
   harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
 
 
-llama2-7b_nonchat:
-  hf_key: "NousResearch/Llama-2-7b-hf"
-  question_start_tag: "Question: "
-  question_end_tag: "\n"
-  answer_tag: "Answer: "
+llama2-7b_gradcheckFALSE:
+  hf_key: "NousResearch/Llama-2-7b-chat-hf"
+  question_start_tag: "[INST] "
+  question_end_tag: " [/INST]"
+  answer_tag: " " ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
   answer_end_tag: ""
+  retain_answer_tag: "" 
+  flash_attention2: "false"
+  gradient_checkpointing: "false"
+  # this model will be used for unlearning by default
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
+
+
+
+llama2-7b_noanswerspace:
+  hf_key: "NousResearch/Llama-2-7b-chat-hf"
+  question_start_tag: "[INST] "
+  question_end_tag: " [/INST]"
+  answer_tag: "" ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
+  retain_answer_tag: ""
+  answer_end_tag: ""
+  flash_attention2: "false"
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
-  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_llama2-7b_nonchat_B8_G4_E8_lr5e-5/checkpoint-1000"
-  # pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
+  tofu_target_model_path: "locuslab/tofu_ft_llama2-7b"
+  harry_target_model_path: "Maybe1407/harry_llama7b_to_unlearn"
+  zsre_target_model_path: "Maybe1407/zsre_llama7b_to_unlearn"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
+
+
+
 
 phi3-5-mini-instruct:
   hf_key: "microsoft/Phi-3.5-mini-instruct"
   question_start_tag: "<|user|>\n"
   question_end_tag: "<|end|>\n"
   answer_tag: "<|assistant|>\n"
+  retain_answer_tag: "<|assistant|>\n"
   answer_end_tag: "<|end|>\n"
   flash_attention2: "false"
   gradient_checkpointing: "true"
@@ -60,6 +105,7 @@ phi:
   question_start_tag: "Question: "
   question_end_tag: "\n"
   answer_tag: "Answer: "
+  retain_answer_tag: "Answer: "
   answer_end_tag: ""
   flash_attention2: "false"
   gradient_checkpointing: "false"
@@ -73,6 +119,7 @@ phi_chat:
   question_start_tag: "<|im_start|>user\n"
   question_end_tag: "<|im_end|>\n"
   answer_tag: "<|im_start|>assistant\n"
+  retain_answer_tag: "<|im_start|>assistant\n"
   answer_end_tag: "<|im_end|>"
   flash_attention2: "false"
   gradient_checkpointing: "false"

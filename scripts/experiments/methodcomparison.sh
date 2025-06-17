@@ -25,11 +25,12 @@ export CUDA_LAUNCH_BLOCKING=1
 export TORCH_USE_CUDA_DSA=1
 
 echo "Running Comparison Experiment with forget loss methods"
-export num_epochs=8
+export num_epochs=5
 
 # Array of forget loss methods to loop through
 #forget_losses=("PerMU" "grad_ascent" "ULD" "WHP" "grad_ascent+kl" "grad_ascent+gd" "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd")
-forget_losses=("ULD" "WHP")
+forget_losses=("PerMU")
+
 
 # Arrays to track results
 successful_methods=()
@@ -52,28 +53,28 @@ for forget_loss in "${forget_losses[@]}"; do
             echo "Setting memory-intensive method batch sizes: train_batch_size=$train_batch_size, eval_batch_size=$eval_batch_size"
         else
             export train_batch_size=16
-            export eval_batch_size=16
+            export eval_batch_size=64
             echo "Using standard batch sizes: train_batch_size=$train_batch_size, eval_batch_size=$eval_batch_size"
         fi
 
-        export run_name="ModelComparison_${forget_loss}_"
+        export run_name="ModelComparison_${forget_loss}_E${num_epochs}"
         export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/Experiment_MethodComparison/$run_name"
         
         echo "-------- Run Training --------"
         
         # Training command
-        # python forget.py --config-name=forget_pii.yaml \
-        #     dataset=$dataset split=$split \
-        #     forget_data_path=$forget_data_path \
-        #     retain_data_path=$forget_data_path \
-        #     forget_loss=$forget_loss batch_size=$train_batch_size \
-        #     retain_weight=$retain_weight \
-        #     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-        #     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-        #     use_lora=$use_lora \
-        #     use_quantization=$use_quantization \
-        #     project_name=$project_name \
-        #     run_name=$run_name
+        python forget.py --config-name=forget_pii.yaml \
+            dataset=$dataset split=$split \
+            forget_data_path=$forget_data_path \
+            retain_data_path=$forget_data_path \
+            forget_loss=$forget_loss batch_size=$train_batch_size \
+            retain_weight=$retain_weight \
+            gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+            save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+            use_lora=$use_lora \
+            use_quantization=$use_quantization \
+            project_name=$project_name \
+            run_name=$run_name
         
         echo "-------- Evaluate Model --------"
         python evaluate_PII.py --config-name=eval_pii.yaml \

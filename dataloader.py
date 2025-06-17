@@ -9,7 +9,7 @@ import copy
 import json 
 from pathlib import Path
 from data_module import get_batch_loss 
-from utils import merge_dicts, interleave_eval_result_dict, get_forget_quality, get_model_utility
+from utils import merge_dicts, interleave_eval_result_dict, get_forget_quality, get_model_utility, permu_log_states
 import numpy as np
 from scipy.stats import ks_2samp, hmean
 import csv 
@@ -266,42 +266,6 @@ class CustomTrainerForgetting(Trainer):
                 corrupt_logits = corrupt_output.logits
                 logit = corrupt_logits
                 
-
-                if should_log_stats('entropy_stats'):
-                    # === ENTROPY LOGGING SECTION ===
-                    logger = get_logger()
-                    
-                    # Calculate entropy of corrupt_logits for analysis
-                    corrupt_probs = F.softmax(corrupt_logits, dim=-1)
-                    # Calculate entropy: -sum(p * log(p)) for each position -> Shannon Entropy
-                    corrupt_entropy = -torch.sum(corrupt_probs * torch.log(corrupt_probs + 1e-10), dim=-1)  # Add small epsilon to avoid log(0)
-                    
-                    # Log entropy statistics per batch item and overall
-                    for i in range(corrupt_entropy.size(0)):
-                        batch_entropy = corrupt_entropy[i]
-                        start, end = question_mask[i][0]
-                        
-                        # Entropy for answer tokens (where we care about the forgetting effect)
-                        answer_entropy = batch_entropy[start-1:end]
-                        
-                        # Entropy for subject tokens (tokens_to_mix)
-                        subject_entropies = []
-                        for sub in tokens_to_mix[i]:
-                            subject_start, subject_end = sub[0], sub[1]
-                            subj_entropy = batch_entropy[subject_start-1:subject_end-1]
-                            subject_entropies.append(subj_entropy.mean().item())
-                        
-                        logger.info(f"PerMU Entropy Analysis - Batch {i}:")
-                        logger.info(f"  Answer tokens entropy - Mean: {answer_entropy.mean().item():.4f}, Std: {answer_entropy.std().item():.4f}")
-                        logger.info(f"  Subject tokens entropy - Values: {[f'{ent:.4f}' for ent in subject_entropies]}")
-                        logger.info(f"  Overall sequence entropy - Mean: {batch_entropy.mean().item():.4f}")
-                    
-                    # Overall statistics across all batches
-                    overall_entropy_mean = corrupt_entropy.mean().item()
-                    overall_entropy_std = corrupt_entropy.std().item()
-                    logger.info(f"PerMU Overall corrupt_logits entropy - Mean: {overall_entropy_mean:.4f}, Std: {overall_entropy_std:.4f}")
-                    # === END ENTROPY LOGGING ===
-
                 
                 clean_logits_copy = copy.deepcopy(clean_logits)
                 # DP: the question tokens are 0, as when we calc loss they should not be considerered
@@ -324,11 +288,21 @@ class CustomTrainerForgetting(Trainer):
                         if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
                                                        ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
                             clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-                            
+
+                
+                    
             student_outputs = model(input_ids, attention_mask=attention_mask)
             student_logit = student_outputs.logits
             # fast KL
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
+
+
+            if should_log_stats('permu_contrast_stats'):
+                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
+                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,C=self.C)
+
+
+
         elif self.loss_type.startswith("PerMU"):
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
@@ -370,6 +344,12 @@ class CustomTrainerForgetting(Trainer):
             student_logit = student_outputs.logits
             # fast KL
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
+
+            if should_log_stats('permu_contrast_stats'):
+                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
+                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,C=self.C)
+
+
         else:
             raise NotImplementedError(f"Invalid forget loss type: {self.loss_type}")
            

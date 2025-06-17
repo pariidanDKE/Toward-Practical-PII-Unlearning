@@ -13,10 +13,228 @@ import logging
 import os
 from datetime import datetime
 from typing import Optional
+import torch
+import torch.nn.functional as F
+
+
+############################################## ENTROPY,MAGNITUDE, DIVERGENCE LOGGING ##############################################
+# Global lists to collect statistics across all method calls/epochs
+permu_clean_entropy = []
+permu_corrupt_entropy = []
+permu_diff_entropy = []
+permu_contrasted_entropy = []
+permu_student_entropy = []  # Added for student_logits
+permu_clean_magnitude = []
+permu_corrupt_magnitude = []
+permu_diff_magnitude = []
+permu_contrasted_magnitude = []
+permu_student_magnitude = []  # Added for student_logits
+permu_kl_div = []
+permu_forget_loss = []  # Added for forget_loss
+
+
+def permu_log_states(corrupt_logits, clean_logits, question_mask, contrasted_logits_all, student_logits, forget_loss, C):
+    global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
+    global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
+    global permu_kl_div, permu_forget_loss
+
+    # === COMPREHENSIVE METRICS LOGGING SECTION ===
+    logger = get_logger()
+    
+    # Collect all answer tokens from all batch elements
+    all_clean_answer_logits = []
+    all_corrupt_answer_logits = []
+    all_contrasted_logits = []
+    all_student_logits = []  # Added for student_logits
+    
+    for i in range(corrupt_logits.size(0)):
+        start, end = question_mask[i][0]
+        
+        # Extract answer token logits (the ones being replaced)
+        clean_answer_logits = clean_logits[i, start-1:end, :]
+        corrupt_answer_logits = corrupt_logits[i, start-1:end, :]
+        contrasted_logits = contrasted_logits_all[i, start-1:end, :]
+        student_answer_logits = student_logits[i, start-1:end, :]  # Added for student_logits
+        
+        all_clean_answer_logits.append(clean_answer_logits)
+        all_corrupt_answer_logits.append(corrupt_answer_logits)
+        all_contrasted_logits.append(contrasted_logits)
+        all_student_logits.append(student_answer_logits)  # Added for student_logits
+    
+    # Concatenate all answer tokens from the batch
+    batch_clean_logits = torch.cat(all_clean_answer_logits, dim=0)
+    batch_corrupt_logits = torch.cat(all_corrupt_answer_logits, dim=0)
+    batch_contrasted_logits = torch.cat(all_contrasted_logits, dim=0)
+    batch_student_logits = torch.cat(all_student_logits, dim=0)  # Added for student_logits
+    batch_difference_logits = batch_corrupt_logits - C * batch_clean_logits
+    
+    # === ENTROPY CALCULATIONS ON ENTIRE BATCH ===
+    clean_probs = F.softmax(batch_clean_logits, dim=-1)
+    clean_entropy = -torch.sum(clean_probs * torch.log(clean_probs + 1e-10), dim=-1)
+    corrupt_probs = F.softmax(batch_corrupt_logits, dim=-1)
+    corrupt_entropy = -torch.sum(corrupt_probs * torch.log(corrupt_probs + 1e-10), dim=-1)
+    diff_probs = F.softmax(batch_difference_logits, dim=-1)
+    diff_entropy = -torch.sum(diff_probs * torch.log(diff_probs + 1e-10), dim=-1)
+    contrasted_probs = F.softmax(batch_contrasted_logits, dim=-1)
+    contrasted_entropy = -torch.sum(contrasted_probs * torch.log(contrasted_probs + 1e-10), dim=-1)
+    # Added for student_logits
+    student_probs = F.softmax(batch_student_logits, dim=-1)
+    student_entropy = -torch.sum(student_probs * torch.log(student_probs + 1e-10), dim=-1)
+    
+    # === MAGNITUDE CALCULATIONS ON ENTIRE BATCH (L∞ norm - max absolute value) ===
+    clean_magnitude = torch.max(torch.abs(batch_clean_logits), dim=-1)[0]
+    corrupt_magnitude = torch.max(torch.abs(batch_corrupt_logits), dim=-1)[0]
+    diff_magnitude = torch.max(torch.abs(batch_difference_logits), dim=-1)[0]
+    contrasted_magnitude = torch.max(torch.abs(batch_contrasted_logits), dim=-1)[0]
+    student_magnitude = torch.max(torch.abs(batch_student_logits), dim=-1)[0]  # Added for student_logits
+    
+    # === KL DIVERGENCE CALCULATION ON ENTIRE BATCH: KL(corrupt || clean) ===
+    kl_div = torch.sum(corrupt_probs * torch.log((corrupt_probs + 1e-10) / (clean_probs + 1e-10)), dim=-1)
+    
+    # === BATCH-LEVEL LOGGING ===
+    logger.info(f"PerMU Metrics - Batch Aggregate ({batch_clean_logits.size(0)} Answer Tokens):")
+    logger.info(f"  ENTROPY: Clean: Mean={clean_entropy.mean().item():.4f}, Std={clean_entropy.std().item():.4f}")
+    logger.info(f"           Corrupt: Mean={corrupt_entropy.mean().item():.4f}, Std={corrupt_entropy.std().item():.4f}")
+    logger.info(f"           Difference: Mean={diff_entropy.mean().item():.4f}, Std={diff_entropy.std().item():.4f}")
+    logger.info(f"           Contrasted: Mean={contrasted_entropy.mean().item():.4f}, Std={contrasted_entropy.std().item():.4f}")
+    logger.info(f"           Student: Mean={student_entropy.mean().item():.4f}, Std={student_entropy.std().item():.4f}")  # Added
+    logger.info(f"  MAGNITUDE (L∞): Clean: Mean={clean_magnitude.mean().item():.4f}, Std={clean_magnitude.std().item():.4f}")
+    logger.info(f"                  Corrupt: Mean={corrupt_magnitude.mean().item():.4f}, Std={corrupt_magnitude.std().item():.4f}")
+    logger.info(f"                  Difference: Mean={diff_magnitude.mean().item():.4f}, Std={diff_magnitude.std().item():.4f}")
+    logger.info(f"                  Contrasted: Mean={contrasted_magnitude.mean().item():.4f}, Std={contrasted_magnitude.std().item():.4f}")
+    logger.info(f"                  Student: Mean={student_magnitude.mean().item():.4f}, Std={student_magnitude.std().item():.4f}")  # Added
+    logger.info(f"  KL DIVERGENCE: KL(Corrupt||Clean): Mean={kl_div.mean().item():.4f}, Std={kl_div.std().item():.4f}")
+    logger.info(f"  FORGET LOSS: {forget_loss.item():.4f}")  # Added for forget_loss
+    
+    # === COLLECT BATCH-AGGREGATED STATISTICS FOR GLOBAL LISTS ===
+    # Store batch-level aggregated metrics (one value per batch, not per token)
+    permu_clean_entropy.append(clean_entropy.mean().item())
+    permu_corrupt_entropy.append(corrupt_entropy.mean().item())
+    permu_diff_entropy.append(diff_entropy.mean().item())
+    permu_contrasted_entropy.append(contrasted_entropy.mean().item())
+    permu_student_entropy.append(student_entropy.mean().item())  # Added
+    permu_clean_magnitude.append(clean_magnitude.mean().item())
+    permu_corrupt_magnitude.append(corrupt_magnitude.mean().item())
+    permu_diff_magnitude.append(diff_magnitude.mean().item())
+    permu_contrasted_magnitude.append(contrasted_magnitude.mean().item())
+    permu_student_magnitude.append(student_magnitude.mean().item())  # Added
+    permu_kl_div.append(kl_div.mean().item())
+    permu_forget_loss.append(forget_loss.item())  # Added for forget_loss
+    
+    # === OVERALL STATISTICS ===
+    logger.info("=" * 80)
+    logger.info("PerMU CURRENT BATCH STATISTICS:")
+    logger.info("=" * 80)
+    logger.info(f"Answer tokens in this batch: {batch_clean_logits.size(0)}")
+    logger.info(f"Total batches processed globally: {len(permu_clean_entropy)}")
+    logger.info("=" * 80)
+    # === END COMPREHENSIVE METRICS LOGGING ===
 
 
 
+def save_permu_metrics_to_json(save_dir="./permu_metrics", experiment_name="permu_experiment"):
+    """Save all accumulated PerMU metrics to JSON files. Call this after training is complete."""
+    import os, json, numpy as np
+    from datetime import datetime
+    
+    # Access global variables
+    global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
+    global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
+    global permu_kl_div, permu_forget_loss
+    
+    os.makedirs(save_dir, exist_ok=True)
+    if 'permu_clean_entropy' not in globals() or len(permu_clean_entropy) == 0:
+        print("No PerMU metrics data found to save.")
+        return
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    
+    # === SAVE RAW DATA ===
+    raw_data = {
+        "experiment_info": {"experiment_name": experiment_name, "timestamp": timestamp, "total_batches": len(permu_clean_entropy)},
+        "entropy": {
+            "clean": [float(x) for x in permu_clean_entropy], 
+            "corrupt": [float(x) for x in permu_corrupt_entropy], 
+            "difference": [float(x) for x in permu_diff_entropy], 
+            "contrasted": [float(x) for x in permu_contrasted_entropy],
+            "student": [float(x) for x in permu_student_entropy]  # Added
+        },
+        "magnitude": {
+            "clean": [float(x) for x in permu_clean_magnitude], 
+            "corrupt": [float(x) for x in permu_corrupt_magnitude], 
+            "difference": [float(x) for x in permu_diff_magnitude], 
+            "contrasted": [float(x) for x in permu_contrasted_magnitude],
+            "student": [float(x) for x in permu_student_magnitude]  # Added
+        },
+        "kl_divergence": {"corrupt_vs_clean": [float(x) for x in permu_kl_div]},
+        "forget_loss": [float(x) for x in permu_forget_loss]  # Added
+    }
+    
+    raw_filename = f"{experiment_name}_raw_data_{timestamp}.json"
+    with open(os.path.join(save_dir, raw_filename), 'w') as f:
+        json.dump(raw_data, f, indent=2)
+    
+    # === SAVE STATISTICAL SUMMARY ===
+    def compute_stats(data_list):
+        if len(data_list) == 0: return {"mean": 0, "std": 0, "min": 0, "max": 0, "median": 0}
+        data_array = np.array(data_list)
+        return {"mean": float(np.mean(data_array)), "std": float(np.std(data_array)), "min": float(np.min(data_array)), "max": float(np.max(data_array)), "median": float(np.median(data_array)), "count": len(data_list)}
+    
+    summary_data = {
+        "experiment_info": {"experiment_name": experiment_name, "timestamp": timestamp, "total_batches": len(permu_clean_entropy)},
+        "entropy_stats": {
+            "clean": compute_stats(permu_clean_entropy), 
+            "corrupt": compute_stats(permu_corrupt_entropy), 
+            "difference": compute_stats(permu_diff_entropy), 
+            "contrasted": compute_stats(permu_contrasted_entropy),
+            "student": compute_stats(permu_student_entropy)  # Added
+        },
+        "magnitude_stats": {
+            "clean": compute_stats(permu_clean_magnitude), 
+            "corrupt": compute_stats(permu_corrupt_magnitude), 
+            "difference": compute_stats(permu_diff_magnitude), 
+            "contrasted": compute_stats(permu_contrasted_magnitude),
+            "student": compute_stats(permu_student_magnitude)  # Added
+        },
+        "kl_divergence_stats": {"corrupt_vs_clean": compute_stats(permu_kl_div)},
+        "forget_loss_stats": compute_stats(permu_forget_loss)  # Added
+    }
+    
+    summary_filename = f"{experiment_name}_summary_{timestamp}.json"
+    with open(os.path.join(save_dir, summary_filename), 'w') as f:
+        json.dump(summary_data, f, indent=2)
+    
+    # === PRINT SUMMARY TO CONSOLE ===
+    print("=" * 100)
+    print(f"PERMU METRICS FINAL SUMMARY - {experiment_name}")
+    print("=" * 100)
+    print(f"Total batches processed: {len(permu_clean_entropy)}")
+    print("\nENTROPY FINAL STATISTICS:")
+    for metric_name, stats in summary_data["entropy_stats"].items():
+        print(f"  {metric_name.capitalize()}: Mean={stats['mean']:.4f}, Std={stats['std']:.4f}, Min={stats['min']:.4f}, Max={stats['max']:.4f}")
+    print("\nMAGNITUDE (L∞) FINAL STATISTICS:")
+    for metric_name, stats in summary_data["magnitude_stats"].items():
+        print(f"  {metric_name.capitalize()}: Mean={stats['mean']:.4f}, Std={stats['std']:.4f}, Min={stats['min']:.4f}, Max={stats['max']:.4f}")
+    print("\nKL DIVERGENCE FINAL STATISTICS:")
+    kl_stats = summary_data["kl_divergence_stats"]["corrupt_vs_clean"]
+    print(f"  KL(Corrupt||Clean): Mean={kl_stats['mean']:.4f}, Std={kl_stats['std']:.4f}, Min={kl_stats['min']:.4f}, Max={kl_stats['max']:.4f}")
+    print("\nFORGET LOSS FINAL STATISTICS:")  # Added
+    forget_stats = summary_data["forget_loss_stats"]
+    print(f"  Forget Loss: Mean={forget_stats['mean']:.4f}, Std={forget_stats['std']:.4f}, Min={forget_stats['min']:.4f}, Max={forget_stats['max']:.4f}")
+    print(f"\nFiles saved:\n  Raw data: {os.path.join(save_dir, raw_filename)}\n  Summary: {os.path.join(save_dir, summary_filename)}")
+    print("=" * 100)
 
+
+def reset_permu_metrics():
+    """Reset all global PerMU metrics. Call this before starting a new experiment."""
+    global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
+    global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
+    global permu_kl_div, permu_forget_loss
+    
+    permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy = [], [], [], [], []
+    permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude = [], [], [], [], []
+    permu_kl_div, permu_forget_loss = [], []
+    print("PerMU metrics reset for new experiment.")
 ############################################### OPTIMAL TOKENIZER ###########################################
 
 # utils.py - Vocabulary indices and caching utilities
@@ -719,84 +937,190 @@ def load_extraction_samples(sample_path: str, seed: int = 42, sample_size: int =
         next(reader)  # Skip the header
         all_samples = [row[0] for row in reader]  # Collect first column
 
-    # Shuffle and sample with seed
+    if sample_size is None:
+        sample_size = len(all_samples)
+
     random.seed(seed)
     return random.sample(all_samples, sample_size)
+################################ TARGETED EXTRACTION #####################################
 
+def load_targeted_extraction_data(base_path: str):
+    with open(f'{base_path}/target_samples.json', 'r') as f:
+        target_samples = json.load(f)
+    
+    with open(f'{base_path}/count_per_split.json', 'r') as f:
+        count_per_split = json.load(f)
+    
+    with open(f'{base_path}/obfuscation_info.json', 'r') as f:
+        obfuscation_info = json.load(f)
+    
+    return target_samples, count_per_split, obfuscation_info
+
+
+
+import random
+from typing import Dict, List
+import json
+import pandas as pd
 
 def load_targetted_extraction_samples(sample_path: str, persons: Dict = None, seed: int = 42, sample_size: int = 300):
     if persons is None or len(persons) == 0:
-        person_sample_path = get_config().get('split_person_name_path', None)
+        person_sample_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
         if person_sample_path is None:
             raise ValueError("No persons provided and 'split_person_names' not found in config.")
-        persons = load_person_split_dict(person_sample_path, split='forget10')
+        persons = load_person_split_dict(person_sample_path, split=get_config()['split'])
 
-    """Load samples from 'parsed_question', evenly split between 'direct' and 'obscure' styles."""
     df = pd.read_csv(sample_path)
-
-    # Split the data into 'direct' and 'obscure'
-    direct_samples = df[df['style'] == 'direct']['parsed_question'].dropna().tolist()
+    all_samples = df['parsed_question'].dropna().tolist()
     obscure_samples = df[df['style'] == 'obscure']['parsed_question'].dropna().tolist()
-
-    # Calculate half size
-    half_size = sample_size // 2
-
-    # Ensure reproducibility
-    random.seed(seed)
-    sampled_direct = random.sample(direct_samples, half_size)
-    sampled_obscure = random.sample(obscure_samples, sample_size - half_size)  # Covers odd sample_size
-
-    samples = sampled_direct + sampled_obscure
-    dict_count_per_split = {    'forget': 0,
-                                'retain': 0,
-                                'test_retain': 0,
-                                'unknown': 1}
     
+    def get_sample_splits(sample):
+        splits = set()
+        for name, split in persons.items():
+            if name.split()[0] in sample:
+                splits.add(split)
+        return splits
+    
+    forget_samples = [s for s in all_samples if get_sample_splits(s) == {'forget'}]
+    test_retain_samples = [s for s in all_samples if get_sample_splits(s) == {'test_retain'}]
+    
+    forget_samples = list(dict.fromkeys(forget_samples))
+    test_retain_samples = list(dict.fromkeys(test_retain_samples))
+    
+    # Calculate counts and sample test_retain for ~0.8 ratio
+    forget_count = sum(sum(1 for name, split in persons.items() 
+                          if split == 'forget' and name.split()[0] in sample) 
+                      for sample in forget_samples)
+    
+    target_test_retain_count = int(forget_count / 0.8)
+    random.seed(seed)
+    
+    sampled_test_retain = []
+    current_count = 0
+    for sample in random.sample(test_retain_samples, len(test_retain_samples)):
+        if current_count >= target_test_retain_count:
+            break
+        sample_count = sum(1 for name, split in persons.items() 
+                          if split == 'test_retain' and name.split()[0] in sample)
+        sampled_test_retain.append(sample)
+        current_count += sample_count
+    
+    samples = forget_samples + sampled_test_retain
+    
+    # Calculate metrics
+    obfuscated_count = sum(1 for sample in samples if sample in obscure_samples)
+    obfuscation_rate = obfuscated_count / len(samples) if samples else 0
+    
+    print(f"Obfuscation status: {obfuscated_count}/{len(samples)} samples are obfuscated ({obfuscation_rate:.2%})")
+    
+    dict_count_per_split = {'forget': 0, 'test_retain': 0, 'unknown': -1, 'retain' : -1}
     for name, split in persons.items():
         first_name = name.split()[0]
-
         for prompt in samples:
-            if first_name in prompt:
-                if split in dict_count_per_split:
-                    dict_count_per_split[split] += 1
-    # Combine and return
-    return samples, dict_count_per_split
-
-
-def load_person_split_dict(sample_path,split: str):
-    #sample_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
-    test_retain_str = 'test_retain_pii_names'
+            if first_name in prompt and split in dict_count_per_split:
+                dict_count_per_split[split] += 1
+    obfuscation_info = {
+        'is_obfuscated': obfuscated_count > 0,
+        'obfuscated_count': obfuscated_count,
+        'total_count': len(samples),
+        'obfuscation_rate': obfuscation_rate
+    }
     
+    return samples, dict_count_per_split, obfuscation_info
+
+
+def load_person_split_dict(sample_path, split: str):
     forget_percentage = int(split.replace('forget', ''))
-    retain_percentage = 100 - forget_percentage
     
-    forget_str = f'forget{forget_percentage}_names'
-    retain_str = f'retain{retain_percentage}_names'
+    paths = {
+        'forget': f'{sample_path}/forget{forget_percentage}_names.json',
+        'test_retain': f'{sample_path}/test_retain_pii_names.json'
+    }
     
-    # Load the three name files
-    forget_path = f'{sample_path}/{forget_str}.json'
-    retain_path = f'{sample_path}/{retain_str}.json'
-    test_retain_path = f'{sample_path}/{test_retain_str}.json'
-    
-    with open(forget_path, 'r') as f:
-        forget_names = json.load(f)
-    with open(retain_path, 'r') as f:
-        retain_names = json.load(f)
-    with open(test_retain_path, 'r') as f:
-        test_retain_names = json.load(f)
-    
-    # Create dictionary with person names as keys and split type as values
     person_split_dict = {}
-    
-    for name in forget_names:
-        person_split_dict[name] = 'forget'
-    for name in retain_names:
-        person_split_dict[name] = 'retain'
-    for name in test_retain_names:
-        person_split_dict[name] = 'test_retain'
+    for split_type, path in paths.items():
+        with open(path, 'r') as f:
+            names = json.load(f)
+        for name in names:
+            person_split_dict[name] = split_type
     
     return person_split_dict
 
+
+# def load_targetted_extraction_samples(sample_path: str, persons: Dict = None, seed: int = 42, sample_size: int = 300):
+#     if persons is None or len(persons) == 0:
+#         person_sample_path = get_config().get('split_person_name_path', None)
+#         if person_sample_path is None:
+#             raise ValueError("No persons provided and 'split_person_names' not found in config.")
+#         persons = load_person_split_dict(person_sample_path, split='forget10')
+
+#     """Load samples from 'parsed_question', evenly split between 'direct' and 'obscure' styles."""
+#     df = pd.read_csv(sample_path)
+
+#     # Split the data into 'direct' and 'obscure'
+#     direct_samples = df[df['style'] == 'direct']['parsed_question'].dropna().tolist()
+#     obscure_samples = df[df['style'] == 'obscure']['parsed_question'].dropna().tolist()
+
+#     # Calculate half size
+#     half_size = sample_size // 2
+
+#     # Ensure reproducibility
+#     random.seed(seed)
+#     sampled_direct = random.sample(direct_samples, half_size)
+#     sampled_obscure = random.sample(obscure_samples, sample_size - half_size)  # Covers odd sample_size
+
+#     samples = sampled_direct + sampled_obscure
+#     dict_count_per_split = {    'forget': 0,
+#                                 'retain': 0,
+#                                 'test_retain': 0,
+#                                 'unknown': 1}
+    
+#     for name, split in persons.items():
+#         first_name = name.split()[0]
+
+#         for prompt in samples:
+#             if first_name in prompt:
+#                 if split in dict_count_per_split:
+#                     dict_count_per_split[split] += 1
+#     # Combine and return
+#     return samples, dict_count_per_split
+
+
+# def load_person_split_dict(sample_path,split: str):
+#     #sample_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
+#     test_retain_str = 'test_retain_pii_names'
+    
+#     forget_percentage = int(split.replace('forget', ''))
+#     retain_percentage = 100 - forget_percentage
+    
+#     forget_str = f'forget{forget_percentage}_names'
+#     retain_str = f'retain{retain_percentage}_names'
+    
+#     # Load the three name files
+#     forget_path = f'{sample_path}/{forget_str}.json'
+#     retain_path = f'{sample_path}/{retain_str}.json'
+#     test_retain_path = f'{sample_path}/{test_retain_str}.json'
+    
+#     with open(forget_path, 'r') as f:
+#         forget_names = json.load(f)
+#     with open(retain_path, 'r') as f:
+#         retain_names = json.load(f)
+#     with open(test_retain_path, 'r') as f:
+#         test_retain_names = json.load(f)
+    
+#     # Create dictionary with person names as keys and split type as values
+#     person_split_dict = {}
+    
+#     for name in forget_names:
+#         person_split_dict[name] = 'forget'
+#     for name in retain_names:
+#         person_split_dict[name] = 'retain'
+#     for name in test_retain_names:
+#         person_split_dict[name] = 'test_retain'
+    
+#     return person_split_dict
+
+####################################################################################################################################################
 
 def get_split_lengths(persons: Dict = None):
     """Return the lengths of each split in the persons dictionary."""
@@ -804,7 +1128,7 @@ def get_split_lengths(persons: Dict = None):
         person_sample_path = get_config().get('split_person_name_path', None)
         if person_sample_path is None:
             raise ValueError("No persons provided and 'split_person_names' not found in config.")
-        persons = load_person_split_dict(person_sample_path, split='forget10')
+        persons = load_person_split_dict(person_sample_path, split=get_config()['split'])
 
     dict_count_per_split = {    'forget': 0,
                                 'retain': 0,

@@ -931,6 +931,8 @@ class LlamaModel(LlamaPreTrainedModel):
 
         # Initialize weights and apply final processing
         self.post_init()
+        import time
+        self.seed = int(time.time())
 
     def get_input_embeddings(self):
         return self.embed_tokens
@@ -1080,7 +1082,7 @@ class LlamaModel(LlamaPreTrainedModel):
     #         attentions=all_self_attns,
     #     )
     
-
+    
 
     @add_start_docstrings_to_model_forward(LLAMA_INPUTS_DOCSTRING)
     def forward(
@@ -1145,6 +1147,9 @@ class LlamaModel(LlamaPreTrainedModel):
         all_self_attns = () if output_attentions else None
         next_decoder_cache = None
         
+
+  
+
         tot = 0
         for decoder_layer in self.layers:
             if output_hidden_states:
@@ -1155,13 +1160,13 @@ class LlamaModel(LlamaPreTrainedModel):
                 for l in range(len(layer)):
                     if layer[l] == tot:
                         import numpy
-                        rs = numpy.random.RandomState(1)  
+                        #rs = numpy.random.RandomState(1) CHANGE BACK AT THE END  
+                        rs = numpy.random.RandomState(self.seed)  
                         prng = lambda *shape: rs.randn(*shape)
                         if isinstance(noise, float):
                             noise_fn = lambda x: noise * x
                         else:
                             noise_fn = noise
-                        print('Adding noise..')
                         for (b,e,_) in tokens_to_mix[l]:
                             noise_data = noise_fn(
                                 torch.from_numpy(prng(e - b, hidden_states.shape[2]))

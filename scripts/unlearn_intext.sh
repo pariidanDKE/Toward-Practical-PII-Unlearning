@@ -5,22 +5,21 @@ export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
 export num_epochs=8
-export batch_size=2 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=16
+export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export gradaccum=2
 export cache="$PWD/cache"
 export retain_weight=1
 export lr=1e-5
 
-export CUDA_VISIBLE_DEVICES=0
+#export CUDA_VISIBLE_DEVICES=0
+#export WORLD_SIZE=2
 export forget_loss="PerMU"
-export split="forget10"
 export project_name="SyntheticPII"
-export use_lora=False
+
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
 
 export remove_model_tensors=True
-## PerMU in-text params
 export in_text=True
 
 export token_replace_prob=1
@@ -29,17 +28,21 @@ export subject_key='subject'
 export use_adaptive_k=False
 export match_first_char=True
 
-export logging_subject_token_len=True
-export optimal_neighbours_generation=True
+export split="forget50"
+export use_lora=True
+export LoRA_r=64
+export LoRA_alpha=64
+
+export logging_subject_token_len=False
+export optimal_neighbours_generation=False
 
 if [ "$in_text" = "True" ]; then
-    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_subject_key_${subject_key}_TEST"
+    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_Extraction"
 else
     export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}"
 fi
 
 export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
-#export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
 echo "Running model with intext=${in_text}"
 #-------- Run Training --------
 python forget.py --config-name=forget_pii.yaml \
@@ -64,8 +67,8 @@ python forget.py --config-name=forget_pii.yaml \
     logging.corrupted_subjects=True \
     match_first_char=$match_first_char \
     optimal_neighbours_generation=$optimal_neighbours_generation \
-    # LoRA.r=$LoRA_r \
-    # LoRA.alpha=$LoRA_alpha \
+    LoRA.r=$LoRA_r \
+    LoRA.alpha=$LoRA_alpha \
 
 # -------- Evaluate Model --------
 python evaluate_PII.py --config-name=eval_pii.yaml \

@@ -19,3 +19,4 @@ my_files/pii_dataset/data/*
 data/
 data/TOFU/
 experiment_logs
+wandb/

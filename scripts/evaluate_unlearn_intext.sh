@@ -4,50 +4,37 @@
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
-export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=5
-export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=4
 export cache="$PWD/cache"
-export retain_weight=1
-export lr=1e-5
-
 export CUDA_VISIBLE_DEVICES=0
 export split="forget10"
 export project_name="SyntheticPII"
 export use_lora=False
-export use_quantization=False
-export forget_data_path="$PWD/data/${dataset}"
+export overwrite=True
 
 ## PerMU in-text params
-export in_text=True
-export token_replace_prob=1
-export token_k_neighbours=1
-export subject_noise_discrepancy_addition=True
 
+export remove_model_tensors=False
 
 
 echo "Running full model without LoRA"
-export num_epochs=8
-#export model="llama3-8b"
-export model=llama2-7b;   # [phi, llama2-7b]
+export model=llama2-7b_noanswerspace;  
 
 
+export batch_size=64 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export forget_loss="PerMU_intext"
+export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/retain_and_test_retain_llama2-7b_noanswerspace_B32_G4_E5_lr2e-5_ComprehensiveQA"
 
-export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export forget_loss="WHP"
-export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/_AllExperiments/Experiment_MethodComparison/ModelComparison_WHP_"
-echo "Running evaluate for run: $run_name"
-
+echo "Running evaluate.."
 
 # -------- Evaluate Model --------
-python evaluate_PII.py --config-name=eval_pii_short.yaml \
+python evaluate_PII.py --config-name=eval_pii.yaml \
     model_family=$model dataset=$dataset \
     split=$split batch_size=$batch_size \
     model_path=$save_dir forget_loss=$forget_loss \
     generation.max_length=200 \
     use_lora=$use_lora \
-    save_dir=$save_dir/eval_results
+    save_dir=$save_dir/eval_results \
+    #overwrite=True \
 
 # -------- Aggregate Evaluation --------
 python aggregate_eval_stat.py \
@@ -55,9 +42,9 @@ python aggregate_eval_stat.py \
     method_name=$forget_loss \
     save_file=$save_dir/eval_results/eval.csv \
     excel_file_path=$save_dir/eval_results/eval.xlsx \
-    submitted_by=who
+    submitted_by=who \
+    remove_model_tensors=$remove_model_tensors \
 
-echo "Finished run for full model with ${num_epochs} epochs"
 echo "--------------------------------------------"
 
 echo "Finished all full model runs"

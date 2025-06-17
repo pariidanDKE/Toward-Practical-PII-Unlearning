@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 ## This script runs both training and evaluation for PerMU in-text method
 ## K-Distance Experiments: 4 configurations x 10 runs each = 40 total runs
@@ -23,25 +23,27 @@ export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
 ## PerMU in-text base params
 export in_text=True
-export logging_timestats=True
-export remove_model_tensors=True 
-export logging_corrupted_subjects=True
+export logging_timestats=False
+export remove_model_tensors=False 
+export logging_corrupted_subjects=False
+export logging_permu_contrast_stats=False
+
 
 export CUDA_LAUNCH_BLOCKING=1
 export TORCH_USE_CUDA_DSA=1
 
 # Fixed parameters
-export token_replace_prob=1.0
 export num_runs=10
+export token_replace_prob=1.0
 export optimal_neighbours_generation=True
 
 # Define experiment configurations
 # Format: "k_neighbours:match_first_char:use_adaptive_k:config_name"
 experiment_configs=(
     "1:True:False:k1_match_first"
-    "2:False:False:k2_standard"
-    "10:False:False:k10_standard"
-    "10:False:True:k10_adaptive"
+    # "2:False:False:k2_standard"
+    # "10:False:False:k10_standard"
+    # "10:False:True:k10_adaptive"
 )
 
 # Create experiment log directory
@@ -53,8 +55,10 @@ master_log="$experiment_log_dir/master_k_distance_log.csv"
 echo "run_id,config_name,run_number,token_k_neighbours,match_first_char,use_adaptive_k,token_replace_prob,run_name,save_dir,start_time,end_time,status" > "$master_log"
 
 # Counter for run ID
-run_counter=1
+run_counter=10
 total_runs=$((${#experiment_configs[@]} * num_runs))
+
+
 
 echo "Starting K-Distance experiment suite..."
 echo "Total configurations: ${#experiment_configs[@]}"
@@ -84,8 +88,8 @@ for config in "${experiment_configs[@]}"; do
         export use_adaptive_k="$use_adaptive_k"
 
         # Generate run name with all parameters
-        export run_name="${project_name}_${model}_E${num_epochs}_B${train_batch_size}_${config_name}_run${run_num}"
-        export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/Experiment_KDistance/$run_name"
+        export run_name="${project_name}_${model}_E${num_epochs}_B${train_batch_size}_${config_name}_Extraction_run${run_num}"
+        export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/ExtractionAttacks/PerMUIntext/$run_name"
         
         # Create individual log file for this run
         run_log="$experiment_log_dir/run_${run_counter}_${config_name}_${run_num}.log"
@@ -114,7 +118,7 @@ for config in "${experiment_configs[@]}"; do
             
             #export batch_size=16  # Reset batch size for training
             
-            # Run actual training
+            Run actual training
             python forget.py --config-name=forget_pii.yaml \
                 dataset=$dataset split=$split \
                 forget_data_path=$forget_data_path \
@@ -135,7 +139,8 @@ for config in "${experiment_configs[@]}"; do
                 match_first_char=$match_first_char \
                 use_adaptive_k=$use_adaptive_k \
                 optimal_neighbours_generation=$optimal_neighbours_generation \
-            
+                logging.permu_contrast_stats=$logging_permu_contrast_stats \
+
             # Capture actual training exit code
             training_exit_code=$?
             
@@ -152,13 +157,13 @@ for config in "${experiment_configs[@]}"; do
                     echo "Changed batch size to 64 for evaluation"
                     #export batch_size=64
                     # Evaluation
-                    python evaluate_PII.py --config-name=eval_pii.yaml \
+                    python evaluate_PII.py --config-name=eval_pii_short.yaml \
                         model_family=$model dataset=$dataset \
                         split=$split batch_size=$eval_batch_size \
                         model_path=$save_dir forget_loss=$forget_loss \
                         generation.max_length=200 \
                         use_lora=$use_lora \
-                        save_dir=$save_dir/eval_results
+                        save_dir=$save_dir/eval_results \
                     
                     eval_exit_code=$?
                 else
@@ -178,7 +183,7 @@ for config in "${experiment_configs[@]}"; do
                         save_file=$save_dir/eval_results/eval.csv \
                         excel_file_path=$save_dir/eval_results/eval.xlsx \
                         submitted_by=k_distance_experiment \
-                        remove_model_tensors=$remove_model_tensors
+                        remove_model_tensors=$remove_model_tensors \
 
                     agg_exit_code=$?
 
@@ -229,7 +234,7 @@ echo "Total runs executed: $((run_counter - 1))"
 echo "Master log: $master_log"
 echo "Individual logs: $experiment_log_dir/run_*.log"
 
-Generate summary report
+#Generate summary report
 echo ""
 echo "=== EXPERIMENT SUMMARY ==="
 echo "Generating summary report..."

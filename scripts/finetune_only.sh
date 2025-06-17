@@ -1,17 +1,16 @@
 #!/bin/bash
 
 # This script simply finetunes the model on a given dataset.
-
 export dataset="PII";   # [TOFU, Harry, ZSRE]
 export master_port=18765;
-export model=llama2-7b;   # [[phi, llama2-7b,phi_chat,llama2-7b_nonchat]
+export model=llama2-7b_noanswerspace;   # [[phi, llama2-7b,phi_chat,llama2-7b_nonchat]
 #export model=phi;   # [phi, llama2-7b]
 
-export split=full_with_qa;    
+export split=retain_and_test_retain;    
 export lr=2e-5;
 export batch_size=32;
 export GA=4;
-export epoch=8;
+export epoch=5;
 
 export CUDA_VISIBLE_DEVICES=0;
 export data_path=$PWD/data/${dataset}/${split}.json;

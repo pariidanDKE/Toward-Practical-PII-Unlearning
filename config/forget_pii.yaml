@@ -23,7 +23,7 @@ retain_data_path: /data/PII
 batch_size: 4 
 gradient_accumulation_steps: 4
 num_epochs: 5
-
+enable_neftune_noise: false
 
 forget_loss: grad_ascent 
 
@@ -120,3 +120,4 @@ logging:
   subject_token_len : false
   log_every_n: 100
   corrupted_subjects: false
+  permu_contrast_stats: false

@@ -8,29 +8,28 @@ forget_loss: grad_ascent
 split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
 
 
-data_path: [data/PII, data/test]
+
+data_path: [data/PII]
 split: forget10
 split_list:
   - ${split}
-  - test_retain_pii
-question_key: [question, question]
-answer_key: [answer, answer]
-base_answer_key: [paraphrased_answer_5, paraphrased_answer_1]
-perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1]
-eval_task: [eval_log_forget, eval_log_retain]
 
-# data_path: [data/test, data/test, data/PII]
+question_key: [null]
+answer_key: [null]
+base_answer_key: [null]
+perturbed_answer_key: [null]
+eval_task: [extraction_attack]
+
+# data_path: [data/PII, data/test]
 # split: forget10
 # split_list:
-#   - test_retain_pii
-#   - test_retain_pii
 #   - ${split}
-
-# question_key: [paraphrased_question_5, inverted_question, inverted_question]
-# answer_key: [paraphrased_answer_5, inverted_answer, inverted_answer]
-# base_answer_key: [paraphrased_answer_1, inverted_answer, inverted_answer]
-# perturbed_answer_key: [perturbed_answer_5, inverted_answer, inverted_answer]
-# eval_task: [eval_log_retain_paraphrase_5, eval_log_retain_inverse, eval_log_forget_inverse]
+#   - test_retain_pii
+# question_key: [question, question]
+# answer_key: [answer, answer]
+# base_answer_key: [paraphrased_answer_5, paraphrased_answer_1]
+# perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1]
+# eval_task: [eval_log_forget, eval_log_retain]
 
 
 

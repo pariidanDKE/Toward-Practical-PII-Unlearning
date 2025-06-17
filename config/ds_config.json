@@ -1,6 +1,6 @@
 {
     "zero_optimization": {
-        "stage":0,
+        "stage":3,
         "offload_optimizer": {
             "device": "none",
             "pin_memory": true

@@ -77,7 +77,7 @@ def track_pii_nexttoken_ranks(model, tokenizer, input_text, pii_text):
 #model_path = "/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/__PIIRankExperiment_llama2-7b_E8_B16_G2_SKsubject"
 
 
-model_path = "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+model_path = "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
 tok_path = "NousResearch/Llama-2-7b-chat-hf"
 
 model = AutoModelForCausalLM.from_pretrained(model_path, device_map="auto", torch_dtype=torch.float16)
@@ -102,22 +102,22 @@ print(f"PII tokens: {pii_token_strings}")
 print(f"Number of layers: {results['num_layers']}")
 
 
-# Save results
-output_path = f"data/pii_ranking/nexttoken_pii_ranks_{pii_text.replace('/', '_').replace(' ', '_')}.json"
-with open(output_path, 'w') as f:
-    # Convert numpy types to native Python types for JSON serialization
-    json_results = {
-        'avg_ranks_per_layer': [float(x) for x in avg_ranks],
-        'individual_token_ranks': {k: [int(rank) for rank in v] for k, v in individual_token_ranks.items()},
-        'pii_tokens': pii_tokens,
-        'pii_token_strings': pii_token_strings,
-        'num_layers': results['num_layers'],
-        'input_text': input_text,
-        'pii_text': pii_text
-    }
-    json.dump(json_results, f, indent=4)
+# # Save results
+# output_path = f"data/pii_ranking/nexttoken_pii_ranks_{pii_text.replace('/', '_').replace(' ', '_')}.json"
+# with open(output_path, 'w') as f:
+#     # Convert numpy types to native Python types for JSON serialization
+#     json_results = {
+#         'avg_ranks_per_layer': [float(x) for x in avg_ranks],
+#         'individual_token_ranks': {k: [int(rank) for rank in v] for k, v in individual_token_ranks.items()},
+#         'pii_tokens': pii_tokens,
+#         'pii_token_strings': pii_token_strings,
+#         'num_layers': results['num_layers'],
+#         'input_text': input_text,
+#         'pii_text': pii_text
+#     }
+#     json.dump(json_results, f, indent=4)
 
-print(f"Results saved to: {output_path}")
+# print(f"Results saved to: {output_path}")
 
 
 # model_path = "/projects/0/hpmlprjs/LLM/danp/UGBench/experiment/PII/llama2-7b/forget10/__PIIRankExperiment_llama2-7b_E8_B16_G2_SKsubject"

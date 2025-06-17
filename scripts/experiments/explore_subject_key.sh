@@ -19,7 +19,9 @@ export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
 
 ## PerMU in-text params
-export in_text=True
+export in_text=False
+
+
 export token_replace_prob=1
 export token_k_neighbours=1
 export remove_model_tensors=True
@@ -27,6 +29,7 @@ export remove_model_tensors=True
 export optimal_neighbours_generation=True
 export match_first_char=True
 export logging_timestats=True
+export logging_permu_contrast_stats=True
 
 # Fixed training parameters
 export batch_size=16
@@ -36,58 +39,59 @@ export gradaccum=2
 effective_batch_size=$((batch_size * gradaccum))
 
 # Loop through different subject_key values
-for subject_key in "subject_pii" "subject_person_pii"
+for subject_key in "subject" #"subject" "subject_pii" "subject_person_pii"
 do
     export subject_key=$subject_key
     export batch_size=16
-    export run_name="_${project_name}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_SK${subject_key}"
-    export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
+    export run_name="_${project_name}_${model}_E${num_epochs}_B${batch_size}_G${gradaccum}_SK${subject_key}embedding_ContrastLog${logging_permu_contrast_stats}"
+    export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/CompareSubjectKeys/$run_name"
 
     echo "Running model with subject_key=${subject_key} (batch_size=${batch_size}, grad_accum=${gradaccum}, effective_batch_size=${effective_batch_size})"
 
-    #-------- Run Training --------
-    # python forget.py --config-name=forget_pii.yaml \
-    #     dataset=$dataset split=$split \
-    #     forget_data_path=$forget_data_path \
-    #     retain_data_path=$forget_data_path \
-    #     forget_loss=$forget_loss batch_size=$batch_size \
-    #     retain_weight=$retain_weight \
-    #     gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-    #     save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-    #     use_lora=$use_lora \
-    #     use_quantization=$use_quantization \
-    #     project_name=$project_name \
-    #     run_name=$run_name \
-    #     in_text=$in_text \
-    #     token_replace_prob=$token_replace_prob \
-    #     token_k_neighbours=$token_k_neighbours \
-    #     subject_key=$subject_key \
-    #     optimal_neighbours_generation=$optimal_neighbours_generation \
-    #     match_first_char=$match_first_char \
-    #     logging.time_stats=$logging_timestats \
-
-    export batch_size=64
-
-    # -------- Evaluate Model --------
-    python evaluate_PII.py --config-name=eval_pii.yaml \
-        model_family=$model dataset=$dataset \
-        split=$split batch_size=$batch_size \
-        model_path=$save_dir forget_loss=$forget_loss \
-        generation.max_length=200 \
+    -------- Run Training --------
+    python forget.py --config-name=forget_pii.yaml \
+        dataset=$dataset split=$split \
+        forget_data_path=$forget_data_path \
+        retain_data_path=$forget_data_path \
+        forget_loss=$forget_loss batch_size=$batch_size \
+        retain_weight=$retain_weight \
+        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
         use_lora=$use_lora \
-        save_dir=$save_dir/eval_results
+        use_quantization=$use_quantization \
+        project_name=$project_name \
+        run_name=$run_name \
+        in_text=$in_text \
+        token_replace_prob=$token_replace_prob \
+        token_k_neighbours=$token_k_neighbours \
+        subject_key=$subject_key \
+        optimal_neighbours_generation=$optimal_neighbours_generation \
+        match_first_char=$match_first_char \
+        logging.time_stats=$logging_timestats \
+        logging.permu_contrast_stats=$logging_permu_contrast_stats
 
-    # -------- Aggregate Evaluation --------
-    python aggregate_eval_stat.py \
-        ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
-        method_name=$forget_loss \
-        save_file=$save_dir/eval_results/eval.csv \
-        excel_file_path=$save_dir/eval_results/eval.xlsx \
-        submitted_by=who \
-        remove_model_tensors=$remove_model_tensors
+    # export batch_size=64
 
-    echo "Finished run for subject_key=${subject_key}"
-    echo "--------------------------------------------------------"
+    # # -------- Evaluate Model --------
+    # python evaluate_PII.py --config-name=eval_pii.yaml \
+    #     model_family=$model dataset=$dataset \
+    #     split=$split batch_size=$batch_size \
+    #     model_path=$save_dir forget_loss=$forget_loss \
+    #     generation.max_length=200 \
+    #     use_lora=$use_lora \
+    #     save_dir=$save_dir/eval_results
+
+    # # -------- Aggregate Evaluation --------
+    # python aggregate_eval_stat.py \
+    #     ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+    #     method_name=$forget_loss \
+    #     save_file=$save_dir/eval_results/eval.csv \
+    #     excel_file_path=$save_dir/eval_results/eval.xlsx \
+    #     submitted_by=who \
+    #     remove_model_tensors=$remove_model_tensors
+
+    # echo "Finished run for subject_key=${subject_key}"
+    # echo "--------------------------------------------------------"
 done
 
 echo "Finished all subject_key sweeps"

@@ -7,7 +7,7 @@ import evaluate
 import json
 from pathlib import Path
 from rouge_score import rouge_scorer
-from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples,load_targetted_extraction_samples
+from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples,load_targetted_extraction_samples,load_targeted_extraction_data
 from evals.uld import ULDLLM
 from evals.whos_harry_potter import WHPLLM
 import torch.nn as nn
@@ -28,7 +28,7 @@ PII_AUTOCOMPLETE_EVAL_TASKS = [
     'eval_log_forget_rephrase',
     'eval_log_retain_rephrase',
     'extraction_attack',
-    'one_hop_attack',  # Add this new task
+    'one_hop_attack', 
     'eval_log_forget_paraphrase_1',
     'eval_log_forget_paraphrase_2',
     'eval_log_forget_paraphrase_3',
@@ -39,8 +39,6 @@ PII_AUTOCOMPLETE_EVAL_TASKS = [
     'eval_log_retain_paraphrase_3',
     'eval_log_retain_paraphrase_4',
     'eval_log_retain_paraphrase_5',
-    # 'eval_log_retain_indirect',
-    # 'eval_log_forget_indirect',
     'eval_log_retain_inverse',
     'eval_log_forget_inverse'
 ]
@@ -56,15 +54,14 @@ def intialize_util_methods():
     global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES
     
     # Method calls that actually execute functions - moved inside the function
-    extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_attacks/pii_leakage_attacks/extractionfiles/c4_samples.csv'
-    DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path, seed=23, sample_size=100)
+    extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/test/extraction/c4_evaluation_samples.csv'
+    DEFAULT_EXTRACTION_PROMPT_SAMPLES = load_extraction_samples(extraction_samples_path, seed=23, sample_size=None)
 
-    extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/generated_data/GeneratedPIIQuestions_temp-0.7_top_p-0.9_model-Qwen3-32B-FP8.csv'
-    TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT = load_targetted_extraction_samples(extraction_targetted_samples_path, seed=23, sample_size=100)
+    # extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/generated_data/GeneratedPIIQuestions_temp-0.7_top_p-0.9_model-Qwen3-32B-FP8.csv'
+    # TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT = load_targetted_extraction_samples(extraction_targetted_samples_path, seed=23, sample_size=100)
 
-
-
-
+    extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/test/targeted_extraction'
+    TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, OBFUSCATION_INFO = load_targeted_extraction_data(extraction_targetted_samples_path)
 
 
 class PIIAttackOrchestrator:
@@ -261,7 +258,7 @@ class PIIAttackOrchestrator:
     def _generate_model_responses(self, cfg: Dict, model, tokenizer, prompts_list: List[str]) -> List[str]:
         """Generate responses from the model for given prompts in batches of 16."""
         try:
-            batch_size = 16
+            batch_size = cfg.batch_size
             all_generated_texts = []
             for i in range(0, len(prompts_list), batch_size):
                 batch_prompts = prompts_list[i:i + batch_size]
@@ -1000,10 +997,6 @@ def main(cfg):
                 print(f"Loading LoRA adapter from {cfg.model_path}..")
                 model = PeftModel.from_pretrained(base_model, cfg.model_path)
             else:
-                # print(f"Loading checkpoint from {cfg.model_path}")
-                # model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
-                #     use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-                #     trust_remote_code = True, device_map=device_map)
 
                 print(f"Loading checkpoint from {cfg.model_path}")
                 model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
@@ -1011,11 +1004,9 @@ def main(cfg):
                     trust_remote_code = True, device_map=device_map)
 
 
-
         except Exception as e:
             print(e)
             continue
-        # perhaps reconnect, etc.
         else:
             break
     else:
@@ -1186,18 +1177,12 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
                 ground_truth_text = cleaned_part_after.strip()
 
             final_prompts.append(prompt_text + preserved_symbol_instance + model_cfg.get('answer_tag'))
+            #final_prompts.append(prompt_text + preserved_symbol_instance + model_cfg.get('retain_answer_tag', '')) ### REMOVE THIS IN CASE NEEDED
 
             final_ground_truths.append(ground_truth_text)
 
     input_strings = final_prompts
     ground_truth = final_ground_truths
-    
-    # print('-----')
-    # print(f'Split symbol for processing: {split_symbol}\n')
-    # print(f'Processed Input Prompts : {input_strings}\n')
-    # print(f'Processed Ground Truths : {ground_truth}\n')
-    # add ["/INST "] to the end of each string
-    #input_strings = [s + split_symbol for s in input_strings]
     
     
     # now tokenize the strings with left padding
@@ -1209,8 +1194,6 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
 
 
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
-
-    # now generate
     out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=False, pad_token_id=left_pad_tokenizer.eos_token_id)
     strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
     #print(f'String after batch decode (special tokens): {strs}')

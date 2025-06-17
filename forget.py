@@ -16,7 +16,7 @@ from modeling_llama import LlamaForCausalLM
 import json
 from datetime import datetime
 from accelerate import Accelerator
-from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer
+from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer,save_permu_metrics_to_json
 import wandb
 
 # def do_something(tensor, perturb_function):
@@ -112,7 +112,6 @@ def main(cfg):
     logger.info("Starting Forgetting Training...")
 
 
-
     num_devices = int(os.environ.get('WORLD_SIZE', 1))
     print(f"num_devices: {num_devices}")
 
@@ -171,6 +170,9 @@ def main(cfg):
     gradient_accumulation_steps = cfg.gradient_accumulation_steps
     steps_per_epoch = len(torch_format_dataset)//(batch_size*gradient_accumulation_steps*num_devices)
 
+
+    #### print all parameters for max_steps
+
     max_steps = int(cfg.num_epochs*len(torch_format_dataset))//(batch_size*gradient_accumulation_steps*num_devices)
     print(f"max_steps: {max_steps}")
     
@@ -202,17 +204,16 @@ def main(cfg):
             save_strategy = "no",
             save_steps=steps_per_epoch,
             save_only_model=True,
-            #ddp_find_unused_parameters= False,
             #deepspeed='config/ds_config.json',
             weight_decay = cfg.weight_decay,
             eval_steps = steps_per_epoch,
            # evaluation_strategy = "steps" if cfg.eval_while_train else "no",
             seed=cfg.seed,
             disable_tqdm=False,  # Enable progress bar,
-            report_to='wandb'
+            report_to='wandb',
 
-            ,lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
-        )
+            lr_scheduler_type='constant_with_warmup' 
+    )
     
     #first get the base model architectur2e
     #if there is a pytorch*.bin file in the model path, then load that. use regex there can be anythign in between pytorch and .bin
@@ -249,31 +250,33 @@ def main(cfg):
         else:
                 causalLM = AutoModelForCausalLM
 
-        if cfg.use_lora:
-            if cfg.use_quantization:
-                # DP : Add quantization
-                print('Adding quantization..')
-                quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
-            else:
-                quantization_config=None  
-                
-                model = causalLM.from_pretrained(cfg.model_path, config=config, \
-                use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-                trust_remote_code = True, \
-                quantization_config = quantization_config  # DP : Add quantization
-                )
-                print('Attaching LoRA...')
-                target_modules = find_all_linear_names(model)
-                peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,target_modules=target_modules,task_type = cfg.LoRA.task_type)
-                model = get_peft_model(model,peft_config)
+    if cfg.use_lora:
+        if cfg.use_quantization:
+            # DP : Add quantization
+            print('Adding quantization..')
+            quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
         else:
-                print(f'Config : {config}')
-                print(f'Model Path: {cfg.model_path}')
-                model = causalLM.from_pretrained(cfg.model_path, config=config, \
-                use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
-                trust_remote_code = True, \
-                )
-                target_modules=None
+            quantization_config=None  
+        model = causalLM.from_pretrained(cfg.model_path, config=config, \
+        use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+        trust_remote_code = True, \
+        quantization_config = quantization_config  # DP : Add quantization
+        #,device_map="auto"  # This handles device placement automatically
+
+        )
+        print('Attaching LoRA...')
+        target_modules = find_all_linear_names(model)
+        peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,task_type = cfg.LoRA.task_type,target_modules=target_modules)
+        model.enable_input_require_grads()
+        model = get_peft_model(model,peft_config)
+    else:
+            print(f'Config : {config}')
+            print(f'Model Path: {cfg.model_path}')
+            model = causalLM.from_pretrained(cfg.model_path, config=config, \
+            use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+            trust_remote_code = True, \
+            )
+            target_modules=None
 
     if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 
         oracle_model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
@@ -304,6 +307,16 @@ def main(cfg):
         P = cfg.P,
         in_text = cfg.in_text,
     )
+    # Before creating the trainer
+    print("=== DEBUG INFO ===")
+    print(f"DeepSpeed config path: {training_args.deepspeed}")
+    print(f"File exists: {os.path.exists(training_args.deepspeed) if training_args.deepspeed else 'No path set'}")
+
+    # After creating the trainer, before train()
+    print(f"Trainer deepspeed: {trainer.deepspeed}")
+    print(f"Accelerator state: {trainer.accelerator.state}")
+    print(f"Is deepspeed enabled: {trainer.is_deepspeed_enabled}")
+    print(f"World size: {trainer.accelerator.num_processes}")
     model.config.use_cache = False
 
     model_size = sum(p.numel() for p in model.parameters())
@@ -321,6 +334,9 @@ def main(cfg):
     
     if should_log_stats('subject_token_len'):
         write_subject_lengths()
+    
+    if should_log_stats('permu_contrast_stats'):
+        save_permu_metrics_to_json(save_dir=cfg.save_dir)
     
     if should_log_stats('corrupted_subjects'):
         save_path = f'/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/analysis/data/subject_corruption_info_{cfg.run_name}.json'
@@ -386,4 +402,3 @@ def copy_weights(base_llm, model):
 
 if __name__ == "__main__":
     main()
-
