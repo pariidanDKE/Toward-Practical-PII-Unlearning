@@ -6,32 +6,29 @@ save_dir:
 dataset: PII
 forget_loss: grad_ascent
 split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
-
-
-
-data_path: [data/PII]
 split: forget10
-split_list:
-  - ${split}
 
-question_key: [null]
-answer_key: [null]
-base_answer_key: [null]
-perturbed_answer_key: [null]
-eval_task: [extraction_attack]
-
-# data_path: [data/PII, data/test]
-# split: forget10
+# data_path: [data/PII]
 # split_list:
 #   - ${split}
-#   - test_retain_pii
-# question_key: [question, question]
-# answer_key: [answer, answer]
-# base_answer_key: [paraphrased_answer_5, paraphrased_answer_1]
-# perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1]
-# eval_task: [eval_log_forget, eval_log_retain]
 
+# question_key: [null]
+# answer_key: [null]
+# base_answer_key: [null]
+# perturbed_answer_key: [null]
+# eval_task: [extraction_attack]
 
+data_path: [data/test, data/test,data/test]
+split_list:
+  - test_retain_pii
+  - test_retain_pii
+  - test_retain_pii
+
+question_key: [paraphrased_question_1, inverted_question,null]
+answer_key: [paraphrased_answer_1, inverted_answer,null]
+base_answer_key: [paraphrased_answer_1, inverted_answer,null]
+perturbed_answer_key: [perturbed_answer_1, inverted_answer,null]
+eval_task: [eval_log_retain_paraphrase_1, eval_log_retain_inverse,extraction_attack]
 
 generation:
   max_length: 200

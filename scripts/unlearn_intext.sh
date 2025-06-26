@@ -4,15 +4,15 @@ export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
 export model=llama2-7b;   # [phi, llama2-7b]
-export num_epochs=8
+export num_epochs=1
 export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
 export gradaccum=2
 export cache="$PWD/cache"
 export retain_weight=1
 export lr=1e-5
+export neftune_noise_alpha=True
+export perturb_logits_further=True
 
-#export CUDA_VISIBLE_DEVICES=0
-#export WORLD_SIZE=2
 export forget_loss="PerMU"
 export project_name="SyntheticPII"
 
@@ -28,16 +28,13 @@ export subject_key='subject'
 export use_adaptive_k=False
 export match_first_char=True
 
-export split="forget50"
-export use_lora=True
-export LoRA_r=64
-export LoRA_alpha=64
 
+export split="forget10"
 export logging_subject_token_len=False
 export optimal_neighbours_generation=False
 
 if [ "$in_text" = "True" ]; then
-    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_Extraction"
+    export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}_replaceprob${token_replace_prob}_token_k_neighbours${token_k_neighbours}_ExtraEntropy"
 else
     export run_name="FullFT_PII_${model}_E${num_epochs}_B${batch_size}_intext${in_text}"
 fi
@@ -67,27 +64,28 @@ python forget.py --config-name=forget_pii.yaml \
     logging.corrupted_subjects=True \
     match_first_char=$match_first_char \
     optimal_neighbours_generation=$optimal_neighbours_generation \
-    LoRA.r=$LoRA_r \
-    LoRA.alpha=$LoRA_alpha \
+    neftune_noise_alpha=$neftune_noise_alpha \
+    perturb_logits_further=true 
 
-# -------- Evaluate Model --------
-python evaluate_PII.py --config-name=eval_pii.yaml \
-    model_family=$model dataset=$dataset \
-    split=$split batch_size=$batch_size \
-    model_path=$save_dir forget_loss=$forget_loss \
-    generation.max_length=200 \
-    use_lora=$use_lora \
-    save_dir=$save_dir/eval_results \
-    #data_path=$sample_data_path \
 
-# -------- Aggregate Evaluation --------
-python aggregate_eval_stat.py \
-    ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
-    method_name=$forget_loss \
-    save_file=$save_dir/eval_results/eval.csv \
-    excel_file_path=$save_dir/eval_results/eval.xlsx \
-    submitted_by=who \
-    remove_model_tensors=$remove_model_tensors
+# # -------- Evaluate Model --------
+# python evaluate_PII.py --config-name=eval_pii.yaml \
+#     model_family=$model dataset=$dataset \
+#     split=$split batch_size=$batch_size \
+#     model_path=$save_dir forget_loss=$forget_loss \
+#     generation.max_length=200 \
+#     use_lora=$use_lora \
+#     save_dir=$save_dir/eval_results \
+#     #data_path=$sample_data_path \
+
+# # -------- Aggregate Evaluation --------
+# python aggregate_eval_stat.py \
+#     ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+#     method_name=$forget_loss \
+#     save_file=$save_dir/eval_results/eval.csv \
+#     excel_file_path=$save_dir/eval_results/eval.xlsx \
+#     submitted_by=who \
+#     remove_model_tensors=$remove_model_tensors
 
 echo "Finished run for full model with ${num_epochs} epochs"
 echo "--------------------------------------------"

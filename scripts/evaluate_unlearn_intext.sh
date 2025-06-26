@@ -27,7 +27,7 @@ export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/retain_and
 echo "Running evaluate.."
 
 # -------- Evaluate Model --------
-python evaluate_PII.py --config-name=eval_pii.yaml \
+python evaluate_PII.py --config-name=eval_pii_short.yaml \
     model_family=$model dataset=$dataset \
     split=$split batch_size=$batch_size \
     model_path=$save_dir forget_loss=$forget_loss \
@@ -38,10 +38,10 @@ python evaluate_PII.py --config-name=eval_pii.yaml \
 
 # -------- Aggregate Evaluation --------
 python aggregate_eval_stat.py \
-    ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+    ckpt_result=$save_dir/eval_results/eval_log_aggregated1.json \
     method_name=$forget_loss \
-    save_file=$save_dir/eval_results/eval.csv \
-    excel_file_path=$save_dir/eval_results/eval.xlsx \
+    save_file=$save_dir/eval_results/eval1.csv \
+    excel_file_path=$save_dir/eval_results/eval1.xlsx \
     submitted_by=who \
     remove_model_tensors=$remove_model_tensors \
 

@@ -9,7 +9,7 @@ import copy
 import json 
 from pathlib import Path
 from data_module import get_batch_loss 
-from utils import merge_dicts, interleave_eval_result_dict, get_forget_quality, get_model_utility, permu_log_states
+from utils import merge_dicts, interleave_eval_result_dict, get_forget_quality, get_model_utility, permu_log_states,get_config
 import numpy as np
 from scipy.stats import ks_2samp, hmean
 import csv 
@@ -109,80 +109,50 @@ class CustomTrainerForgetting(Trainer):
     #     return model
 
 
-    def extract_perturb_subj(self, model, inputs):
-        """
-        This method is supposed to exttract the logits from the corrupt run, corresponding to the subject token, this is meant to thus extract pertrub subjects for the Discrete Token version from the PerMU paper.
-        """
-        device = next(model.parameters()).device  # Get model's device
-
-
-        forget_inputs, retain_inputs = inputs
-        input_ids, labels,attention_mask, tokens_to_mix_list, question_mask_list = forget_inputs
-        batch_size = forget_inputs[0].size(0)  # Get batch size from input_ids
-
-        
-        # Make sure everything is on the same device
-        input_ids = input_ids.to(device)
-        attention_mask = attention_mask.to(device)
-        
-        # Handle tokens_to_mix_list - make sure each tensor is on the right device
-        if isinstance(tokens_to_mix_list, list):
-            tokens_to_mix_list = [t.to(device) if isinstance(t, torch.Tensor) else t for t in tokens_to_mix_list]
-        else:
-            tokens_to_mix_list = tokens_to_mix_list.to(device)
-        with torch.no_grad():  # Use no_grad for efficiency
-            clean_output = model(input_ids, attention_mask=attention_mask, 
-                                output_hidden_states=True, return_dict=True)
-            clean_logits = clean_output.logits[-1]
-
-            print(clean_output.keys() if hasattr(clean_output, 'keys') else None)
-        all_layer = [1] * batch_size            
-        with torch.no_grad():
-            corrupt_output = model(input_ids, attention_mask=attention_mask, 
-                                return_dict=True, output_hidden_states=True, 
-                                tokens_to_mix=tokens_to_mix_list, 
-                                layer=all_layer, noise=self.P)
-            corrupt_logits = corrupt_output.logits[-1]
-        
-        perturb_subjects_batch = []
-        questions_batch = []
-        print(f'Clean Logits Shape: {clean_logits.shape}')
-        print(f'Corrupt Logits Shape: {corrupt_logits.shape}')
-        
-        for batch_idx in range(batch_size):
-            clean_logits_for_item = clean_logits[batch_idx].clone()
-            clean_logits_for_item_copy = copy.deepcopy(clean_logits[batch_idx])
-
-            corrupt_logit = corrupt_logits[batch_idx]
-            question_mask = question_mask_list[batch_idx]
-            tokens_to_mix = tokens_to_mix_list[batch_idx]
-        
-            start, end = question_mask[0]  # Assuming only one question mask per item
-            #print(f'Batch Idx: {batch_idx}')
-            #print(f'Start: {start}, End: {end}')
+    def add_entropy_controlled_noise(logits, target_entropy_increase=0.1, suppression_strength=0.01):
+            """
+            Smoothly redistribute logits: reduce top entries and redistribute to others
+            Preserves total logit sum for true redistribution
             
-            if start < 0 or end > clean_logits_for_item.size(0):
-                print(f"Warning: Invalid indices: start={start}, end={end}, tensor size={clean_logits_for_item.size(0)}")
-                perturb_subjects_batch.append(None)
-                questions_batch.append(None)
-                continue
-            
-            clean_probabilities = clean_logits_for_item[start-1:end, :]
-            corrupt_probabilities = corrupt_logit[start-1:end, :]
-            
-            probabilities = corrupt_probabilities - self.C * clean_probabilities
-            # Update the logits for this item
-            clean_logits_for_item[start-1:end, :] = probabilities
-            # Append the modified subjects and questions to our batch results
-            for sub in tokens_to_mix:
-                subject_start, subject_end = sub[0], sub[1]
-                #print(f'Subject Start {subject_start}| Subject End {subject_end}')
-                perturb_subjects_batch.append(corrupt_logit[subject_start-1:subject_end-1,:])
+            Args:
+                logits: Input logits [batch_size, seq_len, vocab_size]
+                target_entropy_increase: Target increase in entropy (relative)
+                suppression_strength: How much to suppress top entries
+            """
 
-            questions_batch.append(corrupt_logit[:, :])
-        
-        return perturb_subjects_batch, questions_batch
-      
+            print(f'Pertrubing Logits Further!')
+            batch_size, seq_len, vocab_size = logits.shape
+            
+            # Calculate current entropy
+            probs = F.softmax(logits, dim=-1)
+            current_entropy = -torch.sum(probs * torch.log(probs + 1e-10), dim=-1)  # [batch_size, seq_len]
+            
+            # Smooth suppression of top entries proportional to their probability
+            suppression_weights = probs * suppression_strength  # Higher prob = more suppression
+            
+            # Calculate total suppression per position to redistribute
+            total_suppression = suppression_weights.sum(dim=-1, keepdim=True)  # [batch_size, seq_len, 1]
+            
+            # Redistribute suppressed amount uniformly across all positions
+            uniform_boost = total_suppression / vocab_size  # Equal redistribution
+            
+            # Apply redistribution: subtract from high-prob, add uniformly to all
+            redistributed_logits = logits - suppression_weights + uniform_boost
+            
+            # Check entropy increase and scale if needed
+            new_probs = F.softmax(redistributed_logits, dim=-1)
+            new_entropy = -torch.sum(new_probs * torch.log(new_probs + 1e-10), dim=-1)
+            
+            # Scale the redistribution to meet target entropy increase
+            entropy_increase = (new_entropy - current_entropy) / (current_entropy + 1e-6)
+            scale_factor = target_entropy_increase / (entropy_increase.mean() + 1e-6)
+            scale_factor = torch.clamp(scale_factor, 0.1, 3.0)
+            
+            # Apply scaling to redistribution
+            final_suppression = suppression_weights * scale_factor
+            final_boost = (final_suppression.sum(dim=-1, keepdim=True)) / vocab_size
+            
+            return logits - final_suppression + final_boost
 
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
         def detailed_memory_report():
@@ -264,8 +234,19 @@ class CustomTrainerForgetting(Trainer):
                 corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
                     output_hidden_states=False)
                 corrupt_logits = corrupt_output.logits
-                logit = corrupt_logits
                 
+
+                config = get_config()
+                print(config)
+                if hasattr(config, 'perturb_logits_further'):
+                    if config.perturb_logits_further:
+                       corrupt_logits = add_entropy_controlled_noise(
+                                corrupt_logits, 
+                                target_entropy_increase=0.1,  # 15% entropy increase
+                                suppression_strength=0.02      # Smooth redistribution strength
+                                )
+                logit = corrupt_logits   
+                                            
                 
                 clean_logits_copy = copy.deepcopy(clean_logits)
                 # DP: the question tokens are 0, as when we calc loss they should not be considerered

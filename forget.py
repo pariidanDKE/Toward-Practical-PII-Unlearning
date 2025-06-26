@@ -18,6 +18,9 @@ from datetime import datetime
 from accelerate import Accelerator
 from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer,save_permu_metrics_to_json
 import wandb
+from transformers import GenerationConfig
+
+
 
 # def do_something(tensor, perturb_function):
 #     # do stuff here
@@ -207,15 +210,20 @@ def main(cfg):
             #deepspeed='config/ds_config.json',
             weight_decay = cfg.weight_decay,
             eval_steps = steps_per_epoch,
-           # evaluation_strategy = "steps" if cfg.eval_while_train else "no",
             seed=cfg.seed,
-            disable_tqdm=False,  # Enable progress bar,
+            disable_tqdm=False, 
             report_to='wandb',
+            lr_scheduler_type='constant_with_warmup' ,
+            neftune_noise_alpha=cfg.neftune_noise_alpha,
 
-            lr_scheduler_type='constant_with_warmup' 
+            #### Save best model
+            load_best_model_at_end=True,
+            save_total_limit=1,
+            metric_for_best_model="loss", 
+            greater_is_better=False,       
     )
-    
-    #first get the base model architectur2e
+
+    #first get the base model architecture
     #if there is a pytorch*.bin file in the model path, then load that. use regex there can be anythign in between pytorch and .bin
     import re
     path_found = False
@@ -262,8 +270,8 @@ def main(cfg):
         trust_remote_code = True, \
         quantization_config = quantization_config  # DP : Add quantization
         #,device_map="auto"  # This handles device placement automatically
-
         )
+       
         print('Attaching LoRA...')
         target_modules = find_all_linear_names(model)
         peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,task_type = cfg.LoRA.task_type,target_modules=target_modules)
@@ -276,6 +284,8 @@ def main(cfg):
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
             trust_remote_code = True, \
             )
+            if model.generation_config is None:
+                model.generation_config = GenerationConfig.from_pretrained(cfg.model_path)
             target_modules=None
 
     if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 

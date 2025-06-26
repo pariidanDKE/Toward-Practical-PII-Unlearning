@@ -37,7 +37,7 @@ split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_pe
 # eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1, eval_log_forget_paraphrase_2, eval_log_forget_paraphrase_3, eval_log_forget_paraphrase_4, eval_log_forget_paraphrase_5, eval_log_retain_paraphrase_1, eval_log_retain_paraphrase_2, eval_log_retain_paraphrase_3, eval_log_retain_paraphrase_4, eval_log_retain_paraphrase_5, eval_log_retain_inverse, eval_log_forget_inverse]
 
 
-data_path: [data/PII, data/test, data/test, data/test, data/PII, data/test, data/PII, data/PII]
+data_path: [data/PII, data/test, data/test, data/test, data/PII, data/test, data/PII,data/test, data/PII,data/test]
 split: forget10
 split_list:
   - ${split}
@@ -47,13 +47,15 @@ split_list:
   - ${split}
   - test_retain_pii
   - ${split}
+  - test_retain_pii
   - ${split}
+  - test_retain_pii
 
-question_key: [null, question, question, question, question, null, paraphrased_question_1, inverted_question]
-answer_key: [null, answer, answer, answer, answer, null, paraphrased_answer_1, inverted_answer]
-base_answer_key: [null, paraphrased_answer_1, answer, answer, paraphrased_answer_1, null, paraphrased_answer_1, inverted_answer]
-perturbed_answer_key: [null, perturbed_answer_1, perturbed_answer, perturbed_answer, perturbed_answer_1, null, perturbed_answer_1, inverted_answer]
-eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1, eval_log_forget_inverse]
+question_key: [null, question, question, question, question, null, paraphrased_question_1,paraphrased_question_1, inverted_question,inverted_question]
+answer_key: [null, answer, answer, answer, answer, null, paraphrased_answer_1,paraphrased_answer_1, inverted_answer,inverted_answer]
+base_answer_key: [null, paraphrased_answer_1, answer, answer, paraphrased_answer_1, null, paraphrased_answer_1,paraphrased_answer_1, inverted_answer,inverted_answer]
+perturbed_answer_key: [null, perturbed_answer_1, perturbed_answer, perturbed_answer, perturbed_answer_1, null, perturbed_answer_1,perturbed_answer_1, inverted_answer,inverted_answer]
+eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1,eval_log_retain_paraphrase_1, eval_log_forget_inverse,eval_log_retain_inverse]
 
 
 

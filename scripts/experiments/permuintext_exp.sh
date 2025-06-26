@@ -24,7 +24,7 @@ export forget_data_path="$PWD/data/${dataset}"
 ## PerMU in-text base params
 export in_text=True
 export logging_timestats=False
-export remove_model_tensors=False 
+export remove_model_tensors=True 
 export logging_corrupted_subjects=False
 export logging_permu_contrast_stats=False
 
@@ -33,17 +33,17 @@ export CUDA_LAUNCH_BLOCKING=1
 export TORCH_USE_CUDA_DSA=1
 
 # Fixed parameters
-export num_runs=10
+export num_runs=5
 export token_replace_prob=1.0
 export optimal_neighbours_generation=True
 
 # Define experiment configurations
 # Format: "k_neighbours:match_first_char:use_adaptive_k:config_name"
 experiment_configs=(
-    "1:True:False:k1_match_first"
-    # "2:False:False:k2_standard"
-    # "10:False:False:k10_standard"
-    # "10:False:True:k10_adaptive"
+    #"1:True:False:k1_match_first"
+    "2:False:False:k2_standard"
+    "10:False:False:k10_standard"
+    "10:False:True:k10_adaptive"
 )
 
 # Create experiment log directory
@@ -157,7 +157,7 @@ for config in "${experiment_configs[@]}"; do
                     echo "Changed batch size to 64 for evaluation"
                     #export batch_size=64
                     # Evaluation
-                    python evaluate_PII.py --config-name=eval_pii_short.yaml \
+                    python evaluate_PII.py --config-name=eval_pii_extraction.yaml \
                         model_family=$model dataset=$dataset \
                         split=$split batch_size=$eval_batch_size \
                         model_path=$save_dir forget_loss=$forget_loss \

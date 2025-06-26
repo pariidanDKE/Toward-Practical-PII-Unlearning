@@ -25,11 +25,11 @@ export CUDA_LAUNCH_BLOCKING=1
 export TORCH_USE_CUDA_DSA=1
 
 echo "Running Comparison Experiment with forget loss methods"
-export num_epochs=5
+export num_epochs=8
 
 # Array of forget loss methods to loop through
-#forget_losses=("PerMU" "grad_ascent" "ULD" "WHP" "grad_ascent+kl" "grad_ascent+gd" "dpo" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd")
-forget_losses=("PerMU")
+forget_losses=("grad_ascent+gd" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd")
+#forget_losses=("PerMU")
 
 
 # Arrays to track results
@@ -57,7 +57,7 @@ for forget_loss in "${forget_losses[@]}"; do
             echo "Using standard batch sizes: train_batch_size=$train_batch_size, eval_batch_size=$eval_batch_size"
         fi
 
-        export run_name="ModelComparison_${forget_loss}_E${num_epochs}"
+        export run_name="ModelComparison_${forget_loss}_E${num_epochs}_Extraction"
         export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/Experiment_MethodComparison/$run_name"
         
         echo "-------- Run Training --------"
@@ -77,7 +77,7 @@ for forget_loss in "${forget_losses[@]}"; do
             run_name=$run_name
         
         echo "-------- Evaluate Model --------"
-        python evaluate_PII.py --config-name=eval_pii.yaml \
+        python evaluate_PII.py --config-name=eval_pii_extraction.yaml \
             model_family=$model dataset=$dataset \
             split=$split batch_size=$eval_batch_size \
             model_path=$save_dir forget_loss=$forget_loss \
@@ -87,10 +87,10 @@ for forget_loss in "${forget_losses[@]}"; do
 
         echo "-------- Aggregate Evaluation --------"
         python aggregate_eval_stat.py \
-            ckpt_result=$save_dir/eval_results/eval_log_aggregated.json \
+            ckpt_result=$save_dir/eval_results/eval_log_aggregated1.json \
             method_name=$forget_loss \
-            save_file=$save_dir/eval_results/eval.csv \
-            excel_file_path=$save_dir/eval_results/eval.xlsx \
+            save_file=$save_dir/eval_results/eval1.csv \
+            excel_file_path=$save_dir/eval_results/eval1.xlsx \
             submitted_by=comparison_experiment \
             remove_model_tensors=$remove_model_tensors
 
@@ -104,7 +104,7 @@ for forget_loss in "${forget_losses[@]}"; do
     } || {
         # Failure case
         failed_methods+=("$forget_loss")
-        echo "✗ ERROR: $forget_loss failed with exit code $?. Skipping to next method..."
+        echo "✗ ERROR: $forget_loss failed with exit code.Skipping to next method..."
         echo "Continuing with remaining methods..."
     }
     

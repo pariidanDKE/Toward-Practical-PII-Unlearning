@@ -5,8 +5,6 @@ project_name:
 run_name: 
 split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
 
-perturb_logits_further: false 
-
 model_family: phi
 model_path: null
 LoRA:
@@ -16,11 +14,13 @@ LoRA:
   bias: none
   task_type: CAUSAL_LM
 
+
+random_split: 1
 lr: 1e-5
 dataset: Harry
 split: forget
-forget_data_path: /data/PII  
-retain_data_path: /data/PII
+forget_data_path: "/data/PII/SplitExperiment/Experiment${random_split}"
+retain_data_path: "/data/PII/SplitExperiment/Experiment${random_split}"
 batch_size: 4 
 gradient_accumulation_steps: 4
 num_epochs: 5
@@ -63,26 +63,22 @@ eval:
   model_path: ${..model_path}
   model_family: ${..model_family}
   save_dir: ${..save_dir}
-  data_path: [data/test, data/test, data/test, data/test, data/test, data/PII, data/PII, data/PII, data/PII, data/PII, data/PII]
-
-  split: forget10
+  data_path: 
+    - "data/test"
+    - "data/PII/SplitExperiment/Experiment${random_split}"
+    - "data/PII/SplitExperiment/Experiment${random_split}"
+    - "data/test"
   split_list:
     - test_retain_pii
-    - real_authors_perturbed
-    - world_facts_perturbed
+    - ${split}
     - ${split}
     - test_retain_pii
-    - ${split}
-    - ${split}
-    - ${split}
-    - ${split}
-    - ${split}
 
-  question_key: [question, question, question, question, None, paraphrased_question_1, paraphrased_question_2, paraphrased_question_3, paraphrased_question_4, paraphrased_question_5, inverted_question]
-  answer_key: [answer, answer, answer, answer, None, paraphrased_answer_1, paraphrased_answer_2, paraphrased_answer_3, paraphrased_answer_4, paraphrased_answer_5, inverted_answer]
-  base_answer_key: [paraphrased_answer, answer, answer, paraphrased_answer, None, paraphrased_answer_1, paraphrased_answer_2, paraphrased_answer_3, paraphrased_answer_4, paraphrased_answer_5, inverted_answer]
-  perturbed_answer_key: [perturbed_answer, perturbed_answer, perturbed_answer, perturbed_answer, None, perturbed_answer_1, perturbed_answer_2, perturbed_answer_3, perturbed_answer_4, perturbed_answer_5, None]
-  eval_task: [eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1, eval_log_forget_paraphrase_2, eval_log_forget_paraphrase_3, eval_log_forget_paraphrase_4, eval_log_forget_paraphrase_5, eval_log_forget_indirect]
+  question_key: [question, question, paraphrased_question_1, paraphrased_question_1]
+  answer_key: [answer, answer, paraphrased_answer_1, paraphrased_answer_1]
+  base_answer_key: [paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1]
+  perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1, perturbed_answer_1, perturbed_answer_1]
+  eval_task: [eval_log_retain, eval_log_forget, eval_log_forget_paraphrase_1, eval_log_retain_paraphrase_1]
 
 
   generation:
