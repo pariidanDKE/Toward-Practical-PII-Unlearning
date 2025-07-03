@@ -9,18 +9,19 @@ import transformers
 import os
 from peft import LoraConfig, get_peft_model, PeftModel
 from pathlib import Path
-from utils import get_model_identifiers_from_yaml,init_logger,init_config,should_log_stats
+from utils import get_model_identifiers_from_yaml,init_logger,init_config,init_model_config,should_log_stats
 from omegaconf import OmegaConf
 from modeling_phi import PhiForCausalLM
 from modeling_llama import LlamaForCausalLM
+from modelling_phi3 import Phi3ForCausalLM
+import modelling_llama3
+
 import json
 from datetime import datetime
 from accelerate import Accelerator
 from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer,save_permu_metrics_to_json
 import wandb
 from transformers import GenerationConfig
-
-
 
 # def do_something(tensor, perturb_function):
 #     # do stuff here
@@ -29,16 +30,11 @@ from transformers import GenerationConfig
 #     # and then perturn
 #     out = perturn_function(tensor)
 #     return
-
-
 # from functools import partial
-
 # def perturb_randomly(tensor, mean_of_noise, std_of_noise):
 #     dsadsada
 #     return
-
 # perturb_f = partial(perturb_randomly, mean=0, std=1)
-
 # do_something(perturb_function=perturb_funtion)
 
 from transformers import BitsAndBytesConfig
@@ -105,10 +101,20 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
     print(f"Training information saved to {save_path}")
 
 import logging
+import argparse
+import sys
+
+# Handle DeepSpeed's --local_rank argument
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--local_rank', type=int, default=0)
+args, remaining_args = parser.parse_known_args()
+
+# Remove --local_rank from sys.argv so Hydra doesn't see it
+sys.argv = [sys.argv[0]] + remaining_args
+
 
 @hydra.main(version_base=None, config_path="./config", config_name="forget")
 def main(cfg):
-
 
     logger = init_logger(cfg)
     init_config(cfg)
@@ -155,6 +161,7 @@ def main(cfg):
             OmegaConf.save(cfg, file)
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
+    print(f'Tokenizer Pad Token: {tokenizer.pad_token}')
     tokenizer.pad_token = tokenizer.eos_token
 
     if cfg.optimal_neighbours_generation:
@@ -188,7 +195,12 @@ def main(cfg):
     os.environ["WANDB_DIR"] = cfg.log_dir
     wandb.init(name=cfg.run_name)
 
+    if cfg.use_deepspeed:
+        deepspeed_config = "config/ds_config.json"
+    else:
+        deepspeed_config = None
 
+    optimizer = cfg.optimizer
     training_args = transformers.TrainingArguments(
             per_device_train_batch_size=batch_size,
             per_device_eval_batch_size=batch_size,
@@ -201,28 +213,27 @@ def main(cfg):
             logging_steps= 1, # max(1,max_steps//50),
             logging_dir=f'{cfg.save_dir}/logs',
             output_dir=cfg.save_dir,
-            #optim="paged_adamw_32bit",
-            optim="adamw_torch",
-           # save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
+            #optim="paged_adamw_8bit",
+            optim=optimizer,
+            #save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
             save_strategy = "no",
             save_steps=steps_per_epoch,
-            save_only_model=True,
-            #deepspeed='config/ds_config.json',
+            deepspeed=deepspeed_config,
             weight_decay = cfg.weight_decay,
             eval_steps = steps_per_epoch,
             seed=cfg.seed,
             disable_tqdm=False, 
             report_to='wandb',
             lr_scheduler_type='constant_with_warmup' ,
+            #lr_scheduler_type='linear' ,
             neftune_noise_alpha=cfg.neftune_noise_alpha,
 
-            #### Save best model
-            load_best_model_at_end=True,
-            save_total_limit=1,
-            metric_for_best_model="loss", 
-            greater_is_better=False,       
+            ### Save best model
+            # load_best_model_at_end=True,
+            # save_total_limit=1,
+            # metric_for_best_model="loss", 
+            # greater_is_better=False,       
     )
-
     #first get the base model architecture
     #if there is a pytorch*.bin file in the model path, then load that. use regex there can be anythign in between pytorch and .bin
     import re
@@ -250,14 +261,23 @@ def main(cfg):
     else:
         config = AutoConfig.from_pretrained(model_id)
         print("Loading from checkpoint")
-        if "phi" in model_name:
+        if "phi-3.5" in model_name:
+            print(f'Using Phi3ForCausalLM for {model_name}')
+            causalLM = Phi3ForCausalLM
+        elif "phi" in model_name:
+            print(f'Using PhiForCausalLM for {model_name}')
             causalLM = PhiForCausalLM
         elif "llama-2" in model_name:
             print(f'Using LlamaForCausalLM for {model_name}')
             causalLM = LlamaForCausalLM
+        elif "llama-3" in model_name:
+            print(f'Using Llama3ForCausalLM for {model_name}')
+            causalLM = modelling_llama3.LlamaForCausalLM
+
+
         else:
                 causalLM = AutoModelForCausalLM
-
+    print(f'Model Name : {model_name}')
     if cfg.use_lora:
         if cfg.use_quantization:
             # DP : Add quantization
@@ -287,13 +307,13 @@ def main(cfg):
             if model.generation_config is None:
                 model.generation_config = GenerationConfig.from_pretrained(cfg.model_path)
             target_modules=None
+            model.generation_config.do_sample = True
 
     if "kl" in cfg.forget_loss or "npo" in cfg.forget_loss or "dpo" in cfg.forget_loss: 
         oracle_model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             torch_dtype=torch_dtype, trust_remote_code = True)
-            
-    model.generation_config.do_sample = True
+        
     
     if model_cfg["gradient_checkpointing"] == "true":
         print('Enable Gradient Checkpoint..')
@@ -323,7 +343,7 @@ def main(cfg):
     print(f"File exists: {os.path.exists(training_args.deepspeed) if training_args.deepspeed else 'No path set'}")
 
     # After creating the trainer, before train()
-    print(f"Trainer deepspeed: {trainer.deepspeed}")
+    print(f"Trainer deepspeed: {training_args.deepspeed}")
     print(f"Accelerator state: {trainer.accelerator.state}")
     print(f"Is deepspeed enabled: {trainer.is_deepspeed_enabled}")
     print(f"World size: {trainer.accelerator.num_processes}")
@@ -333,7 +353,7 @@ def main(cfg):
     trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
     # Save the training info to a json file
 
-    print_trainable_parameters(model)
+    #print_trainable_parameters(model)
     save_training_info(cfg, model, training_args, model_size, trainable_params,target_modules, cfg.save_dir)
 
     if cfg.eval_only:
@@ -352,10 +372,18 @@ def main(cfg):
         save_path = f'/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/analysis/data/subject_corruption_info_{cfg.run_name}.json'
         write_subject_corruption_info(save_path)
 
+    
     # save the tokenizer
     if cfg.save_model and (not cfg.eval_only):
+        
         model.save_pretrained(cfg.save_dir)
         tokenizer.save_pretrained(cfg.save_dir)
+        
+        if cfg.use_deepspeed:
+            trainer.save_model(cfg.save_dir) ##### deepspeed messes up
+            safetensors_path = os.path.join(cfg.save_dir, "model.safetensors")
+            if os.path.exists(safetensors_path):
+                os.remove(safetensors_path)
 
     # delete all "global_step*" files in the save_dir/checkpoint-*/ directories
     if local_rank == 0:

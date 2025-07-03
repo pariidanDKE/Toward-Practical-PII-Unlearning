@@ -1,7 +1,7 @@
 model_path: 
 model_family: phi
 
-use_lora: True
+use_lora: False
 save_dir: 
 dataset: PII
 forget_loss: grad_ascent
@@ -62,6 +62,7 @@ eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_r
 generation:
   max_length: 200
   max_new_tokens: 128
+  do_sample: false
 
 save_generated_text: true
 

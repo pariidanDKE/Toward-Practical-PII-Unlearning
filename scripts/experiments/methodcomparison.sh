@@ -9,13 +9,14 @@ export gradaccum=2
 export cache="$PWD/cache"
 export retain_weight=1
 export lr=1e-5
+export P=0.1
+export C=0.05
 
 export CUDA_VISIBLE_DEVICES=0
-
 export time_stats=True
 export remove_model_tensors=True
 export split="forget10"
-export project_name="CompareMethods_Experiment2"
+export project_name="CompareMethods_ExperimentSampling"
 export use_lora=False
 export use_quantization=False
 export forget_data_path="$PWD/data/${dataset}"
@@ -23,14 +24,14 @@ export forget_data_path="$PWD/data/${dataset}"
 # CUDA debugging and logging parameters
 export CUDA_LAUNCH_BLOCKING=1
 export TORCH_USE_CUDA_DSA=1
+export generation_do_sample=True
+export use_deepspeed=False
 
 echo "Running Comparison Experiment with forget loss methods"
 export num_epochs=8
 
 # Array of forget loss methods to loop through
-forget_losses=("grad_ascent+gd" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd")
-#forget_losses=("PerMU")
-
+forget_losses=("grad_ascent" "dpo" "grad_ascent+kl" "grad_ascent+gd" "dpo+kl" "dpo+gd" "npo" "npo+kl" "npo+gd")
 
 # Arrays to track results
 successful_methods=()
@@ -58,7 +59,7 @@ for forget_loss in "${forget_losses[@]}"; do
         fi
 
         export run_name="ModelComparison_${forget_loss}_E${num_epochs}_Extraction"
-        export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/Experiment_MethodComparison/$run_name"
+        export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/MethodComparison_Sampling/$run_name"
         
         echo "-------- Run Training --------"
         
@@ -74,16 +75,19 @@ for forget_loss in "${forget_losses[@]}"; do
             use_lora=$use_lora \
             use_quantization=$use_quantization \
             project_name=$project_name \
-            run_name=$run_name
+            run_name=$run_name \
+            use_deepspeed=$use_deepspeed \
         
         echo "-------- Evaluate Model --------"
-        python evaluate_PII.py --config-name=eval_pii_extraction.yaml \
+        python evaluate_PII.py --config-name=eval_pii_noextract.yaml \
             model_family=$model dataset=$dataset \
             split=$split batch_size=$eval_batch_size \
             model_path=$save_dir forget_loss=$forget_loss \
             generation.max_length=200 \
             use_lora=$use_lora \
-            save_dir=$save_dir/eval_results
+            save_dir=$save_dir/eval_results \
+            generation.do_sample=$generation_do_sample \
+
 
         echo "-------- Aggregate Evaluation --------"
         python aggregate_eval_stat.py \
@@ -111,19 +115,3 @@ for forget_loss in "${forget_losses[@]}"; do
     echo "--------------------------------------------"
 done
 
-# Print final summary
-echo "============================================"
-echo "FINAL SUMMARY"
-echo "============================================"
-echo "Total methods attempted: ${#forget_losses[@]}"
-echo "Successful methods (${#successful_methods[@]}): ${successful_methods[*]}"
-echo "Failed methods (${#failed_methods[@]}): ${failed_methods[*]}"
-echo "============================================"
-
-if [ ${#failed_methods[@]} -eq 0 ]; then
-    echo "✓ All methods completed successfully!"
-    exit 0
-else
-    echo "⚠ Some methods failed. Check logs above for details."
-    exit 1
-fi

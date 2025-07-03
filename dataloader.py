@@ -4,7 +4,7 @@ from transformers import Trainer
 import torch.nn.functional as F
 import copy, os
 import deepspeed
-from evaluate_TOFU import get_dataloader, get_all_evals
+#from evaluate_TOFU import get_dataloader, get_all_evals
 import copy
 import json 
 from pathlib import Path
@@ -20,7 +20,6 @@ import numpy as np
 from utils import get_logger,should_log_stats
 
 os.environ['MASTER_PORT'] = '22395'
-
 def printll(name, inp):
     #print list with 4 decimal for each item
     print(name, [round(x, 4) for x in inp])
@@ -109,7 +108,7 @@ class CustomTrainerForgetting(Trainer):
     #     return model
 
 
-    def add_entropy_controlled_noise(logits, target_entropy_increase=0.1, suppression_strength=0.01):
+    def add_entropy_controlled_noise(self, logits, target_entropy_increase=0.1, suppression_strength=0.01):
             """
             Smoothly redistribute logits: reduce top entries and redistribute to others
             Preserves total logit sum for true redistribution
@@ -120,38 +119,30 @@ class CustomTrainerForgetting(Trainer):
                 suppression_strength: How much to suppress top entries
             """
 
-            print(f'Pertrubing Logits Further!')
             batch_size, seq_len, vocab_size = logits.shape
             
-            # Calculate current entropy
             probs = F.softmax(logits, dim=-1)
             current_entropy = -torch.sum(probs * torch.log(probs + 1e-10), dim=-1)  # [batch_size, seq_len]
             
-            # Smooth suppression of top entries proportional to their probability
             suppression_weights = probs * suppression_strength  # Higher prob = more suppression
             
-            # Calculate total suppression per position to redistribute
             total_suppression = suppression_weights.sum(dim=-1, keepdim=True)  # [batch_size, seq_len, 1]
             
-            # Redistribute suppressed amount uniformly across all positions
             uniform_boost = total_suppression / vocab_size  # Equal redistribution
             
-            # Apply redistribution: subtract from high-prob, add uniformly to all
             redistributed_logits = logits - suppression_weights + uniform_boost
             
-            # Check entropy increase and scale if needed
             new_probs = F.softmax(redistributed_logits, dim=-1)
             new_entropy = -torch.sum(new_probs * torch.log(new_probs + 1e-10), dim=-1)
             
-            # Scale the redistribution to meet target entropy increase
             entropy_increase = (new_entropy - current_entropy) / (current_entropy + 1e-6)
             scale_factor = target_entropy_increase / (entropy_increase.mean() + 1e-6)
             scale_factor = torch.clamp(scale_factor, 0.1, 3.0)
             
-            # Apply scaling to redistribution
             final_suppression = suppression_weights * scale_factor
             final_boost = (final_suppression.sum(dim=-1, keepdim=True)) / vocab_size
             
+            print(f'Old Entropy : {current_entropy} increased to {new_entropy} with scale factor {scale_factor}')
             return logits - final_suppression + final_boost
 
     def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
@@ -236,18 +227,8 @@ class CustomTrainerForgetting(Trainer):
                 corrupt_logits = corrupt_output.logits
                 
 
-                config = get_config()
-                print(config)
-                if hasattr(config, 'perturb_logits_further'):
-                    if config.perturb_logits_further:
-                       corrupt_logits = add_entropy_controlled_noise(
-                                corrupt_logits, 
-                                target_entropy_increase=0.1,  # 15% entropy increase
-                                suppression_strength=0.02      # Smooth redistribution strength
-                                )
-                logit = corrupt_logits   
-                                            
-                
+                logit = corrupt_logits
+
                 clean_logits_copy = copy.deepcopy(clean_logits)
                 # DP: the question tokens are 0, as when we calc loss they should not be considerered
                 clean_target_masks = torch.zeros_like(input_ids)
@@ -278,12 +259,6 @@ class CustomTrainerForgetting(Trainer):
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
 
 
-            if should_log_stats('permu_contrast_stats'):
-                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
-                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,C=self.C)
-
-
-
         elif self.loss_type.startswith("PerMU"):
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
@@ -294,6 +269,8 @@ class CustomTrainerForgetting(Trainer):
                 all_layer = []
                 for m in range(input_ids.size(0)):
                     all_layer.append(1)
+
+                print(f'Adding noise with C={self.C} and P={self.P}, tokens_to_mix={tokens_to_mix[0]}, layer={all_layer}')
                 corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
                     output_hidden_states=False, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
                 corrupt_logits = corrupt_output.logits
@@ -326,9 +303,7 @@ class CustomTrainerForgetting(Trainer):
             # fast KL
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
 
-            if should_log_stats('permu_contrast_stats'):
-                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
-                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,C=self.C)
+
 
 
         else:
@@ -365,6 +340,9 @@ class CustomTrainerForgetting(Trainer):
             retain_loss = 0     
         
         loss = forget_loss + retain_weight * retain_loss
+        if should_log_stats('permu_contrast_stats') and self.loss_type.startswith("PerMU"):
+                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
+                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,retain_loss=retain_loss,C=self.C)
         
         return (loss, outputs) if return_outputs else loss
         

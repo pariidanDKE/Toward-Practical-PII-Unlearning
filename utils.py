@@ -31,12 +31,13 @@ permu_contrasted_magnitude = []
 permu_student_magnitude = []  # Added for student_logits
 permu_kl_div = []
 permu_forget_loss = []  # Added for forget_loss
+permu_retain_loss = []  # Added for retain_loss
 
 
-def permu_log_states(corrupt_logits, clean_logits, question_mask, contrasted_logits_all, student_logits, forget_loss, C):
+def permu_log_states(corrupt_logits, clean_logits, question_mask, contrasted_logits_all, student_logits, forget_loss, retain_loss, C):
     global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
     global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
-    global permu_kl_div, permu_forget_loss
+    global permu_kl_div, permu_forget_loss, permu_retain_loss
 
     # === COMPREHENSIVE METRICS LOGGING SECTION ===
     logger = get_logger()
@@ -92,19 +93,20 @@ def permu_log_states(corrupt_logits, clean_logits, question_mask, contrasted_log
     kl_div = torch.sum(corrupt_probs * torch.log((corrupt_probs + 1e-10) / (clean_probs + 1e-10)), dim=-1)
     
     # === BATCH-LEVEL LOGGING ===
-    logger.info(f"PerMU Metrics - Batch Aggregate ({batch_clean_logits.size(0)} Answer Tokens):")
-    logger.info(f"  ENTROPY: Clean: Mean={clean_entropy.mean().item():.4f}, Std={clean_entropy.std().item():.4f}")
-    logger.info(f"           Corrupt: Mean={corrupt_entropy.mean().item():.4f}, Std={corrupt_entropy.std().item():.4f}")
-    logger.info(f"           Difference: Mean={diff_entropy.mean().item():.4f}, Std={diff_entropy.std().item():.4f}")
-    logger.info(f"           Contrasted: Mean={contrasted_entropy.mean().item():.4f}, Std={contrasted_entropy.std().item():.4f}")
-    logger.info(f"           Student: Mean={student_entropy.mean().item():.4f}, Std={student_entropy.std().item():.4f}")  # Added
-    logger.info(f"  MAGNITUDE (L∞): Clean: Mean={clean_magnitude.mean().item():.4f}, Std={clean_magnitude.std().item():.4f}")
-    logger.info(f"                  Corrupt: Mean={corrupt_magnitude.mean().item():.4f}, Std={corrupt_magnitude.std().item():.4f}")
-    logger.info(f"                  Difference: Mean={diff_magnitude.mean().item():.4f}, Std={diff_magnitude.std().item():.4f}")
-    logger.info(f"                  Contrasted: Mean={contrasted_magnitude.mean().item():.4f}, Std={contrasted_magnitude.std().item():.4f}")
-    logger.info(f"                  Student: Mean={student_magnitude.mean().item():.4f}, Std={student_magnitude.std().item():.4f}")  # Added
-    logger.info(f"  KL DIVERGENCE: KL(Corrupt||Clean): Mean={kl_div.mean().item():.4f}, Std={kl_div.std().item():.4f}")
-    logger.info(f"  FORGET LOSS: {forget_loss.item():.4f}")  # Added for forget_loss
+    # logger.info(f"PerMU Metrics - Batch Aggregate ({batch_clean_logits.size(0)} Answer Tokens):")
+    # logger.info(f"  ENTROPY: Clean: Mean={clean_entropy.mean().item():.4f}, Std={clean_entropy.std().item():.4f}")
+    # logger.info(f"           Corrupt: Mean={corrupt_entropy.mean().item():.4f}, Std={corrupt_entropy.std().item():.4f}")
+    # logger.info(f"           Difference: Mean={diff_entropy.mean().item():.4f}, Std={diff_entropy.std().item():.4f}")
+    # logger.info(f"           Contrasted: Mean={contrasted_entropy.mean().item():.4f}, Std={contrasted_entropy.std().item():.4f}")
+    # logger.info(f"           Student: Mean={student_entropy.mean().item():.4f}, Std={student_entropy.std().item():.4f}")  # Added
+    # logger.info(f"  MAGNITUDE (L∞): Clean: Mean={clean_magnitude.mean().item():.4f}, Std={clean_magnitude.std().item():.4f}")
+    # logger.info(f"                  Corrupt: Mean={corrupt_magnitude.mean().item():.4f}, Std={corrupt_magnitude.std().item():.4f}")
+    # logger.info(f"                  Difference: Mean={diff_magnitude.mean().item():.4f}, Std={diff_magnitude.std().item():.4f}")
+    # logger.info(f"                  Contrasted: Mean={contrasted_magnitude.mean().item():.4f}, Std={contrasted_magnitude.std().item():.4f}")
+    # logger.info(f"                  Student: Mean={student_magnitude.mean().item():.4f}, Std={student_magnitude.std().item():.4f}")  # Added
+    # logger.info(f"  KL DIVERGENCE: KL(Corrupt||Clean): Mean={kl_div.mean().item():.4f}, Std={kl_div.std().item():.4f}")
+    # logger.info(f"  FORGET LOSS: {forget_loss.item():.4f}")
+    # logger.info(f"  RETAIN LOSS: {retain_loss.item():.4f}")  # Added for retain_loss
     
     # === COLLECT BATCH-AGGREGATED STATISTICS FOR GLOBAL LISTS ===
     # Store batch-level aggregated metrics (one value per batch, not per token)
@@ -119,15 +121,16 @@ def permu_log_states(corrupt_logits, clean_logits, question_mask, contrasted_log
     permu_contrasted_magnitude.append(contrasted_magnitude.mean().item())
     permu_student_magnitude.append(student_magnitude.mean().item())  # Added
     permu_kl_div.append(kl_div.mean().item())
-    permu_forget_loss.append(forget_loss.item())  # Added for forget_loss
+    permu_forget_loss.append(forget_loss.item())
+    permu_retain_loss.append(retain_loss.item())  # Added for retain_loss
     
     # === OVERALL STATISTICS ===
-    logger.info("=" * 80)
-    logger.info("PerMU CURRENT BATCH STATISTICS:")
-    logger.info("=" * 80)
-    logger.info(f"Answer tokens in this batch: {batch_clean_logits.size(0)}")
-    logger.info(f"Total batches processed globally: {len(permu_clean_entropy)}")
-    logger.info("=" * 80)
+    # logger.info("=" * 80)
+    # logger.info("PerMU CURRENT BATCH STATISTICS:")
+    # logger.info("=" * 80)
+    # logger.info(f"Answer tokens in this batch: {batch_clean_logits.size(0)}")
+    # logger.info(f"Total batches processed globally: {len(permu_clean_entropy)}")
+    # logger.info("=" * 80)
     # === END COMPREHENSIVE METRICS LOGGING ===
 
 
@@ -140,7 +143,7 @@ def save_permu_metrics_to_json(save_dir="./permu_metrics", experiment_name="perm
     # Access global variables
     global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
     global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
-    global permu_kl_div, permu_forget_loss
+    global permu_kl_div, permu_forget_loss, permu_retain_loss
     
     os.makedirs(save_dir, exist_ok=True)
     if 'permu_clean_entropy' not in globals() or len(permu_clean_entropy) == 0:
@@ -167,10 +170,11 @@ def save_permu_metrics_to_json(save_dir="./permu_metrics", experiment_name="perm
             "student": [float(x) for x in permu_student_magnitude]  # Added
         },
         "kl_divergence": {"corrupt_vs_clean": [float(x) for x in permu_kl_div]},
-        "forget_loss": [float(x) for x in permu_forget_loss]  # Added
+        "forget_loss": [float(x) for x in permu_forget_loss],
+        "retain_loss": [float(x) for x in permu_retain_loss]  # Added for retain_loss
     }
     
-    raw_filename = f"{experiment_name}_raw_data_{timestamp}.json"
+    raw_filename = f"{experiment_name}_raw_data.json"
     with open(os.path.join(save_dir, raw_filename), 'w') as f:
         json.dump(raw_data, f, indent=2)
     
@@ -197,10 +201,11 @@ def save_permu_metrics_to_json(save_dir="./permu_metrics", experiment_name="perm
             "student": compute_stats(permu_student_magnitude)  # Added
         },
         "kl_divergence_stats": {"corrupt_vs_clean": compute_stats(permu_kl_div)},
-        "forget_loss_stats": compute_stats(permu_forget_loss)  # Added
+        "forget_loss_stats": compute_stats(permu_forget_loss),
+        "retain_loss_stats": compute_stats(permu_retain_loss)  # Added for retain_loss
     }
     
-    summary_filename = f"{experiment_name}_summary_{timestamp}.json"
+    summary_filename = f"{experiment_name}_summary.json"
     with open(os.path.join(save_dir, summary_filename), 'w') as f:
         json.dump(summary_data, f, indent=2)
     
@@ -218,9 +223,12 @@ def save_permu_metrics_to_json(save_dir="./permu_metrics", experiment_name="perm
     print("\nKL DIVERGENCE FINAL STATISTICS:")
     kl_stats = summary_data["kl_divergence_stats"]["corrupt_vs_clean"]
     print(f"  KL(Corrupt||Clean): Mean={kl_stats['mean']:.4f}, Std={kl_stats['std']:.4f}, Min={kl_stats['min']:.4f}, Max={kl_stats['max']:.4f}")
-    print("\nFORGET LOSS FINAL STATISTICS:")  # Added
+    print("\nFORGET LOSS FINAL STATISTICS:")
     forget_stats = summary_data["forget_loss_stats"]
     print(f"  Forget Loss: Mean={forget_stats['mean']:.4f}, Std={forget_stats['std']:.4f}, Min={forget_stats['min']:.4f}, Max={forget_stats['max']:.4f}")
+    print("\nRETAIN LOSS FINAL STATISTICS:")  # Added for retain_loss
+    retain_stats = summary_data["retain_loss_stats"]
+    print(f"  Retain Loss: Mean={retain_stats['mean']:.4f}, Std={retain_stats['std']:.4f}, Min={retain_stats['min']:.4f}, Max={retain_stats['max']:.4f}")
     print(f"\nFiles saved:\n  Raw data: {os.path.join(save_dir, raw_filename)}\n  Summary: {os.path.join(save_dir, summary_filename)}")
     print("=" * 100)
 
@@ -229,11 +237,11 @@ def reset_permu_metrics():
     """Reset all global PerMU metrics. Call this before starting a new experiment."""
     global permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy
     global permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude
-    global permu_kl_div, permu_forget_loss
+    global permu_kl_div, permu_forget_loss, permu_retain_loss
     
     permu_clean_entropy, permu_corrupt_entropy, permu_diff_entropy, permu_contrasted_entropy, permu_student_entropy = [], [], [], [], []
     permu_clean_magnitude, permu_corrupt_magnitude, permu_diff_magnitude, permu_contrasted_magnitude, permu_student_magnitude = [], [], [], [], []
-    permu_kl_div, permu_forget_loss = [], []
+    permu_kl_div, permu_forget_loss, permu_retain_loss = [], [], []
     print("PerMU metrics reset for new experiment.")
 ############################################### OPTIMAL TOKENIZER ###########################################
 
@@ -583,6 +591,9 @@ def memory_efficient_precompute(tokenizer, target_memory_mb=50):
 
 from omegaconf import DictConfig
 _config = None
+_model_config = None
+
+
 
 def init_config(config: DictConfig) -> None:
     """Initialize global config"""
@@ -599,6 +610,17 @@ def should_log_stats(stat_type: str) -> bool:
     """Check if stat type should be logged"""
     return get_config().logging.get(stat_type, False)
 
+
+def init_model_config(config : DictConfig) -> None:
+    """Initialize model configuration"""
+    global _model_config
+    _model_config = config
+
+def get_model_config() -> DictConfig:
+    """Get model configuration"""
+    if _model_config is None:
+        raise RuntimeError("Model config not initialized. Call init_model_config(cfg) first.")
+    return _model_config
 ############################# LOGGER ################################
 _logger_instance = None
 

@@ -4,33 +4,23 @@
 export BNB_CUDA_VERSION=121
 export dataset="PII"
 export MASTER_PORT=18765
-export model="llama3-8b"
-export num_epochs=5
-export batch_size=4
-export gradaccum=4
-export cache="$PWD/cache"
-export forget_data_path="$PWD/data/${dataset}"
-export retain_weight=1
-export lr=2e-5
+#export model="llama3.1-8b"  # [llama3.1-8b, phi_chat, phi3-5-mini-instruct, llama2-7b_noanswerspace]
+export model="qwen2.5-7b"  # [llama3.1-8b, phi_chat, phi3-5-mini-instruct, llama2-7b_noanswerspace, qwen2.5-7b]
+
+#export model="phi3-5-mini-instruct"
+#export model="llama2-7b_noanswerspace"
+export batch_size=64
 
 export CUDA_VISIBLE_DEVICES=0
 export forget_loss="PerMU"
 export split="forget10"
 export use_lora=False
-export use_quantization=False
 
-
-export run_name="NoUnlearn_Llama3"
-#export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/locuslab/tofu_ft_llama2-7b"
-#export save_dir="$PWD/experiment/${dataset}/${model}/${split}/$run_name"
-
-export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama3-8b_B4_G4_E8_lr2e-5_answer_tagging"
-
-# export model="llama2-7b"
-# export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_llama2-7b_B4_G4_E10_lr2e-5/checkpoint-8437"
+#export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+export save_dir="/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
 
 # -------- Evaluate Model --------
-python evaluate_PII.py --config-name=eval_pii.yaml \
+python evaluate_PII.py --config-name=eval_pii_short.yaml \
     model_family=$model dataset=$dataset \
     split=$split batch_size=$batch_size \
     model_path=$save_dir forget_loss=$forget_loss \
@@ -46,6 +36,5 @@ python aggregate_eval_stat.py \
     excel_file_path=$save_dir/eval_results/eval.xlsx \
     submitted_by=who
 
-echo "Finished run for full model with ${num_epochs} epochs"
 echo "--------------------------------------------"
 

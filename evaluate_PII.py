@@ -7,7 +7,7 @@ import evaluate
 import json
 from pathlib import Path
 from rouge_score import rouge_scorer
-from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples,load_targetted_extraction_samples,load_targeted_extraction_data
+from utils import get_model_identifiers_from_yaml, get_model_utility, get_forget_quality, load_extraction_samples,load_targetted_extraction_samples,load_targeted_extraction_data,get_config
 from evals.uld import ULDLLM
 from evals.whos_harry_potter import WHPLLM
 import torch.nn as nn
@@ -16,7 +16,7 @@ import numpy as np
 import nltk
 import scipy
 from peft import PeftModel
-from jailbreaking_attack import JailBreaking,JailBreakingRefactored # Added import
+from jailbreaking_attack import JailBreakingRefactored # Added import
 from typing import List, Dict, Any, Optional
 from utils import load_person_split_dict,load_one_hop_samples, init_config, get_split_lengths
 
@@ -128,7 +128,7 @@ class PIIAttackOrchestrator:
             }
     
     def run_extraction_attacks(self, cfg: Dict, model, tokenizer, 
-                              all_pii_data: List[Dict[str, Any]]) -> Dict[str, Any]:
+                              all_pii_data: List[Dict[str, Any]], model_cfg: Dict) -> Dict[str, Any]:
         """Run both standard and targeted extraction attacks."""
         results = {}
         
@@ -140,7 +140,7 @@ class PIIAttackOrchestrator:
             if extraction_prompts:
                 print("Running Standard Extraction PII Leakage Check...")
                 standard_results = self._run_single_extraction_attack(
-                    cfg, model, tokenizer, extraction_prompts, "standard", split_dict_count=split_dict_count
+                    cfg, model, tokenizer, extraction_prompts, "standard", split_dict_count=split_dict_count, model_cfg=model_cfg
                 )
                 results.update(standard_results)
             
@@ -151,7 +151,7 @@ class PIIAttackOrchestrator:
             if targeted_prompts:
                 print("Running Targeted Extraction PII Leakage Check...")
                 targeted_results = self._run_single_extraction_attack(
-                    cfg, model, tokenizer, targeted_prompts, "targeted", split_dict_count=split_dict_count
+                    cfg, model, tokenizer, targeted_prompts, "targeted",model_cfg, split_dict_count=split_dict_count
                 )
                 # Add 'targeted_' prefix to all keys
                 targeted_results = {f"targeted_{k}": v for k, v in targeted_results.items()}
@@ -169,7 +169,7 @@ class PIIAttackOrchestrator:
             }
     
     def _run_single_extraction_attack(self, cfg: Dict, model, tokenizer, 
-                                    prompts_list: List[str], attack_type: str, split_dict_count : Dict = None) -> Dict[str, Any]:
+                                    prompts_list: List[str], attack_type: str,model_cfg, split_dict_count : Dict = None) -> Dict[str, Any]:
         """Run a single extraction attack (standard or targeted)."""
         if not prompts_list:
             return {}
@@ -177,7 +177,7 @@ class PIIAttackOrchestrator:
         try:
             # Generate responses from model
             generated_responses = self._generate_model_responses(
-                cfg, model, tokenizer, prompts_list
+                cfg, model, tokenizer, prompts_list, model_cfg
             )
             
             # Run extraction attack
@@ -208,7 +208,7 @@ class PIIAttackOrchestrator:
             }
     
     
-    def run_one_hop_attack(self, cfg: Dict, model, tokenizer) -> Dict[str, Any]:
+    def run_one_hop_attack(self, cfg: Dict, model, tokenizer, model_cfg) -> Dict[str, Any]:
         """Run one-hop PII leakage attack."""
         print("Running One-Hop PII Leakage Check...")
         
@@ -225,19 +225,18 @@ class PIIAttackOrchestrator:
                 return self._get_empty_one_hop_results()
             
             # Generate responses from model
-            generated_responses = self._generate_model_responses(cfg, model, tokenizer, one_hop_questions)
+            generated_responses = self._generate_model_responses(cfg, model, tokenizer, one_hop_questions, model_cfg)
             
             # Run one-hop attack
             one_hop_results, one_hop_scores = self.one_hop_attack.execute_attack(
                 questions=one_hop_questions,
                 responses=generated_responses
             )
-            
             # Calculate additional metrics
             one_hop_metrics = self._calculate_one_hop_metrics(one_hop_results)
-            
             # Print results
             self._print_one_hop_results(one_hop_scores, one_hop_metrics)
+            #print("One-Hop PII Leakage Check Completed.")
             
             return {
                 'pii_one_hop_results': one_hop_results,
@@ -255,13 +254,21 @@ class PIIAttackOrchestrator:
             }
 
 
-    def _generate_model_responses(self, cfg: Dict, model, tokenizer, prompts_list: List[str]) -> List[str]:
+    def _generate_model_responses(self, cfg: Dict, model, tokenizer, prompts_list: List[str], model_cfg: Dict) -> List[str]:
         """Generate responses from the model for given prompts in batches of 16."""
         try:
+            question_start_token, question_end_token, answer_token, answer_end_token = model_cfg['question_start_tag'], model_cfg['question_end_tag'], model_cfg['answer_tag'], model_cfg['answer_end_tag']
+            for i, prompt in enumerate(prompts_list):
+                prompts_list[i] = f"{question_start_token}{prompt}{question_end_token} {answer_token}"
+    
+
             batch_size = cfg.batch_size
             all_generated_texts = []
             for i in range(0, len(prompts_list), batch_size):
                 batch_prompts = prompts_list[i:i + batch_size]
+            
+                    
+
                 batch_inputs_tokenized = tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
                 with torch.no_grad():
                     batch_outputs_tokens = model.generate(
@@ -269,7 +276,7 @@ class PIIAttackOrchestrator:
                         attention_mask=batch_inputs_tokenized.attention_mask,
                         max_new_tokens=cfg.get("generation", {}).get("max_new_tokens", 150),
                         do_sample=cfg.get("generation", {}).get("do_sample", False),
-                        pad_token_id=tokenizer.eos_token_id
+                        pad_token_id=tokenizer.pad_token_id,
                     )
                 batch_generated_texts = tokenizer.batch_decode(batch_outputs_tokens[:, batch_inputs_tokenized.input_ids.shape[-1]:], skip_special_tokens=True)
                 all_generated_texts.extend(batch_generated_texts)
@@ -532,7 +539,7 @@ class PIIAttackOrchestrator:
         
         # Print split-specific results
         for split in ['forget', 'retain', 'test_retain']:
-            split_rate = scores.get(f'{split}_full_name_leakage_rate', 0.0)
+            split_rate = scores.get(f'one_hop_{split}_additional_pii_leakage_rate', 0.0)
             split_samples = metrics.get(f'one_hop_{split}_samples', 0)
             if split_samples > 0:
                 print(f"{split.title()} Split: {split_rate:.4f} leakage rate ({split_samples} samples)")
@@ -567,7 +574,7 @@ class PIIAttackOrchestrator:
 # New function to run one-hop attack (similar to run_pii_jailbreaking_extraction)
 def run_pii_jailbreaking_one_hop(cfg: Dict, model, tokenizer, 
                                 full_pii_data_for_jailbreak: List[Dict[str, Any]], 
-                                split: str = 'forget10') -> Dict[str, Any]:
+                                split: str = 'forget10', model_cfg: Dict = None) -> Dict[str, Any]:
     """Run PII jailbreaking one-hop attack using orchestrator."""
     print("Starting PII Jailbreaking one-hop attack...")
     
@@ -582,8 +589,8 @@ def run_pii_jailbreaking_one_hop(cfg: Dict, model, tokenizer,
     )
     
     # Run one-hop attack
-    one_hop_results = orchestrator.run_one_hop_attack(cfg, model, tokenizer)
-    
+    one_hop_results = orchestrator.run_one_hop_attack(cfg, model, tokenizer, model_cfg)
+
     return one_hop_results
 
 
@@ -613,7 +620,7 @@ def run_pii_jailbreaking_autocompletion(cfg: Dict, model, tokenizer, eval_task: 
         print("Warning: No input_strings or gen_outputs provided for autocompletion attack")
 
 
-def run_pii_jailbreaking_extraction(cfg: Dict, model, tokenizer, full_pii_data_for_jailbreak: List[Dict[str, Any]],split = 'forget10') -> Dict[str, Any]:
+def run_pii_jailbreaking_extraction(cfg: Dict, model, tokenizer, full_pii_data_for_jailbreak: List[Dict[str, Any]],split = 'forget10',model_cfg=None) -> Dict[str, Any]:
     """Run PII jailbreaking extraction attacks using orchestrator."""
     print("Starting PII Jailbreaking extraction attacks...")
     
@@ -628,9 +635,39 @@ def run_pii_jailbreaking_extraction(cfg: Dict, model, tokenizer, full_pii_data_f
     )
     
     # Run extraction attacks
-    extraction_results = orchestrator.run_extraction_attacks(cfg, model, tokenizer, full_pii_data_for_jailbreak)
+    extraction_results = orchestrator.run_extraction_attacks(cfg, model, tokenizer, full_pii_data_for_jailbreak,model_cfg)
     
     return extraction_results
+
+
+def convert_to_left_padding(input_ids, attention_mask, labels, pad_token_id):
+    """Convert right-padded sequences to left-padded for Phi-3"""
+    batch_size, seq_len = input_ids.shape
+    left_padded_input_ids = torch.zeros_like(input_ids)
+    left_padded_attention_mask = torch.zeros_like(attention_mask)
+    left_padded_labels = torch.full_like(labels, -100)
+    
+    for i in range(batch_size):
+        # Find actual sequence length (non-padded tokens)
+        actual_length = (attention_mask[i] == 1).sum().item()
+        
+        if actual_length < seq_len:
+            # Move actual tokens to the right, padding to the left
+            padding_length = seq_len - actual_length
+            
+            left_padded_input_ids[i, padding_length:] = input_ids[i, :actual_length]
+            left_padded_attention_mask[i, padding_length:] = 1
+            left_padded_labels[i, padding_length:] = labels[i, :actual_length]
+            
+            # Set padding tokens
+            left_padded_input_ids[i, :padding_length] = pad_token_id
+        else:
+            # No padding needed
+            left_padded_input_ids[i] = input_ids[i]
+            left_padded_attention_mask[i] = attention_mask[i]
+            left_padded_labels[i] = labels[i]
+    
+    return left_padded_input_ids, left_padded_attention_mask, left_padded_labels
 
 
 
@@ -651,14 +688,21 @@ def get_all_evals(cfg, model, tokenizer, eval_task: str, eval_dataloader,
     # Process evaluation batches
     for batch in tqdm(eval_dataloader):
         input_ids, labels, attention_mask, indices = batch
+        input_ids, labels, attention_mask, indices = batch
+
+        if model_cfg['hf_key'] == 'microsoft/Phi-3.5-mini-instruct' or model_cfg['hf_key'] == 'Qwen/Qwen2.5-7B-Instruct':
+            print("Converting to left padding for Phi-3.5-mini-instruct...")
+            input_ids, attention_mask, labels = convert_to_left_padding(input_ids, attention_mask, labels, tokenizer.pad_token_id)
+
         all_indices.extend(indices.cpu().numpy().tolist())
         batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
-        
+
         # Send to device
         for k, v in batch.items():
             batch[k] = v.to(model.device)
 
         with torch.no_grad():
+           
             outputs = model(**batch)
             input_string, gen_output, gt = run_generation(cfg, batch, model, tokenizer=tokenizer, model_cfg=model_cfg)
             gen_outputs.extend(gen_output)
@@ -686,8 +730,8 @@ def get_all_evals(cfg, model, tokenizer, eval_task: str, eval_dataloader,
     eval_logs.update(eval_rouge_recall(gen_outputs, ground_truths, all_indices))
     
     # Handle perturbation ratio evaluation
-    if normalize_gt and base_eval_dataloader is not None:
-        eval_logs.update(eval_perturbation_ratio(base_eval_dataloader, perturb_dataloader, model))
+    if normalize_gt and base_eval_dataloader is not None and model_cfg['hf_key'] != 'microsoft/Phi-3.5-mini-instruct':
+        eval_logs.update(eval_perturbation_ratio(base_eval_dataloader, perturb_dataloader, model, tokenizer, model_cfg))
         avg_gt_loss = eval_logs['avg_gt_loss']
         avg_perturb_loss = eval_logs['average_perturb_loss']
         data_indices = avg_gt_loss.keys()
@@ -718,12 +762,25 @@ def get_all_evals(cfg, model, tokenizer, eval_task: str, eval_dataloader,
 
 
 
-def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model):
+def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model, tokenizer,model_cfg):
     eval_logs = {}
     for batch, perturb_batch in tqdm(zip(eval_dataloader, perturb_dataloader)):
         input_ids, labels, attention_mask, indices = batch
-        batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
         perturb_input_ids, perturb_labels, perturb_attention_mask, _ = perturb_batch
+
+        
+        if model_cfg['hf_key'] == 'microsoft/Phi-3.5-mini-instruct' or model_cfg['hf_key'] == 'Qwen/Qwen2.5-7B-Instruct':
+            print("Converting to left padding for Phi-3.5-mini-instruct...")
+            input_ids, attention_mask, labels = convert_to_left_padding(input_ids, attention_mask, labels, tokenizer.pad_token_id)
+            print(len(perturb_input_ids))
+            print('perturb_input_ids shape:', perturb_input_ids.shape)
+            perturb_input_ids, perturb_attention_mask, perturb_labels = convert_to_left_padding(perturb_input_ids, perturb_attention_mask, perturb_labels, tokenizer.pad_token_id)
+
+
+
+        batch = {"input_ids": input_ids, "labels": labels, "attention_mask": attention_mask}
+        
+    
         if len(perturb_input_ids.shape) > 2:
             bsz, seq_len = perturb_input_ids.shape[0:2]
         else:
@@ -736,7 +793,6 @@ def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model):
             batch[k] = v.to(model.device)
         for k, v in perturb_batch.items():
             perturb_batch[k] = v.to(model.device)
-
 
         with torch.no_grad():
             outputs = model(**batch)
@@ -899,6 +955,8 @@ def main(cfg):
     tokenizer.padding_side = 'left'  # Must be done early
     tokenizer.padding_size = 'longest'
 
+    print(f'Pad token id is {tokenizer.pad_token_id}, eos token id is {tokenizer.eos_token_id}')
+
     if cfg.dataset == "TOFU":
         pretained_traget_model_path = model_cfg["tofu_target_model_path"]
     elif cfg.dataset == "Harry":
@@ -996,12 +1054,17 @@ def main(cfg):
                 )
                 print(f"Loading LoRA adapter from {cfg.model_path}..")
                 model = PeftModel.from_pretrained(base_model, cfg.model_path)
-            else:
 
+            elif model_cfg["hf_key"] == "microsoft/Phi-3.5-mini-instruct":
                 print(f"Loading checkpoint from {cfg.model_path}")
                 model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
                     attn_implementation="flash_attention_2", torch_dtype=torch_dtype, \
-                    trust_remote_code = True, device_map=device_map)
+                     device_map=device_map,trust_remote_code = False)
+            else:
+                print(f"Loading checkpoint from {cfg.model_path}")
+                model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
+                    attn_implementation="flash_attention_2", torch_dtype=torch_dtype, \
+                     device_map=device_map,trust_remote_code = True)
 
 
         except Exception as e:
@@ -1057,9 +1120,9 @@ def main(cfg):
             normalize_gt = True
 
         if eval_task == 'extraction_attack':
-            eval_logs = run_pii_jailbreaking_extraction(cfg,model,tokenizer,full_pii_data_for_jailbreak)
+            eval_logs = run_pii_jailbreaking_extraction(cfg,model,tokenizer,full_pii_data_for_jailbreak,model_cfg=model_cfg)
         elif eval_task == 'one_hop_attack':  # Add this new condition
-            eval_logs = run_pii_jailbreaking_one_hop(cfg, model, tokenizer, full_pii_data_for_jailbreak)
+            eval_logs = run_pii_jailbreaking_one_hop(cfg, model, tokenizer, full_pii_data_for_jailbreak,model_cfg=model_cfg)
         else:
             eval_dataloader, base_eval_dataloader, perturb_dataloader = get_dataloader(cfg, cfg.forget_loss, tokenizer, folder, split, question_key, answer_key, base_answer_key, perturbed_answer_key)
             eval_logs = get_all_evals(cfg, model, tokenizer, eval_task, eval_dataloader, base_eval_dataloader, perturb_dataloader, normalize_gt=normalize_gt,full_pii_data_for_jailbreak=full_pii_data_for_jailbreak,model_cfg=model_cfg)
@@ -1091,23 +1154,26 @@ def eval_accuracy(logits, labels):
 import re
 
 def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
-    
+   
     calculated_split_symbol = getattr(tokenizer, 'eos_token', None) # General starting point
     if calculated_split_symbol is None: # Fallback if eos_token isn't set
         calculated_split_symbol = "<|eot_id|>" 
 
-    if hasattr(cfg, 'model_family') and cfg.model_family == 'llama2-7b':
+    if hasattr(cfg, 'model_family') and (cfg.model_family == 'llama2-7b' or cfg.model_family == 'llama2-13b'):
          calculated_split_symbol = " [/INST]"
 
     # If model_cfg provides a specific question_end_tag, it should be the primary split_symbol
     if model_cfg is not None and model_cfg.get('question_end_tag'):
         split_symbol = model_cfg['question_end_tag']
+
+    if model_cfg.get('question_end_tag_inference'):
+        split_symbol = model_cfg['question_end_tag_inference']
     else:
         split_symbol = calculated_split_symbol
 
+    #print(f'Split symbol used for generation: {split_symbol}')
     input_ids = batch["input_ids"]
     raw_decoded_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=False)
-
     # --- Construct the list of all texts/tokens to remove ---
     tokens_for_removal_candidates = list(set(tokenizer.all_special_tokens))
 
@@ -1115,9 +1181,6 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
     if model_cfg is not None:
         # These are the full template strings that might need removal
         model_template_tags = [
-            #model_cfg.get('question_start_tag'),
-            # model_cfg.get('question_end_tag'), 
-            #model_cfg.get('answer_tag'),
             model_cfg.get('answer_end_tag')
         ]
 
@@ -1125,9 +1188,7 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
             if tag_string and isinstance(tag_string, str) and tag_string.strip() and tag_string.strip() != '?':  # Ensure tag_string is a non-empty string
                 tokens_for_removal_candidates.append(tag_string)
         
-        # Ensure the split_symbol itself is also a candidate for removal from surrounding parts
-        # (its first instance is preserved separately).
-        # This also handles if question_end_tag or answer_end_tag from model_cfg is the split_symbol.
+        
         if split_symbol not in tokens_for_removal_candidates:
              tokens_for_removal_candidates.append(split_symbol)
 
@@ -1135,10 +1196,7 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
     # This ensures longer template strings (e.g., question_start_tag) are removed before
     # their shorter constituent parts (e.g., <|start_header_id|>).
     special_tokens_to_remove = sorted(list(set(tokens_for_removal_candidates)), key=len, reverse=True)
-    
-    # Avoid trying to replace an empty string if it somehow gets into the list
     special_tokens_to_remove = [token for token in special_tokens_to_remove if token]
-
 
     final_prompts = []
     final_ground_truths = []
@@ -1157,6 +1215,12 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
             preserved_symbol_instance = raw_s[first_occurrence_idx : first_occurrence_idx + len(split_symbol)] 
             part_after_split = raw_s[first_occurrence_idx + len(split_symbol):]
 
+            # print(f'Raw string: {raw_s}')
+            # print(f'Part before split: {part_before_split}')
+            # print(f'Preserved symbol instance: {preserved_symbol_instance}')
+            # print(f'Part after split: {part_after_split}')
+            print('---------------------')
+
             cleaned_part_before = part_before_split
             for st_token in special_tokens_to_remove:
                 # Do not remove the preserved_symbol_instance if st_token happens to be it
@@ -1170,34 +1234,55 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
             
             prompt_text = cleaned_part_before.strip()
 
+
+            # question_start_tag = model_cfg.get('question_start_tag')
+            # question_end_tag = model_cfg.get('question_end_tag')
+            # ### Add correct questions tags, they are needed to input string
+            # if question_start_tag:
+            #     prompt_text = question_start_tag + prompt_text  
+            # if question_end_tag:
+            #     prompt_text += question_end_tag
+            # print(f'Preserved symbol instance: {preserved_symbol_instance}')
+
             answer_tag = model_cfg.get('answer_tag')
             if isinstance(answer_tag, str) and answer_tag.strip() and answer_tag != '?':
                 ground_truth_text = cleaned_part_after.replace(model_cfg.get('answer_tag'),'').strip()
             else:
                 ground_truth_text = cleaned_part_after.strip()
 
+
             final_prompts.append(prompt_text + preserved_symbol_instance + model_cfg.get('answer_tag'))
             #final_prompts.append(prompt_text + preserved_symbol_instance + model_cfg.get('retain_answer_tag', '')) ### REMOVE THIS IN CASE NEEDED
 
             final_ground_truths.append(ground_truth_text)
 
+    if model_cfg.get('question_end_tag_inference'):
+        final_prompts = [prompt.replace(model_cfg['question_end_tag_inference'], model_cfg['question_end_tag']) for prompt in final_prompts]
+    if model_cfg.get('question_start_tag_inference'):
+        final_prompts = [prompt.replace(model_cfg['question_start_tag_inference'], model_cfg['question_start_tag']) for prompt in final_prompts]
+
+
     input_strings = final_prompts
     ground_truth = final_ground_truths
     
+    # for input_string, gt in zip(input_strings, ground_truth):
+    #     print(f"Input: {input_string}\nGround Truth: {gt}\n{'-'*50}")
     
     # now tokenize the strings with left padding
     left_pad_tokenizer = tokenizer
     left_pad_tokenizer.padding_side = 'left'
-    left_pad_tokenizer.padding_size = 'longest'
+    left_pad_tokenizer.padding_size = 'longest' 
     left_pad_tokenizer.pad_token = left_pad_tokenizer.eos_token
     left_pad_tokenizer.pad_token_id = left_pad_tokenizer.eos_token_id
 
-
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
-    out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=False, use_cache=False, pad_token_id=left_pad_tokenizer.eos_token_id)
-    strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
-    #print(f'String after batch decode (special tokens): {strs}')
+    
+    if hasattr(cfg, 'generation') and hasattr(cfg.generation, 'do_sample'):
+        do_sample = cfg.generation.do_sample
+        print(f"Using do_sample={do_sample} for generation")
 
+    out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=do_sample, use_cache=True, pad_token_id=left_pad_tokenizer.eos_token_id)
+    strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)
     
     return input_strings, strs, ground_truth
 

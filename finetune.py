@@ -37,6 +37,19 @@ def print_trainable_parameters(model):
         f"trainable params: {trainable_params} || all params: {all_param} || trainable%: {100 * trainable_params / all_param}"
     )
 
+import logging
+import argparse
+import sys
+
+# Handle DeepSpeed's --local_rank argument
+parser = argparse.ArgumentParser(add_help=False)
+parser.add_argument('--local_rank', type=int, default=0)
+args, remaining_args = parser.parse_known_args()
+
+# Remove --local_rank from sys.argv so Hydra doesn't see it
+sys.argv = [sys.argv[0]] + remaining_args
+
+
 @hydra.main(version_base=None, config_path="config", config_name="finetune")
 def main(cfg):
     if os.environ.get('LOCAL_RANK') is not None:
@@ -56,6 +69,8 @@ def main(cfg):
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     tokenizer.pad_token = tokenizer.eos_token
+    max_seq_length = tokenizer.model_max_length
+    tokenizer.model_max_length = max_seq_length
 
     max_length = 500
     torch_format_dataset = CommonDataset(cfg.dataset, cfg.data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length)
@@ -79,7 +94,16 @@ def main(cfg):
     os.environ["WANDB_DIR"] = cfg.log_dir
     wandb.init(name=cfg.run_name)
 
-    max_steps = int(cfg.num_epochs*len(torch_format_dataset))//(batch_size*gradient_accumulation_steps*num_devices)
+
+    if cfg.use_deepspeed:
+        deepspeed_config = "config/ds_config.json"
+    else:
+        deepspeed_config = None
+
+
+    steps_per_epoch = len(torch_format_dataset) // (batch_size * gradient_accumulation_steps * num_devices)
+    max_steps = int(cfg.num_epochs * steps_per_epoch)
+    
     print(f"max_steps: {max_steps}")
     training_args = transformers.TrainingArguments(
             per_device_train_batch_size=batch_size,
@@ -93,18 +117,19 @@ def main(cfg):
             logging_steps=max(1,max_steps//20),
             logging_dir=f'{cfg.save_dir}/logs',
             output_dir=cfg.save_dir,
-            #optim="paged_adamw_32bit",
-            optim="adamw_torch",
+            optim="paged_adamw_8bit",
+            #optim="adamw_torch",
             save_steps=max_steps,
             save_only_model=True,
             ddp_find_unused_parameters= False,
             #evaluation_strategy="no",
-            #deepspeed='config/ds_config.json',
+            deepspeed=deepspeed_config,
             weight_decay = cfg.weight_decay,
             seed = cfg.seed,
 
             report_to='wandb',
-            lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
+            lr_scheduler_type='cosine'
+            #lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
 
         )
 

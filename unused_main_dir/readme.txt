@@ -1,0 +1,2 @@
+This folder contains files that were in the original UGBench repository in the root directory, that I do not need here at this point, so they are moved to this folder (for now).
+NOTE: They will almost definetely be required if I test my intext PerMU on benchmarks like TOFU,zRSE,HarryPotter

@@ -25,6 +25,8 @@ batch_size: 4
 gradient_accumulation_steps: 4
 num_epochs: 5
 neftune_noise_alpha: false
+optimizer: adamw_torch # paged_adamw_8bit, adamw, adamw_torch, adamw_torch_8bit
+use_deepspeed: false
 
 forget_loss: grad_ascent 
 
@@ -47,7 +49,7 @@ P: 0.4
 
 #### NEW PERMU IN TEXT ADDITION STUFF
 in_text : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
-token_replace_prob : 0.6
+token_replace_prob : 1
 token_k_neighbours : 1
 subject_noise_discrepancy_addition: false
 subject_key: 'subject'
@@ -55,7 +57,7 @@ subject_key: 'subject'
 
 optimal_neighbours_generation: false
 use_adaptive_k: false
-match_first_char: false
+match_first_char: true
 
 
 eval:

@@ -3,6 +3,9 @@ project_name:
 run_name: 
 log_dir: /run_logs
 
+use_deepspeed: false
+
+
 LoRA:
   r: 0
   alpha: 32

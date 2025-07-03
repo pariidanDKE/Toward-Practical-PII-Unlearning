@@ -24,15 +24,23 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     full_text = new_question + new_answer
     num_question_tokens = len(tokenizer.tokenize(new_question, add_special_tokens=True))
 
-    tokenizer.padding_side = 'left' ## DP : NEW ADDITION
     encoded = tokenizer(
         full_text, 
         add_special_tokens=True, 
         max_length=max_length, 
         truncation=True, 
     )
+
     pad_length = max_length - len(encoded.input_ids)
-    pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
+
+    ### DP ADDITION: Add Tokenizer
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token_id = tokenizer.eos_token_id  # Ensure pad token is set to eos token if not already set
+    
+    print(f'Decoded Pad token: {tokenizer.decode(tokenizer.pad_token_id)}')
+    pad_input_ids = encoded['input_ids'] + [tokenizer.pad_token_id] * pad_length
+    #pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
+    
     pad_attention_mask = encoded['attention_mask'] + [0] * pad_length
     if len(encoded.input_ids) == max_length:
         label = encoded.input_ids
@@ -383,9 +391,6 @@ def create_perturbed_subject(tokenizer, inputs_idx, tokens_to_mix, token_replace
         subject_ids = inputs_idx[b:e]
         original_subjects_decoded.append(tokenizer.decode(subject_ids, skip_special_tokens=True))
 
-
-
-
         for i in range(len(subject_ids)):
             original_token = subject_ids[i]
             #subject_ids.append(original_token)  
@@ -433,6 +438,27 @@ def add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, subject_id, subjec
             tokens_to_mix.append((range_start, range_end))
     return ranges, lcs_coverage
 
+def has_preceding_context(subject_text, full_text):
+    preceding_chars = []
+    start = 0
+    while True:
+        subject_pos = full_text.find(subject_text, start)
+        if subject_pos == -1:
+            break
+        if subject_pos > 0:
+            preceding_char = full_text[subject_pos - 1]
+            if preceding_char not in [' ', '\n', '\t']:
+                preceding_chars.append(preceding_char)
+        start = subject_pos + 1
+    return len(preceding_chars) > 0, preceding_chars
+
+def tokenize_subject_contextual(tokenizer, subject_text, preceding_chars):
+    all_tokens = []
+    for preceding_char in preceding_chars:
+        tokens = tokenizer(preceding_char + subject_text, return_tensors="pt")['input_ids'][0]
+        tokens = [tok.item() for tok in tokens if tok not in tokenizer.all_special_ids]
+        all_tokens.append(torch.tensor(tokens[1:]))
+    return all_tokens
 
 
 import time
@@ -445,7 +471,6 @@ tokens_processed_stats = []  # Now tracks tokens that might be corrupted
 num_subjects_stats = []
 subject_lengths_stats = []
 padding_required_stats = []  # Only logs when LCS mismatch occurs
-
 
 
 def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, 
@@ -469,7 +494,11 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
     num_full_tokens = len(encoded.input_ids)
     question_mask.append((num_question_tokens, num_full_tokens))
     pad_length = max_length - len(encoded.input_ids)
-    pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
+
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+    pad_input_ids = encoded['input_ids'] + [tokenizer.pad_token_id] * pad_length
     pad_attention_mask = encoded['attention_mask'] + [0] * pad_length
 
     if len(encoded.input_ids) == max_length:
@@ -491,45 +520,62 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
             if all(main_list[i+j] == sub_list[j] for j in range(len(sub_list))):
                 start_list.append(i)
         return start_list
-    
+
     tokens_to_mix = []
-    current_sample_lcs_coverages = []
     for subject in subject_list:
-        # First try: original encoding without space
+        # First: tokenize without space and check
         subject_id = tokenizer.encode(subject, add_special_tokens=False)
         
-        # Track subject length
+        # Track subject length (we'll update this if needed)
         subject_lengths.append(len(subject_id))
-        is_consistent = all(token in full_text_input_id for token in subject_id)
         
-        if is_consistent:
+        # Check if no-space version exists in full text
+        is_consistent_no_space = all(token in full_text_input_id for token in subject_id)
+        
+        if is_consistent_no_space:
             start = sublist_index(full_text_input_id, subject_id)
             for i in start:
                 tokens_to_mix.append((i, i+len(subject_id), False))  # False = normal probability
-        else:
-            # Second try: add space prefix
-            subject_id_with_space = tokenizer.encode(" "+subject)
-            is_consistent_with_space = all(token in full_text_input_id for token in subject_id_with_space)
+        
+        # Second: ALWAYS tokenize with space and check (regardless of first result)
+        subject_id_with_space = tokenizer.encode(" "+subject, add_special_tokens=False)
+        is_consistent_with_space = all(token in full_text_input_id for token in subject_id_with_space)
+        
+        if is_consistent_with_space:
+            start = sublist_index(full_text_input_id, subject_id_with_space)
+            for i in start:
+                tokens_to_mix.append((i, i+len(subject_id_with_space), False))  # False = normal probability
             
-            if is_consistent_with_space:
-                # Update subject_id and subject_lengths for the space version
-                subject_id = subject_id_with_space
-                subject_lengths[-1] = len(subject_id)  # Update the length we just added
-                
-                start = sublist_index(full_text_input_id, subject_id)
-                for i in start:
-                    tokens_to_mix.append((i, i+len(subject_id), False))  # False = normal probability
-                continue  # Skip to next subject
-            
-            # Third try: fall back to LCS approach if space prefix also didn't work
-            missing_tokens = [token for token in subject_id if token not in full_text_input_id]
-            #log_tokenization_misalignment(subject, subject_id, full_text_input_id, missing_tokens, full_text, tokenizer)
+            subject_lengths[-1] = len(subject_id_with_space)
+
+        ## Third Edge Case: Non-space character preceding Subject (usually a comma, or special instruction token)
+        has_context, preceding_char = has_preceding_context(subject, full_text)
+        if has_context:
+            # If preceding character exists, tokenize with context
+            subject_tokens_with_context = tokenize_subject_contextual(tokenizer, subject, preceding_char)
+            for subject_id_with_context in subject_tokens_with_context:
+                is_consistent_with_context = all(token in full_text_input_id for token in subject_id_with_context)
+                if is_consistent_with_context:
+                    start = sublist_index(full_text_input_id, subject_id_with_context)
+                    for i in start:
+                        tokens_to_mix.append((i, i+len(subject_id_with_context), False))
+        #print(f'Number of subjects per sample: {len(tokens_to_mix)}')
+
+        missing_tokens = [token for token in subject_id if token not in full_text_input_id]
+        missing_tokens_space = [token for token in subject_id_with_space if token not in full_text_input_id]
+
+
+        if len(missing_tokens) > 0 and len(missing_tokens_space) > 0:
+            raise ValueError(
+                f"\n❌ Subject tokenization mismatch!\n"
+                f"Subject: {subject}\n"
+                f"Subject token IDs: {subject_id}\n"
+                f"Full text token IDs: {full_text_input_id}\n"
+                f"Tokens missing from full text: {missing_tokens}\n"
+            )
             try:
-             
                 ranges, lcs_coverage = add_tokens_to_mix_lcs(missing_tokens, full_text_input_id, 
                                                 subject_id, subject, tokens_to_mix)
-                current_sample_lcs_coverages.append(lcs_coverage)
-
             except ValueError as e:
                 logger.error(f"LCS failed for subject '{subject}': {str(e)}")
                 raise ValueError(

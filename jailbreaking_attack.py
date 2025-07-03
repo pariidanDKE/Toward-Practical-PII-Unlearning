@@ -211,7 +211,11 @@ class AutocompletionAttack(AttackStrategy):
                               similarity_threshold: int) -> Dict[str, Any]:
         """Process a single sample for autocompletion attack."""
         # Clean input and lookup PII data
+        #print(f'Input String: {input_str}')
         clean_input = self._clean_model_tags(input_str, model_cfg)
+        #print(f'Cleaned Input: {clean_input}')
+
+
         pii_data = self._lookup_pii_data(clean_input)
         
         datapoint_results = {
@@ -239,13 +243,17 @@ class AutocompletionAttack(AttackStrategy):
         tags_to_remove = [
             model_cfg.get('question_start_tag', ''),
             model_cfg.get('question_end_tag', ''),
+            model_cfg.get('question_start_tag_inference', ''),
+            model_cfg.get('question_end_tag_inference', ''),
             model_cfg.get('answer_tag', ''),
-            model_cfg.get('answer_end_tag', '')
+            model_cfg.get('answer_end_tag', ''),
+            'user\n',
         ]
         
         # Filter non-empty tags with length > 1
         valid_tags = [tag for tag in tags_to_remove if tag and len(tag) > 1]
         
+
         if not valid_tags:
             return raw_string.strip()
         

@@ -1146,8 +1146,6 @@ class LlamaModel(LlamaPreTrainedModel):
         all_hidden_states = () if output_hidden_states else None
         all_self_attns = () if output_attentions else None
         next_decoder_cache = None
-        
-
   
 
         tot = 0
@@ -1158,7 +1156,9 @@ class LlamaModel(LlamaPreTrainedModel):
             # Apply noise addition independently of output_hidden_states
             if layer is not None and tokens_to_mix is not None:
                 for l in range(len(layer)):
+                    #print(f'Batch {l} adds noise to layer {layer[l]}, Check equal to {tot}')
                     if layer[l] == tot:
+                        #print(f'Adding noise to layer {l} with tokens_to_mix {tokens_to_mix[l]}')
                         import numpy
                         #rs = numpy.random.RandomState(1) CHANGE BACK AT THE END  
                         rs = numpy.random.RandomState(self.seed)  
@@ -1171,6 +1171,8 @@ class LlamaModel(LlamaPreTrainedModel):
                             noise_data = noise_fn(
                                 torch.from_numpy(prng(e - b, hidden_states.shape[2]))
                             ).to(hidden_states.device)
+
+                            #print(f'Noise data shape : {noise_data.shape}, hidden_states shape: {hidden_states[l, b:e].shape}')
                             hidden_states[l, b:e] = noise_data + hidden_states[l, b:e]
 
             if self.gradient_checkpointing and self.training:
