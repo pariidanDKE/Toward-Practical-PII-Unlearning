@@ -1,26 +1,3 @@
-Table will be:
-
-
-	Direct Forget ESR		Paraphrase Forget ESR           OneHop			    Inverted	                Model Utility     Fluency Forget
-
-	
-       Base | PerMUtok | PerMU	       Base | PerMUtok | PerMU     Base | PerMUtok | PerMU   Base | PerMUtok | PerMU    Base | PerMUtok | PerMU Base | PerMUtok | PerMU
-
-1.5B
-7B
-14B
-32B
-
-
-
-
-
-
-
-
-
-Results :
-
 ## Toward Practical and Reliable PII Unlearning in Large Language Models
 
 **Abstract—** Training data for large language models is vast,
@@ -51,7 +28,7 @@ better preserves useful knowledge and output quality.
 
 
 
-THe thesis aims to answer the following research questions :
+The thesis aims to answer the following research questions :
 
 
 1. How feasible is it to achieve model-agnostic, computa-
