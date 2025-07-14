@@ -1,72 +1,72 @@
-# UGBench
-
-This repository contains the official implementation of the paper "[Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models](https://arxiv.org/pdf/2502.19982)".
+Table will be:
 
 
-## Overview
+	Direct Forget ESR		Paraphrase Forget ESR           OneHop			    Inverted	                Model Utility     Fluency Forget
 
-**UGBench** is a generalisation evaluation benchmark tailored for LLM-based machine unlearning. UGBench provides an unbiased assessment of existing methods in forgetting in-scope unlearning samples. The benchmark spans three data domains: two widely-used machine unlearning datasets, TOFU and the Harry Potter books, as well as a popular model editing dataset, ZsRE. Evaluations are performed on 14 existing methods using two language models of different scales, Phi-1.3B and LLaMA2-7B. 
+	
+       Base | PerMUtok | PerMU	       Base | PerMUtok | PerMU     Base | PerMUtok | PerMU   Base | PerMUtok | PerMU    Base | PerMUtok | PerMU Base | PerMUtok | PerMU
 
-Despite significant progress in LLM-based unlearning, we identify an embarrassingly simple yet critical dilemma: *existing machine unlearning methods consistently exhibit a lack of generalisation.* 
-
-To better illustrate, we introduce an **unlearning scope**, encompassing all the knowledge that unlearned models are expected to forget, such as paraphrased versions, reversed relations, one-hop questions, and those with substituted subjects.
-
-<p align="center">
-  <img src="figures/main.png" width="70%" height="70%">
-</p>
+1.5B
+7B
+14B
+32B
 
 
-**Requirements**
-
-```
-conda create -n unlearn python=3.8.19
-conda activate unlearn
-pip install -r requirements.txt
-``` 
-
-The code supports fourteen unlearning methods, including: ["grad_ascent," "grad_ascent+kl," "grad_ascent+gd," "dpo," "dpo+kl," "dpo+gd," "npo," "npo+kl," "npo+gd," "task_vector," "ULD," "WHP," "icl," and "PerMU"]. 
-
-Specify the name of your testing method in the `forget_xxx.sh` file.
-
-```
-export Forget_Loss=("PerMU"); 
-```
-
-When tested on TOFU, we use the checkpoints of the pre-trained target model from the [TOFU Leaderboard](https://huggingface.co/spaces/locuslab/tofu\_leaderboard). For the Harry Potter and ZsRE datasets, you can download our pre-trained model from Hugging Face, as specified in the `model_config.yaml` file.
 
 
-**Running the Code**
-
-Unlearning on TOFU dataset: 
-
-```
-bash scripts/forget_tofu.sh
-```
-
-Unlearning on Harry Potter dataset: 
-
-```
-bash scripts/forget_harry.sh
-```
-
-Unlearning on ZSRE dataset: 
-
-```
-bash scripts/forget_zsre.sh
-```
 
 
-**Integrating a New Model**
 
-To unlearn a new model, add the model configuration to `model_config.yaml`, then fine-tune the model using "finetune.sh".
 
-If our implementation and paper are helpful, please consider citing our work.
 
-```
-@article{wang2025erasing,
-  title={Erasing Without Remembering: Safeguarding Knowledge Forgetting in Large Language Models},
-  author={Wang, Huazheng and Jing, Yongcheng and Sun, Haifeng and Wang, Yingjie and Wang, Jingyu and Liao, Jianxin and Tao, Dacheng},
-  journal={arXiv preprint arXiv:2502.19982},
-  year={2025}
-}
-```
+Results :
+
+## Toward Practical and Reliable PII Unlearning in Large Language Models
+
+**Abstract—** Training data for large language models is vast,
+it may inadvertently include personally identifiable information
+(PII), which raises important legal and ethical concerns. Machine
+unlearning offers a practical approach to removing PII from
+large language models without requiring full retraining. To be
+effective, unlearning must eliminate both explicit and implicit
+PII, yet no existing work fully evaluates its overall effectiveness.
+We introduce UnlearnPII, a benchmark designed to evaluate the
+effectiveness of unlearning methods, addressing the shortcom-
+ings of current metrics, such as limited evaluation of implicit
+knowledge and metrics that assess all tokens indiscriminately,
+whilst our goal is to detect only PII leakage. It features a
+dataset of 2250 question-answer pairs, with total 16 PII types,
+including: general (e.g., date of birth, email), medical (e.g.,
+diagnoses, treatments), and financial information (e.g., bank
+accounts, credit card numbers). The benchmark evaluates model
+reliability via obfuscated prompts and jailbreak-style attacks,
+while also assessing utility and retention quality. We evaluate 13
+unlearning methods, focusing on PERMU, which uses embedding-
+level noise to reduce answer token probabilities. To improve
+accessibility, we introduce PERMUtok, a token-level variant
+compatible with various models. Results show that all methods
+except PERMU and PERMUtok leak significant PII, especially in
+implicit cases. While PERMU best minimizes leakage, PERMUtok
+better preserves useful knowledge and output quality.
+
+
+
+THe thesis aims to answer the following research questions :
+
+
+1. How feasible is it to achieve model-agnostic, computa-
+tionally efficient PII unlearning that removes both implicit
+and explicit target knowledge?
+2. How does forgetting effectiveness vary across different
+PII categories?
+3. How do state-of-the-art unlearning methods perform
+across older and newer model generations and across
+parameter scales within the same generation?
+
+<img width="512" height="520" alt="image" src="https://github.com/user-attachments/assets/f5327bf3-e59c-425a-bf04-94be7960638b" />
+
+
+
+### NOTE : This repository is still under construction. The code will be commented, cleaned and merged. Additionally, all the necessary acknowledgements and references to work from which helped our implementation will be provided.
+
+
