@@ -29,7 +29,7 @@ optimizer: adamw_torch # paged_adamw_8bit, adamw, adamw_torch, adamw_torch_8bit
 use_deepspeed: false
 
 forget_loss: grad_ascent 
-
+local_rank: 0
 
 save_dir: outputs
 overwrite_dir: true # false
@@ -58,6 +58,7 @@ subject_key: 'subject'
 optimal_neighbours_generation: false
 use_adaptive_k: false
 match_first_char: true
+cache_path : None
 
 
 eval:
@@ -115,6 +116,8 @@ hydra:
   run:
     dir: ${save_dir}/hydra_logs/${forget_loss}/${now:%Y-%m-%d}/${now:%H-%M-%S}
 
+
+debug: false
 # In your forget_pii.yaml
 logging:
   time_stats: false
@@ -124,3 +127,4 @@ logging:
   log_every_n: 100
   corrupted_subjects: false
   permu_contrast_stats: false
+

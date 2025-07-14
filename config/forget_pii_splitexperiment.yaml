@@ -25,6 +25,8 @@ batch_size: 4
 gradient_accumulation_steps: 4
 num_epochs: 5
 neftune_noise_alpha: false
+use_deepspeed: false
+optimizer: adamw_torch # paged_adamw_8bit, adamw, adamw_torch, adamw_torch_8bit
 
 forget_loss: grad_ascent 
 
@@ -56,7 +58,7 @@ subject_key: 'subject'
 optimal_neighbours_generation: false
 use_adaptive_k: false
 match_first_char: false
-
+cache_path : None
 
 eval:
   # retain_result: data/retain90_llama_wd0.01/eval_results/ds_size300/eval_log_aggregated.json

@@ -7,14 +7,22 @@ import copy
 import hydra 
 import transformers
 import os
-from peft import LoraConfig, get_peft_model, PeftModel
+from peft import LoraConfig, get_peft_model
 from pathlib import Path
-from utils import get_model_identifiers_from_yaml,init_logger,init_config,init_model_config,should_log_stats
+from utils import (
+    get_model_identifiers_from_yaml,
+    init_logger,init_config,
+    init_model_config,
+    should_log_stats
+)
 from omegaconf import OmegaConf
 from modeling_phi import PhiForCausalLM
 from modeling_llama import LlamaForCausalLM
 from modelling_phi3 import Phi3ForCausalLM
+
 import modelling_llama3
+from modeling_llama import LlamaForCausalLM
+from modeling_qwen2 import Qwen2ForCausalLM
 
 import json
 from datetime import datetime
@@ -38,6 +46,19 @@ from transformers import GenerationConfig
 # do_something(perturb_function=perturb_funtion)
 
 from transformers import BitsAndBytesConfig
+import psutil
+
+
+
+def check_memory(stage):
+    if torch.cuda.is_available():
+        allocated = torch.cuda.memory_allocated(0) / 1024**3
+        print(f"{stage}: GPU {allocated:.2f}GB")
+    
+    process = psutil.Process()
+    ram_gb = process.memory_info().rss / 1024**3
+    print(f"{stage}: CPU {ram_gb:.2f}GB")
+
 
 def find_all_linear_names(model):
     print('Find linear layers for LoRA..')
@@ -56,6 +77,7 @@ def print_trainable_parameters(model):
     """
     Prints the number of trainable parameters in the model.
     """
+
     trainable_params = 0
     all_param = 0
     for _, param in model.named_parameters():
@@ -100,6 +122,14 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
         json.dump(info, f, indent=4)
     print(f"Training information saved to {save_path}")
 
+
+import signal
+import sys
+import os
+import time
+
+
+
 import logging
 import argparse
 import sys
@@ -126,8 +156,8 @@ def main(cfg):
 
     local_rank = 0
     if os.environ.get('LOCAL_RANK') is not None:
-        print("here")
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
+        print(f'Local rank: {local_rank}')
         device_map = {'': local_rank}
 
     set_seed(cfg.seed)
@@ -161,11 +191,14 @@ def main(cfg):
             OmegaConf.save(cfg, file)
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    print(f'Tokenizer Pad Token: {tokenizer.pad_token}')
     tokenizer.pad_token = tokenizer.eos_token
 
+    
     if cfg.optimal_neighbours_generation:
-        setup_optimized_tokenizer(tokenizer=tokenizer,memory_mode="unlimited")
+        logger.info(f"Setting up optimized tokenizer..")
+        setup_optimized_tokenizer(tokenizer=tokenizer,memory_mode="unlimited",cache_path=cfg.cache_path)
+        logger.info(f"Optimizer Successfully set up!")
+
 
     max_length = 500
     if cfg.dataset == "Harry" or cfg.dataset == "ZSRE":
@@ -180,7 +213,6 @@ def main(cfg):
     gradient_accumulation_steps = cfg.gradient_accumulation_steps
     steps_per_epoch = len(torch_format_dataset)//(batch_size*gradient_accumulation_steps*num_devices)
 
-
     #### print all parameters for max_steps
 
     max_steps = int(cfg.num_epochs*len(torch_format_dataset))//(batch_size*gradient_accumulation_steps*num_devices)
@@ -191,9 +223,9 @@ def main(cfg):
     else:
         torch_dtype = torch.float16
 
-    os.environ["WANDB_PROJECT"] = cfg.project_name
-    os.environ["WANDB_DIR"] = cfg.log_dir
-    wandb.init(name=cfg.run_name)
+    # os.environ["WANDB_PROJECT"] = cfg.project_name
+    # os.environ["WANDB_DIR"] = cfg.log_dir
+    # wandb.init(name=cfg.run_name)
 
     if cfg.use_deepspeed:
         deepspeed_config = "config/ds_config.json"
@@ -213,7 +245,6 @@ def main(cfg):
             logging_steps= 1, # max(1,max_steps//50),
             logging_dir=f'{cfg.save_dir}/logs',
             output_dir=cfg.save_dir,
-            #optim="paged_adamw_8bit",
             optim=optimizer,
             #save_strategy="steps" if cfg.save_model and (not cfg.eval_only) else "no",
             save_strategy = "no",
@@ -225,15 +256,15 @@ def main(cfg):
             disable_tqdm=False, 
             report_to='wandb',
             lr_scheduler_type='constant_with_warmup' ,
-            #lr_scheduler_type='linear' ,
-            neftune_noise_alpha=cfg.neftune_noise_alpha,
-
-            ### Save best model
-            # load_best_model_at_end=True,
-            # save_total_limit=1,
-            # metric_for_best_model="loss", 
-            # greater_is_better=False,       
+            # ADD THESE DDP FIXES:
+            ddp_find_unused_parameters=True,  # This is important
+      
     )
+    print(f"Trainer will use DeepSpeed: {training_args.deepspeed is not None}")
+
+
+
+
     #first get the base model architecture
     #if there is a pytorch*.bin file in the model path, then load that. use regex there can be anythign in between pytorch and .bin
     import re
@@ -247,20 +278,33 @@ def main(cfg):
             path_found = True
             break
 
-    oracle_model = None
     assistant_model = None
-    config = AutoConfig.from_pretrained(model_id)
+    oracle_model = None
+    try:
+        config = AutoConfig.from_pretrained(model_id)
+    except ValueError as e:
+        ## Account for old transformers version for Llama3.1 config
+        if "rope_scaling" in str(e):
+            config_path = os.path.join(model_cfg["t440_config"])
+            config = AutoConfig.from_pretrained(config_path)
+        else:
+            raise e
+
+
     model_name = config._name_or_path.lower()
-    print(f"Model name: {model_name}")
 
     if "ULD" in cfg.forget_loss:
+        logger.info("Initializing model...")
         model = AutoModelForCausalLM.from_pretrained(cfg.model_path, config=config, \
             torch_dtype=torch_dtype, use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             trust_remote_code=True)
         target_modules = None
+        causalLM = AutoModelForCausalLM
+    
     else:
         config = AutoConfig.from_pretrained(model_id)
         print("Loading from checkpoint")
+
         if "phi-3.5" in model_name:
             print(f'Using Phi3ForCausalLM for {model_name}')
             causalLM = Phi3ForCausalLM
@@ -273,10 +317,12 @@ def main(cfg):
         elif "llama-3" in model_name:
             print(f'Using Llama3ForCausalLM for {model_name}')
             causalLM = modelling_llama3.LlamaForCausalLM
-
-
+        elif "qwen" in model_name:
+            print(f'Using Qwen2ForCausalLM for {model_name}')
+            causalLM = Qwen2ForCausalLM
         else:
-                causalLM = AutoModelForCausalLM
+            causalLM = AutoModelForCausalLM
+
     print(f'Model Name : {model_name}')
     if cfg.use_lora:
         if cfg.use_quantization:
@@ -285,24 +331,29 @@ def main(cfg):
             quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16) 
         else:
             quantization_config=None  
+
         model = causalLM.from_pretrained(cfg.model_path, config=config, \
         use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
         trust_remote_code = True, \
         quantization_config = quantization_config  # DP : Add quantization
         #,device_map="auto"  # This handles device placement automatically
         )
-       
         print('Attaching LoRA...')
         target_modules = find_all_linear_names(model)
         peft_config = LoraConfig(r=cfg.LoRA.r,lora_alpha=cfg.LoRA.alpha,lora_dropout=cfg.LoRA.dropout,task_type = cfg.LoRA.task_type,target_modules=target_modules)
         model.enable_input_require_grads()
         model = get_peft_model(model,peft_config)
-    else:
+        
+    elif "ULD" not in cfg.forget_loss:
             print(f'Config : {config}')
             print(f'Model Path: {cfg.model_path}')
+            logger.info('Initializing Model Again..')
+            print(f'Torch dtype: {torch_dtype}')
             model = causalLM.from_pretrained(cfg.model_path, config=config, \
-            use_flash_attention_2=model_cfg["flash_attention2"]=="true", torch_dtype=torch_dtype, \
+            use_flash_attention_2=model_cfg["flash_attention2"]=="true", 
+            torch_dtype=torch_dtype, \
             trust_remote_code = True, \
+            #device_map=device_map  # This handles device placement automatically
             )
             if model.generation_config is None:
                 model.generation_config = GenerationConfig.from_pretrained(cfg.model_path)
@@ -314,11 +365,13 @@ def main(cfg):
             use_flash_attention_2=model_cfg["flash_attention2"]=="true", \
             torch_dtype=torch_dtype, trust_remote_code = True)
         
-    
+
     if model_cfg["gradient_checkpointing"] == "true":
-        print('Enable Gradient Checkpoint..')
+        logger.info('Enable Gradient Checkpoint..')
         model.gradient_checkpointing_enable()
-        
+        #model.gradient_checkpointing_enable()
+
+
     #model = model.to(device)
     trainer = CustomTrainerForgetting(
         model=model,
@@ -338,15 +391,8 @@ def main(cfg):
         in_text = cfg.in_text,
     )
     # Before creating the trainer
-    print("=== DEBUG INFO ===")
-    print(f"DeepSpeed config path: {training_args.deepspeed}")
-    print(f"File exists: {os.path.exists(training_args.deepspeed) if training_args.deepspeed else 'No path set'}")
+    print(f'Optimizer {training_args.optim}')
 
-    # After creating the trainer, before train()
-    print(f"Trainer deepspeed: {training_args.deepspeed}")
-    print(f"Accelerator state: {trainer.accelerator.state}")
-    print(f"Is deepspeed enabled: {trainer.is_deepspeed_enabled}")
-    print(f"World size: {trainer.accelerator.num_processes}")
     model.config.use_cache = False
 
     model_size = sum(p.numel() for p in model.parameters())
@@ -355,11 +401,10 @@ def main(cfg):
 
     #print_trainable_parameters(model)
     save_training_info(cfg, model, training_args, model_size, trainable_params,target_modules, cfg.save_dir)
-
     if cfg.eval_only:
         trainer.evaluate()
     else:
-        print('Training the model...')
+        logger.info("Training the model...")
         trainer.train()
     
     if should_log_stats('subject_token_len'):

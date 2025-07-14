@@ -12,28 +12,28 @@ export neftune_noise_alpha=False
 
 ### MULTI GPU PARAMS
 export CUDA_VISIBLE_DEVICES=0
-export use_deepspeed=False
-export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=2
-export eval_batch_size=64
+export use_deepspeed=True
+export batch_size=8 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export gradaccum=4
+export eval_batch_size=32
+
 
 export optimizer="paged_adamw_8bit"
 export optimal_neighbours_generation=False
 
 ### Unlearning Params
 export forget_loss="PerMU"
-export project_name="Qwen2.5_PerMU"
+export project_name="Llama3.18B_PerMU"
 export use_quantization=False
 export split="forget10"
 export remove_model_tensors=True
 C_values=(0.1)
 P_values=(1.2)
-num_runs=5
-model_list=("qwen2.5-1.5b")
+num_runs=10
+model_list=("llama3.1-8b")
 
-intext_values=(True)
+intext_values=(False True)
 export num_epochs=8
-export token_replace_prob=0.1
 export lr=1e-5
 
 echo "Starting grid search with modified P-value logic:"
@@ -67,7 +67,7 @@ for model in "${model_list[@]}"; do
                         export optimal_neighbours_generation=False
                     fi
 
-                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_tokenreplace${token_replace_prob}"
+                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_Ckpt330"
                     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
                     if [ $run -ne 10 ]; then
                         #-------- Run Training --------

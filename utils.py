@@ -244,15 +244,31 @@ def reset_permu_metrics():
     permu_kl_div, permu_forget_loss, permu_retain_loss = [], [], []
     print("PerMU metrics reset for new experiment.")
 ############################################### OPTIMAL TOKENIZER ###########################################
+############################################### OPTIMAL TOKENIZER ###########################################
+
+############################################### OPTIMAL TOKENIZER ###########################################
 
 # utils.py - Vocabulary indices and caching utilities
 
-def setup_optimized_tokenizer(tokenizer, memory_mode="balanced", precompute_tokens=1000):
+import os
+import pickle
+import hashlib
+import json
+from pathlib import Path
+
+def setup_optimized_tokenizer(tokenizer, memory_mode="balanced", precompute_tokens=1000, cache_path=None):
     """
     One-time setup for optimized token corruption
     Call this once after loading your tokenizer
+    
+    Args:
+        tokenizer: The tokenizer object
+        memory_mode: Memory usage mode ("minimal", "balanced", "performance", "unlimited")
+        precompute_tokens: Number of tokens to precompute (0 to skip)
+        cache_path: Path to save/load precomputed neighborhoods (None to skip persistent caching)
     """
-    print("Setting up optimized tokenizer...")
+    logger = get_logger()
+    logger.info("Setting up optimized tokenizer...")
     
     # Configure memory usage
     configure_memory_usage(memory_mode)
@@ -260,12 +276,27 @@ def setup_optimized_tokenizer(tokenizer, memory_mode="balanced", precompute_toke
     # Build vocabulary indices
     build_vocab_indices(tokenizer)
     
-    # Precompute neighbors for common tokens
-    if precompute_tokens > 0:
-        if memory_mode == "minimal":
-            print("Skipping precomputation in minimal memory mode")
+    # Handle persistent caching
+    if cache_path is not None:
+        cache_path = Path(cache_path)
+        if load_precomputed_neighbors(tokenizer, cache_path):
+            print("Loaded precomputed neighbors from cache")
         else:
-            memory_efficient_precompute(tokenizer, target_memory_mb=50)
+            # Precompute neighbors for common tokens
+            if precompute_tokens > 0:
+                if memory_mode == "minimal":
+                    print("Skipping precomputation in minimal memory mode")
+                else:
+                    memory_efficient_precompute(tokenizer, target_memory_mb=50)
+                    actual_cache_path = save_precomputed_neighbors(tokenizer, cache_path)
+                    print(f"Saved precomputed neighbors to {actual_cache_path}")
+    else:
+        # Precompute neighbors for common tokens (no persistent caching)
+        if precompute_tokens > 0:
+            if memory_mode == "minimal":
+                print("Skipping precomputation in minimal memory mode")
+            else:
+                memory_efficient_precompute(tokenizer, target_memory_mb=50)
     
     print(f"Setup complete. Memory usage: {get_memory_usage_mb():.1f} MB")
 
@@ -293,6 +324,169 @@ class LimitedCache(OrderedDict):
         if len(self) > self.max_size:
             # Remove oldest item
             self.popitem(last=False)
+
+
+def get_tokenizer_hash(tokenizer):
+    """
+    Generate a hash to identify the tokenizer vocabulary
+    This helps ensure we're loading the correct cached data
+    """
+    # Create a hash based on vocabulary size and some sample tokens
+    vocab_items = list(tokenizer.vocab.items())
+    sample_size = min(1000, len(vocab_items))
+
+    sorted_vocab_items = sorted(vocab_items)
+    sample_items = sorted_vocab_items[:sample_size]
+    
+    # Include vocabulary size and sample tokens in hash
+    hash_data = {
+        'vocab_size': len(tokenizer.vocab),
+        'sample_tokens': sample_items
+    }
+    
+    hash_string = json.dumps(hash_data, sort_keys=True)
+    return hashlib.md5(hash_string.encode()).hexdigest()
+
+
+def save_precomputed_neighbors(tokenizer, cache_path):
+    """
+    Save precomputed neighbors to disk
+    
+    Args:
+        tokenizer: The tokenizer object
+        cache_path: Path where to save the cache
+    """
+    cache_path = Path(cache_path)
+    
+    # If cache_path is a directory or has no extension, create a default filename
+    if cache_path.is_dir() or (not cache_path.suffix):
+        cache_path = cache_path / f"neighbors_{get_tokenizer_hash(tokenizer)}.pkl"
+    
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    # Create cache data structure
+    cache_data = {
+        'tokenizer_hash': get_tokenizer_hash(tokenizer),
+        'vocab_by_length': dict(_vocab_by_length) if _vocab_by_length else {},
+        'vocab_by_first_char': dict(_vocab_by_first_char) if _vocab_by_first_char else {},
+        'neighbor_cache': dict(_neighbor_cache),
+        'latin_token_cache': dict(_latin_token_cache),
+        'version': '1.0'
+    }
+    
+    try:
+        with open(cache_path, 'wb') as f:
+            pickle.dump(cache_data, f, protocol=pickle.HIGHEST_PROTOCOL)
+        print(f"Successfully saved {len(_neighbor_cache)} precomputed neighbors to {cache_path}")
+        return cache_path  # Return the actual path used
+    except Exception as e:
+        print(f"Warning: Failed to save cache to {cache_path}: {e}")
+
+
+def load_precomputed_neighbors(tokenizer, cache_path):
+    """
+    Load precomputed neighbors from disk
+    
+    Args:
+        tokenizer: The tokenizer object
+        cache_path: Path to load the cache from
+        
+    Returns:
+        bool: True if successfully loaded, False otherwise
+    """
+    global _vocab_by_length, _vocab_by_first_char, _latin_token_cache, _neighbor_cache
+    
+    cache_path = Path(cache_path)
+    
+    # If cache_path is a directory or has no extension, look for the default filename
+    if cache_path.is_dir() or (not cache_path.suffix):
+        cache_path = cache_path / f"neighbors_{get_tokenizer_hash(tokenizer)}.pkl"
+        get_logger().info(f'Cache Path resolved to: {cache_path}')
+
+    if not cache_path.exists():
+        get_logger().info(f"Cache file {cache_path} does not exist")
+        return False
+    
+    try:
+        with open(cache_path, 'rb') as f:
+            cache_data = pickle.load(f)
+        
+        # Verify this cache is for the correct tokenizer
+        current_hash = get_tokenizer_hash(tokenizer)
+        cached_hash = cache_data.get('tokenizer_hash')
+        
+        if current_hash != cached_hash:
+            print(f"Cache tokenizer hash mismatch. Current: {current_hash}, Cached: {cached_hash}")
+            return False
+        
+        # Load the cached data
+        _vocab_by_length = defaultdict(list, cache_data.get('vocab_by_length', {}))
+        _vocab_by_first_char = defaultdict(list, cache_data.get('vocab_by_first_char', {}))
+        _latin_token_cache.update(cache_data.get('latin_token_cache', {}))
+        
+        # Load neighbor cache based on current memory mode
+        cached_neighbors = cache_data.get('neighbor_cache', {})
+        if isinstance(_neighbor_cache, LimitedCache):
+            # If we have a limited cache, load up to its limit
+            for key, value in list(cached_neighbors.items())[:_neighbor_cache.max_size]:
+                _neighbor_cache[key] = value
+        else:
+            # Unlimited cache
+            _neighbor_cache.update(cached_neighbors)
+        
+        print(f"Successfully loaded {len(cached_neighbors)} precomputed neighbors from {cache_path}")
+        return True
+        
+    except Exception as e:
+        print(f"Warning: Failed to load cache from {cache_path}: {e}")
+        return False
+
+
+def debug_cache_path(tokenizer, cache_path):
+    """
+    Debug function to show what file path will actually be used
+    
+    Args:
+        tokenizer: The tokenizer object
+        cache_path: The input cache path
+    """
+    original_path = Path(cache_path)
+    print(f"Original cache_path: {original_path}")
+    print(f"Is directory: {original_path.is_dir()}")
+    print(f"Has suffix: {bool(original_path.suffix)}")
+    print(f"Exists: {original_path.exists()}")
+    
+    # Apply the same logic as the functions
+    if original_path.is_dir() or (not original_path.suffix):
+        final_path = original_path / f"neighbors_{get_tokenizer_hash(tokenizer)}.pkl"
+    else:
+        final_path = original_path
+        
+    print(f"Final cache_path: {final_path}")
+    print(f"Final path exists: {final_path.exists()}")
+    
+    if final_path.exists():
+        print(f"File size: {final_path.stat().st_size} bytes")
+    
+    return final_path
+
+
+def clear_cache_file(cache_path):
+    """
+    Remove the cache file from disk
+    
+    Args:
+        cache_path: Path to the cache file to remove
+    """
+    cache_path = Path(cache_path)
+    if cache_path.exists():
+        try:
+            cache_path.unlink()
+            print(f"Removed cache file: {cache_path}")
+        except Exception as e:
+            print(f"Warning: Failed to remove cache file {cache_path}: {e}")
+    else:
+        print(f"Cache file {cache_path} does not exist")
 
 
 def is_latin_alphabet_only(text):
@@ -584,7 +778,30 @@ def memory_efficient_precompute(tokenizer, target_memory_mb=50):
         
         find_neighbourhood_k_optimized(tokenizer, token_id, k=1)
 
+# Example usage functions
+def setup_with_persistent_cache(tokenizer, cache_dir="./tokenizer_cache"):
 
+
+
+    cache_path = Path(cache_dir) / f"neighbors_{get_tokenizer_hash(tokenizer)}.pkl"
+    
+    setup_optimized_tokenizer(
+        tokenizer=tokenizer,
+        memory_mode="balanced",
+        precompute_tokens=1000,
+        cache_path=cache_path
+    )
+    
+    return cache_path
+
+def reset_tokenizer_cache(tokenizer, cache_dir="./tokenizer_cache"):
+    """
+    Example function to reset/clear the tokenizer cache
+    """
+    cache_path = Path(cache_dir) / f"neighbors_{get_tokenizer_hash(tokenizer)}.pkl"
+    clear_cache_file(cache_path)
+    clear_caches()
+    print("Tokenizer cache reset complete")
 
 ################################ LOGGER CONFIGURATION ################################
 
@@ -594,6 +811,11 @@ _config = None
 _model_config = None
 
 
+def get_debug():
+    config = get_config()
+    debug = config.get('debug', False)
+
+    return debug
 
 def init_config(config: DictConfig) -> None:
     """Initialize global config"""

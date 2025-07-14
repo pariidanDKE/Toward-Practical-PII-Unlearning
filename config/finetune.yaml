@@ -25,5 +25,6 @@ save_dir: ./output/ft_epoch${num_epochs}_lr${lr}_${model_family}_${split}_wd${we
 
 weight_decay: 0.01
 seed: 42
+debug: false
 
 ds_size: null

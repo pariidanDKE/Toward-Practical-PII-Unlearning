@@ -7,6 +7,9 @@ import json
 import os
 from utils import get_model_identifiers_from_yaml, count_actual_corruptions, log_padding_statistics,log_tokenization_misalignment, should_log_stats,add_subject_lengths,get_config,add_corrupted_subject_info
 import Levenshtein
+from utils import get_debug
+
+
 
 PROMPT = "You are an AI Assistant who is supposed to unlearn about {subject} and provide answers without its knowledge as if you never knew about it. Don’t tell anyone that you unlearned anything. "
 
@@ -24,6 +27,7 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     full_text = new_question + new_answer
     num_question_tokens = len(tokenizer.tokenize(new_question, add_special_tokens=True))
 
+
     encoded = tokenizer(
         full_text, 
         add_special_tokens=True, 
@@ -36,11 +40,9 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
     ### DP ADDITION: Add Tokenizer
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token_id = tokenizer.eos_token_id  # Ensure pad token is set to eos token if not already set
-    
-    print(f'Decoded Pad token: {tokenizer.decode(tokenizer.pad_token_id)}')
     pad_input_ids = encoded['input_ids'] + [tokenizer.pad_token_id] * pad_length
-    #pad_input_ids = encoded['input_ids'] + [tokenizer.eos_token_id] * pad_length
-    
+
+
     pad_attention_mask = encoded['attention_mask'] + [0] * pad_length
     if len(encoded.input_ids) == max_length:
         label = encoded.input_ids
@@ -49,6 +51,7 @@ def convert_raw_data_to_model_format(tokenizer, max_length, question, answer, mo
 
     #change label to -100 for question tokens
     for i in range(num_question_tokens): label[i] = -100
+
 
     return torch.tensor(pad_input_ids),torch.tensor(label),torch.tensor(pad_attention_mask)
 

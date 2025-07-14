@@ -9,13 +9,14 @@ export cache="$PWD/cache"
 export retain_weight=1
 export num_epochs=8
 export neftune_noise_alpha=False
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
 ### MULTI GPU PARAMS
-export CUDA_VISIBLE_DEVICES=0
-export use_deepspeed=False
-export batch_size=16 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
-export gradaccum=2
-export eval_batch_size=64
+export CUDA_VISIBLE_DEVICES=0,1,2,3
+export use_deepspeed=True
+export batch_size=1 ## Should increase the batch size to 8 (Would just make it all faster, no other difference)
+export gradaccum=4
+export eval_batch_size=8
 
 export optimizer="paged_adamw_8bit"
 export optimal_neighbours_generation=False
@@ -28,12 +29,11 @@ export split="forget10"
 export remove_model_tensors=True
 C_values=(0.1)
 P_values=(1.2)
-num_runs=5
-model_list=("qwen2.5-1.5b")
+num_runs=2
+model_list=("qwen2.5-32b")
 
-intext_values=(True)
+intext_values=(False)
 export num_epochs=8
-export token_replace_prob=0.1
 export lr=1e-5
 
 echo "Starting grid search with modified P-value logic:"
@@ -67,40 +67,36 @@ for model in "${model_list[@]}"; do
                         export optimal_neighbours_generation=False
                     fi
 
-                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_tokenreplace${token_replace_prob}"
+                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}"
                     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
-                    if [ $run -ne 10 ]; then
-                        #-------- Run Training --------
-                        python forget.py --config-name=forget_pii.yaml \
-                        dataset=$dataset split=$split \
-                        forget_data_path=$forget_data_path \
-                        retain_data_path=$forget_data_path \
-                        forget_loss=$forget_loss batch_size=$batch_size \
-                        retain_weight=$retain_weight \
-                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-                        use_quantization=$use_quantization \
-                        project_name=$project_name \
-                        run_name=$run_name \
-                        in_text=$intext \
-                        logging.corrupted_subjects=True \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        neftune_noise_alpha=$neftune_noise_alpha \
-                        C=$C \
-                        P=$P \
-                        use_deepspeed=$use_deepspeed \
-                        optimizer=$optimizer \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        cache_path=$cache_path \
+                    #if [ $run -gt 2 ] || [ "$intext" != "True" ]; then
+                    #-------- Run Training --------
+                    deepspeed forget.py --config-name=forget_pii.yaml \
+                    dataset=$dataset split=$split \
+                    forget_data_path=$forget_data_path \
+                    retain_data_path=$forget_data_path \
+                    forget_loss=$forget_loss batch_size=$batch_size \
+                    retain_weight=$retain_weight \
+                    gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                    save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                    use_quantization=$use_quantization \
+                    project_name=$project_name \
+                    run_name=$run_name \
+                    in_text=$intext \
+                    logging.corrupted_subjects=True \
+                    neftune_noise_alpha=$neftune_noise_alpha \
+                    C=$C \
+                    P=$P \
+                    use_deepspeed=$use_deepspeed \
+                    optimizer=$optimizer \
+                    optimal_neighbours_generation=$optimal_neighbours_generation \
+                    cache_path=$cache_path \
 
-                        # Check if training was successful
-                        if [ $? -ne 0 ]; then
-                            echo "Training failed for C=${C}, P=${P}, intext=${intext}, run=${run}. Continuing to next combination..."
-                            continue
-                        fi
-                    else
-                        echo "Skipping training for run 3 as it is already done."
-                        fi
+                    # Check if training was successful
+                    if [ $? -ne 0 ]; then
+                        echo "Training failed for C=${C}, P=${P}, intext=${intext}, run=${run}. Continuing to next combination..."
+                        continue
+                    fi
 
                     # -------- Evaluate Model --------
                     python evaluate_PII.py --config-name=eval_pii.yaml \
@@ -127,6 +123,7 @@ for model in "${model_list[@]}"; do
 
                     echo "Finished run for C=${C}, P=${P}, intext=${intext}, run=${run}"
                     echo "--------------------------------------------"
+         
                 done
             done
         done

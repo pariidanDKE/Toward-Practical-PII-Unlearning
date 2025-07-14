@@ -1,17 +1,3 @@
-llama3-8b:
-  hf_key: "meta-llama/Meta-Llama-3-8B-Instruct"
-  question_start_tag: "<|start_header_id|>user<|end_header_id|>\n\n"
-  question_end_tag: "<|eot_id|>"
-  answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
-  retain_answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
-  answer_end_tag: "<|eot_id|>"
-  flash_attention2: "true"
-  gradient_checkpointing: "true"
-
-  # this model will be used for unlearning by default
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3-8b_B32_G4_E5_lr2e-5_ComprehensiveQA"
-
-
 
 llama3.1-8b:
   hf_key: "meta-llama/Meta-Llama-3.1-8B-Instruct"
@@ -22,10 +8,10 @@ llama3.1-8b:
   answer_end_tag: "<|eot_id|>"
   flash_attention2: "true"
   gradient_checkpointing: "true"
-
+  t440_config: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/retain_and_test_retain_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/t440_config.json"
   # this model will be used for unlearning by default
   pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
-
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E3_lr2e-5_ComprehensiveQA/checkpoint-330"
 
 qwen2.5-7b:
   hf_key: "Qwen/Qwen2.5-7B-Instruct"
@@ -34,16 +20,47 @@ qwen2.5-7b:
   answer_tag: "<|im_start|>assistant\n"
   retain_answer_tag: "<|im_start|>assistant\n"
   answer_end_tag: "<|im_end|>"
-
-  question_start_tag_inference: "<|im_start|>user "
-  question_end_tag_inference: "<|im_end|>"
-  answer_start_tag_inference: "<|im_start|>assistant|> "
-  answer_end_tag_inference: "<|im_end|>"
-
-
   flash_attention2: "true"
   gradient_checkpointing: "true"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-7b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-7b_B32_G4_E5_lr2e-5_ComprehensiveQA_PadToken"
+
+
+qwen2.5-1.5b:
+  hf_key: "Qwen/Qwen2.5-1.5B-Instruct"
+  question_start_tag: "<|im_start|>user\n"
+  question_end_tag: "<|im_end|>"
+  answer_tag: "<|im_start|>assistant\n"
+  retain_answer_tag: "<|im_start|>assistant\n"
+  answer_end_tag: "<|im_end|>"
+  flash_attention2: "true"
+  gradient_checkpointing: "true"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-1.5b_B16_G8_E5_lr2e-5_ComprehensiveQA_PadToken"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-1.5b_B64_G2_E8_lr2e-5_ComprehensiveQA"
+
+  
+qwen2.5-14b:
+  hf_key: "Qwen/Qwen2.5-14B-Instruct"
+  question_start_tag: "<|im_start|>user\n"
+  question_end_tag: "<|im_end|>"
+  answer_tag: "<|im_start|>assistant\n"
+  retain_answer_tag: "<|im_start|>assistant\n"
+  answer_end_tag: "<|im_end|>"
+  flash_attention2: "true"
+  gradient_checkpointing: "true"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-14b_B4_G1_E5_lr1e-5_ComprehensiveQA/checkpoint-26410"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-14b_B4_G1_E3_lr1e-5/checkpoint-15846"
+
+qwen2.5-3b:
+  hf_key: "Qwen/Qwen2.5-3B-Instruct"
+  question_start_tag: "<|im_start|>user\n"
+  question_end_tag: "<|im_end|>"
+  answer_tag: "<|im_start|>assistant\n"
+  retain_answer_tag: "<|im_start|>assistant\n"
+  answer_end_tag: "<|im_end|>"
+  flash_attention2: "true"
+  gradient_checkpointing: "true"
+  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-3b_B32_G4_E5_lr2e-5_ComprehensiveQA_PadToken"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-3b_B64_G2_E7_lr2e-5_ComprehensiveQA"
 
 
 qwen2.5-32b:
@@ -55,25 +72,7 @@ qwen2.5-32b:
   answer_end_tag: "<|im_end|>"
   flash_attention2: "true"
   gradient_checkpointing: "true"
-
-
-
-
-llama3.1-70b:
-  hf_key: "meta-llama/Llama-3.1-70B-Instruct"
-  question_start_tag: "<|start_header_id|>user<|end_header_id|>\n\n"
-  question_end_tag: "<|eot_id|>"
-  answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
-  retain_answer_tag: "<|start_header_id|>assistant<|end_header_id|>\n\n"
-
-  answer_end_tag: "<|eot_id|>"
-  flash_attention2: "true"
-  gradient_checkpointing: "true"
-
-  # this model will be used for unlearning by default
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3-8b_B32_G4_E5_lr2e-5_ComprehensiveQA"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII_old/full_llama2-7b_B8_G4_E10_lr1e-5/checkpoint-393"
-
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-32b_B2_G1_E2_lr1e-5/checkpoint-10564"
 
 llama2-7b:
   hf_key: "NousResearch/Llama-2-7b-chat-hf"
@@ -110,8 +109,6 @@ llama2-7b_ansspace:
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
   pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
-
-
 
 
 phi3-5-mini-instruct:

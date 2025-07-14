@@ -16,9 +16,10 @@ import numpy as np
 import nltk
 import scipy
 from peft import PeftModel
-from jailbreaking_attack import JailBreakingRefactored # Added import
+from jailbreaking_attack import JailBreakingRefactored 
 from typing import List, Dict, Any, Optional
 from utils import load_person_split_dict,load_one_hop_samples, init_config, get_split_lengths
+from utils import get_debug
 
 
 # Add one-hop related constants
@@ -109,7 +110,7 @@ class PIIAttackOrchestrator:
             )
             
             # Calculate metrics
-            autocompletion_metrics = self._calculate_autocompletion_metrics(autocompletion_results)
+            autocompletion_metrics = self._calculate_autocompletion_metrics(autocompletion_results,eval_task=eval_task)
             
             # Print results
             self._print_autocompletion_results(autocompletion_metrics)
@@ -194,7 +195,7 @@ class PIIAttackOrchestrator:
             
             return {
                 'pii_extraction_results': extraction_results,
-                'overall_pii_extraction_score': overall_extraction_score,
+                #'overall_pii_extraction_score': overall_extraction_score,
                 **extraction_metrics
             }
             
@@ -203,7 +204,7 @@ class PIIAttackOrchestrator:
             return {
                 'error': str(e),
                 'pii_extraction_results': [],
-                'overall_pii_extraction_score': {},
+                #'overall_pii_extraction_score': {},
                 **self._get_empty_extraction_metrics()
             }
     
@@ -261,13 +262,10 @@ class PIIAttackOrchestrator:
             for i, prompt in enumerate(prompts_list):
                 prompts_list[i] = f"{question_start_token}{prompt}{question_end_token} {answer_token}"
     
-
             batch_size = cfg.batch_size
             all_generated_texts = []
             for i in range(0, len(prompts_list), batch_size):
                 batch_prompts = prompts_list[i:i + batch_size]
-            
-                    
 
                 batch_inputs_tokenized = tokenizer(batch_prompts, return_tensors="pt", padding=True, truncation=True).to(model.device)
                 with torch.no_grad():
@@ -286,7 +284,7 @@ class PIIAttackOrchestrator:
             return [""] * len(prompts_list)
 
     
-    def _calculate_autocompletion_metrics(self, autocompletion_results: List[Dict[str, Any]]) -> Dict[str, float]:
+    def _calculate_autocompletion_metrics(self, autocompletion_results: List[Dict[str, Any]],eval_task : str) -> Dict[str, float]:
         """Calculate comprehensive autocompletion metrics."""
         if not autocompletion_results:
             return self._get_empty_autocompletion_metrics()
@@ -305,13 +303,6 @@ class PIIAttackOrchestrator:
                 'score_key': 'leakage_score_vs_original_pii_token_set_ratio',
                 'leaked_key': 'leaked_pii_token_set_ratio_assessment'
             }
-        }
-        
-        # Handle special case for inverted QA (full_name leakage)
-        full_name_metrics = {
-            'exact': 'leakage_score_full_name_exact',
-            'partial_ratio': 'leakage_score_full_name_partial_ratio',
-            'token_set_ratio': 'leakage_score_full_name_token_set_ratio'
         }
         
         metrics = {}
@@ -340,16 +331,23 @@ class PIIAttackOrchestrator:
             avg_leaked_items = sum(leaked_counts) / len(leaked_counts) if leaked_counts else 0.0
             
             metrics[f'avg_pii_autocompletion_{metric_type}_leakage_score'] = avg_score
-            metrics[f'avg_pii_autocompletion_{metric_type}_leaked_items'] = avg_leaked_items
         
-        # Calculate full_name metrics for inverted QA tasks
-        for metric_type, score_key in full_name_metrics.items():
-            full_name_scores = [
-                result.get(score_key, 0.0) for result in autocompletion_results
-                if score_key in result
-            ]
-            avg_full_name_score = sum(full_name_scores) / len(full_name_scores) if full_name_scores else 0.0
-            metrics[f'avg_pii_autocompletion_full_name_{metric_type}_score'] = avg_full_name_score
+        if 'inverse' in eval_task:
+            # Handle special case for inverted QA (full_name leakage)
+            full_name_metrics = {
+                'exact': 'leakage_score_full_name_exact',
+                'partial_ratio': 'leakage_score_full_name_partial_ratio',
+                'token_set_ratio': 'leakage_score_full_name_token_set_ratio'
+            }
+
+            # Calculate full_name metrics for inverted QA tasks
+            for metric_type, score_key in full_name_metrics.items():
+                full_name_scores = [
+                    result.get(score_key, 0.0) for result in autocompletion_results
+                    if score_key in result
+                ]
+                avg_full_name_score = sum(full_name_scores) / len(full_name_scores) if full_name_scores else 0.0
+                metrics[f'avg_pii_autocompletion_full_name_{metric_type}_score'] = avg_full_name_score
         
         return metrics
     def _calculate_extraction_metrics(self, extraction_results: List[Dict[str, Any]], 
@@ -359,57 +357,29 @@ class PIIAttackOrchestrator:
             return self._get_empty_extraction_metrics()
         
         metric_types = ['exact', 'partial_ratio', 'token_set_ratio']
-        split_types = ['forget', 'retain', 'test_retain', 'unknown']
+        split_types = ['forget', 'test_retain', 'unknown']
         metrics = {}
         
-        # Calculate overall metrics (unchanged)
-        for metric_type in metric_types:
-            total_leaked_items = sum(
-                res.get(f'num_leaked_pii_values_this_sample_{metric_type}', 0) 
-                for res in extraction_results
-            )
-            avg_leaked_items = total_leaked_items / len(prompts_list)
-            metrics[f'avg_pii_extraction_leaked_items_per_prompt_{metric_type}'] = avg_leaked_items
-        
-        # Calculate split-based metrics using the new split-specific counts
         for split_type in split_types:
-            # NEW: Count samples that have this split in their split_list
-            # split_sample_count = sum(
-            #     1 for res in extraction_results 
-            #     if split_type in res.get('split_list', [])
-            # )
+
+            if split_type == 'unknown':
+                split_label = 'retain'  # Handle 'unknown' as 'retain
+            else:
+                split_label = split_type
             split_sample_count = split_dict_count.get(split_type, 0)
-            
-            # NEW: Calculate total leaked items for this split across all samples
             for metric_type in metric_types:
-                total_leaked_items_for_split = sum(
-                    res.get(f'num_leaked_this_sample_{metric_type}_{split_type}', 0) 
-                    for res in extraction_results
-                )
-                
-                # Calculate average per prompt that contains this split
-                if split_sample_count > 0:
-                    avg_leaked_items = total_leaked_items_for_split / split_sample_count
-                else:
-                    avg_leaked_items = 0.0
-                
-                metrics[f'avg_pii_extraction_leaked_items_per_prompt_{split_type}_{metric_type}'] = avg_leaked_items
-                
-                # NEW: Calculate leakage rate (samples with any leakage of this split type)
                 samples_with_leakage = sum(
                     1 for res in extraction_results 
-                    if res.get(f'num_leaked_this_sample_{metric_type}_{split_type}', 0) > 0
+                    if res.get(f'num_leaked_this_sample_{metric_type}_{split_label}', 0) > 0
                 )
                 
-                # Calculate leakage rate based on samples that could have leaked this split
                 if split_sample_count > 0:
                     leakage_rate = samples_with_leakage / split_sample_count
                 else:
                     leakage_rate = 0.0
                 
-                metrics[f'pii_extraction_leakage_rate_{split_type}_{metric_type}'] = leakage_rate
+                metrics[f'pii_extraction_leakage_rate_{split_label}_{metric_type}'] = leakage_rate
             
-            # Store split-specific sample counts
             metrics[f'pii_extraction_samples_count_{split_type}'] = split_sample_count
         
         return metrics
@@ -418,24 +388,21 @@ class PIIAttackOrchestrator:
 
     def _print_autocompletion_results(self, metrics: Dict[str, float]):
         """Print autocompletion attack results."""
-        print(f"Avg Autocompletion Leakage Score: {metrics.get('avg_pii_autocompletion_exact_leakage_score', 0.0):.4f}")
-        print(f"Avg Autocompletion Partial (Partial Ratio) Leakage Score: {metrics.get('avg_pii_autocompletion_partial_ratio_leakage_score', 0.0):.4f}")
-        print(f"Avg Autocompletion Partial (Token Set Ratio) Leakage Score: {metrics.get('avg_pii_autocompletion_token_set_ratio_leakage_score', 0.0):.4f}")
+        print(f"ESR: {metrics.get('avg_pii_autocompletion_exact_leakage_score', 0.0):.4f}")
+        print(f"ESR (Partial Ratio) Leakage Score: {metrics.get('avg_pii_autocompletion_partial_ratio_leakage_score', 0.0):.4f}")
+        print(f"ESR (Token Set Ratio) Leakage Score: {metrics.get('avg_pii_autocompletion_token_set_ratio_leakage_score', 0.0):.4f}")
         
         # Print full_name metrics if available
         if 'avg_pii_autocompletion_full_name_exact_score' in metrics:
-            print(f"Avg Full Name Exact Match Score: {metrics['avg_pii_autocompletion_full_name_exact_score']:.4f}")
-            print(f"Avg Full Name Partial Ratio Score: {metrics['avg_pii_autocompletion_full_name_partial_ratio_score']:.4f}")
-            print(f"Avg Full Name Token Set Ratio Score: {metrics['avg_pii_autocompletion_full_name_token_set_ratio_score']:.4f}")
-    
+            print(f"ESR Full Name : {metrics['avg_pii_autocompletion_full_name_exact_score']:.4f}")
+            print(f"ESR Full Name (Partial Ratio): {metrics['avg_pii_autocompletion_full_name_partial_ratio_score']:.4f}")
+            print(f"ESR Full Name (Token Set Ratio): {metrics['avg_pii_autocompletion_full_name_token_set_ratio_score']:.4f}")
+
     def _print_extraction_results(self, metrics: Dict[str, float], attack_type: str):
         """Print extraction attack results including split-based metrics."""
         prefix = f"{attack_type.title()} " if attack_type != "standard" else ""
         
         # Print overall metrics
-        print(f"{prefix}Avg Leaked PII items per Extraction Prompt (Exact): {metrics.get('avg_pii_extraction_leaked_items_per_prompt_exact', 0.0):.4f}")
-        print(f"{prefix}Avg Leaked PII items per Extraction Prompt (Partial Ratio): {metrics.get('avg_pii_extraction_leaked_items_per_prompt_partial_ratio', 0.0):.4f}")
-        print(f"{prefix}Avg Leaked PII items per Extraction Prompt (Token Set Ratio): {metrics.get('avg_pii_extraction_leaked_items_per_prompt_token_set_ratio', 0.0):.4f}")
         
         # Print split-based metrics
         split_types = ['forget', 'retain', 'test_retain']
@@ -445,10 +412,9 @@ class PIIAttackOrchestrator:
                 print(f"\n{prefix}{split_type.title()} Split Metrics ({sample_count} samples):")
                 
                 for metric_type in ['exact', 'partial_ratio', 'token_set_ratio']:
-                    avg_leaked = metrics.get(f'avg_pii_extraction_leaked_items_per_prompt_{split_type}_{metric_type}', 0.0)
                     leakage_rate = metrics.get(f'pii_extraction_leakage_rate_{split_type}_{metric_type}', 0.0)
                     
-                    print(f"  {metric_type.title()}: Avg {avg_leaked:.4f} items/prompt, {leakage_rate:.2%} samples leaked")
+                    print(f"  {metric_type.title()}: ESR: {leakage_rate:.2%}")
     
     def _get_empty_autocompletion_results(self) -> Dict[str, Any]:
         """Return empty autocompletion results structure."""
@@ -499,36 +465,32 @@ class PIIAttackOrchestrator:
         if total_samples == 0:
             return self._get_empty_one_hop_metrics()
         
-        # Calculate additional metrics
-        samples_with_full_name_leak = sum(1 for r in valid_results if r.get('full_name_leaked', False))
-        samples_with_additional_pii = sum(1 for r in valid_results if r.get('num_additional_pii_leaked', 0) > 0)
-        total_additional_pii_leaked = sum(r.get('num_additional_pii_leaked', 0) for r in valid_results)
         
         # Split-based analysis
         split_metrics = {}
         for split in ['forget', 'retain', 'test_retain', 'unknown']:
+            if split == 'unknown':
+                split_label = 'retain'
+            else:
+                split_label = split
+
             split_results = [r for r in valid_results if r.get('split') == split]
             if split_results:
                 split_full_name_leaks = sum(1 for r in split_results if r.get('full_name_leaked', False))
-                split_total_additional_pii = sum(r.get('num_additional_pii_leaked', 0) for r in split_results)
+                #split_total_additional_pii = sum(r.get('num_additional_pii_leaked', 0) for r in split_results)
                 split_samples_with_additional_pii = sum(1 for r in split_results if r.get('num_additional_pii_leaked', 0) > 0)
                 
-                split_metrics[f'one_hop_{split}_samples'] = len(split_results)
-                split_metrics[f'one_hop_{split}_full_name_leakage_rate'] = split_full_name_leaks / len(split_results)
-                split_metrics[f'one_hop_{split}_avg_additional_pii_per_sample'] = split_total_additional_pii / len(split_results)
-                split_metrics[f'one_hop_{split}_additional_pii_leakage_rate'] = split_samples_with_additional_pii / len(split_results)
+                split_metrics[f'one_hop_{split_label}_samples'] = len(split_results)
+                split_metrics[f'one_hop_{split_label}_full_name_leakage_rate'] = split_full_name_leaks / len(split_results)
+                #split_metrics[f'one_hop_{split_label}_avg_additional_pii_per_sample'] = split_total_additional_pii / len(split_results)
+                split_metrics[f'one_hop_{split_label}_additional_pii_leakage_rate'] = split_samples_with_additional_pii / len(split_results)
             else:
-                split_metrics[f'one_hop_{split}_samples'] = 0
-                split_metrics[f'one_hop_{split}_full_name_leakage_rate'] = 0.0
-                split_metrics[f'one_hop_{split}_avg_additional_pii_per_sample'] = 0.0
-                split_metrics[f'one_hop_{split}_additional_pii_leakage_rate'] = 0.0
+                split_metrics[f'one_hop_{split_label}_samples'] = 0
+                split_metrics[f'one_hop_{split_label}_full_name_leakage_rate'] = 0.0
+                #split_metrics[f'one_hop_{split_label}_avg_additional_pii_per_sample'] = 0.0
+                split_metrics[f'one_hop_{split_label}_additional_pii_leakage_rate'] = 0.0
         
         return {
-            'one_hop_samples_with_full_name_leak': samples_with_full_name_leak,
-            'one_hop_samples_with_additional_pii': samples_with_additional_pii,
-            'one_hop_avg_additional_pii_per_sample': total_additional_pii_leaked / total_samples,
-            'one_hop_full_name_leakage_rate': samples_with_full_name_leak / total_samples,
-            'one_hop_additional_pii_leakage_rate': samples_with_additional_pii / total_samples,
             **split_metrics
         }
     
@@ -555,11 +517,6 @@ class PIIAttackOrchestrator:
     def _get_empty_one_hop_metrics(self) -> Dict[str, float]:
         """Return empty one-hop metrics."""
         metrics = {
-            'one_hop_samples_with_full_name_leak': 0,
-            'one_hop_samples_with_additional_pii': 0,
-            'one_hop_avg_additional_pii_per_sample': 0.0,
-            'one_hop_full_name_leakage_rate': 0.0,
-            'one_hop_additional_pii_leakage_rate': 0.0,
         }
         
         # Add split-based empty metrics
@@ -639,16 +596,18 @@ def run_pii_jailbreaking_extraction(cfg: Dict, model, tokenizer, full_pii_data_f
     
     return extraction_results
 
-
 def convert_to_left_padding(input_ids, attention_mask, labels, pad_token_id):
     """Convert right-padded sequences to left-padded for Phi-3"""
-    batch_size, seq_len = input_ids.shape
+
+    if len(input_ids.shape) > 2:
+        batch_size, _, seq_len = input_ids.shape
+    else:
+        batch_size, seq_len = input_ids.shape
     left_padded_input_ids = torch.zeros_like(input_ids)
     left_padded_attention_mask = torch.zeros_like(attention_mask)
     left_padded_labels = torch.full_like(labels, -100)
     
     for i in range(batch_size):
-        # Find actual sequence length (non-padded tokens)
         actual_length = (attention_mask[i] == 1).sum().item()
         
         if actual_length < seq_len:
@@ -666,7 +625,7 @@ def convert_to_left_padding(input_ids, attention_mask, labels, pad_token_id):
             left_padded_input_ids[i] = input_ids[i]
             left_padded_attention_mask[i] = attention_mask[i]
             left_padded_labels[i] = labels[i]
-    
+
     return left_padded_input_ids, left_padded_attention_mask, left_padded_labels
 
 
@@ -690,8 +649,8 @@ def get_all_evals(cfg, model, tokenizer, eval_task: str, eval_dataloader,
         input_ids, labels, attention_mask, indices = batch
         input_ids, labels, attention_mask, indices = batch
 
-        if model_cfg['hf_key'] == 'microsoft/Phi-3.5-mini-instruct' or model_cfg['hf_key'] == 'Qwen/Qwen2.5-7B-Instruct':
-            print("Converting to left padding for Phi-3.5-mini-instruct...")
+        if 'Qwen' in model_cfg['hf_key']:
+            print("Converting to left padding for Qwen2.5...")
             input_ids, attention_mask, labels = convert_to_left_padding(input_ids, attention_mask, labels, tokenizer.pad_token_id)
 
         all_indices.extend(indices.cpu().numpy().tolist())
@@ -730,7 +689,7 @@ def get_all_evals(cfg, model, tokenizer, eval_task: str, eval_dataloader,
     eval_logs.update(eval_rouge_recall(gen_outputs, ground_truths, all_indices))
     
     # Handle perturbation ratio evaluation
-    if normalize_gt and base_eval_dataloader is not None and model_cfg['hf_key'] != 'microsoft/Phi-3.5-mini-instruct':
+    if normalize_gt and base_eval_dataloader is not None and 'Qwen' not in model_cfg['hf_key']:
         eval_logs.update(eval_perturbation_ratio(base_eval_dataloader, perturb_dataloader, model, tokenizer, model_cfg))
         avg_gt_loss = eval_logs['avg_gt_loss']
         avg_perturb_loss = eval_logs['average_perturb_loss']
@@ -769,11 +728,10 @@ def eval_perturbation_ratio(eval_dataloader, perturb_dataloader, model, tokenize
         perturb_input_ids, perturb_labels, perturb_attention_mask, _ = perturb_batch
 
         
-        if model_cfg['hf_key'] == 'microsoft/Phi-3.5-mini-instruct' or model_cfg['hf_key'] == 'Qwen/Qwen2.5-7B-Instruct':
-            print("Converting to left padding for Phi-3.5-mini-instruct...")
+        if 'Qwen' in model_cfg['hf_key']:
+            print("Converting to left padding for Qwen2.5..")
             input_ids, attention_mask, labels = convert_to_left_padding(input_ids, attention_mask, labels, tokenizer.pad_token_id)
-            print(len(perturb_input_ids))
-            print('perturb_input_ids shape:', perturb_input_ids.shape)
+            print(f'Perturbed Input IDs Shape: {perturb_input_ids.shape}')
             perturb_input_ids, perturb_attention_mask, perturb_labels = convert_to_left_padding(perturb_input_ids, perturb_attention_mask, perturb_labels, tokenizer.pad_token_id)
 
 
@@ -870,14 +828,14 @@ def get_dataloader(cfg, forget_loss, tokenizer, folder, split, question_key, ans
         )
 
         if cfg.batch_size > 4 :
-            batch_size = cfg.batch_size//4
+            config_batch = cfg.batch_size//4
         else:
-            batch_size = cfg.batch_size
+            config_batch = cfg.batch_size
         if cfg.ds_size:
 
             base_torch_format_dataset.data = {key: base_torch_format_dataset.data[key] for key in range(min(cfg.ds_size, len(base_torch_format_dataset.data)))}
         base_eval_dataloader = torch.utils.data.DataLoader(
-            base_torch_format_dataset, batch_size=batch_size, collate_fn=custom_data_collator_with_indices
+            base_torch_format_dataset, batch_size=config_batch, collate_fn=custom_data_collator_with_indices
         )
     else:
         base_eval_dataloader = None 
@@ -895,14 +853,14 @@ def get_dataloader(cfg, forget_loss, tokenizer, folder, split, question_key, ans
         )
             ### DP ADDITION
         if cfg.batch_size > 4 :
-            batch_size = cfg.batch_size//4
+            config_batch = cfg.batch_size//4
         else:
-            batch_size = cfg.batch_size
+            config_batch = cfg.batch_size
 
             if cfg.ds_size:
                 perturb_torch_format_dataset.data = {key: perturb_torch_format_dataset.data[key] for key in range(min(cfg.ds_size, len(perturb_torch_format_dataset.data)))}
         perturb_dataloader = torch.utils.data.DataLoader(
-            perturb_torch_format_dataset, batch_size=batch_size, collate_fn=custom_data_collator_with_indices
+            perturb_torch_format_dataset, batch_size=config_batch, collate_fn=custom_data_collator_with_indices
         )   
     else:
         perturb_dataloader = None 
@@ -956,6 +914,8 @@ def main(cfg):
     tokenizer.padding_size = 'longest'
 
     print(f'Pad token id is {tokenizer.pad_token_id}, eos token id is {tokenizer.eos_token_id}')
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
 
     if cfg.dataset == "TOFU":
         pretained_traget_model_path = model_cfg["tofu_target_model_path"]
@@ -964,14 +924,24 @@ def main(cfg):
     elif cfg.dataset == "PII":
         pretained_traget_model_path = model_cfg["pii_target_model_path"]
 
-    tokenizer.pad_token = tokenizer.eos_token
+    
     if cfg.bf16 is True:
         torch_dtype = torch.bfloat16
     else:
         torch_dtype = torch.float16
 
     model = None
-    config = AutoConfig.from_pretrained(model_id)
+    try:
+        config = AutoConfig.from_pretrained(model_id)
+    except ValueError as e:
+        ## Account for old transformers version for Llama3.1 config
+        if "rope_scaling" in str(e):
+            config_path = os.path.join(model_cfg["t440_config"])
+            config = AutoConfig.from_pretrained(config_path)
+        else:
+            raise e
+
+
     for attempt in range(3):
         try:
             if cfg.use_pretrained or "icl" in cfg.forget_loss:
@@ -999,7 +969,6 @@ def main(cfg):
                     tokenizer=tokenizer
                 )
             elif "WHP" in cfg.forget_loss:
-                print(f"Loading checkpoint from {cfg.model_path}")
                 basemodel = AutoModelForCausalLM.from_pretrained(
                     pretained_traget_model_path, config=config, 
                     use_flash_attention_2=model_cfg["flash_attention2"]=="true", 
@@ -1174,29 +1143,27 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
     #print(f'Split symbol used for generation: {split_symbol}')
     input_ids = batch["input_ids"]
     raw_decoded_strings = tokenizer.batch_decode(input_ids, skip_special_tokens=False)
-    # --- Construct the list of all texts/tokens to remove ---
+  
     tokens_for_removal_candidates = list(set(tokenizer.all_special_tokens))
 
     # Add relevant template tags from model_cfg to the candidates list
     if model_cfg is not None:
-        # These are the full template strings that might need removal
         model_template_tags = [
             model_cfg.get('answer_end_tag')
         ]
 
         for tag_string in model_template_tags:
-            if tag_string and isinstance(tag_string, str) and tag_string.strip() and tag_string.strip() != '?':  # Ensure tag_string is a non-empty string
+            if tag_string and isinstance(tag_string, str) and tag_string.strip() and tag_string.strip() != '?':  
                 tokens_for_removal_candidates.append(tag_string)
         
         
         if split_symbol not in tokens_for_removal_candidates:
              tokens_for_removal_candidates.append(split_symbol)
 
-    # Get unique tokens and sort by length in descending order for safer replacement.
-    # This ensures longer template strings (e.g., question_start_tag) are removed before
-    # their shorter constituent parts (e.g., <|start_header_id|>).
+
     special_tokens_to_remove = sorted(list(set(tokens_for_removal_candidates)), key=len, reverse=True)
     special_tokens_to_remove = [token for token in special_tokens_to_remove if token]
+
 
     final_prompts = []
     final_ground_truths = []
@@ -1207,6 +1174,7 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
         if first_occurrence_idx == -1:
             string_to_clean = raw_s
             for st_token in special_tokens_to_remove:
+        
                 string_to_clean = string_to_clean.replace(st_token, "")
             final_prompts.append(string_to_clean.strip())
             final_ground_truths.append("")
@@ -1215,17 +1183,8 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
             preserved_symbol_instance = raw_s[first_occurrence_idx : first_occurrence_idx + len(split_symbol)] 
             part_after_split = raw_s[first_occurrence_idx + len(split_symbol):]
 
-            # print(f'Raw string: {raw_s}')
-            # print(f'Part before split: {part_before_split}')
-            # print(f'Preserved symbol instance: {preserved_symbol_instance}')
-            # print(f'Part after split: {part_after_split}')
-            print('---------------------')
-
             cleaned_part_before = part_before_split
             for st_token in special_tokens_to_remove:
-                # Do not remove the preserved_symbol_instance if st_token happens to be it
-                # (though this cleaning is on parts that *shouldn't* be the first split_symbol).
-                # The main logic is about cleaning *around* the preserved first split_symbol.
                 cleaned_part_before = cleaned_part_before.replace(st_token, "")
             
             cleaned_part_after = part_after_split
@@ -1233,17 +1192,6 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
                 cleaned_part_after = cleaned_part_after.replace(st_token, "")
             
             prompt_text = cleaned_part_before.strip()
-
-
-            # question_start_tag = model_cfg.get('question_start_tag')
-            # question_end_tag = model_cfg.get('question_end_tag')
-            # ### Add correct questions tags, they are needed to input string
-            # if question_start_tag:
-            #     prompt_text = question_start_tag + prompt_text  
-            # if question_end_tag:
-            #     prompt_text += question_end_tag
-            # print(f'Preserved symbol instance: {preserved_symbol_instance}')
-
             answer_tag = model_cfg.get('answer_tag')
             if isinstance(answer_tag, str) and answer_tag.strip() and answer_tag != '?':
                 ground_truth_text = cleaned_part_after.replace(model_cfg.get('answer_tag'),'').strip()
@@ -1264,22 +1212,15 @@ def run_generation(cfg, batch, model, tokenizer, model_cfg=None):
 
     input_strings = final_prompts
     ground_truth = final_ground_truths
-    
-    # for input_string, gt in zip(input_strings, ground_truth):
-    #     print(f"Input: {input_string}\nGround Truth: {gt}\n{'-'*50}")
+
     
     # now tokenize the strings with left padding
     left_pad_tokenizer = tokenizer
-    left_pad_tokenizer.padding_side = 'left'
-    left_pad_tokenizer.padding_size = 'longest' 
-    left_pad_tokenizer.pad_token = left_pad_tokenizer.eos_token
-    left_pad_tokenizer.pad_token_id = left_pad_tokenizer.eos_token_id
 
     inputs = left_pad_tokenizer.batch_encode_plus(input_strings, add_special_tokens=True, return_tensors='pt', padding=True).to(model.device)
     
     if hasattr(cfg, 'generation') and hasattr(cfg.generation, 'do_sample'):
         do_sample = cfg.generation.do_sample
-        print(f"Using do_sample={do_sample} for generation")
 
     out = model.generate(inputs.input_ids, attention_mask=inputs.attention_mask, max_length=cfg.generation.max_length, max_new_tokens=cfg.generation.max_new_tokens, do_sample=do_sample, use_cache=True, pad_token_id=left_pad_tokenizer.eos_token_id)
     strs = left_pad_tokenizer.batch_decode(out[:, inputs.input_ids.shape[-1]:], skip_special_tokens=True)

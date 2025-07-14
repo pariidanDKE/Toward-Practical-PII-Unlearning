@@ -8,7 +8,7 @@ import os
 from peft import LoraConfig, get_peft_model
 from pathlib import Path
 from omegaconf import OmegaConf
-from utils import get_model_identifiers_from_yaml
+from utils import get_model_identifiers_from_yaml, init_config
 import wandb
 
 def find_all_linear_names(model):
@@ -60,6 +60,8 @@ def main(cfg):
     model_cfg = get_model_identifiers_from_yaml(cfg.model_family)
     model_id = model_cfg["hf_key"]
 
+    init_config(cfg)
+
     Path(cfg.save_dir).mkdir(parents=True, exist_ok=True)
     # save the cfg file
     #if master process
@@ -68,10 +70,13 @@ def main(cfg):
             OmegaConf.save(cfg, f)
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
-    tokenizer.pad_token = tokenizer.eos_token
+    if tokenizer.pad_token_id is None:
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
     max_seq_length = tokenizer.model_max_length
     tokenizer.model_max_length = max_seq_length
 
+    print(f"Pad Token ID: {tokenizer.pad_token_id}; End of Sequence Token ID: {tokenizer.eos_token_id}")
     max_length = 500
     torch_format_dataset = CommonDataset(cfg.dataset, cfg.data_path, tokenizer=tokenizer, model_family = cfg.model_family, max_length=max_length)
     if cfg.ds_size:
@@ -119,7 +124,7 @@ def main(cfg):
             output_dir=cfg.save_dir,
             optim="paged_adamw_8bit",
             #optim="adamw_torch",
-            save_steps=max_steps,
+            save_steps=steps_per_epoch,
             save_only_model=True,
             ddp_find_unused_parameters= False,
             #evaluation_strategy="no",
@@ -130,7 +135,6 @@ def main(cfg):
             report_to='wandb',
             lr_scheduler_type='cosine'
             #lr_scheduler_type='constant_with_warmup' # DP: Add this to make training more stable wrt learning rate for the forget rows
-
         )
 
     model = AutoModelForCausalLM.from_pretrained(model_id, \

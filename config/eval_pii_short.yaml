@@ -7,7 +7,7 @@ dataset: PII
 forget_loss: grad_ascent
 split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
 split: forget10
-
+debug: false
 
 data_path: [data/test, data/PII]
 split_list:

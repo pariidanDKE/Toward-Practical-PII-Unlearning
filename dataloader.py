@@ -63,7 +63,7 @@ class CustomTrainerForgetting(Trainer):
             self.oracle_model = self.oracle_model.to(device)
         if self.assistant_model is not None:
             self.assistant_model = self.e_prepare_deepspeed(self.assistant_model)
-            self.oracle_model = self.oracle_model.to(device)
+            self.assistant_model = self.assistant_model.to(device)
     
     def e_prepare_deepspeed(self, model):
         # Simple preparation without DeepSpeed
@@ -221,7 +221,6 @@ class CustomTrainerForgetting(Trainer):
 
                 clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=False)
                 clean_logits = clean_output.logits
-              
                 corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
                     output_hidden_states=False)
                 corrupt_logits = corrupt_output.logits
@@ -270,7 +269,6 @@ class CustomTrainerForgetting(Trainer):
                 for m in range(input_ids.size(0)):
                     all_layer.append(1)
 
-                print(f'Adding noise with C={self.C} and P={self.P}, tokens_to_mix={tokens_to_mix[0]}, layer={all_layer}')
                 corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
                     output_hidden_states=False, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
                 corrupt_logits = corrupt_output.logits

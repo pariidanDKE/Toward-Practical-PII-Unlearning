@@ -1,35 +1,69 @@
 model_path: 
 model_family: phi
 
-use_lora: True
+use_lora: False
 save_dir: 
 dataset: PII
 forget_loss: grad_ascent
 split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
 random_split: 1
+
 data_path: 
-    - "data/test"
-    - "data/PII/SplitExperiment/Experiment${random_split}"
-    - "data/PII/SplitExperiment/Experiment${random_split}"
-    - "data/test"
+   - "data/PII/SplitExperiment/Experiment${random_split}"
+   - "data/test"
+   - "data/test"
+   - "data/test"
+   - "data/PII/SplitExperiment/Experiment${random_split}"
+   - "data/test"
+   - "data/PII/SplitExperiment/Experiment${random_split}"
+   - "data/test"
+   - "data/PII/SplitExperiment/Experiment${random_split}"
+   - "data/test"
 
 
 split: forget10
 split_list:
+  - ${split}
+  - test_retain_pii
+  - real_authors_perturbed
+  - world_facts_perturbed
+  - ${split}
   - test_retain_pii
   - ${split}
+  - test_retain_pii
   - ${split}
   - test_retain_pii
 
-question_key: [question, question, paraphrased_question_1, paraphrased_question_1]
-answer_key: [answer, answer, paraphrased_answer_1, paraphrased_answer_1]
-base_answer_key: [paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1]
-perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1, perturbed_answer_1, perturbed_answer_1]
-eval_task: [eval_log_retain, eval_log_forget, eval_log_forget_paraphrase_1, eval_log_retain_paraphrase_1]
+question_key: [null, question, question, question, question, null, paraphrased_question_1,paraphrased_question_1, inverted_question,inverted_question]
+answer_key: [null, answer, answer, answer, answer, null, paraphrased_answer_1,paraphrased_answer_1, inverted_answer,inverted_answer]
+base_answer_key: [null, paraphrased_answer_1, answer, answer, paraphrased_answer_1, null, paraphrased_answer_1,paraphrased_answer_1, inverted_answer,inverted_answer]
+perturbed_answer_key: [null, perturbed_answer_1, perturbed_answer, perturbed_answer, perturbed_answer_1, null, perturbed_answer_1,perturbed_answer_1, inverted_answer,inverted_answer]
+eval_task: [one_hop_attack, eval_log_retain, eval_real_author_wo_options, eval_real_world_wo_options, eval_log_forget, extraction_attack, eval_log_forget_paraphrase_1,eval_log_retain_paraphrase_1, eval_log_forget_inverse,eval_log_retain_inverse]
+
+# data_path: 
+#     - "data/test"
+#     - "data/PII/SplitExperiment/Experiment${random_split}"
+#     - "data/PII/SplitExperiment/Experiment${random_split}"
+#     - "data/test"
+
+# split: forget10
+# split_list:
+#   - test_retain_pii
+#   - ${split}
+#   - ${split}
+#   - test_retain_pii
+
+# question_key: [question, question, paraphrased_question_1, paraphrased_question_1]
+# answer_key: [answer, answer, paraphrased_answer_1, paraphrased_answer_1]
+# base_answer_key: [paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1, paraphrased_answer_1]
+# perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1, perturbed_answer_1, perturbed_answer_1]
+# eval_task: [eval_log_retain, eval_log_forget, eval_log_forget_paraphrase_1, eval_log_retain_paraphrase_1]
 
 generation:
   max_length: 200
   max_new_tokens: 128
+  do_sample: false
+
 
 save_generated_text: true
 
