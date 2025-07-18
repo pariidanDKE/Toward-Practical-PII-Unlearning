@@ -1,23 +1,27 @@
-import torch
-from torch import nn
-from transformers import Trainer
-import torch.nn.functional as F
-import copy, os
-import deepspeed
-#from evaluate_TOFU import get_dataloader, get_all_evals
+# Standard library imports
 import copy
-import json 
+import csv
+import json
+import os
 from pathlib import Path
-from data_module import get_batch_loss 
-from utils import merge_dicts, get_forget_quality, get_model_utility
-from logging_utils import permu_log_states,get_logger,should_log_stats
+
+# Third-party imports
 import numpy as np
-from scipy.stats import ks_2samp, hmean
-import csv 
-from transformers.integrations.deepspeed import deepspeed_init, deepspeed_load_checkpoint, is_deepspeed_available
+import torch
+import torch.nn.functional as F
 from torch import nn
-import copy
-import numpy as np
+from scipy.stats import ks_2samp, hmean
+
+# Transformers and DeepSpeed
+import deepspeed
+from transformers import Trainer
+from transformers.integrations.deepspeed import deepspeed_init, deepspeed_load_checkpoint, is_deepspeed_available
+
+# Local imports
+from data_module import get_batch_loss
+from logging_utils import permu_log_states, get_logger, should_log_stats
+from utils import merge_dicts, get_forget_quality, get_model_utility
+#from evaluate_TOFU import get_dataloader, get_all_evals
 
 os.environ['MASTER_PORT'] = '22395'
 def printll(name, inp):

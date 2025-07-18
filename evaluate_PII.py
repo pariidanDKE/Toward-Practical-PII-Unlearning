@@ -24,7 +24,7 @@ from logging_utils import init_config
 
 from evals.uld import ULDLLM
 from evals.whos_harry_potter import WHPLLM
-from pii_attack_orchestrator import PIIAttackOrchestrator, intialize_util_methods, PII_AUTOCOMPLETE_EVAL_TASKS, DEFAULT_PII_DATA_PATH
+from pii_attacks.pii_attack_orchestrator import PIIAttackOrchestrator, intialize_util_methods, PII_AUTOCOMPLETE_EVAL_TASKS, DEFAULT_PII_DATA_PATH
 
 
 

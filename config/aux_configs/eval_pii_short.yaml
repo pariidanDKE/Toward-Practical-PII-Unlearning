@@ -1,0 +1,51 @@
+model_path: 
+model_family: phi
+
+use_lora: False
+save_dir: 
+dataset: PII
+forget_loss: grad_ascent
+split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
+split: forget10
+debug: false
+
+data_path: [data/test, data/PII]
+split_list:
+  - test_retain_pii
+  - ${split}
+
+question_key: [question,question]
+answer_key: [answer, answer]
+base_answer_key: [paraphrased_answer_1, paraphrased_answer_1]
+perturbed_answer_key: [perturbed_answer_1, perturbed_answer_1]
+eval_task: [eval_log_retain, eval_log_forget]
+
+
+# data_path: [data/test, data/test,data/test]
+# split_list:
+#   - test_retain_pii
+#   - test_retain_pii
+#   - test_retain_pii
+
+# question_key: [paraphrased_question_1, inverted_question,null]
+# answer_key: [paraphrased_answer_1, inverted_answer,null]
+# base_answer_key: [paraphrased_answer_1, inverted_answer,null]
+# perturbed_answer_key: [perturbed_answer_1, inverted_answer,null]
+# eval_task: [eval_log_retain_paraphrase_1, eval_log_retain_inverse,extraction_attack]
+
+generation:
+  max_length: 200
+  max_new_tokens: 128
+  do_sample: false
+
+save_generated_text: true
+
+ds_size: null 
+bf16: false
+
+overwrite: true
+use_pretrained: false
+
+batch_size: 30
+reinitialize_weights: false
+retain_result: null

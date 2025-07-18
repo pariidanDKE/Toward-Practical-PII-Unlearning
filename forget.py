@@ -1,37 +1,49 @@
+# Standard library imports
+import copy
+import json
+import os
+import psutil
+from datetime import datetime
+from pathlib import Path
+
+# Third-party imports
+import torch
+import wandb
+from accelerate import Accelerator
+from omegaconf import OmegaConf
+from peft import LoraConfig, get_peft_model
+from transformers import (
+    AutoConfig,
+    AutoModelForCausalLM,
+    AutoTokenizer,
+    BitsAndBytesConfig,
+    GenerationConfig,
+    set_seed
+)
+import hydra
+import transformers
+
+# Local modeling imports
+import modelling.modelling_llama3
+from modelling.modeling_llama import LlamaForCausalLM
+from modelling.modeling_phi import PhiForCausalLM
+from modelling.modeling_qwen2 import Qwen2ForCausalLM
+from modelling.modelling_phi3 import Phi3ForCausalLM
+
+# Local utility imports
+from permu_tok.corrupt_neighbourhood_generate import setup_optimized_tokenizer
 from data_module import CommonForgetQA
 from dataloader import CustomTrainerForgetting
-import torch
-from transformers import AutoTokenizer, AutoConfig, set_seed
-from transformers import AutoModelForCausalLM
-import copy 
-import hydra 
-import transformers
-import os
-from peft import LoraConfig, get_peft_model
-from pathlib import Path
-from omegaconf import OmegaConf
-from modeling_phi import PhiForCausalLM
-from modeling_llama import LlamaForCausalLM
-from modelling_phi3 import Phi3ForCausalLM
-
-import modelling_llama3
-from modeling_llama import LlamaForCausalLM
-from modeling_qwen2 import Qwen2ForCausalLM
-
-import json
-from datetime import datetime
-from accelerate import Accelerator
-
-from utils import get_model_identifiers_from_yaml
-from corrupt_neighbourhood_generate import  setup_optimized_tokenizer
 from logging_utils import (
-    write_subject_lengths,write_subject_corruption_info,save_permu_metrics_to_json,
-    init_logger,init_config,should_log_stats,get_config
+    get_config,
+    init_config,
+    init_logger,
+    save_permu_metrics_to_json,
+    should_log_stats,
+    write_subject_corruption_info,
+    write_subject_lengths
 )
-import wandb
-from transformers import GenerationConfig
-from transformers import BitsAndBytesConfig
-import psutil
+from utils import get_model_identifiers_from_yaml
 
 
 # def do_something(tensor, perturb_function):
