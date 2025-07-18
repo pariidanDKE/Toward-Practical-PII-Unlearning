@@ -22,17 +22,18 @@ export optimal_neighbours_generation=False
 
 ### Unlearning Params
 export forget_loss="PerMU"
-export project_name="Qwen2.5_PerMU"
+export project_name="Misc"
 export use_quantization=False
 export split="forget10"
 export remove_model_tensors=True
 C_values=(0.1)
 P_values=(1.2)
-num_runs=5
-model_list=("qwen2.5-1.5b")
+num_runs=1
+#model_list=("llama3.1-8b")
+model_list=("llama2-7b")
 
 intext_values=(True)
-export num_epochs=8
+export num_epochs=2
 export token_replace_prob=0.1
 export lr=1e-5
 
@@ -67,31 +68,31 @@ for model in "${model_list[@]}"; do
                         export optimal_neighbours_generation=False
                     fi
 
-                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_tokenreplace${token_replace_prob}"
+                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_test"
                     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
                     if [ $run -ne 10 ]; then
                         #-------- Run Training --------
-                        python forget.py --config-name=forget_pii.yaml \
-                        dataset=$dataset split=$split \
-                        forget_data_path=$forget_data_path \
-                        retain_data_path=$forget_data_path \
-                        forget_loss=$forget_loss batch_size=$batch_size \
-                        retain_weight=$retain_weight \
-                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-                        use_quantization=$use_quantization \
-                        project_name=$project_name \
-                        run_name=$run_name \
-                        in_text=$intext \
-                        logging.corrupted_subjects=True \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        neftune_noise_alpha=$neftune_noise_alpha \
-                        C=$C \
-                        P=$P \
-                        use_deepspeed=$use_deepspeed \
-                        optimizer=$optimizer \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        cache_path=$cache_path \
+                        # python forget.py --config-name=forget_pii.yaml \
+                        # dataset=$dataset split=$split \
+                        # forget_data_path=$forget_data_path \
+                        # retain_data_path=$forget_data_path \
+                        # forget_loss=$forget_loss batch_size=$batch_size \
+                        # retain_weight=$retain_weight \
+                        # gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                        # save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                        # use_quantization=$use_quantization \
+                        # project_name=$project_name \
+                        # run_name=$run_name \
+                        # in_text=$intext \
+                        # logging.corrupted_subjects=True \
+                        # optimal_neighbours_generation=$optimal_neighbours_generation \
+                        # neftune_noise_alpha=$neftune_noise_alpha \
+                        # C=$C \
+                        # P=$P \
+                        # use_deepspeed=$use_deepspeed \
+                        # optimizer=$optimizer \
+                        # optimal_neighbours_generation=$optimal_neighbours_generation \
+                        # cache_path=$cache_path \
 
                         # Check if training was successful
                         if [ $? -ne 0 ]; then

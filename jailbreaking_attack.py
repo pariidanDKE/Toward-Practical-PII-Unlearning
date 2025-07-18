@@ -6,7 +6,6 @@ from abc import ABC, abstractmethod
 import re
 from thefuzz import fuzz
 
-
 @dataclass
 class PIIItem:
     """Represents a single PII item with type and value."""
@@ -774,9 +773,8 @@ class OneHopAttack(AttackStrategy):
         
         return results, overall_scores
 
-class JailBreakingRefactored:
-    """Complete refactored JailBreaking class with all missing functionality."""
-    
+class JailBreaking:
+    """JailBreaking class for PII leakage detection and mitigation. Including Evluation of all Autocompletion and Extraction Attacks."""
     def __init__(self,all_pii_data: List[Dict[str, Any]],person_split_dict = None):
         self.all_pii_data = all_pii_data
         self.pii_extractor = PIIExtractor()
@@ -852,71 +850,3 @@ class JailBreakingRefactored:
     def one_hop_attack_on_generated(self, questions: List[str], responses: List[str]) -> Tuple[List[Dict[str, Any]], Dict[str, float]]:
         """Execute one-hop attack: find PII in question -> check full_name + additional PII leakage in response."""
         return self.one_hop_attack.execute_attack(questions, responses)
-
-# Backward compatibility wrapper to maintain original interface
-class JailBreaking(JailBreakingRefactored):
-    """
-    Backward compatibility wrapper that maintains the exact original interface.
-    This allows existing code to work without any changes while using the refactored internals.
-    """
-    
-    def __init__(self, all_pii_data: List[Dict[str, Any]]):
-        super().__init__(all_pii_data)
-        
-        # Maintain original attribute names for compatibility
-        self._pii_keys = PIIExtractor.PII_KEYS
-        self.question_to_pii_lookup = self.question_lookup
-        self.para_question_to_pii_lookup = self.para_question_lookup
-        self.inverted_question_lookup = self.inverted_question_lookup
-        self.all_dataset_pii_for_extraction = self._get_all_dataset_pii_values()
-    
-    def _get_all_dataset_pii_values(self) -> List[Dict[str, str]]:
-        """Get all PII values from dataset - for backward compatibility."""
-        all_pii_dicts = []
-        for datapoint in self.all_pii_data:
-            all_pii_dicts.append(self.pii_extractor.get_pii_from_datapoint(datapoint))
-        return all_pii_dicts
-    
-    def _get_all_pii_for_datapoint(self, datapoint: Dict[str, Any]) -> Dict[str, str]:
-        """Original method name - delegates to PIIExtractor."""
-        return self.pii_extractor.get_pii_from_datapoint(datapoint)
-    
-    def _extract_amount_and_date(self, transaction_string: str) -> Tuple[Optional[str], Optional[str]]:
-        """Original method name - delegates to PIIExtractor."""
-        return PIIExtractor.extract_amount_and_date(transaction_string)
-    
-    def _extract_position_and_company(self, occupation_string: str) -> Tuple[Optional[str], Optional[str]]:
-        """Original method name - delegates to PIIExtractor."""
-        return PIIExtractor.extract_position_and_company(occupation_string)
-    
-    def _check_pii_in_text_exact(self, pii_type: str, pii_value: str, text: str) -> bool:
-        """Original exact matching method - delegates to PIIMatcher."""
-        return self.pii_matcher.check_exact_match(pii_type, pii_value, text)
-    
-    def _evaluate_leakage_exact(self, generated_text: str, pii_to_check: Dict[str, str]) -> Dict[str, str]:
-        """Original exact leakage evaluation - delegates to AutocompletionAttack."""
-        return self.autocompletion_attack._evaluate_leakage_exact(generated_text, pii_to_check)
-    
-    def _extract_pii_per_question_score_exact(self, question_pii_dict: List[Dict[str, str]],
-                                           leaked_pii_exact: Dict[str, str],
-                                           num_pii_picked: int) -> Tuple[float, List[Dict[str, str]]]:
-        """Original scoring method - delegates to AutocompletionAttack."""
-        return self.autocompletion_attack._extract_pii_per_question_score_exact(
-            question_pii_dict, leaked_pii_exact, num_pii_picked
-        )
-    
-    def subset_pii_match_validate(self, generated_text: str, pii_items_to_evaluate: List[Dict[str, str]], 
-                                 similarity_threshold: int = 70) -> List[Dict[str, Any]]:
-        """Original fuzzy matching method - delegates to PIIMatcher."""
-        return self.pii_matcher.validate_pii_items(generated_text, pii_items_to_evaluate, similarity_threshold)
-    
-    def _remove_model_tags(self, raw_string: str, model_cfg: Dict) -> str:
-        """Original tag removal method - delegates to AutocompletionAttack."""
-        return self.autocompletion_attack._clean_model_tags(raw_string, model_cfg)
-    
-    def find_entities(self, entities: List[str], text: str) -> Set[str]:
-        """Placeholder method from original code."""
-        print("Warning: `find_entities` method requires `KeywordTree`. It's currently a placeholder.")
-        return set()
-
-

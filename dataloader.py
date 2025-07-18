@@ -9,7 +9,8 @@ import copy
 import json 
 from pathlib import Path
 from data_module import get_batch_loss 
-from utils import merge_dicts, interleave_eval_result_dict, get_forget_quality, get_model_utility, permu_log_states,get_config
+from utils import merge_dicts, get_forget_quality, get_model_utility
+from logging_utils import permu_log_states,get_logger,should_log_stats
 import numpy as np
 from scipy.stats import ks_2samp, hmean
 import csv 
@@ -17,7 +18,6 @@ from transformers.integrations.deepspeed import deepspeed_init, deepspeed_load_c
 from torch import nn
 import copy
 import numpy as np
-from utils import get_logger,should_log_stats
 
 os.environ['MASTER_PORT'] = '22395'
 def printll(name, inp):

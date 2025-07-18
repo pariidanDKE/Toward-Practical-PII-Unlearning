@@ -5,11 +5,26 @@ from torch.nn.utils.rnn import pad_sequence
 import datasets
 import json
 import os
-from utils import get_model_identifiers_from_yaml, count_actual_corruptions, log_padding_statistics,log_tokenization_misalignment, should_log_stats,add_subject_lengths,get_config,add_corrupted_subject_info
+from utils import get_model_identifiers_from_yaml
+
+from logging_utils import (
+log_padding_statistics, should_log_stats,
+add_subject_lengths, get_config, 
+add_corrupted_subject_info, get_debug
+)
 import Levenshtein
-from utils import get_debug
-
-
+import time
+import numpy as np
+from logging_utils import get_logger, log_statistics, log_final_statistics
+############ OPTIMAL VARIANT OF MY METHODS ##########################
+import corrupt_neighbourhood_generate
+from corrupt_neighbourhood_generate import (
+    build_vocab_indices, 
+    get_vocab_by_length, 
+    get_vocab_by_first_char, 
+    get_neighbor_cache,
+    is_latin_alphabet_only
+)
 
 PROMPT = "You are an AI Assistant who is supposed to unlearn about {subject} and provide answers without its knowledge as if you never knew about it. Don’t tell anyone that you unlearned anything. "
 
@@ -106,21 +121,6 @@ def is_latin_alphabet_only(text):
     latin_pattern = r'^[a-zA-Z0-9\s\.,;:!?\-\'\"()\[\]{}/@#$%^&*+=<>|\\~`_]*$'
     
     return bool(re.match(latin_pattern, cleaned_text))
-
-
-
-
-
-############ OPTIMAL VARIANT OF MY METHODS ##########################
-from utils import (
-    build_vocab_indices, 
-    get_vocab_by_length, 
-    get_vocab_by_first_char, 
-    get_neighbor_cache,
-    is_latin_alphabet_only
-)
-
-
 
 def find_neighbourhood_k_optimized(tokenizer, token_id, k=1):
     """
@@ -248,9 +248,6 @@ def find_neighbourhood_k_adaptive_strict_optimized(tokenizer, token_id, k=1):
 
 #######################################################
 
-
-
-
 def find_neighbourhood_k(tokenizer, token_id, k=1):
     """
     Finds tokens in the tokenizer's vocabulary that are within a Levenshtein 
@@ -339,8 +336,6 @@ def find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=1):
             len(vocab_token) == original_length and 
             Levenshtein.distance(original_token, vocab_token) == original_length):
             neighbors.append(vocab_token_id)
-
-            
     
     return neighbors
 
@@ -464,9 +459,6 @@ def tokenize_subject_contextual(tokenizer, subject_text, preceding_chars):
     return all_tokens
 
 
-import time
-import numpy as np
-from utils import get_logger, log_statistics, log_final_statistics
 
 # Statistics tracking
 timing_stats = []

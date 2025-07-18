@@ -9,12 +9,6 @@ import transformers
 import os
 from peft import LoraConfig, get_peft_model
 from pathlib import Path
-from utils import (
-    get_model_identifiers_from_yaml,
-    init_logger,init_config,
-    init_model_config,
-    should_log_stats
-)
 from omegaconf import OmegaConf
 from modeling_phi import PhiForCausalLM
 from modeling_llama import LlamaForCausalLM
@@ -27,9 +21,18 @@ from modeling_qwen2 import Qwen2ForCausalLM
 import json
 from datetime import datetime
 from accelerate import Accelerator
-from utils import write_subject_lengths,write_subject_corruption_info, setup_optimized_tokenizer,save_permu_metrics_to_json
+
+from utils import get_model_identifiers_from_yaml
+from corrupt_neighbourhood_generate import  setup_optimized_tokenizer
+from logging_utils import (
+    write_subject_lengths,write_subject_corruption_info,save_permu_metrics_to_json,
+    init_logger,init_config,should_log_stats,get_config
+)
 import wandb
 from transformers import GenerationConfig
+from transformers import BitsAndBytesConfig
+import psutil
+
 
 # def do_something(tensor, perturb_function):
 #     # do stuff here
@@ -44,9 +47,6 @@ from transformers import GenerationConfig
 #     return
 # perturb_f = partial(perturb_randomly, mean=0, std=1)
 # do_something(perturb_function=perturb_funtion)
-
-from transformers import BitsAndBytesConfig
-import psutil
 
 
 
@@ -116,7 +116,7 @@ def save_training_info(cfg, model, training_args, model_size, trainable_params,l
             }
         }
     
-        # Save the information to a JSON file
+    # Save the information to a JSON file
     save_path = os.path.join(save_dir, 'training_info.json')
     with open(save_path, 'w') as f:
         json.dump(info, f, indent=4)
