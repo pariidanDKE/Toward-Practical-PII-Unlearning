@@ -72,27 +72,27 @@ for model in "${model_list[@]}"; do
                     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
                     if [ $run -ne 10 ]; then
                         #-------- Run Training --------
-                        python forget.py --config-name=forget_pii.yaml \
-                        dataset=$dataset split=$split \
-                        forget_data_path=$forget_data_path \
-                        retain_data_path=$forget_data_path \
-                        forget_loss=$forget_loss batch_size=$batch_size \
-                        retain_weight=$retain_weight \
-                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-                        use_quantization=$use_quantization \
-                        project_name=$project_name \
-                        run_name=$run_name \
-                        in_text=$intext \
-                        logging.corrupted_subjects=True \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        neftune_noise_alpha=$neftune_noise_alpha \
-                        C=$C \
-                        P=$P \
-                        use_deepspeed=$use_deepspeed \
-                        optimizer=$optimizer \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        cache_path=$cache_path \
+                        # python forget.py --config-name=forget_pii.yaml \
+                        # dataset=$dataset split=$split \
+                        # forget_data_path=$forget_data_path \
+                        # retain_data_path=$forget_data_path \
+                        # forget_loss=$forget_loss batch_size=$batch_size \
+                        # retain_weight=$retain_weight \
+                        # gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                        # save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                        # use_quantization=$use_quantization \
+                        # project_name=$project_name \
+                        # run_name=$run_name \
+                        # in_text=$intext \
+                        # logging.corrupted_subjects=True \
+                        # optimal_neighbours_generation=$optimal_neighbours_generation \
+                        # neftune_noise_alpha=$neftune_noise_alpha \
+                        # C=$C \
+                        # P=$P \
+                        # use_deepspeed=$use_deepspeed \
+                        # optimizer=$optimizer \
+                        # optimal_neighbours_generation=$optimal_neighbours_generation \
+                        # cache_path=$cache_path \
 
                         # Check if training was successful
                         if [ $? -ne 0 ]; then

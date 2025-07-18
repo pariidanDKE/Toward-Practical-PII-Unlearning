@@ -1,5 +1,7 @@
 ## Toward Practical and Reliable PII Unlearning in Large Language Models
 
+**Author: Parii Dan**
+
 **Abstract—** Training data for large language models is vast,
 it may inadvertently include personally identifiable information
 (PII), which raises important legal and ethical concerns. Machine
@@ -43,7 +45,20 @@ parameter scales within the same generation?
 <img width="512" height="520" alt="image" src="https://github.com/user-attachments/assets/f5327bf3-e59c-425a-bf04-94be7960638b" />
 
 
+## Requirements
+```bash
+source venv permu_env python=3.12
+source permu_env/bin/activate
+pip install -r requirements.txt
+```
 
-### NOTE : This repository is still under construction. The code will be commented, cleaned and merged. Additionally, all the necessary acknowledgements and references to work from which helped our implementation will be provided.
+### Note:
 
+More Instructions will be added in the coming days!
+
+
+### Acknowledgement 
+
+Huge thanks the UGBench and PerMU paper authors, their repository and findings build the foundation for our work:
+https://github.com/MaybeLizzy/UGBench#ugbench 
 

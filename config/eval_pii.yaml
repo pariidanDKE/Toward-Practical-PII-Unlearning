@@ -5,7 +5,9 @@ use_lora: False
 save_dir: 
 dataset: PII
 forget_loss: grad_ascent
-split_person_name_path: '/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/split_person_names'
+split_person_name_path: 'data/PII/split_person_names'
+pii_data_path: 'research_dev_utils/pii_dataset/data/qa_pairs_full2.json'
+one_hop_questions_path: 'data/PII/full_validation.json'
 
 
 

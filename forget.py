@@ -419,16 +419,8 @@ def main(cfg):
         logger.info("Training the model...")
         trainer.train()
     
-    if should_log_stats('subject_token_len'):
-        write_subject_lengths()
-    
     if should_log_stats('permu_contrast_stats'):
         save_permu_metrics_to_json(save_dir=cfg.save_dir)
-    
-    if should_log_stats('corrupted_subjects'):
-        save_path = f'/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/analysis/data/subject_corruption_info_{cfg.run_name}.json'
-        write_subject_corruption_info(save_path)
-
     
     # save the tokenizer
     if cfg.save_model and (not cfg.eval_only):

@@ -1,8 +1,8 @@
-import corrupt_neighbourhood_generate
+import permu_tok.corrupt_neighbourhood_generate
 import Levenshtein
 import torch
 
-from corrupt_neighbourhood_generate import (
+from permu_tok.corrupt_neighbourhood_generate import (
     build_vocab_indices,
     get_neighbor_cache,
     get_vocab_by_first_char,

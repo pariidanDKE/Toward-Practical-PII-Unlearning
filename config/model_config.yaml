@@ -9,9 +9,7 @@ llama3.1-8b:
   flash_attention2: "true"
   gradient_checkpointing: "true"
   t440_config: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/retain_and_test_retain_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/t440_config.json"
-  # this model will be used for unlearning by default
   pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E3_lr2e-5_ComprehensiveQA/checkpoint-330"
 
 qwen2.5-7b:
   hf_key: "Qwen/Qwen2.5-7B-Instruct"
@@ -47,8 +45,7 @@ qwen2.5-14b:
   answer_end_tag: "<|im_end|>"
   flash_attention2: "true"
   gradient_checkpointing: "true"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-14b_B4_G1_E5_lr1e-5_ComprehensiveQA/checkpoint-26410"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-14b_B4_G1_E3_lr1e-5/checkpoint-15846"
+  pii_target_model_path: "save_model/PII/full_with_qa_qwen2.5-14b_B4_G1_E3_lr1e-5/checkpoint-15846"
 
 qwen2.5-3b:
   hf_key: "Qwen/Qwen2.5-3B-Instruct"
@@ -59,8 +56,7 @@ qwen2.5-3b:
   answer_end_tag: "<|im_end|>"
   flash_attention2: "true"
   gradient_checkpointing: "true"
-  #pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-3b_B32_G4_E5_lr2e-5_ComprehensiveQA_PadToken"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_qwen2.5-3b_B64_G2_E7_lr2e-5_ComprehensiveQA"
+  pii_target_model_path: "save_model/PII/full_with_qa_qwen2.5-3b_B64_G2_E7_lr2e-5_ComprehensiveQA"
 
 
 qwen2.5-32b:
@@ -78,25 +74,13 @@ llama2-7b:
   hf_key: "NousResearch/Llama-2-7b-chat-hf"
   question_start_tag: "[INST] "
   question_end_tag: " [/INST]"
-  answer_tag: "" ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
+  answer_tag: ""
   answer_end_tag: ""
   retain_answer_tag: "" 
   flash_attention2: "false"
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
-
-
-llama2-13b:
-  hf_key: "meta-llama/Llama-2-13b-chat-hf"
-  question_start_tag: "[INST] "
-  question_end_tag: " [/INST]"
-  answer_tag: "" ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
-  answer_end_tag: ""
-  retain_answer_tag: "" 
-  flash_attention2: "false"
-  gradient_checkpointing: "true"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-13b_B16_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+  pii_target_model_path: "save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
 
 llama2-7b_ansspace:
   hf_key: "NousResearch/Llama-2-7b-chat-hf"
@@ -108,7 +92,18 @@ llama2-7b_ansspace:
   flash_attention2: "false"
   gradient_checkpointing: "true"
   # this model will be used for unlearning by default
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
+  pii_target_model_path: "save_model/PII/full_with_qa_llama2-7b_B32_G4_E5_lr2e-5_ComprehensiveQA"
+
+llama2-13b:
+  hf_key: "meta-llama/Llama-2-13b-chat-hf"
+  question_start_tag: "[INST] "
+  question_end_tag: " [/INST]"
+  answer_tag: "" ## NEED TO ADD A SPACE TO NOT TOKENIZE SUBJECT FROM ANS TOGETHER WITH THE [/INST] TAG
+  answer_end_tag: ""
+  retain_answer_tag: "" 
+  flash_attention2: "false"
+  gradient_checkpointing: "true"
+  pii_target_model_path: "save_model/PII/full_with_qa_llama2-13b_B16_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
 
 
 phi3-5-mini-instruct:
@@ -126,7 +121,7 @@ phi3-5-mini-instruct:
   answer_end_tag: "<|end|>\n"
   flash_attention2: "false"
   gradient_checkpointing: "true"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_phi3-5-mini-instruct_B32_G4_E5_lr2e-5_ComprehensiveQA"
+  pii_target_model_path: "save_model/PII/full_with_qa_phi3-5-mini-instruct_B32_G4_E5_lr2e-5_ComprehensiveQA"
   harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
 
@@ -139,8 +134,7 @@ phi:
   answer_end_tag: ""
   flash_attention2: "false"
   gradient_checkpointing: "false"
-  # tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_B8_G2_E5_lr1e-4_use_piiFalse/checkpoint-1250"
-  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_TOFU_B8_G2_E5_lr1e-4/checkpoint-1250"
+  tofu_target_model_path: "save_model/TOFU/full_phi_TOFU_B8_G2_E5_lr1e-4/checkpoint-1250"
   harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
 
@@ -154,8 +148,7 @@ phi_chat:
 
   flash_attention2: "false"
   gradient_checkpointing: "true"
-  # pii_target_model_path: 
-  tofu_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/TOFU/full_phi_chat_B8_G4_E5_lr5e-5/checkpoint-625"
+  tofu_target_model_path: "save_model/TOFU/full_phi_chat_B8_G4_E5_lr5e-5/checkpoint-625"
   harry_target_model_path: "Maybe1407/harry_phi_to_unlearn"
   zsre_target_model_path: "Maybe1407/zsre_phi_to_unlearn"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_phi_chat_B32_G4_E5_lr2e-5_ComprehensiveQA"
+  pii_target_model_path: "save_model/PII/full_with_qa_phi_chat_B32_G4_E5_lr2e-5_ComprehensiveQA"

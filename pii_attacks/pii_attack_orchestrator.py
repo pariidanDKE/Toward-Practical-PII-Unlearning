@@ -1,5 +1,6 @@
-from jailbreaking_attack import JailBreaking
+from pii_attacks.jailbreaking_attack import JailBreaking
 from typing import List, Dict, Any
+from logging_utils import get_config
 from utils import load_person_split_dict,load_one_hop_samples, get_split_lengths,load_extraction_samples,load_targeted_extraction_data
 import torch
 
@@ -23,14 +24,19 @@ PII_AUTOCOMPLETE_EVAL_TASKS = [
     'eval_log_retain_inverse',
     'eval_log_forget_inverse'
 ]
-DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/my_files/pii_dataset/data/qa_pairs_full2.json"
-DEFAULT_ONE_HOP_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/full_validation.json"
+# DEFAULT_PII_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/reasearch/pii_dataset/data/qa_pairs_full2.json"
+# DEFAULT_ONE_HOP_DATA_PATH = "/projects/0/hpmlprjs/LLM/danp/UGBench/data/PII/full_validation.json"
+
+DEFAULT_PII_DATA_PATH = None
+DEFAULT_ONE_HOP_DATA_PATH = None
+
+
 
 # Global variable declarations
 global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES
 
 def intialize_util_methods():
-    global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES
+    global TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, DEFAULT_EXTRACTION_PROMPT_SAMPLES, DEFAULT_PII_DATA_PATH, DEFAULT_ONE_HOP_DATA_PATH
     
     # Method calls that actually execute functions - moved inside the function
     extraction_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/test/extraction/c4_evaluation_samples.csv'
@@ -41,7 +47,9 @@ def intialize_util_methods():
 
     extraction_targetted_samples_path = '/projects/0/hpmlprjs/LLM/danp/UGBench/data/test/targeted_extraction'
     TARGETTED_EXTRACTION_PROMPT_SAMPLES, SPLIT_DICT_COUNT, OBFUSCATION_INFO = load_targeted_extraction_data(extraction_targetted_samples_path)
-
+    
+    DEFAULT_PII_DATA_PATH = get_config()['pii_data_path']
+    DEFAULT_ONE_HOP_DATA_PATH = get_config()['one_hop_questions_path']
 
 class PIIAttackOrchestrator:
     """

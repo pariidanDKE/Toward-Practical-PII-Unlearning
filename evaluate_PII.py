@@ -392,7 +392,9 @@ def main(cfg):
     Path(cfg.save_dir).mkdir(parents=True, exist_ok=True)
     
     init_config(cfg)
+    DEFAULT_PII_DATA_PATH = cfg['pii_data_path']
     intialize_util_methods()
+    from pii_attacks.pii_attack_orchestrator import DEFAULT_PII_DATA_PATH, DEFAULT_ONE_HOP_DATA_PATH
     local_rank = 0
     if os.environ.get('LOCAL_RANK') is not None:
         local_rank = int(os.environ.get('LOCAL_RANK', '0'))
@@ -550,6 +552,7 @@ def main(cfg):
     
     if cfg.dataset=='PII' : 
         pii_json_path = DEFAULT_PII_DATA_PATH
+        print(f"Loading PII data for attacks from {pii_json_path}...")
         if os.path.exists(pii_json_path):
             try:
                 with open(pii_json_path, 'r', encoding='utf-8') as f:
