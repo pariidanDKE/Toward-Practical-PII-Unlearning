@@ -73,7 +73,7 @@ padding_required_stats = []  # Only logs when LCS mismatch occurs
 
 
 def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question, subject_list, answer, 
-                                               model_configs, in_text, token_replace_prob=0.6, k=1, 
+                                               model_configs, token_level, token_replace_prob=0.6, k=1, 
                                                use_padding=True):
     """
     Modified to use neighborhood approach with k parameter instead of top_k
@@ -177,7 +177,7 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
         start, end = token_range[0], token_range[1]
         total_subject_tokens += (end - start)
     
-    if in_text:
+    if token_level:
         perturbed_inputs_idx = pad_input_ids.copy()
         pad_input_ids_perturbed = create_perturbed_subject(tokenizer, perturbed_inputs_idx, tokens_to_mix, 
                                                           token_replace_prob=token_replace_prob, k=k)
@@ -214,12 +214,12 @@ def convert_raw_data_to_model_format_ours_noise(tokenizer, max_length, question,
 
 # ###################
 class CommonForgetQA(Dataset):
-    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk",in_text=False,token_replace_prob=0.6,token_k_neighbours=1,subject_noise_discrepancy_addition=False,subject_key='subject'):
+    def __init__(self, forget_data_path, retain_data_path, tokenizer, model_family, max_length=512, split="forget", retain_split="retain", loss_type="idk", token_level=False,token_replace_prob=0.6,token_k_neighbours=1,subject_noise_discrepancy_addition=False,subject_key='subject'):
         super(CommonForgetQA, self).__init__()
         self.tokenizer = tokenizer
         self.max_length = max_length
         self.loss_type = loss_type        
-        self.in_text = in_text
+        self.token_level = token_level
         self.token_replace_prob = token_replace_prob
         self.token_k_neighbours = token_k_neighbours
         self.subject_noise_discrepancy_addition = subject_noise_discrepancy_addition
@@ -270,7 +270,7 @@ class CommonForgetQA(Dataset):
                     subject = data[idx][subject_key] if subject_key in data[idx].keys() else None
                     if isinstance(subject, str):
                         subject = [subject]
-                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs,in_text=self.in_text,token_replace_prob=self.token_replace_prob,k=self.token_k_neighbours,use_padding=self.subject_noise_discrepancy_addition)
+                    converted_data = convert_raw_data_to_model_format_ours_noise(self.tokenizer, self.max_length, question, subject, answer, self.model_configs,token_level=self.token_level,token_replace_prob=self.token_replace_prob,k=self.token_k_neighbours,use_padding=self.subject_noise_discrepancy_addition)
                 else:   
                     converted_data = convert_raw_data_to_model_format(self.tokenizer, self.max_length, question, answer, self.model_configs, self.loss_type, subject=None)
                 rets.append(converted_data)
@@ -293,7 +293,7 @@ class CommonForgetQA(Dataset):
                 attention_mask = [s[2] for s in data]
                 rets.append((torch.stack(input_ids), torch.stack(labels), torch.stack(attention_mask)))
 
-        elif self.loss_type.startswith("PerMU") and self.in_text: ## DP ADDITION
+        elif self.loss_type.startswith("PerMU") and self.token_level: ## DP ADDITION
             forget_samples, retain_samples = [sample[0] for sample in samples], [sample[1] for sample in samples]
             rets = []
             for data_type in ["forget", "retain"]:

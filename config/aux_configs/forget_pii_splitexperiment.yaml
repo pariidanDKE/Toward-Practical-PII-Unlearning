@@ -48,7 +48,7 @@ P: 0.4
 
 
 #### NEW PERMU IN TEXT ADDITION STUFF
-in_text : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
+token_level : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
 token_replace_prob : 0.6
 token_k_neighbours : 1
 subject_noise_discrepancy_addition: false

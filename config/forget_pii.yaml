@@ -46,9 +46,8 @@ retain_weight: 1
 C: 0.1
 P: 0.4
 
-
 #### NEW PERMU IN TEXT ADDITION STUFF
-in_text : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
+token_level : false # Indicator for PerMU discrete token undlearning, so used only when forget_loss is set to PerMU
 token_replace_prob : 1
 token_k_neighbours : 1
 subject_noise_discrepancy_addition: false
@@ -59,7 +58,6 @@ optimal_neighbours_generation: false
 use_adaptive_k: false
 match_first_char: true
 cache_path : None
-
 
 eval:
   # retain_result: data/retain90_llama_wd0.01/eval_results/ds_size300/eval_log_aggregated.json

@@ -32,71 +32,71 @@ num_runs=1
 #model_list=("llama3.1-8b")
 model_list=("llama2-7b")
 
-intext_values=(True)
+token_level_values=(True)
 export num_epochs=2
 export token_replace_prob=0.1
 export lr=1e-5
 
 echo "Starting grid search with modified P-value logic:"
-echo "- When intext=False: ${#C_values[@]} C values × ${#P_values[@]} P values × ${num_runs} runs"
-echo "- When intext=True: ${#C_values[@]} C values × 1 P value × ${num_runs} runs"
+echo "- When token_level=False: ${#C_values[@]} C values × ${#P_values[@]} P values × ${num_runs} runs"
+echo "- When token_level=True: ${#C_values[@]} C values × 1 P value × ${num_runs} runs"
 echo "============================================"
 
 for model in "${model_list[@]}"; do
     export cache_path="/projects/0/hpmlprjs/LLM/danp/UGBench/models/neighbourhood_cache/${model}/${model}.pkl"
         # export batch_size=1
 
-    # Grid search over C, P, intext values, and multiple runs
-    for intext in "${intext_values[@]}"; do
+    # Grid search over C, P, token_level values, and multiple runs
+    for token_level in "${token_level_values[@]}"; do
         for C in "${C_values[@]}"; do
-            # Only loop through P values when intext is False
-            if [[ "$intext" == "False" ]]; then
+            # Only loop through P values when token_level is False
+            if [[ "$token_level" == "False" ]]; then
                 P_loop=("${P_values[@]}")
             else
-                # When intext is True, use only the first P value (or you can set a default)
-                P_loop=(1)  # Using first P value as default when intext=True
+                # When token_level is True, use only the first P value (or you can set a default)
+                P_loop=(1)  # Using first P value as default when token_level=True
             fi
             
             for P in "${P_loop[@]}"; do
                 for run in $(seq 1 $num_runs); do
-                    echo "Running experiment with C=${C}, P=${P}, intext=${intext}, run=${run}"
-                    
-                    # Set optimal_neighbours_generation based on intext value
-                    if [[ "$intext" == "True" ]]; then
+                    echo "Running experiment with C=${C}, P=${P}, token_level=${token_level}, run=${run}"
+
+                    # Set optimal_neighbours_generation based on token_level value
+                    if [[ "$token_level" == "True" ]]; then
                         export optimal_neighbours_generation=True
                     else
                         export optimal_neighbours_generation=False
                     fi
 
-                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_intext${intext}_run${run}_test"
+                    export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_token_level${token_level}_run${run}_test"
                     export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
                     if [ $run -ne 10 ]; then
                         #-------- Run Training --------
-                        # python forget.py --config-name=forget_pii.yaml \
-                        # dataset=$dataset split=$split \
-                        # forget_data_path=$forget_data_path \
-                        # retain_data_path=$forget_data_path \
-                        # forget_loss=$forget_loss batch_size=$batch_size \
-                        # retain_weight=$retain_weight \
-                        # gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        # save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-                        # use_quantization=$use_quantization \
-                        # project_name=$project_name \
-                        # run_name=$run_name \
-                        # in_text=$intext \
-                        # logging.corrupted_subjects=True \
-                        # optimal_neighbours_generation=$optimal_neighbours_generation \
-                        # neftune_noise_alpha=$neftune_noise_alpha \
-                        # C=$C \
-                        # P=$P \
-                        # use_deepspeed=$use_deepspeed \
-                        # optimizer=$optimizer \
-                        # optimal_neighbours_generation=$optimal_neighbours_generation \
-                        # cache_path=$cache_path \
+                        python forget.py --config-name=forget_pii.yaml \
+                        dataset=$dataset split=$split \
+                        forget_data_path=$forget_data_path \
+                        retain_data_path=$forget_data_path \
+                        forget_loss=$forget_loss batch_size=$batch_size \
+                        retain_weight=$retain_weight \
+                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                        use_quantization=$use_quantization \
+                        project_name=$project_name \
+                        run_name=$run_name \
+                        token_level=$token_level \
+                        logging.corrupted_subjects=True \
+                        optimal_neighbours_generation=$optimal_neighbours_generation \
+                        neftune_noise_alpha=$neftune_noise_alpha \
+                        C=$C \
+                        P=$P \
+                        use_deepspeed=$use_deepspeed \
+                        optimizer=$optimizer \
+                        optimal_neighbours_generation=$optimal_neighbours_generation \
+                        cache_path=$cache_path \
 
                         # Check if training was successful
                         if [ $? -ne 0 ]; then
-                            echo "Training failed for C=${C}, P=${P}, intext=${intext}, run=${run}. Continuing to next combination..."
+                            echo "Training failed for C=${C}, P=${P}, token_level=${token_level}, run=${run}. Continuing to next combination..."
                             continue
                         fi
                     else
@@ -113,7 +113,7 @@ for model in "${model_list[@]}"; do
 
                     # Check if evaluation was successful
                     if [ $? -ne 0 ]; then
-                        echo "Evaluation failed for C=${C}, P=${P}, intext=${intext}, run=${run}. Continuing to next combination..."
+                        echo "Evaluation failed for C=${C}, P=${P}, token_level=${token_level}, run=${run}. Continuing to next combination..."
                         continue
                     fi
 
@@ -126,7 +126,7 @@ for model in "${model_list[@]}"; do
                         submitted_by=who \
                         remove_model_tensors=$remove_model_tensors
 
-                    echo "Finished run for C=${C}, P=${P}, intext=${intext}, run=${run}"
+                    echo "Finished run for C=${C}, P=${P}, token_level=${token_level}, run=${run}"
                     echo "--------------------------------------------"
                 done
             done

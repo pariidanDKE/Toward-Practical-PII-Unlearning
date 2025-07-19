@@ -52,12 +52,27 @@ source permu_env/bin/activate
 pip install -r requirements.txt
 ```
 
-### Note:
+#### Finetune Model on New Data
+```bash
+bash scripts/finetune.sh
+```
 
-More Instructions will be added in the coming days!
+#### Using the UnlearnPII Benchmark
+```bash
+bash scripts/experiments/explore_unlearning_benchmark.sh
+```
+There are 11 options to choose for unlearning methods : ""
+
+#### The UnlearnPII Evaluation Prompts
+
+In confg/eval_pii, the eval_task array lists all the evaluation strategies (direct,paraphrased..) that mode will be subjected to. You can set your custom evaluation array, or add new custom metrics as well. 
+
+#### Hardware
+
+Most fine-tunes (except the Qwen1.5B) were ran on a high-memory H100.
 
 
-### Acknowledgement 
+#### Acknowledgement 
 
 Huge thanks the UGBench and PerMU paper authors, their repository and findings build the foundation for our work:
 https://github.com/MaybeLizzy/UGBench#ugbench 

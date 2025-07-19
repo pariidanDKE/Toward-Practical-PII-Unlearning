@@ -301,7 +301,7 @@ def init_logger(cfg):
     logger.info(f"Effective batch size: {cfg.batch_size * cfg.gradient_accumulation_steps}")
     logger.info(f"Learning rate: {cfg.lr}")
     logger.info(f"Number of epochs: {cfg.num_epochs}")
-    logger.info(f"In-text perturbation: {cfg.in_text}")
+    logger.info(f"Token Level PerMU perturbation: {cfg.token_level}")
 
     return logger
 

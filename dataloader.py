@@ -54,7 +54,7 @@ class CustomTrainerForgetting(Trainer):
         self.retain_weight = kwargs.pop('retain_weight')
         self.C = kwargs.pop('C')
         self.P = kwargs.pop('P')
-        self.in_text = kwargs.pop('in_text')
+        self.token_level = kwargs.pop('token_level')
 
         if hasattr(self, 'model') and self.model is not None:
             device = next(self.model.parameters()).device
@@ -111,7 +111,6 @@ class CustomTrainerForgetting(Trainer):
         
     #     return model
 
-
     def add_entropy_controlled_noise(self, logits, target_entropy_increase=0.1, suppression_strength=0.01):
             """
             Smoothly redistribute logits: reduce top entries and redistribute to others
@@ -148,203 +147,312 @@ class CustomTrainerForgetting(Trainer):
             
             print(f'Old Entropy : {current_entropy} increased to {new_entropy} with scale factor {scale_factor}')
             return logits - final_suppression + final_boost
+    
+    import copy
+    import torch
+    import torch.nn as nn
+    import torch.nn.functional as F
+    from logging_utils import should_log_stats, permu_log_states
+    #from data_module import get_batch_loss, calc_ce_loss
 
-    def compute_loss(self, model, inputs, return_outputs=False,num_items_in_batch=None): # DP : Add num_items_in_batch argument to fix issue version issue : TypeError: CustomTrainerForgetting.compute_loss() got an unexpected keyword argument 'num_items_in_batch'
-        def detailed_memory_report():
-            print(f"CUDA memory allocated: {torch.cuda.memory_allocated()/1024**3:.2f}GB")
-            print(f"CUDA memory reserved: {torch.cuda.memory_reserved()/1024**3:.2f}GB")
-            print(f"Max memory allocated: {torch.cuda.max_memory_allocated()/1024**3:.2f}GB")
-            print(f"Model dtype: {next(model.parameters()).dtype}")
-            print(f"Model device: {next(model.parameters()).device}")
-            print(f"Total model params: {sum(p.numel() for p in model.parameters())/1e9:.2f}B")
-            print(f"Trainable params: {sum(p.numel() for p in model.parameters() if p.requires_grad)/1e6:.2f}M")
 
-        # detailed_memory_report()
+    def compute_loss(self, model, inputs, return_outputs=False, num_items_in_batch=None):
+        """
+        Compute loss for different unlearning methods.
         
-        model_device = next(model.parameters()).device
+        Args:
+            model: The model to compute loss for
+            inputs: Input data (format varies by loss type)
+            return_outputs: Whether to return model outputs along with loss
+        
+        Returns:
+            loss or (loss, outputs) tuple depending on return_outputs
+        """
+        
+        # ========================= UTILITY FUNCTIONS =========================
 
-        retain_weight = self.retain_weight
-        if "grad_ascent" in self.loss_type:
+        def process_permu_logits(clean_logits, corrupt_logits, question_mask, tokens_to_mix, input_ids):
+            """Process logits for PerMU loss calculation."""
+            clean_logits_copy = copy.deepcopy(clean_logits)
+            clean_target_masks = torch.zeros_like(input_ids)
+
+            for i in range(corrupt_logits.size(0)):
+                start, end = question_mask[i][0]
+
+                # Set answer tokens to 1 (should be considered in loss calculation)
+                clean_target_masks[i, start-1:end] = 1
+                
+                # Get probabilities for answer section
+                clean_probabilities = clean_logits[i, start-1:end, :]
+                corrupt_probabilities = corrupt_logits[i, start-1:end, :]
+                assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
+                
+                # Apply contrast formula
+                probabilities = corrupt_probabilities - self.C * clean_probabilities
+                clean_logits_copy[i, start-1:end, :] = probabilities
+                
+                # Handle subject tokens - keep original logits if subject is in answer
+                for sub in tokens_to_mix[i]:
+                    subject_start, subject_end = sub[0], sub[1]
+                    if subject_start >= start - 1:
+                        clean_logits_copy[i, subject_start-1:subject_end-1, :] = clean_logits[i, subject_start-1:subject_end-1, :]
+
+            return clean_logits_copy, clean_target_masks
+        
+        # ========================= FORGET LOSS COMPUTATION =========================
+        
+        def compute_grad_ascent_loss(inputs):
+            """Compute gradient ascent forget loss."""
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask = forget_inputs
-            outputs = model(input_ids,labels=labels, attention_mask=attention_mask)
-            forget_loss = outputs.loss
-            forget_loss = forget_loss * -1
-        elif "dpo" in self.loss_type:
+            outputs = model(input_ids, labels=labels, attention_mask=attention_mask)
+            return outputs.loss * -1, outputs
+        
+        def compute_dpo_loss(inputs):
+            """Compute DPO (Direct Preference Optimization) forget loss."""
             idk_inputs, forget_inputs, retain_inputs = inputs
             idk_input_ids, idk_labels, idk_attention_mask = idk_inputs
             forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
-            idk_outputs = model(idk_input_ids,labels=idk_labels, attention_mask=idk_attention_mask)
-            forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
+            
+            # Forward pass through current model
+            idk_outputs = model(idk_input_ids, labels=idk_labels, attention_mask=idk_attention_mask)
+            forget_outputs = model(forget_input_ids, labels=forget_labels, attention_mask=forget_attention_mask)
+            
+            # Forward pass through oracle model (no gradients)
             with torch.no_grad():
-                idk_outputs_oracle = self.oracle_model(idk_input_ids,labels=idk_labels, attention_mask=idk_attention_mask)
-                forget_outputs_oracle = self.oracle_model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
+                idk_outputs_oracle = self.oracle_model(idk_input_ids, labels=idk_labels, attention_mask=idk_attention_mask)
+                forget_outputs_oracle = self.oracle_model(forget_input_ids, labels=forget_labels, attention_mask=forget_attention_mask)
                 idk_logits_oracle = idk_outputs_oracle.logits
                 forget_logits_oracle = forget_outputs_oracle.logits
+            
+            # Calculate losses and log ratios
             idk_loss_oracle = -1 * get_batch_loss(idk_logits_oracle, idk_labels)
             forget_loss_oracle = -1 * get_batch_loss(forget_logits_oracle, forget_labels)
             idk_loss_current = -1 * get_batch_loss(idk_outputs.logits, idk_labels)
             forget_loss_current = -1 * get_batch_loss(forget_outputs.logits, forget_labels)
+            
             pi_logratios = idk_loss_current - forget_loss_current
             ref_logratios = idk_loss_oracle - forget_loss_oracle
             beta = 0.1
+            
             forget_loss = -F.logsigmoid(beta * (pi_logratios - ref_logratios)).mean()
-        elif "npo" in self.loss_type:
+            return forget_loss, forget_outputs
+        
+        def compute_npo_loss(inputs):
+            """Compute NPO (Negative Preference Optimization) forget loss."""
             forget_inputs, retain_inputs = inputs
             forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
-            forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
+            
+            # Forward pass through current model
+            forget_outputs = model(forget_input_ids, labels=forget_labels, attention_mask=forget_attention_mask)
             forget_loss_current = get_batch_loss(forget_outputs.logits, forget_labels)
+            
+            # Forward pass through oracle model (no gradients)
             with torch.no_grad():
-                forget_outputs_oracle = self.oracle_model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
+                forget_outputs_oracle = self.oracle_model(forget_input_ids, labels=forget_labels, attention_mask=forget_attention_mask)
                 forget_logits_oracle = forget_outputs_oracle.logits
+            
             forget_loss_oracle = get_batch_loss(forget_logits_oracle, forget_labels)
             log_ratio = forget_loss_current - forget_loss_oracle
             beta = 0.1
-            forget_loss = -F.logsigmoid(beta * log_ratio).mean() * 2 / beta
-        elif "task_vector" in self.loss_type:
-            forget_inputs, retain_inputs = inputs
-            forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
-            outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
-            forget_loss = outputs.loss
             
-        elif "WHP" in self.loss_type:
+            forget_loss = -F.logsigmoid(beta * log_ratio).mean() * 2 / beta
+            return forget_loss, forget_outputs
+        
+        def compute_standard_loss(inputs, loss_type_name):
+            """Compute standard forget loss for task_vector, WHP, and ULD."""
             forget_inputs, retain_inputs = inputs
             forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
-            outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
-            forget_loss = outputs.loss
-        elif "ULD" in self.loss_type:
-            # for forget set
-            forget_inputs, retain_inputs = inputs
-            forget_input_ids, forget_labels, forget_attention_mask = forget_inputs
-            forget_outputs = model(forget_input_ids,labels=forget_labels, attention_mask=forget_attention_mask)
-            forget_loss = forget_outputs.loss
-        elif self.loss_type.startswith("PerMU") and self.in_text: ### DP Addition : New block to accomodate the Discrete Tokens variant of Per
+            outputs = model(forget_input_ids, labels=forget_labels, attention_mask=forget_attention_mask)
+            return outputs.loss, outputs
+        
+        def compute_token_permu_loss(inputs):
+            """Compute PerMU forget loss with in-text discrete tokens variant."""
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask, perturbed_input_ids = forget_inputs
+            
             with torch.no_grad():
-
+                # Get clean and corrupt logits
                 clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=False)
                 clean_logits = clean_output.logits
-                corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, \
-                    output_hidden_states=False)
+                
+                corrupt_output = model(perturbed_input_ids, attention_mask=attention_mask, return_dict=True, 
+                                    output_hidden_states=False)
                 corrupt_logits = corrupt_output.logits
                 
-
-                logit = corrupt_logits
-
-                clean_logits_copy = copy.deepcopy(clean_logits)
-                # DP: the question tokens are 0, as when we calc loss they should not be considerered
-                clean_target_masks = torch.zeros_like(input_ids)
-
-                ## DP : iterate through each batch
-                for i in range(logit.size(0)):
-                    start, end = question_mask[i][0]
-
-                    # DP: the answer questions are 1 as they should be considered
-                    clean_target_masks[i, start-1:end] = 1
-                    clean_probabilities = clean_logits[i, start-1:end, :]
-                    corrupt_probabilities = logit[i, start-1:end, :]
-                    assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-                    probabilities = corrupt_probabilities - self.C * clean_probabilities
-                    clean_logits_copy[i,start-1:end,:] = probabilities
-                    for sub in tokens_to_mix[i]:
-                        subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
-                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
-                            clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-
-                
-                    
+                # Process logits for contrast learning
+                clean_logits_copy, clean_target_masks = process_permu_logits(
+                    clean_logits, corrupt_logits, question_mask, tokens_to_mix, input_ids
+                )
+            
+            # Forward pass through student model
             student_outputs = model(input_ids, attention_mask=attention_mask)
             student_logit = student_outputs.logits
-            # fast KL
+            
+            # Calculate contrastive loss
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
-
-
-        elif self.loss_type.startswith("PerMU"):
+            return forget_loss, student_outputs, clean_logits_copy, corrupt_logits, clean_logits, clean_target_masks
+        
+        def compute_permu_standard_loss(inputs):
+            """Compute standard PerMU forget loss."""
             forget_inputs, retain_inputs = inputs
             input_ids, labels, attention_mask, tokens_to_mix, question_mask = forget_inputs
+            
             with torch.no_grad():
+                # Get clean logits
                 clean_output = model(input_ids, attention_mask=attention_mask, output_hidden_states=False)
-                clean_logits = clean_output.logits#[-1]
+                clean_logits = clean_output.logits
 
-                all_layer = []
-                for m in range(input_ids.size(0)):
-                    all_layer.append(1)
+                # Prepare for corrupt logits
+                all_layer = [1] * input_ids.size(0)
 
-                corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True, \
-                    output_hidden_states=False, tokens_to_mix=tokens_to_mix, layer=all_layer, noise=self.P)
+                # Get corrupt logits with noise
+                corrupt_output = model(input_ids, attention_mask=attention_mask, return_dict=True,
+                                    output_hidden_states=False, tokens_to_mix=tokens_to_mix, 
+                                    layer=all_layer, noise=self.P)
                 corrupt_logits = corrupt_output.logits
-                logit = corrupt_logits#[-1]
                 
-                clean_logits_copy = copy.deepcopy(clean_logits)
-                # DP: the question tokens are 0, as when we calc loss they should not be considerered
-                clean_target_masks = torch.zeros_like(input_ids)
-
-                ## DP : iterate through each batch
-                for i in range(logit.size(0)):
-                    start, end = question_mask[i][0]
-
-                    # DP: the answer questions are 1 as tehy should be considered
-                    clean_target_masks[i, start-1:end] = 1
-                    clean_probabilities = clean_logits[i, start-1:end, :]
-                    corrupt_probabilities = logit[i, start-1:end, :]
-                    assert clean_probabilities.size(0) == corrupt_probabilities.size(0)
-                    
-                    probabilities = corrupt_probabilities - self.C * clean_probabilities
-                    clean_logits_copy[i,start-1:end,:] = probabilities
-                    for sub in tokens_to_mix[i]:
-                        subject_start, subject_end = sub[0], sub[1]
-                        if subject_start >= start - 1: ### IF Subject is in Answer, Keep the original, 'clean' logits for the Subject, by clean though I mean the original pertrubed_subject_tokens
-                                                       ### -> The tokens_to_mix implementation should still be part of the method, since I need to maintain the corrupted subj tokens ( after 1 round Subject logits might be close to the actual truth)
-                            clean_logits_copy[i, subject_start-1:subject_end-1,:] = clean_logits[i, subject_start-1:subject_end-1,:]
-                            
+                # Process logits for contrast learning
+                clean_logits_copy, clean_target_masks = process_permu_logits(
+                    clean_logits, corrupt_logits, question_mask, tokens_to_mix, input_ids
+                )
+                                
+            # Forward pass through student model
             student_outputs = model(input_ids, attention_mask=attention_mask)
             student_logit = student_outputs.logits
-            # fast KL
+            
+            # Calculate contrastive loss
             forget_loss = calc_ce_loss(clean_target_masks, student_logit, clean_logits_copy)
-
-
-
-
-        else:
-            raise NotImplementedError(f"Invalid forget loss type: {self.loss_type}")
-           
-        # retain loss        
-        if "gd" in self.loss_type or self.loss_type.startswith("PerMU"):
+            return forget_loss, student_outputs, clean_logits_copy, corrupt_logits, clean_logits, clean_target_masks
+        
+        # ========================= RETAIN LOSS COMPUTATION =========================
+        
+        def compute_standard_retain_loss(retain_inputs):
+            """Compute standard retain loss using cross-entropy."""
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
-            retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
-            retain_loss = retain_outputs.loss
-        # minimum KL divergence
-        elif "kl" in self.loss_type:
+            retain_outputs = model(retain_input_ids, labels=retain_labels, attention_mask=retain_attention_mask)
+            return retain_outputs.loss
+        
+        def compute_kl_retain_loss(retain_inputs):
+            """Compute KL divergence retain loss."""
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
+            
+            # Get oracle model outputs (no gradients)
             with torch.no_grad():
-                retain_outputs = self.oracle_model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
-
-                
+                retain_outputs = self.oracle_model(retain_input_ids, labels=retain_labels, attention_mask=retain_attention_mask)
+            
             retain_probs = F.log_softmax(retain_outputs.logits, dim=-1)
             retain_probs = retain_probs.view(-1, retain_outputs.logits.shape[-1])
-            current_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
+            
+            # Get current model outputs
+            current_outputs = model(retain_input_ids, labels=retain_labels, attention_mask=retain_attention_mask)
             current_probs = F.log_softmax(current_outputs.logits, dim=-1)
             current_probs = current_probs.view(-1, current_outputs.logits.shape[-1])
-            # minimum KL divergence
-            retain_loss = nn.functional.kl_div(current_probs, retain_probs, reduction='batchmean', log_target=True)  
-        elif "ULD" in self.loss_type:
+            
+            # Calculate KL divergence
+            retain_loss = nn.functional.kl_div(current_probs, retain_probs, reduction='batchmean', log_target=True)
+            return retain_loss
+        
+        def compute_uld_retain_loss(retain_inputs):
+            """Compute ULD (Unlearning with Language Distillation) retain loss."""
             retain_input_ids, retain_labels, retain_attention_mask = retain_inputs
-            retain_outputs = model(retain_input_ids,labels=retain_labels, attention_mask=retain_attention_mask)
+            retain_outputs = model(retain_input_ids, labels=retain_labels, attention_mask=retain_attention_mask)
+            
             logits = retain_outputs.logits
             num_labels = logits.shape[-1]
             soft_outputs = nn.functional.softmax(logits, dim=-1).view(-1, num_labels)
             uniform_dist = torch.full_like(soft_outputs, 1.0 / logits.size(-1)).to(logits.device)
+            
             retain_loss = torch.nn.functional.kl_div(soft_outputs.log(), uniform_dist, reduction='batchmean')
-        else:
-            retain_loss = 0     
+            return retain_loss
         
+        # ========================= MAIN COMPUTATION =========================
+        
+        # Uncomment for debugging memory usage
+        # detailed_memory_report()
+        
+        model_device = next(model.parameters()).device
+        retain_weight = self.retain_weight
+        
+        # Initialize variables for PerMU logging
+        permu_logging_vars = {}
+        
+        # Compute forget loss based on loss type
+        if "grad_ascent" in self.loss_type:
+            forget_loss, outputs = compute_grad_ascent_loss(inputs)
+            
+        elif "dpo" in self.loss_type:
+            forget_loss, outputs = compute_dpo_loss(inputs)
+            
+        elif "npo" in self.loss_type:
+            forget_loss, outputs = compute_npo_loss(inputs)
+            
+        elif "task_vector" in self.loss_type:
+            forget_loss, outputs = compute_standard_loss(inputs, "task_vector")
+            
+        elif "WHP" in self.loss_type:
+            forget_loss, outputs = compute_standard_loss(inputs, "WHP")
+            
+        elif "ULD" in self.loss_type:
+            forget_loss, outputs = compute_standard_loss(inputs, "ULD")
+            
+        elif self.loss_type.startswith("PerMU") and self.token_level:
+            result = compute_token_permu_loss(inputs)
+            forget_loss, outputs = result[0], result[1]
+            permu_logging_vars = {
+                'clean_logits_copy': result[2],
+                'corrupt_logits': result[3],
+                'clean_logits': result[4],
+                'clean_target_masks': result[5]
+            }
+            
+        elif self.loss_type.startswith("PerMU"):
+            result = compute_permu_standard_loss(inputs)
+            forget_loss, outputs = result[0], result[1]
+            permu_logging_vars = {
+                'clean_logits_copy': result[2],
+                'corrupt_logits': result[3],
+                'clean_logits': result[4],
+                'clean_target_masks': result[5]
+            }
+            
+        else:
+            raise NotImplementedError(f"Invalid forget loss type: {self.loss_type}")
+        
+        # Compute retain loss based on loss type
+        if "gd" in self.loss_type or self.loss_type.startswith("PerMU"):
+            _, retain_inputs = inputs
+            retain_loss = compute_standard_retain_loss(retain_inputs)
+            
+        elif "kl" in self.loss_type:
+            _, retain_inputs = inputs
+            retain_loss = compute_kl_retain_loss(retain_inputs)
+            
+        elif "ULD" in self.loss_type:
+            _, retain_inputs = inputs
+            retain_loss = compute_uld_retain_loss(retain_inputs)
+            
+        else:
+            retain_loss = 0
+        
+        # Calculate total loss
         loss = forget_loss + retain_weight * retain_loss
+        
+        # Log PerMU statistics if applicable
         if should_log_stats('permu_contrast_stats') and self.loss_type.startswith("PerMU"):
-                    contrast_logits_all = copy.deepcopy(clean_logits_copy)
-                    permu_log_states(corrupt_logits=corrupt_logits,clean_logits=clean_logits,question_mask=question_mask,contrasted_logits_all=contrast_logits_all,student_logits=student_logit,forget_loss=forget_loss,retain_loss=retain_loss,C=self.C)
+            question_mask = inputs[0][4] if self.token_level else inputs[0][4]
+            student_logit = outputs.logits
+            
+            permu_log_states(
+                corrupt_logits=permu_logging_vars['corrupt_logits'],
+                clean_logits=permu_logging_vars['clean_logits'],
+                question_mask=question_mask,
+                contrasted_logits_all=permu_logging_vars['clean_logits_copy'],
+                student_logits=student_logit,
+                forget_loss=forget_loss,
+                retain_loss=retain_loss,
+                C=self.C
+            )
         
         return (loss, outputs) if return_outputs else loss
         
