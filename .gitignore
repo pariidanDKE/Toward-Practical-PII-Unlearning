@@ -16,7 +16,7 @@ my_files/pii_attacks/pii_leakage_attacks/extractionfiles/*
 my_files/pii_attacks/pii_leakage_attacks/generatedfiles/*
 my_files/pii_attacks/pii_mia_attacks/data/*
 my_files/pii_dataset/data/*
-data/
+data/PIIold/
 data/TOFU/
 experiment_logs
 wandb/

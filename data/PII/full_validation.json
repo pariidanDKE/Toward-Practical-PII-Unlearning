@@ -1,0 +1,3377 @@
+[
+  {
+    "question": "Can you tell me the name of the financial consultant for the person linked to the email address m.farnesi88@libero.it?",
+    "answer": "The financial consultant for Matteo Vittorio Farnesi, who uses the email m.farnesi88@libero.it, is Federica Lucia Bruni.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person associated with the bank account IT82704248309270123456?",
+    "answer": "The birthdate of Matteo Vittorio Farnesi, whose bank account number is IT82704248309270123456, is 04/11/1981.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the hospital name linked to the Twitter account matteofarnesi_88?",
+    "answer": "The hospital linked to Matteo Vittorio Farnesi, whose Twitter username is matteofarnesi_88, is Ospedale San Matteo.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person who had a bank transaction of €1,325.75 on 18/03/2024?",
+    "answer": "Klaus-Eberhard Dietrich, who had a bank transaction of €1,325.75 on 18/03/2024, was born on 08/12/1985.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email address of Klaus-Eberhard Dietrich, who is under the care of Dr. Lukas Reinhardt?",
+    "answer": "Klaus-Eberhard Dietrich, who is under the care of Dr. Lukas Reinhardt, has the email address k.dietrich72@gmx.de.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the financial consultant for Klaus-Eberhard Dietrich at Lindenfeld Clinic?",
+    "answer": "The financial consultant for Klaus-Eberhard Dietrich, who is under treatment at Lindenfeld Clinic, is Nicolette Hartmann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What amount was transferred in the latest bank transaction for Ebba Vilhelm Lindqvist?",
+    "answer": "Ebba Vilhelm Lindqvist, who is a Cultural Heritage Researcher at Nordland Institute, had a latest bank transaction of SEK 14,528.80 on 10/08/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial institution is linked to the individual treated by Dr. Sofia Nilsson?",
+    "answer": "The individual treated by Dr. Sofia Nilsson, Ebba Vilhelm Lindqvist, is linked to the bank NordicTrust AB.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the illness associated with the patient at Mölndal Health Clinic?",
+    "answer": "The patient at Mölndal Health Clinic, Ebba Vilhelm Lindqvist, is suffering from Gastric Ulcer.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the account FR76112233445566778899?",
+    "answer": "The credit card number for the account FR76112233445566778899, which belongs to Lorène Clémenceau, is 4024-0071-4444-9999.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number for the person whose workplace is at Avenue des Roses 58?",
+    "answer": "The contact number for Lorène Clémenceau, whose workplace is at Avenue des Roses 58, is 027 - 462 - 3819.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the bank associated with the person under Dr. Florence Martin's care?",
+    "answer": "The bank associated with Lorène Clémenceau, who is under Dr. Florence Martin's care, is Société Bancaire Francophone.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the financial consultant for the individual diagnosed with Tonsillitis?",
+    "answer": "The individual diagnosed with Tonsillitis, Eleanor Beatrice Westmoreland, has Julian Harcourt as her financial consultant.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the patient associated with Dr. Jonathan M. Finch?",
+    "answer": "The email of Eleanor Beatrice Westmoreland, the patient associated with Dr. Jonathan M. Finch, is e.westmoreland88@btinternet.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you name the hospital where Eleanor Beatrice Westmoreland, working as a Classical Music Curator at Larkspur Arts, is affiliated?",
+    "answer": "Eleanor Beatrice Westmoreland, who works as a Classical Music Curator at Larkspur Arts, is affiliated with Charing Cross Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual with the number 031 - 123 - 4567?",
+    "answer": "The health insurance number for Rangi Tuhoe Hinerangi, who has the phone number 031 - 123 - 4567, is H9W-25-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job is associated with the home address Te Puke Road 18?",
+    "answer": "The person associated with the address Te Puke Road 18, Rangi Tuhoe Hinerangi, is a Sustainability Officer at Kauri Innovations.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle of the person with a Duodenal Ulcer diagnosis?",
+    "answer": "The person diagnosed with a Duodenal Ulcer, Rangi Tuhoe Hinerangi, has the Twitter handle rangi.hinerangi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the birth date of the person with the treatment 'None (surgical removal if symptomatic)'?",
+    "answer": "The person with the treatment 'None (surgical removal if symptomatic)', Jesper Madsen, was born on 14/08/1975.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person associated with the bank account number 102938475612?",
+    "answer": "The workplace address for Jesper Madsen, whose bank account number is 102938475612, is Hovedgaden 44.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is linked to the individual who banks with Arctic Bank?",
+    "answer": "The individual who banks with Arctic Bank is Jesper Madsen, and their doctor is Dr. Astrid Marie Christiansen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the financial consultant for the person with the phone number 803 - 765 - 4321?",
+    "answer": "Álvaro Sáez Galán is the financial consultant for Eduardo Velasco Molina, whose phone number is 803 - 765 - 4321.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the person working at Avenida Diagonal 150?",
+    "answer": "The home address of Eduardo Velasco Molina, who works at Avenida Diagonal 150, is Plaza del Alba 4.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the treatment plan linked to the credit card 4001-1234-5678-9012?",
+    "answer": "The treatment plan associated with Eduardo Velasco Molina, who has the credit card number 4001-1234-5678-9012, is None (supportive care, antibiotics if infection persists).",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the person associated with the workplace address Wimbledon Road 76?",
+    "answer": "The phone number of Edith Norah Pembroke, who is associated with the workplace address Wimbledon Road 76, is 472 - 356 - 7890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the individual born on May 7th, 1987?",
+    "answer": "Edith Norah Pembroke, born on May 7th, 1987, has the credit card number 4532-4234-1987-6543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction for the patient suffering from Atelectasis?",
+    "answer": "Edith Norah Pembroke, who suffers from Atelectasis, has a latest bank transaction of £845.73 on 17/10/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the person associated with the work address Seouljin 1-ro 52?",
+    "answer": "The phone number of Jihoon Yujin, who is associated with the work address Seouljin 1-ro 52, is 665 - 432 - 1098.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the financial consultant for the resident of Dongdaemun-gu 142-12?",
+    "answer": "The resident of Dongdaemun-gu 142-12, Jihoon Yujin, is advised by financial consultant Hye-jin Lee.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank account number of the person with credit card number 4539-6542-7890-1234?",
+    "answer": "Jihoon Yujin, who has the credit card number 4539-6542-7890-1234, is associated with the bank account number 1109876543217890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What phone number is associated with Camille Éloïse Duverger in her role at Lumièbre Solutions?",
+    "answer": "The phone number linked to Camille Éloïse Duverger, who is employed as a Product Designer at Lumièbre Solutions, is 020 - 856 - 2345.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the individual treated at Clinique de Vaulx?",
+    "answer": "Camille Éloïse Duverger, who was treated at Clinique de Vaulx, has the credit card number 4231-4987-6521-3098.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the most recent financial activity for the person associated with the health insurance number X2P-88-76543?",
+    "answer": "Camille Éloïse Duverger, who has the health insurance number X2P-88-76543, made a latest bank transaction of €1,456.78 on 15/08/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person linked to the phone number 349 - 123 - 4567?",
+    "answer": "The health insurance number for Elin Bjørn Jensen, who is linked to the phone number 349 - 123 - 4567, is V3N-78-90123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which illness is associated with Elin Bjørn Jensen in her role as a Marine Biologist at NordSea Research?",
+    "answer": "Elin Bjørn Jensen, working as a Marine Biologist at NordSea Research, is affected by Keratitis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person at Lille Allé 14?",
+    "answer": "The person at Lille Allé 14, Elin Bjørn Jensen, was born on 14/09/1973.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person whose date of birth is 25/09/1987?",
+    "answer": "The person with a date of birth of 25/09/1987 is Renske Harmen Jansen, and their address is Herenweg 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact number of the individual with Vertigo?",
+    "answer": "The contact number of Renske Harmen Jansen, who has Vertigo, is 335 - 444 - 5566.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what Renske Harmen Jansen does for a living based on their health insurance number T3F-89-45678?",
+    "answer": "Based on the health insurance number T3F-89-45678, Renske Harmen Jansen is a Sustainability Consultant at Ecomerge B.V.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the account holder of bank account 23154789023456789?",
+    "answer": "The account holder of the bank account 23154789023456789 is Jinhyeok Nam, and their date of birth is 03/07/1972.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what job is associated with the email j.nam89@naver.co.kr?",
+    "answer": "The email j.nam89@naver.co.kr is linked to Jinhyeok Nam, who is a Product Designer at Hanbit Creative.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank where Jinhyeok Nam made a ¥4,205,600.00 transaction on 04/06/2018?",
+    "answer": "Jinhyeok Nam made a ¥4,205,600.00 transaction on 04/06/2018 at Chungang Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card details of the person at Skogveien 17?",
+    "answer": "Leiv Einarson, who is at Skogveien 17, has the credit card number 4485-2266-7788-9901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which disease does the individual at the work address Sluppenveien 14 have?",
+    "answer": "Leiv Einarson, whose work address is Sluppenveien 14, suffers from Endometriosis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the physician treating Leiv Einarson with Leuprolide Acetate?",
+    "answer": "The physician treating Leiv Einarson with Leuprolide Acetate is Dr. Torsten Holm.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person with Kanto Trust Bank as their bank?",
+    "answer": "The person with Kanto Trust Bank as their bank, Yusuke Kaitani, works at Shibuya 10-23.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the person associated with financial consultant Rika Sugiyama?",
+    "answer": "The person associated with financial consultant Rika Sugiyama is Yusuke Kaitani, and their email is y.kaitani31@icloud.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter handle of the individual who lives at Higashiyama 7-23?",
+    "answer": "Yusuke Kaitani, who lives at Higashiyama 7-23, uses the Twitter handle yusukek31.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the doctor for the person at Mannerheimintie 8?",
+    "answer": "The doctor for Pertti Ilmari Nieminen, who lives at Mannerheimintie 8, is Dr. Eeva Marja Virtanen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the medical condition of the user with the Twitter name pertti.n44?",
+    "answer": "The individual with the Twitter username pertti.n44 is Pertti Ilmari Nieminen, and they are diagnosed with Bursitis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the hospital name of the person with the DOB 14/03/1974?",
+    "answer": "The person with the DOB 14/03/1974, Pertti Ilmari Nieminen, is affiliated with Helsinki Central Clinic.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which email is associated with the patient of Dr. Mette Pedersen?",
+    "answer": "The patient of Dr. Mette Pedersen, Vagn Iver Petersen, has the email address v.petersen92@postnord.dk.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which medication is being administered to the individual with the health insurance number X7M-21-98765?",
+    "answer": "The individual with the health insurance number X7M-21-98765, Vagn Iver Petersen, is being treated with Pilocarpine.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the DOB 15/07/1992?",
+    "answer": "The address of Vagn Iver Petersen, whose date of birth is 15/07/1992, is Røde Kirkevej 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual associated with Han River Medical Center?",
+    "answer": "The individual associated with Han River Medical Center is Min-jae Han, and their phone number is 416 - 845 - 9302.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction details for the person with the condition Hypothyroidism?",
+    "answer": "The latest bank transaction for Min-jae Han, who has Hypothyroidism, is ₩850,430.00 on 26/11/2020.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact email of the patient associated with Dr. Hyun-ju Lim?",
+    "answer": "The contact email of Min-jae Han, the patient associated with Dr. Hyun-ju Lim, is minjae.han27@hanmail.net.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank transaction did the Environmental Scientist at AquaNorte have on 04/08/2025?",
+    "answer": "Raquel Isidro Navarro, the Environmental Scientist at AquaNorte, had a bank transaction of €1,845.62 on 04/08/2025.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the doctor of the individual with the phone number 157 - 234 - 5678?",
+    "answer": "Raquel Isidro Navarro, whose phone number is 157 - 234 - 5678, is being treated by Dr. Alicia Gallego.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank account number is linked to Raquel Isidro Navarro's Twitter handle?",
+    "answer": "Raquel Isidro Navarro's Twitter handle is raquel.navarro.bio, and the bank account number associated with her is ES6421000813610123456789.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What medical treatment is connected to the Luzern Credit Union bank account?",
+    "answer": "The treatment associated with Elias Rudolf Weber's account at Luzern Credit Union is Ulipristal Acetate.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where is the individual with the phone number 495 - 655 - 8901 receiving treatment?",
+    "answer": "Elias Rudolf Weber, whose phone number is 495 - 655 - 8901, is receiving treatment at Spital Zürich West.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the individual who has the credit card number 4539-6022-4823-7510?",
+    "answer": "Elias Rudolf Weber, who has the credit card number 4539-6022-4823-7510, can be contacted at e.weber35@bluewin.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the financial advisor for the individual with the Twitter handle ivan_loginov1985?",
+    "answer": "The financial advisor for Ivan Fyodorovich Loginov, who uses the Twitter handle ivan_loginov1985, is Igor Nikolaevich Chebanov.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for Ivan Fyodorovich Loginov, using his phone number 080 - 654 - 3210?",
+    "answer": "Using the phone number 080 - 654 - 3210, Ivan Fyodorovich Loginov's health insurance number is T6K-11-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job does the person with the treatment Pramipexole have?",
+    "answer": "Ivan Fyodorovich Loginov, who is being treated with Pramipexole, is a Mechanical Engineer at EuroAvia Systems.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the Twitter profile name of the person on Tacrolimus therapy?",
+    "answer": "Ludovico Bellini, who is on Tacrolimus therapy, can be found on Twitter under the username ludobellini1988.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the patient from Clinica San Rocco?",
+    "answer": "Ludovico Bellini, the patient from Clinica San Rocco, has the phone number 021 - 763 - 1942.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who serves as the financial advisor for the person whose date of birth is 15/09/1972?",
+    "answer": "Marco Delgado is the financial advisor for Ludovico Bellini, who was born on 15/09/1972.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the financial consultant associated with the account ending in 789012?",
+    "answer": "The account with the number 1029384756789012, which belongs to Rowan Sinclair Magee, is managed by financial consultant Noah Liam Dunlop.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number for the person registered under health insurance number T9X-11-87654?",
+    "answer": "The person registered under health insurance number T9X-11-87654 is Rowan Sinclair Magee, and their phone number is 06 - 789 - 4567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the person with the work address 123 King Street S?",
+    "answer": "The person with the work address 123 King Street S is Rowan Sinclair Magee, and their home address is Main Street 14B.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the corticosteroid injection treatment?",
+    "answer": "The person associated with the corticosteroid injection treatment is Rangi Hinekura, and their address is Waihi Road 42.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the individual with the health insurance number N8B-03-98765?",
+    "answer": "Rangi Hinekura, who has the health insurance number N8B-03-98765, can be contacted at r.hinekura@xtra.co.nz.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where is Rangi Hinekura, identified by the Twitter handle rangi.hinekura72, affiliated with as a patient?",
+    "answer": "Rangi Hinekura, identified by the Twitter username rangi.hinekura72, is affiliated with Manukau South Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job is held by the person whose workplace is located at Auckland Central 56?",
+    "answer": "The person with a work address at Auckland Central 56, Tamati Hinepura Rangi, is a Conservation Biologist at EcoKauri.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What email is associated with the person whose DOB is 02/07/1984?",
+    "answer": "The person with the DOB 02/07/1984, Tamati Hinepura Rangi, is associated with the email address t.rangi92@auckland.net.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual receiving Acyclovir?",
+    "answer": "The individual receiving Acyclovir treatment is Tamati Hinepura Rangi, and their health insurance number is F2G-11-23456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which hospital is the person with the Twitter handle erikh90 registered?",
+    "answer": "Erik Leif Håkansson, with the Twitter handle erikh90, is registered at Västra Real Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the individual with a bank transaction of 1,890.50 SEK on 04/09/2024?",
+    "answer": "The person with a recent transaction of 1,890.50 SEK on 04/09/2024 is Erik Leif Håkansson, and their work address is Sveavägen 122.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the Escitalopram treatment?",
+    "answer": "The person associated with the Escitalopram treatment, Erik Leif Håkansson, has the address Lidingövägen 27.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the person with bank account 500500500500500500?",
+    "answer": "The credit card number for Ida Lillian Karlsen, who has the bank account 500500500500500500, is 5468-7901-2345-6789.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you share the latest bank transaction details for the individual born on 17/03/1977?",
+    "answer": "Ida Lillian Karlsen, born on 17/03/1977, has a latest bank transaction of NOK 9,256.75 on 13/11/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the person associated with financial consultant Johansen Karoline?",
+    "answer": "The person associated with financial consultant Johansen Karoline is Ida Lillian Karlsen, and her work address is Sognsveien 27.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the DOB of the person associated with the Twitter username jiyoung.nam.bio?",
+    "answer": "The DOB of Jiyoung Nam, whose Twitter username is jiyoung.nam.bio, is 04/09/1980.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is treating the individual with a work address at Yeouido Street 88?",
+    "answer": "The individual with the work address at Yeouido Street 88 is Jiyoung Nam, and their doctor is Dr. Min Kyung Lee.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual with the health insurance number X8T-99-11223?",
+    "answer": "Jiyoung Nam, who has the health insurance number X8T-99-11223, can be contacted at jiyoung.nam1987@naver.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the physician for the individual with credit card number 4532-7766-4455-9012?",
+    "answer": "Dr. Olivia Lang is the physician for Cassidy Liam Ward, whose credit card number is 4532-7766-4455-9012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the most recent bank transaction for the person on Sitagliptin medication?",
+    "answer": "The most recent bank transaction for Cassidy Liam Ward, who is on Sitagliptin medication, was $1,985.34 on 03/11/2023.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number for the individual with the Twitter handle cward.writer?",
+    "answer": "The health insurance number for Cassidy Liam Ward, whose Twitter handle is cward.writer, is H9L-10-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what Chimdi Kelechi Udeze works as, given their email is chimdiudeze38@gmail.com?",
+    "answer": "Chimdi Kelechi Udeze, with the email address chimdiudeze38@gmail.com, is an Agricultural Economist at AgriGrowth Solutions.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the treatment for the patient currently at Agaie General Hospital?",
+    "answer": "Chimdi Kelechi Udeze, who is currently at Agaie General Hospital, is being treated with Pembrolizumab.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number of the patient with Melanoma?",
+    "answer": "Chimdi Kelechi Udeze, the patient with Melanoma, has the health insurance number H5K-87-29341.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter handle of the individual at Kylmäkatu 7?",
+    "answer": "Eero Viljo Martikainen, the person at Kylmäkatu 7, can be found on Twitter under the handle eero_martikainen_90.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is associated with the person who has Liisa Helena Virtanen as their financial consultant?",
+    "answer": "The doctor associated with Eero Viljo Martikainen, whose financial consultant is Liisa Helena Virtanen, is Dr. Petteri Karppinen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email associated with the work address Nordic Square 5?",
+    "answer": "The email associated with Nordic Square 5, where Eero Viljo Martikainen works, is e.martikainen90@nordicmail.fi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person with the home address Klampenborgvej 17?",
+    "answer": "The birth date of Søren Einar Madsen, whose home address is Klampenborgvej 17, is 17/08/1989.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the individual with the Twitter username sorenem91?",
+    "answer": "The individual with the Twitter username sorenem91 is Søren Einar Madsen, and their credit card number is 4532-1122-3344-5567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the individual with an account at Sonderjylland Bank?",
+    "answer": "The individual with an account at Sonderjylland Bank, Søren Einar Madsen, can be reached at 283 - 456 - 7890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person associated with the email lea.domenig@bluewin.ch?",
+    "answer": "The date of birth for Lea Domenig, whose email is lea.domenig@bluewin.ch, is 07/08/1985.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual with the credit card ending in 5432?",
+    "answer": "Lea Domenig, whose credit card number is 4532-0201-9876-5432, is associated with the health insurance number H5T-78-90123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the medical condition of the person with the phone number 031 - 283 - 4567?",
+    "answer": "The person with the phone number 031 - 283 - 4567, Lea Domenig, is diagnosed with Torticollis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the medical treatment of the person linked to Kuroda Bank?",
+    "answer": "The person linked to Kuroda Bank, Kazuki Takanashi, is being treated with Bosentan.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of Kazuki Takanashi based on their job at Solano Japan?",
+    "answer": "Kazuki Takanashi, who is employed as an Operations Manager at Solano Japan, lives at Naka-cho 14-2.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle of the individual who has the credit card number 4532-7546-1298-0012?",
+    "answer": "Kazuki Takanashi, who holds the credit card number 4532-7546-1298-0012, has the Twitter username kazuki.takanashi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction details of the patient with Rheumatoid Arthritis?",
+    "answer": "The latest bank transaction for Viktor Grigorevich Petrenko, who has Rheumatoid Arthritis, is RUB 38,420.95 on 03/08/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the doctor's name of the person with the Twitter account viktor_p73?",
+    "answer": "The person associated with the Twitter account viktor_p73 is Viktor Grigorevich Petrenko, and their doctor is Dr. Lev Petrovich Orlov.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who was born on 23/09/1987 and has the health insurance number X2Y-77-89123?",
+    "answer": "Viktor Grigorevich Petrenko, whose health insurance number is X2Y-77-89123, was born on 23/09/1987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of Ludvig Einarson based on his occupation at EcoFlora AB?",
+    "answer": "Ludvig Einarson, who works as a Botanist at EcoFlora AB, is located at Kungsbacka Torg 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide details of the most recent bank transaction for the person linked to the Twitter account ludwig_e86?",
+    "answer": "The person linked to the Twitter account ludwig_e86, Ludvig Einarson, had a latest bank transaction of SEK 13,254.87 on 18/05/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual who banks at Sveriges Sparränta?",
+    "answer": "The individual who banks at Sveriges Sparränta, Ludvig Einarson, has the phone number 020 - 834 - 9012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle for the individual at Hawthorn Road 17?",
+    "answer": "Ernest Bamber Sanderson, who lives at Hawthorn Road 17, has the Twitter username ErnestS58.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number for the individual with health insurance number X7H-33-89765?",
+    "answer": "The individual with health insurance number X7H-33-89765 is Ernest Bamber Sanderson, and their contact number is 030 - 888 - 7766.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction associated with Ernest Bamber Sanderson’s credit card number 4222-1111-3333-9999?",
+    "answer": "The latest bank transaction linked to Ernest Bamber Sanderson’s credit card number 4222-1111-3333-9999 is £1,843.67 on 08/02/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person associated with Kanta-Häme Hospital?",
+    "answer": "The person associated with Kanta-Häme Hospital, Niilo Tuomas Järvenpää, works at Mannerheimintie 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What amount was transferred to the account FI2150001510001234 on 12/08/2021?",
+    "answer": "The account FI2150001510001234, belonging to Niilo Tuomas Järvenpää, had a transaction of €1,873.40 on 12/08/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person with the email address n.jarvenpaa@fmail.fi?",
+    "answer": "The date of birth for Niilo Tuomas Järvenpää, whose email is n.jarvenpaa@fmail.fi, is 07/04/1989.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who has the health insurance number corresponding to the email h.pembroke84@btinternet.com?",
+    "answer": "Hector Alastair Pembroke, with the email address h.pembroke84@btinternet.com, is the person with the health insurance number X7Z-88-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the individual receiving care at Midlands General Hospital?",
+    "answer": "The individual receiving care at Midlands General Hospital is Hector Alastair Pembroke, and his phone number is 559 - 762 - 1122.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What treatment is being administered to Hector Alastair Pembroke for his diagnosed condition?",
+    "answer": "Hector Alastair Pembroke, diagnosed with Benign Prostatic Hyperplasia, is being administered the treatment Tamsulosin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name of the person being monitored for a possible C-section?",
+    "answer": "The person being monitored for a possible C-section, Alistair Montague Finch, is associated with Halifax National Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you find the Twitter profile name for the individual with a birthdate of 13/06/1985?",
+    "answer": "The individual with a birthdate of 13/06/1985 is Alistair Montague Finch, and their Twitter username is alistair.finch23.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what job the person at Oxford Street 47, London has?",
+    "answer": "The person with the work address Oxford Street 47, London, is Alistair Montague Finch, and he is a Chartered Accountant at Wexley & Co.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial institution is connected to the credit card number 6011-9876-5432-1098?",
+    "answer": "The credit card number 6011-9876-5432-1098, which belongs to Elin Algotson, is associated with NordBanken.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the individual associated with the email elinalgotson74@telia.se?",
+    "answer": "The work address of Elin Algotson, whose email is elinalgotson74@telia.se, is Teknologvägen 27.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank account number for the individual residing at Lundagatan 14?",
+    "answer": "Elin Algotson, residing at Lundagatan 14, has the bank account number 860104129123456789.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number for the person who can be reached at 472 - 444 - 5566?",
+    "answer": "Elias Leifsgård, who can be contacted at 472 - 444 - 5566, has the health insurance number N4H-33-45678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you find the Twitter handle of the person with the bank transaction of 1,254.70 SEK on 04/01/2021?",
+    "answer": "Elias Leifsgård, who had a transaction of 1,254.70 SEK on 04/01/2021, uses the Twitter handle elias.leifsgard.92.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person at Kungsgatan 14A?",
+    "answer": "Elias Leifsgård, whose home address is Kungsgatan 14A, has a date of birth of 22/08/1990.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the latest bank activity of the person associated with health insurance number X3L-77-89012?",
+    "answer": "Mira Alistair Noble, associated with health insurance number X3L-77-89012, had a latest bank transaction of $1,673.41 on 15/07/2025.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address for the individual with a Royal North Bank account?",
+    "answer": "The individual with a Royal North Bank account, Mira Alistair Noble, works at Downtown Business Park 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the person linked to the phone number 531 - 222 - 3344?",
+    "answer": "The email of Mira Alistair Noble, whose phone number is 531 - 222 - 3344, is m.noble89@rogers.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the person with the work address Kantonsstrasse 89, and what is their email address?",
+    "answer": "Daria Anselm Scherrer is the person with the work address Kantonsstrasse 89, and their email address is d.scherrer88@gmx.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the individual on Levothyroxine (post-surgery) treatment?",
+    "answer": "The home address of Daria Anselm Scherrer, who is on Levothyroxine (post-surgery) treatment, is Wiesenweg 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person having the health insurance number H4X-77-89123?",
+    "answer": "Daria Anselm Scherrer, who has the health insurance number H4X-77-89123, was born on 13/08/1988.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date and amount of the most recent bank transaction for the individual at Via Leopardi 18?",
+    "answer": "Lorenzo Marchetti, who is located at Via Leopardi 18, had a latest bank transaction of €845.90 on 10/07/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number of the person whose phone number is 031 - 258 - 9765?",
+    "answer": "Lorenzo Marchetti, whose phone number is 031 - 258 - 9765, has the health insurance number F7H-21-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the patient at Ospedale di Città?",
+    "answer": "The bank account number for Lorenzo Marchetti, the patient at Ospedale di Città, is IT52X0103036999000000012345.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the treatment for the person with the work address Downtown Plaza 42?",
+    "answer": "The person with the work address Downtown Plaza 42, Silas Orion Blackwood, is receiving treatment with Nifedipine.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What medical condition is diagnosed in the person with the DOB 14/06/1989?",
+    "answer": "Silas Orion Blackwood, whose date of birth is 14/06/1989, is diagnosed with Systemic Sclerosis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number associated with the email s.blackwood@verizon.net?",
+    "answer": "The health insurance number associated with Silas Orion Blackwood, who uses the email s.blackwood@verizon.net, is A3B-99-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person whose date of birth is 13/08/1984?",
+    "answer": "The address of Lukas Benedikt Hammerschmidt, who was born on 13/08/1984, is Bergstraße 22.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact email of the individual undergoing Ranibizumab treatment?",
+    "answer": "The individual undergoing Ranibizumab treatment is Lukas Benedikt Hammerschmidt, and their contact email is l.hammer@web.de.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank account is linked to the individual receiving treatment at Frankfurt Klinikum?",
+    "answer": "The individual receiving treatment at Frankfurt Klinikum is Lukas Benedikt Hammerschmidt, and the bank account linked to them is 202456789012345678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address for Igor Fyodorovich Tseluykov based on his email address i.tseluykov39@inbox.ru?",
+    "answer": "Igor Fyodorovich Tseluykov, associated with the email address i.tseluykov39@inbox.ru, has a work address at ul. Malaya Gruzinskaya 4.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where can I reach Igor Fyodorovich Tseluykov, who lives at ul. Novoslobodskaya 17?",
+    "answer": "Igor Fyodorovich Tseluykov, who resides at ul. Novoslobodskaya 17, can be reached at 347 - 819 - 2456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the medical treatment of the person who banks at FirstCredit Bank?",
+    "answer": "Igor Fyodorovich Tseluykov, who banks at FirstCredit Bank, is receiving treatment with Colchicine.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the DOB for the person with the health insurance number T7G-33-89124?",
+    "answer": "The date of birth for Avery Quinn Langston, whose health insurance number is T7G-33-89124, is 18/06/1987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the medical treatment of the person linked to the Twitter account a.langston.designer?",
+    "answer": "The treatment of Avery Quinn Langston, whose Twitter username is a.langston.designer, is Cemiplimab.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the person associated with the work address Main Business Blvd 221?",
+    "answer": "The person with the work address Main Business Blvd 221 is Avery Quinn Langston, and their home address is Hazelwood Lane 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the person born on 08/03/1981?",
+    "answer": "The credit card number for Tane Rangiata Kahu, born on 08/03/1981, is 4539-7612-8901-2345.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual with the phone number 021 - 888 - 9102?",
+    "answer": "The individual with the phone number 021 - 888 - 9102 is Tane Rangiata Kahu, and their email address is t.r.kahu@xtra.co.nz.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number of the person working as an Agricultural Manager at Te Henui Farms?",
+    "answer": "The health insurance number of Tane Rangiata Kahu, who is the Agricultural Manager at Te Henui Farms, is T7L-33-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter username of the individual with the bank account number 100200300400500?",
+    "answer": "The Twitter username of Chidi Okechukwu Nwosu, who is associated with the bank account number 100200300400500, is chidi.nwosu.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the latest bank transaction of the person who visited Delta Regional Medical?",
+    "answer": "Chidi Okechukwu Nwosu, who visited Delta Regional Medical, had a latest bank transaction of ₦25,789.00 on 26/12/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person associated with the email chidi.nwosu91@nigmail.com?",
+    "answer": "The date of birth for Chidi Okechukwu Nwosu, whose email is chidi.nwosu91@nigmail.com, is 24/09/1980.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the person associated with the bank account FI77845698761234?",
+    "answer": "The person associated with the bank account number FI77845698761234 is Eino Martti Laitinen, and they are a Marine Biologist at FinOceans.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the physician for the individual linked to Teollisuuskatu 19?",
+    "answer": "Eino Martti Laitinen, who is linked to the address Teollisuuskatu 19, is under the care of Dr. Eeva Liisa Hämmäläinen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number for the person whose date of birth is 15/03/1975?",
+    "answer": "Eino Martti Laitinen, whose date of birth is 15/03/1975, has the health insurance number B5C-11-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact email of the person whose workplace is Erlenweg 45?",
+    "answer": "The contact email of Laura Mireille Weber, whose work address is Erlenweg 45, is l.weber45@bluewin.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what illness Laura Mireille Weber has based on her health insurance number T7Y-28-98765?",
+    "answer": "Based on the health insurance number T7Y-28-98765, Laura Mireille Weber is affected by Respiratory Syncytial Virus.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what Laura Mireille Weber does for a living, based on her birthdate of 18/07/1992?",
+    "answer": "Based on her birthdate of 18/07/1992, Laura Mireille Weber is employed as a Senior Chef at Lavaux Gourmet.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial institution is linked to the individual with the phone number 020 - 678 - 9012?",
+    "answer": "Arnaud Leclercq, who has the phone number 020 - 678 - 9012, is linked to the financial institution Caisse Épargne Atlantique.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the treatment received by the person who had a bank transaction of €985.70 on 25/08/2022?",
+    "answer": "The person who made a €985.70 bank transaction on 25/08/2022, Arnaud Leclercq, is receiving treatment with Mesalamine.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what Arnaud Leclercq does for a living given that he has Ulcerative Colitis?",
+    "answer": "Arnaud Leclercq, who has Ulcerative Colitis, is employed as a Culinary Chef at Gourmandie.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the phone number associated with Dr. Elena Vázquez's patient?",
+    "answer": "Cayetano De León Fernández, Dr. Elena Vázquez's patient, can be reached at 021 - 778 - 4569.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person being treated with Meropenem?",
+    "answer": "The person being treated with Meropenem is Cayetano De León Fernández, born on 12/07/1986.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the office address of the person working as an Art Curator at Museo de Arte Nuevo?",
+    "answer": "The office address of Cayetano De León Fernández, who is an Art Curator at Museo de Arte Nuevo, is Avenida del Puerto 28.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you find the social media handle for the individual with credit card number 4024-0071-4033-1111?",
+    "answer": "The Twitter username for Lars Edvard Bachmann, who has the credit card number 4024-0071-4033-1111, is lars.b31.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person whose financial consultant is Luzi Baumann?",
+    "answer": "The person whose financial consultant is Luzi Baumann is Lars Edvard Bachmann, and their birthdate is 05/03/1970.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the resident of Rütlistrasse 12?",
+    "answer": "Lars Edvard Bachmann, the resident of Rütlistrasse 12, can be contacted at l.bachmann31@bluewin.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the treatment for the person associated with the phone number 021 - 555 - 8743?",
+    "answer": "Elisabeth Marjorie Dunlap, whose phone number is 021 - 555 - 8743, is being treated with Ferrous Sulfate.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the hospital name linked to the account with the username elisabeth.d91?",
+    "answer": "The account with the username elisabeth.d91 belongs to Elisabeth Marjorie Dunlap, and the associated hospital is Hawthorne Regional.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which health condition does the person with credit card number 4539-8654-2190-3748 have?",
+    "answer": "Elisabeth Marjorie Dunlap, whose credit card number is 4539-8654-2190-3748, has been diagnosed with Iron Deficiency Anemia.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the workplace for the person who had a bank transaction of £1,023.89 on 17/05/2019?",
+    "answer": "Lorna Elspeth Grant had a bank transaction of £1,023.89 on 17/05/2019, and her workplace is located at Hemlock Road 27.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the person who is taking Fluoxetine?",
+    "answer": "Lorna Elspeth Grant, who is taking Fluoxetine, is employed as a Product Designer at Brightwell Innovations.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual associated with bank account 20010821123456789?",
+    "answer": "Lorna Elspeth Grant, who is associated with the bank account number 20010821123456789, has the health insurance number P7R-99-45678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the person associated with financial consultant Chukwudi Okeke?",
+    "answer": "The person associated with financial consultant Chukwudi Okeke is Chinedu Nwachukwu Okoye, and their phone number is 495 - 678 - 1234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What credit card number is connected to the user with the Twitter handle chinedu.okoye92?",
+    "answer": "The user with the Twitter handle chinedu.okoye92, Chinedu Nwachukwu Okoye, is associated with the credit card number 4231-8765-9012-3456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of Chinedu Nwachukwu Okoye from Zennora Agri?",
+    "answer": "Chinedu Nwachukwu Okoye, who works as an Agricultural Economist at Zennora Agri, is based at Broad Street, Lagos.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the DOB of the individual prescribed Triamcinolone Acetonide?",
+    "answer": "Renske van Dijk, who was prescribed Triamcinolone Acetonide, was born on 14/09/1972.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which hospital is the patient with Oral Lichen Planus, Renske van Dijk, being treated?",
+    "answer": "Renske van Dijk, who has Oral Lichen Planus, is being treated at Noord-Zuid Ziekenhuis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address for the individual living at Dijkstraat 18?",
+    "answer": "Renske van Dijk, whose home address is Dijkstraat 18, has a work address at Breestraat 54.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What was the last transaction recorded for the WestFriesland Bank account holder Roeland Martens?",
+    "answer": "Roeland Martens, a WestFriesland Bank account holder, had a last transaction of €1,854.32 on 30/04/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person linked to the phone number 915 - 784 - 3690?",
+    "answer": "The person with the phone number 915 - 784 - 3690, Roeland Martens, was born on 18/09/1948.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial advisor for the account associated with credit card number 4539-7951-1234-5678?",
+    "answer": "The credit card number 4539-7951-1234-5678 is linked to Roeland Martens, whose financial advisor is Mirjam Boonstra.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual associated with Oslo Coastal Hospital?",
+    "answer": "The individual associated with Oslo Coastal Hospital, Knut Helge Sandvik, lives at Østergaten 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness does Knut Helge Sandvik have if the recommended treatment is 'None (surgical repair if symptomatic)'?",
+    "answer": "Knut Helge Sandvik has Hydrocele, which is managed with the treatment 'None (surgical repair if symptomatic)'.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the doctor for the person with the number 347 - 872 - 1122?",
+    "answer": "The doctor for Knut Helge Sandvik, whose phone number is 347 - 872 - 1122, is Dr. Erik Lundberg.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the office address of the person associated with phone number 667 - 889 - 0123?",
+    "answer": "The office address linked to Elias Konrad Mühlfeld, whose phone number is 667 - 889 - 0123, is Wirtschaftsstraße 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who has the credit card number 4024-0071-4444-7777, and what is their date of birth?",
+    "answer": "Elias Konrad Mühlfeld holds the credit card number 4024-0071-4444-7777, and his date of birth is 24/09/1987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest transaction for the bank account number 890500001234567890?",
+    "answer": "Elias Konrad Mühlfeld, who holds the bank account 890500001234567890, had a latest transaction of €1,374.90 on 15/03/2023.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what Finnian Alaric Dunlop does for a living based on his birthdate of 04/03/1977?",
+    "answer": "Finnian Alaric Dunlop, who was born on 04/03/1977, works as a Senior Horticulturist at GreenBloom Nurseries.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the account held at Wexford Bank by Finnian Alaric Dunlop?",
+    "answer": "The credit card number for Finnian Alaric Dunlop's account at Wexford Bank is 4024-0071-4357-0987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the doctor treating the patient on Alteplase (acute)?",
+    "answer": "Dr. Charlotte Reeves is the doctor treating Finnian Alaric Dunlop, who is receiving Alteplase (acute) treatment.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of Fiona Marigold Carter based on her health insurance number X7B-55-87654?",
+    "answer": "Based on the health insurance number X7B-55-87654, Fiona Marigold Carter's email address is f.carter87@bigpond.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of Fiona Marigold Carter's financial consultant, Levi Harcourt?",
+    "answer": "The contact number for Levi Harcourt, Fiona Marigold Carter's financial consultant, is 734 - 412 - 5678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the individual with the birthdate 08/05/1978?",
+    "answer": "The individual with the birthdate 08/05/1978 is Fiona Marigold Carter, and her credit card number is 4024-0071-1122-3344.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What Twitter username is associated with the person who had a bank transaction of CHF 1,356.20 on 10/03/2019?",
+    "answer": "The person with a bank transaction of CHF 1,356.20 on 10/03/2019 is Aline Livia Meier, and their Twitter username is 'aline_meier1987'.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness is associated with Aline Livia Meier's role as a Civil Engineer at Alpine Infra?",
+    "answer": "Aline Livia Meier, who is a Civil Engineer at Alpine Infra, has Crohn's Disease.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of the individual residing at Zugweg 23?",
+    "answer": "Aline Livia Meier, who resides at Zugweg 23, has the bank account number CH8804835090012345678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial advisor for the individual on Mepolizumab treatment?",
+    "answer": "The financial advisor for Alaric Thaddeus Finchley, who is on Mepolizumab treatment, is Clive Arthur Hughes.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank account number is associated with Cheltenham Trust Bank for Alaric Finchley?",
+    "answer": "Alaric Thaddeus Finchley's bank account at Cheltenham Trust Bank is numbered 200123456789012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health issue does the person working as a Senior Art Curator at Ormonde Arts have?",
+    "answer": "The person working as a Senior Art Curator at Ormonde Arts, Alaric Thaddeus Finchley, has Eosinophilic Granulomatosis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What does the person employed at Nørrebrogade 39 do for a living?",
+    "answer": "The person employed at Nørrebrogade 39, Sofie Mathilde Larsen, is an Urban Planner at Nordbygg A/S.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number linked to the email s.larsen84@outlook.dk?",
+    "answer": "The credit card number linked to Sofie Mathilde Larsen, who uses the email s.larsen84@outlook.dk, is 4223-3412-5678-9012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the user associated with the Twitter account sofiel84_denmark?",
+    "answer": "The address of Sofie Mathilde Larsen, associated with the Twitter account sofiel84_denmark, is Rådmandsgade 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the profession of the person associated with Dr. Rainer Moritz?",
+    "answer": "The person associated with Dr. Rainer Moritz is Lorenz Edouard Frick, and his profession is a Product Designer at SwissForma.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank account number is linked to the residence at Lindenweg 12?",
+    "answer": "Lorenz Edouard Frick, who resides at Lindenweg 12, is linked to the bank account number CH850887000023245678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where is the individual with the Twitter handle lorenz.frick82 receiving medical care?",
+    "answer": "Lorenz Edouard Frick, who uses the Twitter handle lorenz.frick82, is receiving medical care at the Kantonsspital Winterthur.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction for the account number 3492874567312?",
+    "answer": "The latest bank transaction for Akira Takahashi's account number 3492874567312 is ¥24,890.00 on 17/12/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank is connected to the individual under Dr. Shunpei Aoyama's care?",
+    "answer": "Akira Takahashi, who is under the care of Dr. Shunpei Aoyama, is connected to Kodo Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What email is connected to the person who uses the phone number 012 - 555 - 8910?",
+    "answer": "The email address connected to Akira Takahashi, who uses the phone number 012 - 555 - 8910, is akira.t@icloud.jp.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me who the doctor is for the person with bank account number 6271210010987654321?",
+    "answer": "The person with the bank account number 6271210010987654321, Nikolaj Mortensen, is being treated by Dr. Lene Hartmann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the financial advisor for the individual with health insurance number T7R-23-98765?",
+    "answer": "The individual with health insurance number T7R-23-98765, Nikolaj Mortensen, is advised by Poul Ejvind Larsen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the hospital name for the person whose Twitter username is 'nikmort82'?",
+    "answer": "The hospital name for Nikolaj Mortensen, whose Twitter username is 'nikmort82', is Region Midtjylland Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which hospital does Dr. Ingrid Jonasson provide care to Elin Sofia Pettersson?",
+    "answer": "Dr. Ingrid Jonasson provides care to Elin Sofia Pettersson at Västerås Central Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which medical condition is diagnosed in the individual with the health insurance number X4K-23-98765?",
+    "answer": "The individual with the health insurance number X4K-23-98765, Elin Sofia Pettersson, is diagnosed with Anorexia Nervosa.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the individual who lives at Lindholmen 12?",
+    "answer": "The individual living at Lindholmen 12 is Elin Sofia Pettersson, and she works as a Product Manager at Volve Solutions.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the profession of Jin Wook Hwang, who has asthma?",
+    "answer": "Jin Wook Hwang, who has asthma, is employed as an Agriculture Researcher at GreenTech Korea.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where can I find the date of birth for the person who uses the email j.hw1985@googlemail.com?",
+    "answer": "The date of birth for Jin Wook Hwang, associated with the email j.hw1985@googlemail.com, is 08/06/1983.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me who the doctor is for the person employed at Jungangno 10, Mapo-gu?",
+    "answer": "The person employed at Jungangno 10, Mapo-gu, Jin Wook Hwang, is under the care of Dr. Myung Suk Oh.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank transaction is associated with Lea Amandine Fournier’s Heart Failure diagnosis?",
+    "answer": "Lea Amandine Fournier, who has a Heart Failure diagnosis, has a latest bank transaction of CHF 2,340.75 on 02/11/2020.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what treatment Lea Amandine Fournier is on, based on the email l.fournier87@bluewin.ch?",
+    "answer": "Lea Amandine Fournier, associated with the email address l.fournier87@bluewin.ch, is receiving treatment with Carvedilol.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health insurance number is associated with the patient of Dr. Thomas Binder?",
+    "answer": "Lea Amandine Fournier, the patient of Dr. Thomas Binder, has the health insurance number T7K-21-67890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual associated with the phone number 09 - 842 - 3917?",
+    "answer": "The address of Line Magnussen, whose phone number is 09 - 842 - 3917, is Vestre Slidreveien 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of the individual receiving care at Oslo Health Centre?",
+    "answer": "The individual receiving care at Oslo Health Centre, Line Magnussen, has the bank account number 4521032456789012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle for the person with credit card number 4532-0445-6789-0123?",
+    "answer": "The credit card number 4532-0445-6789-0123 is registered to Line Magnussen, whose Twitter username is linemagnusson.no.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness does the person with the DOB 08/05/1980 have?",
+    "answer": "Elin Larsen, whose date of birth is 08/05/1980, is living with Hodgkin's Lymphoma.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the person associated with Norsk Lederbank?",
+    "answer": "The person associated with Norsk Lederbank is Elin Larsen, and her email address is elin.larsen87@gmail.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the individual under the care of Dr. Kristian Berg?",
+    "answer": "The individual under the care of Dr. Kristian Berg is Elin Larsen, and her contact number is 207 - 894 - 1234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for Lucio de la Rosa, given his date of birth is 14/08/1967?",
+    "answer": "Lucio de la Rosa, whose date of birth is 14/08/1967, has the credit card number 4539-5706-8912-3456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank transaction was recorded for the individual with health insurance number T4M-88-98765?",
+    "answer": "Lucio de la Rosa, whose health insurance number is T4M-88-98765, had a bank transaction of €1,357.89 on 18/05/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person who suffers from Cubital Tunnel Syndrome?",
+    "answer": "Lucio de la Rosa, who suffers from Cubital Tunnel Syndrome, is located at Plaza de los Olivos 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the doctor associated with the email r.shinkai90@yahoo.co.jp?",
+    "answer": "The email r.shinkai90@yahoo.co.jp is linked to Ryota Shinkai, and their doctor is Dr. Chiaki Watanabe.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the financial advisor associated with Ryota Shinkai's transaction of ¥128,430.00 on 09/12/2024?",
+    "answer": "The financial consultant associated with Ryota Shinkai's transaction of ¥128,430.00 on 09/12/2024 is Kenjiro Hayasaka.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address for the person who lives at Hongo 4-2-15?",
+    "answer": "The person living at Hongo 4-2-15 is Ryota Shinkai, and their work address is 7-21 Nishishinjuku.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment of the individual who made a $1,852.74 transaction on 29/03/2021?",
+    "answer": "The individual who made a $1,852.74 transaction on 29/03/2021 is Kieran Jorrel Thorne, and their treatment is Trimethoprim-Sulfamethoxazole.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number for the individual with the bank account number 082597412987364125?",
+    "answer": "The contact number for the individual with the bank account number 082597412987364125 is 495 - 764 - 2198. This is Kieran Jorrel Thorne's phone number.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle of the person linked to Central State Bank?",
+    "answer": "The person linked to Central State Bank is Kieran Jorrel Thorne, and their Twitter username is k.thorne89.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number for the person holding health insurance number T6F-11-98765?",
+    "answer": "The phone number for Eamon Finlay Wren, who is linked to the health insurance number T6F-11-98765, is 031 - 725 - 3489.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the address of the individual employed at TerraVision as an Environmental Scientist?",
+    "answer": "Eamon Finlay Wren, employed at TerraVision as an Environmental Scientist, resides at 34 Cooee Street.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email address of Eamon Finlay Wren, the client of Leanne Frost?",
+    "answer": "Eamon Finlay Wren, the client of Leanne Frost, uses the email address e.wren90@aol.com.au.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment plan for the patient with Pulmonary Hypertension?",
+    "answer": "The treatment for Luca Emiliano Bianchi, who has Pulmonary Hypertension, is Sildenafil.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle of the individual with health insurance number B3K-77-89123?",
+    "answer": "Luca Emiliano Bianchi, associated with the health insurance number B3K-77-89123, has the Twitter username luca.bianchi87.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name of the person working at Corso Europa 21?",
+    "answer": "Luca Emiliano Bianchi, who is working at Corso Europa 21, has Credito Cittadino as their bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address for the person at Coombabah Rd 48?",
+    "answer": "The person at Coombabah Rd 48, Finlay Calder Mackenzie, works at 457 King Street.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name linked to the email address f.mackenzie29@optusnet.com.au?",
+    "answer": "The email f.mackenzie29@optusnet.com.au belongs to Finlay Calder Mackenzie, and their bank is the Royal Westpac Trust.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account number is linked to Finlay Calder Mackenzie, the patient of Dr. Zachary Linwood?",
+    "answer": "Finlay Calder Mackenzie, who is under the care of Dr. Zachary Linwood, has the bank account number 23498765432109876.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the individual with the number 07 - 445 - 1122?",
+    "answer": "Jorrit Leendert van Dijk, who has the number 07 - 445 - 1122, holds a credit card with the number 4024-0071-8543-9876.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the doctor's name for the person working at the address Keizersgracht 215?",
+    "answer": "The individual working at Keizersgracht 215 is Jorrit Leendert van Dijk, and their doctor is Dr. Frits van Hoogstraten.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person associated with health insurance number A3T-89-12345?",
+    "answer": "The birthdate of Jorrit Leendert van Dijk, whose health insurance number is A3T-89-12345, is 08/12/1986.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the Twitter username of the person whose financial consultant is Rei Hoshino?",
+    "answer": "The person whose financial consultant is Rei Hoshino is Shiori Hayami, and her Twitter username is 'shiori.hayami90'.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address for the person associated with the health insurance number X5A-77-98765?",
+    "answer": "The address for Shiori Hayami, whose health insurance number is X5A-77-98765, is Ichikawa 5-2-7.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace location of the individual associated with the email sh.hayami90@gmai.com?",
+    "answer": "The workplace address of Shiori Hayami, whose email is sh.hayami90@gmai.com, is Higashi 7-chome 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth of the person at Nordre Ringvej 12?",
+    "answer": "The date of birth of Magnus Rasmusson, who lives at Nordre Ringvej 12, is 12/08/1995.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness is associated with the Hydroxychloroquine treatment of Magnus Rasmusson?",
+    "answer": "The Hydroxychloroquine treatment of Magnus Rasmusson is associated with the disease Systemic Lupus Erythematosus.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual using the email m.rasmusson85@gmail.com?",
+    "answer": "The health insurance number for Magnus Rasmusson, whose email is m.rasmusson85@gmail.com, is B3X-99-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person associated with the credit card number 4539-7923-4567-8901?",
+    "answer": "The date of birth for Dorian Vinter, whose credit card number is 4539-7923-4567-8901, is 08/05/1991.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of Dorian Vinter from Laval Financial?",
+    "answer": "The bank account number for Dorian Vinter at Laval Financial is 215834901273654987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the person who made a $1,456.75 bank transaction on 10/08/2022?",
+    "answer": "Dorian Vinter, who made a $1,456.75 bank transaction on 10/08/2022, is receiving treatment with Doxycycline Hyclate.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial consultant handling the account with a transaction of €894.65 on 19/05/2023?",
+    "answer": "The financial consultant handling the account with a transaction of €894.65 on 19/05/2023 is Étienne Martin, and the account holder is Lucien Armand Dufresne.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank is linked to the person suffering from Mastitis?",
+    "answer": "Lucien Armand Dufresne, who is suffering from Mastitis, is linked to the bank Caisse d'Épargne Occitanie.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the person whose email is l.dufresne89@orange.fr?",
+    "answer": "The bank account number for Lucien Armand Dufresne, whose email is l.dufresne89@orange.fr, is FR7610707001012345678901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number of the patient undergoing Tamoxifen therapy?",
+    "answer": "Mikkel Lindegaard Poulsen, who is undergoing Tamoxifen therapy, has the health insurance number A7H-15-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank account number for Mikkel Lindegaard Poulsen, who has been diagnosed with Breast Cancer?",
+    "answer": "Mikkel Lindegaard Poulsen, diagnosed with Breast Cancer, has the bank account number 724310000123456789.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person using the email m.poulsen87@mail.dk?",
+    "answer": "The person with the email address m.poulsen87@mail.dk is Mikkel Lindegaard Poulsen, and their date of birth is 08/11/1979.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number of Ngozi Chukwuka Anene with the bank account number 128437612984?",
+    "answer": "Ngozi Chukwuka Anene, whose bank account number is 128437612984, has a health insurance number of G7F-28-90123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person associated with the phone number 301 - 778 - 9012?",
+    "answer": "The birthdate linked to Ngozi Chukwuka Anene, whose phone number is 301 - 778 - 9012, is 07/09/1984.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number used by Ngozi Chukwuka Anene's financial advisor, Funmilayo Okafor?",
+    "answer": "Ngozi Chukwuka Anene's financial advisor, Funmilayo Okafor, uses the credit card number 4532-7510-9836-1245.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual with health insurance number B5R-28-45678?",
+    "answer": "Fernando Llorente Vidal, whose health insurance number is B5R-28-45678, has the email address f.llorente91@telefonica.net.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle for the person with the date of birth 03/07/1977?",
+    "answer": "The person with the date of birth 03/07/1977 is Fernando Llorente Vidal, and their Twitter username is ferllorente91.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual employed as a Culinary Consultant at GastroNova?",
+    "answer": "The individual employed as a Culinary Consultant at GastroNova, Fernando Llorente Vidal, has the phone number 02 - 789 - 1234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is treating the patient whose bank account is 501208109412345678?",
+    "answer": "Einar Vilhelm Svedberg, whose bank account is 501208109412345678, is being treated by Dr. Sven Johan Nyström.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the hospital name for the person with health insurance number X7T-45-98762?",
+    "answer": "The hospital for Einar Vilhelm Svedberg, who has the health insurance number X7T-45-98762, is Sahlgrenska City Health.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the person who made a transaction of SEK 8,432.50 on 28/08/2021?",
+    "answer": "The person who made the transaction of SEK 8,432.50 on 28/08/2021 is Einar Vilhelm Svedberg, and their credit card number is 4532-8899-1122-3344.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What credit card details are connected to the health insurance number F3B-11-78901?",
+    "answer": "Baltasar Esteban Molina, with the health insurance number F3B-11-78901, is associated with the credit card number 5555-5555-5555-4444.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter profile of the person associated with the work address Avenida del Prado 55?",
+    "answer": "The person associated with the work address Avenida del Prado 55 is Baltasar Esteban Molina, and their Twitter username is baltasar.molina.bio.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the individual who had a bank transaction of €1,050.75 on 21/03/2025?",
+    "answer": "Baltasar Esteban Molina, who had a bank transaction of €1,050.75 on 21/03/2025, was born on 03/10/1945.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the bank for the person at Lachlan St 45?",
+    "answer": "The person at Lachlan St 45, Levi Harcourt Bainbridge, banks with Aurora Financial Services.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness is the individual with the email l.bainbridge85@bigpond.com being treated for?",
+    "answer": "Levi Harcourt Bainbridge, who uses the email l.bainbridge85@bigpond.com, is being treated for Major Depressive Disorder.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the occupation of the person associated with the latest bank transaction of $2,345.87 on 05/06/2018?",
+    "answer": "Levi Harcourt Bainbridge, whose latest bank transaction was $2,345.87 on 05/06/2018, is employed as an Agronomist at AusAgriTech.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the patient with Pulmonary Embolism?",
+    "answer": "Elias Matthäus Burkhardt, the patient with Pulmonary Embolism, is living at Rue de l'Étang 18.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial advisor linked to the bank account CH8208812345678901234?",
+    "answer": "The financial advisor linked to the account CH8208812345678901234 is Martin Emil Roth. This account is under the name of Elias Matthäus Burkhardt.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the amount and date of the latest bank transaction for the person with the health insurance number V7X-18-87654?",
+    "answer": "Elias Matthäus Burkhardt, whose health insurance number is V7X-18-87654, had a latest bank transaction of CHF 1,240.80 on 17/04/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the birthdate of the individual under the care of Dr. Taneira Ropiha?",
+    "answer": "The birthdate of Kahu Mere Ririhau, who is under the care of Dr. Taneira Ropiha, is 14/06/1991.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual employed as a Conservation Biologist at Aorangi Research?",
+    "answer": "The individual employed as a Conservation Biologist at Aorangi Research, Kahu Mere Ririhau, lives at Kauri Street 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter profile name of the patient treated with Indomethacin?",
+    "answer": "The patient treated with Indomethacin is Kahu Mere Ririhau, and their Twitter profile name is kahu.mere56.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the health issue of the person with the bank account CH88300001234567890?",
+    "answer": "The health issue of Livia Marie Waldmann, whose bank account number is CH88300001234567890, is Empyema.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the doctor for the patient who lives at Zurichstrasse 14?",
+    "answer": "The doctor for Livia Marie Waldmann, who lives at Zurichstrasse 14, is Dr. Ruth Baumann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person with the work address Chemin des Granges 45?",
+    "answer": "The individual with the work address Chemin des Granges 45 is Livia Marie Waldmann, and their health insurance number is F4T-29-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the person diagnosed with Tourette Syndrome?",
+    "answer": "The treatment for Lara Camille Weiss, who has Tourette Syndrome, is Haloperidol.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the individual with health insurance number C2T-99-78945?",
+    "answer": "Lara Camille Weiss, who holds the health insurance number C2T-99-78945, has the email address l.weiss88@bluewin.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number of the person with the Twitter handle l.weiss88?",
+    "answer": "The person with the Twitter handle l.weiss88 is Lara Camille Weiss, and their credit card number is 4234-1111-2222-3333.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address for the person who is under the care of Dr. Katrine Maria Poulsen?",
+    "answer": "The workplace address for Ebbe Thorkildsen, who is under the care of Dr. Katrine Maria Poulsen, is Nordre Ringvej 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What amount and date was the last bank transaction for the person born on 03/08/1988?",
+    "answer": "Ebbe Thorkildsen, born on 03/08/1988, had a latest bank transaction of kr1,456.75 on 28/09/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of Ebbe Thorkildsen, the Sustainability Manager at GreenWave Solutions?",
+    "answer": "Ebbe Thorkildsen, who is a Sustainability Manager at GreenWave Solutions, is based at Hvidovrevej 4.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the most recent bank transaction of Sanna Viljami Timonen, identified by health insurance number T8F-33-98765?",
+    "answer": "Sanna Viljami Timonen, identified by the health insurance number T8F-33-98765, had a latest bank transaction of €1,452.30 on 03/12/2018.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the person with credit card number 4485-6790-1234-5678?",
+    "answer": "Sanna Viljami Timonen, who holds the credit card number 4485-6790-1234-5678, has the bank account number 40811234567890123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the bank associated with Sanna Viljami Timonen, who is under the care of Dr. Mika Nieminen?",
+    "answer": "Sanna Viljami Timonen, who is under the care of Dr. Mika Nieminen, is associated with the bank Lumonpankki.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email address of the individual being treated by Dr. Ngozi Uchechi Eze?",
+    "answer": "The individual being treated by Dr. Ngozi Uchechi Eze is Umar Adebayo Dabo, and their email address is umar.dabo77@yahoo.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the hospital linked to the person who banks at Zenith Bank?",
+    "answer": "The hospital linked to Umar Adebayo Dabo, who banks at Zenith Bank, is the Federal Medical Center, Yola.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the Naproxen treatment?",
+    "answer": "The person associated with the Naproxen treatment is Umar Adebayo Dabo, and their address is Ogba Main Road 112.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the patient being treated with Dexamethasone?",
+    "answer": "The patient being treated with Dexamethasone is Callum Roderick Hensley, and their email is c.hensley@btinternet.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What phone number is connected to the person working at Priory Business Park 5?",
+    "answer": "The person working at Priory Business Park 5, Callum Roderick Hensley, has the phone number 934 - 765 - 8901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of Callum Roderick Hensley's financial consultant, Felicity Cowper?",
+    "answer": "Felicity Cowper is the financial consultant of Callum Roderick Hensley, who was born on 03/12/1989.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the individual treated by Dr. Eliza Gwen Sharp?",
+    "answer": "Leigh Cameron O'Rourke, who is treated by Dr. Eliza Gwen Sharp, has the credit card number 4024-0071-4368-1003.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What email is associated with the phone number 491 - 894 - 5678?",
+    "answer": "The email address linked to Leigh Cameron O'Rourke, whose phone number is 491 - 894 - 5678, is l.orourke78@bigpond.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which bank did Leigh Cameron O'Rourke make a $2,134.89 transaction on 30/09/2020?",
+    "answer": "Leigh Cameron O'Rourke made a $2,134.89 transaction on 30/09/2020 at Australis Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which clinic is the doctor of Cassidy Marigold Wren, Dr. Jonah Richards, registered at?",
+    "answer": "Dr. Jonah Richards, the doctor of Cassidy Marigold Wren, is registered at the Melbourne Coastal Clinic.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person who works at Cellarstone Wines as a Wine Taster?",
+    "answer": "Cassidy Marigold Wren, who works at Cellarstone Wines as a Wine Taster, was born on 04/12/1991.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is working with the person who has the phone number 935 - 456 - 7890?",
+    "answer": "Damon Shane Walsh is the financial consultant working with Cassidy Marigold Wren, who has the phone number 935 - 456 - 7890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction for the person working at Avenue de Wagram 27?",
+    "answer": "Clémence Léonard, whose work address is Avenue de Wagram 27, had a latest bank transaction of €1,650.40 on 07/10/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what medication the person with the phone number 081 - 764 - 3210 is taking?",
+    "answer": "Clémente Léonard, who has the phone number 081 - 764 - 3210, is taking the medication Metronidazole-Ciprofloxacin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the doctor's name of the individual born on 05/08/1978?",
+    "answer": "The individual born on 05/08/1978, Clémente Léonard, is under the care of Dr. Gérard Léon Duval.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person with Migraine?",
+    "answer": "Raúl Esteban Vázquez, who is diagnosed with Migraine, has the health insurance number H7N-88-12345.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the most recent financial activity of the patient of Dr. Santiago Ruiz?",
+    "answer": "Raúl Esteban Vázquez, the patient of Dr. Santiago Ruiz, has a latest bank transaction of €2,354.72 on 01/10/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the occupation of the person who uses the email r.vazquez92@e.telefonica.net?",
+    "answer": "The person who uses the email r.vazquez92@e.telefonica.net is Raúl Esteban Vázquez, and their occupation is Marketing Manager at Solacis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "When was the person who lives at Am Kräutergarten 9 born?",
+    "answer": "Klaus Berndt Leitner, who is living at Am Kräutergarten 9, was born on 12/07/1947.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the individual with the credit card ending in 1122?",
+    "answer": "Klaus Berndt Leitner, whose credit card number is 5566-7788-9900-1122, is assigned to financial consultant Klaus Hartmann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What phone number is associated with the individual at St. Johannes Hospital?",
+    "answer": "The individual at St. Johannes Hospital, Klaus Berndt Leitner, has the phone number 481 - 928 - 3456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank for the account number 4829371049873456?",
+    "answer": "The bank for the account number 4829371049873456, which belongs to Elias Meriwether Langston, is Northwest Trust Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health issue does the person at Walden Street 14 have?",
+    "answer": "Elias Meriwether Langston, employed at Walden Street 14, is diagnosed with Epilepsy.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for Elias Meriwether Langston, who is under the guidance of Avery Parkson?",
+    "answer": "The email address of Elias Meriwether Langston, who is advised by Avery Parkson, is e.langston@comcast.net.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which clinic is the person with bank account number 43210022331144 receiving treatment?",
+    "answer": "Friedrich August Weiss, whose bank account number is 43210022331144, is receiving treatment at St. Nikolaus Clinic.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the patient being treated with Isoniazid?",
+    "answer": "Friedrich August Weiss, the patient being treated with Isoniazid, was born on 12/09/1974.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of Friedrich August Weiss, who is an Urban Planner at GrünRaum GmbH?",
+    "answer": "Friedrich August Weiss, who works as an Urban Planner at GrünRaum GmbH, is based at Kaiserstraße 78.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account number is connected to the credit card of Viktor Fyodorovich Lopatin?",
+    "answer": "Viktor Fyodorovich Lopatin's credit card number is 4567-1111-2222-3333, and the corresponding bank account number is 408148100000123456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health insurance number does Dr. Petr Nikolaevich Sokolov have on file for his patient?",
+    "answer": "Dr. Petr Nikolaevich Sokolov has the health insurance number C5D-33-89741 on file for his patient Viktor Fyodorovich Lopatin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What kind of treatment is given to the person at ul. Sretenka 5?",
+    "answer": "Viktor Fyodorovich Lopatin, who is at ul. Sretenka 5, is being treated with Risperidone for irritability.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment received by the person with a bank transaction of €1,452.75 on 10/04/2017?",
+    "answer": "Miguel Alejo Ortega, who had a bank transaction of €1,452.75 on 10/04/2017, is receiving treatment with Cisplatin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is linked to Miguel Antonio Vidal through their shared connection with Miguel Alejo Ortega?",
+    "answer": "Dr. Tomás Valero is the doctor linked to financial consultant Miguel Antonio Vidal through their connection with Miguel Alejo Ortega.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial institution is connected to the account holder with the username miguel_ortega_82?",
+    "answer": "Miguel Alejo Ortega, with the Twitter username miguel_ortega_82, is connected to the financial institution Caja Rural del Sureste.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual with the email i.lilleengen83@telenor.no?",
+    "answer": "The person with the email address i.lilleengen83@telenor.no is Ingeborg Rune Lilleengen, and their phone number is 473 - 887 - 9101.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the job of the individual under the care of Dr. Kjetil Lunde?",
+    "answer": "The individual under the care of Dr. Kjetil Lunde, Ingeborg Rune Lilleengen, is a Marine Biologist at ArcticSeaTech.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which Twitter account is linked to the home address Løkka 7A?",
+    "answer": "The Twitter account runelil_83 is linked to Ingeborg Rune Lilleengen, who lives at Løkka 7A.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual with financial consultant Ifeoma Udoji?",
+    "answer": "The address of Chinedu Chukwuka Eze, whose financial consultant is Ifeoma Udoji, is Isolo Street 24A.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person associated with First Bank of Nigera?",
+    "answer": "Chinedu Chukwuka Eze, associated with First Bank of Nigera, has a health insurance number of T7L-33-45678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the individual with a date of birth of 03/09/1974?",
+    "answer": "The individual with a date of birth of 03/09/1974 is Chinedu Chukwuka Eze, and their treatment is Epinephrine (injection).",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact email of the individual with a $2,461.35 bank transaction on 08/01/2025?",
+    "answer": "The individual with a $2,461.35 transaction on 08/01/2025 is Callan Dain Cross, and their email is c.cross31@aol.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account does the person with the Twitter handle callan.cross89 have?",
+    "answer": "The individual with the Twitter handle callan.cross89, Callan Dain Cross, is associated with the bank account number 43219876543210987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What condition is the person with health insurance A4X-77-98765 being treated for?",
+    "answer": "Callan Dain Cross, who has the health insurance number A4X-77-98765, is being treated for Sciatica.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment associated with Tane Mahuta Kahu’s bank transaction of $875.34 on 19/08/2019?",
+    "answer": "The treatment associated with Tane Mahuta Kahu’s bank transaction of $875.34 on 19/08/2019 is Ceftaroline.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the individual under the care of Dr. Hemi Te Hira?",
+    "answer": "The individual under the care of Dr. Hemi Te Hira, Tane Mahuta Kahu, works at Invercargill Business Park 7.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number of Tane Mahuta Kahu based on their date of birth?",
+    "answer": "Tane Mahuta Kahu, born on 04/03/1976, has the health insurance number H9X-21-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who uses the email address e.macgregor45@googlemail.com, and what is their phone number?",
+    "answer": "Ewan Lachlan MacGregor uses the email address e.macgregor45@googlemail.com, and their phone number is 912 - 897 - 4561.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the birthdate of the person associated with the address Wellesley Close 14?",
+    "answer": "The birthdate of Ewan Lachlan MacGregor, who is associated with the address Wellesley Close 14, is 14/03/1980.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the account number at Barrowfield Bank for Ewan Lachlan MacGregor?",
+    "answer": "Ewan Lachlan MacGregor's account number at Barrowfield Bank is 782410439187654321.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the individual treated by Dr. Enzo Giuliano?",
+    "answer": "The individual treated by Dr. Enzo Giuliano, Luciano Vittorio Bellini, has a work address at Corso Vercelli 47.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the patient with a Pessary treatment?",
+    "answer": "Luciano Vittorio Bellini, the patient with a Pessary treatment, has the address Via Garibaldi 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number for the individual with the Twitter handle @lucianobellini90?",
+    "answer": "Luciano Vittorio Bellini, who uses the Twitter handle @lucianobellini90, can be contacted at 913 - 678 - 1234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the person with the phone number 021 - 894 - 3257?",
+    "answer": "The person with the phone number 021 - 894 - 3257, Sanni Ilkka Nieminen, has the email address s.nieminen90@icloud.fi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the job of the patient currently under Dr. Eero Pekka Kallio's care?",
+    "answer": "The patient under Dr. Eero Pekka Kallio's care is Sanni Ilkka Nieminen, and they are a Senior Environmental Planner at BioNatura Solutions.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual at Katu 22 A?",
+    "answer": "The individual living at Katu 22 A, Sanni Ilkka Nieminen, has the health insurance number X7Y-23-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the treatment of the person associated with the phone number 02 - 843 - 2975?",
+    "answer": "The treatment of Akira Haruhisa, whose phone number is 02 - 843 - 2975, is Celecoxib.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the individual associated with the work address 7-18 Nakamura Street?",
+    "answer": "The home address of Akira Haruhisa, whose work address is 7-18 Nakamura Street, is Hoshino Street 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the health issue of the person with the Twitter handle akira.hara78?",
+    "answer": "The person with the Twitter handle akira.hara78 is Akira Haruhisa, and their health issue is Osteoarthritis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What was the amount and date of the last bank transaction for Eleanor Fawcett, who is a Product Manager at SableTech?",
+    "answer": "Eleanor Fawcett, the Product Manager at SableTech, had a latest bank transaction of £867.42 on 26/05/2025.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the financial consultant for the person linked to the Twitter profile eleanor.fawcett89?",
+    "answer": "The person associated with the Twitter profile eleanor.fawcett89 is Eleanor Fawcett, and her financial consultant is Eleanor Wren.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the health insurance number K9L-11-23456?",
+    "answer": "The address associated with Eleanor Fawcett, whose health insurance number is K9L-11-23456, is Bramble Hill 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address for the person whose date of birth is 15/09/1978?",
+    "answer": "The workplace address of Mikkel Niels Skovgaard, who was born on 15/09/1978, is Øster Farimagsgade 17, 1550.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where is Mikkel Niels Skovgaard receiving medical treatment, based on his home address?",
+    "answer": "Mikkel Niels Skovgaard, whose home address is Bjerregaardsvej 12, is receiving medical treatment at Hvidovre Central Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the profession of the individual with the Twitter username mikkel_skovgaard?",
+    "answer": "The individual with the Twitter username mikkel_skovgaard, Mikkel Niels Skovgaard, is a Marine Biologist at AquaScience.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card details of the person with a work address at Industrieweg 12A?",
+    "answer": "The person with the work address at Industrieweg 12A, Jorrit Wessel van der Meer, has the credit card number 4485-6789-0123-4567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you find the social media handle of the individual under the care of Dr. Menno de Boer?",
+    "answer": "The individual under the care of Dr. Menno de Boer is Jorrit Wessel van der Meer, and their social media handle is jorrit_vandermeer_1979.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank name for the person at Kerkstraat 14, Heerde?",
+    "answer": "The person at Kerkstraat 14, Heerde is Jorrit Wessel van der Meer, and their bank is Veridian Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the last recorded bank transaction for the individual with the email e.duret83@free.fr?",
+    "answer": "Étienne Duret, who uses the email e.duret83@free.fr, has a last recorded bank transaction of €987.34 on 03/03/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the financial institution for the account number 12345678901234567?",
+    "answer": "The financial institution for the account number 12345678901234567 is CrediOuest, and the account holder is Étienne Duret.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number for Étienne Duret, the client of financial consultant Marie-Anne Delamare?",
+    "answer": "Étienne Duret, the client of financial consultant Marie-Anne Delamare, has the phone number 941 - 765 - 4321.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the person living at Leninskaya ul. 14?",
+    "answer": "Irina Petrovna Volkova is the financial consultant for Viktor Fedorovich Melnikov, who lives at Leninskaya ul. 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the hospital linked to the health insurance number V7W-28-98765?",
+    "answer": "Moscow Central Med Clinic is the hospital linked to Viktor Fedorovich Melnikov, whose health insurance number is V7W-28-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What phone number is linked to the account holder at Ural Invest Bank?",
+    "answer": "Viktor Fedorovich Melnikov, the account holder at Ural Invest Bank, can be reached at 07 - 333 - 4455.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the individual using the Twitter username elin.hoest?",
+    "answer": "The individual using the Twitter username elin.hoest is Elin Sigrid Høst, and their email address is e.s.hoest@telenor.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the bank account number 8601111122223345?",
+    "answer": "The address linked to Elin Sigrid Høst, whose bank account number is 8601111122223345, is Skjærasveien 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person undergoing treatment with Levofloxacin?",
+    "answer": "The person undergoing treatment with Levofloxacin, Elin Sigrid Høst, was born on 25/08/1991.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace of the individual residing at 5 Waiora Drive?",
+    "answer": "The individual residing at 5 Waiora Drive, Aroha Te Ngira, works at Porirua Valley Business Park 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name of the person with the email a.te-ngira33@auckland.ac.nz?",
+    "answer": "The bank associated with Aroha Te Ngira, who has the email a.te-ngira33@auckland.ac.nz, is Whanganui Savings Bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the individual with the Twitter handle aroha33nz?",
+    "answer": "The individual with the Twitter handle aroha33nz is Aroha Te Ngira, and their contact number is 335 - 483 - 2190.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness is diagnosed in the individual with the email address s.haugen88@telenor.no?",
+    "answer": "Sigrid Elinborg Haugen, who uses the email address s.haugen88@telenor.no, is diagnosed with Thalassemia.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number associated with the Twitter profile sigrid.haugen88?",
+    "answer": "The phone number associated with the Twitter profile sigrid.haugen88, which belongs to Sigrid Elinborg Haugen, is 481 - 123 - 4567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the individual whose work address is Mossveien 29?",
+    "answer": "The credit card number for Sigrid Elinborg Haugen, whose work address is Mossveien 29, is 4539-1488-6123-4567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the birthdate of the person associated with the Twitter account leona.j92?",
+    "answer": "The birthdate of Leona Harmensdatter Jansen, whose Twitter username is leona.j92, is 05/03/1961.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank of the person with the phone number 021 - 389 - 7654?",
+    "answer": "The person with the phone number 021 - 389 - 7654, Leona Harmensdatter Jansen, is linked to AmstelBank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the individual with the account number NL56INGB0001234567?",
+    "answer": "Leona Harmensdatter Jansen, with the bank account number NL56INGB0001234567, can be contacted at l.jansen92@ziggo.nl.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person with the email elise.duval92@bell.ca?",
+    "answer": "Elise Laurent Duval, whose email is elise.duval92@bell.ca, is associated with the health insurance number X7W-99-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the office address of the doctor, Dr. Nathan Elliott, associated with Elise Laurent Duval?",
+    "answer": "The office address of Dr. Nathan Elliott, Elise Laurent Duval's doctor, is First Canadian Place 99.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where does Elise Laurent Duval, who lives at 246 Birch Lane, receive medical care?",
+    "answer": "Elise Laurent Duval, whose home address is 246 Birch Lane, receives medical care at the Queensway General hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact number of the person who had a transaction of RUB 45,290.00 on 07/01/2017?",
+    "answer": "The person who had a transaction of RUB 45,290.00 on 07/01/2017 is Viktor Dmitrievich Melnikov, and their contact number is 491 - 890 - 1234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the patient with Meralgia Paresthetica?",
+    "answer": "The patient with Meralgia Paresthetica, Viktor Dmitrievich Melnikov, is living at ul. Malaya Sadovaya 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the physician associated with the health insurance number T8G-11-78945?",
+    "answer": "Dr. Elena Andreevna Popova is the physician associated with Viktor Dmitrievich Melnikov, whose health insurance number is T8G-11-78945.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact email of the individual employed as a Classical Music Composer at Aurea Records?",
+    "answer": "The individual employed as a Classical Music Composer at Aurea Records, Luca Bellandi, has the email l.bellandi87@alice.it.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the phone number of the person associated with a €1,420.75 bank transaction on 22/09/2024?",
+    "answer": "Luca Bellandi, who is associated with a €1,420.75 bank transaction on 22/09/2024, has the phone number 474 - 789 - 0123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the patient with Obsessive-Compulsive Disorder?",
+    "answer": "Clomipramine is the treatment being used for Luca Bellandi, who is diagnosed with Obsessive-Compulsive Disorder.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual with the date of birth 14/09/1978?",
+    "answer": "The individual with the date of birth 14/09/1978 is Lars Heinrich Reichenbach, and their address is Wolfsfelder Weg 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number associated with the client of Juliane Dorothea Fischer named Lars Heinrich Reichenbach?",
+    "answer": "The health insurance number associated with Lars Heinrich Reichenbach, a client of Juliane Dorothea Fischer, is K4T-33-78901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the occupation of the person associated with the number 208 - 332 - 1947?",
+    "answer": "The person linked to the number 208 - 332 - 1947, Lars Heinrich Reichenbach, is employed as an Urban Planner at Planex Solutions.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual whose doctor is Dr. Arthur Langford?",
+    "answer": "The individual whose doctor is Dr. Arthur Langford is Edith Winifred Pembroke, and her email is e.pembroke57@googlemail.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the person employed as a Legal Analyst at Avelon Legal?",
+    "answer": "The person working as a Legal Analyst at Avelon Legal, Edith Winifred Pembroke, has the credit card number 4539-7623-4512-0987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the patient with HIV Infection?",
+    "answer": "The patient with HIV Infection, Edith Winifred Pembroke, has the phone number 412 - 567 - 8901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the phone number linked to the Sepsis diagnosis?",
+    "answer": "The Sepsis diagnosis is linked to Lena Marie Döring, whose phone number is 09 - 342 - 1198.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the person with a birthdate of 18/07/1986?",
+    "answer": "The credit card number for Lena Marie Döring, born on 18/07/1986, is 5432-9876-1234-5678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job does the individual residing at Schwabenallee 14 hold?",
+    "answer": "The individual residing at Schwabenallee 14, Lena Marie Döring, is a Project Manager at Wartmann Logistik.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What was the last bank transaction for the person covered under health insurance X1B-88-98765?",
+    "answer": "Friedrich Albrecht Leipoldt, who has the health insurance number X1B-88-98765, had a latest bank transaction of €1,342.65 on 03/06/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the individual being treated at Berlin St. Georg Hospital?",
+    "answer": "Friedrich Albrecht Leipoldt, the individual being treated at Berlin St. Georg Hospital, has the credit card number 4532-1190-8844-5512.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person who has the email f.leipoldt87@gmx.de?",
+    "answer": "The date of birth for Friedrich Albrecht Leipoldt, whose email address is f.leipoldt87@gmx.de, is 07/03/1972.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank transaction did the patient undergoing Apremilast treatment have on 03/02/2018?",
+    "answer": "Lars Emil Madsen, who is undergoing Apremilast treatment, had a bank transaction of DKK 4,678.00 on 03/02/2018.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter username of the person who uses the email l.emil.madsen45@postnord.dk?",
+    "answer": "The Twitter username for Lars Emil Madsen, who has the email l.emil.madsen45@postnord.dk, is lars_emil_dk.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what job the person with the number 604 - 333 - 4567 has?",
+    "answer": "The individual with the number 604 - 333 - 4567, Lars Emil Madsen, is employed as an Agricultural Planner at Nordlys Agri.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the bank for the patient at Ospedale di Monticelli?",
+    "answer": "Alessio Bernardo Farneti, the patient at Ospedale di Monticelli, is associated with the bank Banca Piazza.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is linked to the individual taking Amitriptyline?",
+    "answer": "The individual taking Amitriptyline, Alessio Bernardo Farneti, is linked to the financial consultant Luciano De Luca.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual with the email address a.farneti91@fastweb.it?",
+    "answer": "The health insurance number for Alessio Bernardo Farneti, whose email address is a.farneti91@fastweb.it, is B3K-98-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank details of the individual linked to Ospedale San Filippo?",
+    "answer": "Michele Vittorio Bellandi, who is linked to Ospedale San Filippo, has the bank account number IT12345678901234567890123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the cardholder of 4567-2112-3908-4432?",
+    "answer": "Marta Cesare Pellegrini is the financial consultant for Michele Vittorio Bellandi, who holds the credit card number 4567-2112-3908-4432.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which Twitter account is connected to the individual with the number 070 - 389 - 4455?",
+    "answer": "The individual with the number 070 - 389 - 4455, Michele Vittorio Bellandi, can be found on Twitter under the username michele.bellandi76.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email address for the individual whose doctor is Dr. Fergus D. Grant?",
+    "answer": "Rowan Thorne Mitchell, whose doctor is Dr. Fergus D. Grant, can be contacted at r.mitchell78@bigpond.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the individual with a work address at West Perth Business Park 30?",
+    "answer": "The individual with a work address at West Perth Business Park 30 is Rowan Thorne Mitchell, and their home address is Linden Drive 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the individual with the health insurance number N3M-99-76543?",
+    "answer": "Rowan Thorne Mitchell, whose health insurance number is N3M-99-76543, is receiving treatment with Zolpidem.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number of Ivan Fyodorovich Nesterov based on the bank transaction of RUB 98,750.40 on 26/03/2017?",
+    "answer": "Ivan Fyodorovich Nesterov's credit card number is 4532-7589-0123-4567, as used in the transaction of RUB 98,750.40 on 26/03/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual with the Twitter handle ivan.nest?",
+    "answer": "Ivan Fyodorovich Nesterov, with the Twitter handle ivan.nest, has a health insurance number of X9A-55-89765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the address of the person associated with phone number 481 - 902 - 3456?",
+    "answer": "The address linked to Ivan Fyodorovich Nesterov, whose phone number is 481 - 902 - 3456, is ul. Lenina 18.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person associated with the health insurance number T9X-21-87654?",
+    "answer": "The workplace address of Alva Torbjörn Nilsson, whose health insurance number is T9X-21-87654, is Stockholmsgatan 69.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the clinic the individual from Storgatan 22A is connected to?",
+    "answer": "Alva Torbjörn Nilsson, who is from Storgatan 22A, is connected to the Uppsala Medical Clinic.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the most recent financial transaction linked to the email address alva.nilsson82@telia.com?",
+    "answer": "The latest bank transaction for Alva Torbjörn Nilsson, who uses the email alva.nilsson82@telia.com, was 1,245.75 SEK on 08/06/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the hospital connected to the credit card 4226-3987-4156-7321?",
+    "answer": "The credit card 4226-3987-4156-7321 belongs to Théo Alaric Laurent, and the associated hospital is Clinique du Mont Louis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for Théo Alaric Laurent based on their DOB of 03/08/1992?",
+    "answer": "Théo Alaric Laurent, who was born on 03/08/1992, has the bank account number FR7630046069000203155638911.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which illness is diagnosed in the individual linked to the bank BANQOR France?",
+    "answer": "Théo Alaric Laurent, the individual linked to the bank BANQOR France, is diagnosed with Bipolar Disorder.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual associated with Dr. Enzo Maria De Luca?",
+    "answer": "The individual associated with Dr. Enzo Maria De Luca, Matteo Ruggero Bellanti, has the phone number 475 - 632 - 8974.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person currently under care at San Raffaele Rescare?",
+    "answer": "Matteo Ruggero Bellanti is the person currently under care at San Raffaele Rescare, and their date of birth is 07/11/1983.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number of the person with the bank account number IT81X0306909606510072612345?",
+    "answer": "The credit card number of Matteo Ruggero Bellanti, who holds the bank account IT81X0306909606510072612345, is 4485-7623-9012-3456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which treatment is associated with the person whose work address is Yongsan-daero 25?",
+    "answer": "Min Jihye Park, whose work address is Yongsan-daero 25, is undergoing treatment with Interferon Beta-1a.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the details of the latest bank transaction for the person linked to the email address m.jpark88@naver.com?",
+    "answer": "Min Jihye Park, who is associated with the email m.jpark88@naver.com, has a latest bank transaction of ₩3,425,600.00 on 24/10/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health condition is reported for the individual with credit card 4539-5712-8893-2011?",
+    "answer": "The individual with the credit card number 4539-5712-8893-2011, Min Jihye Park, has Multiple Sclerosis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number associated with the individual employed at Vattenby Design as an Industrial Designer?",
+    "answer": "The individual employed at Vattenby Design as an Industrial Designer, Emil Sophus Madsen, has the health insurance number T3R-99-78901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the doctor treating the individual with the username emil.m90 on Twitter?",
+    "answer": "The individual with the username emil.m90 on Twitter, Emil Sophus Madsen, is being treated by Dr. Mette Sofie Jensen.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual associated with the bank transaction of 1,456.33 DKK on 20/04/2019?",
+    "answer": "The address of Emil Sophus Madsen, whose latest bank transaction was 1,456.33 DKK on 20/04/2019, is Holmeströde 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me who is handling the financial matters for the person born on 04/03/1980?",
+    "answer": "Marius Weber is the financial consultant for Adrian Leopold Müller, who was born on 04/03/1980.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the person linked to Zürich Credit Bank?",
+    "answer": "The email address linked to Adrian Leopold Müller, who is associated with Zürich Credit Bank, is a.mueller89@gmx.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address for Adrian Leopold Müller based on his Twitter profile?",
+    "answer": "Adrian Leopold Müller, who uses the Twitter username adrian.mueller89, is based at Chemin des Aigles 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which hospital is linked to the individual working at Brannveien 54?",
+    "answer": "Ida Astrid Larsen, who works at Brannveien 54, is linked to Oslo South General hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the occupation of the person associated with the Pyridostigmine treatment?",
+    "answer": "Ida Astrid Larsen, who is associated with the Pyridostigmine treatment, is an Agricultural Planner at Skogland Solutions.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the disease of the individual with health insurance number X7T-11-78901?",
+    "answer": "The individual with the health insurance number X7T-11-78901, Ida Astrid Larsen, has Myasthenia Gravis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where can I find the phone number for the person at Helsinginkatu 18?",
+    "answer": "The person at Helsinginkatu 18, Elina Mervi Liimatainen, has the phone number 021 - 555 - 8890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the profession of the person with Attention-Deficit Disorder?",
+    "answer": "The person with Attention-Deficit Disorder, Elina Mervi Liimatainen, works as a Sustainability Manager at LumiNova.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the user associated with the Twitter account elina.mlii?",
+    "answer": "Elina Mervi Liimatainen, who uses the Twitter handle elina.mlii, was born on 04/03/1970.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What medical treatment is being administered to the person with the credit card number 4024-0071-0123-4567?",
+    "answer": "The person with the credit card number 4024-0071-0123-4567, Javier Almudena Lopez, is receiving treatment with Bacitracin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the most recent bank transaction amount for the patient associated with Dr. Alicia Navarro?",
+    "answer": "The most recent bank transaction for Javier Almudena Lopez, who is associated with Dr. Alicia Navarro, is €987.43 on 28/09/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank linked to the account number ES8921000418450200523456 of Javier Almudena Lopez?",
+    "answer": "The account number ES8921000418450200523456 of Javier Almudena Lopez is linked to Banco Nordeste.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the doctor associated with the person who had a bank transaction of €789.42 on 30/09/2022?",
+    "answer": "The doctor associated with Maddalena Eustachio Romano, who had a bank transaction of €789.42 on 30/09/2022, is Dr. Chiara Mancini.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the address of the person with the DOB 17/09/1976?",
+    "answer": "The address of Maddalena Eustachio Romano, who has a DOB of 17/09/1976, is Via delle Querce 22.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number for the person who uses the Twitter handle maddalena_romano_1978?",
+    "answer": "Maddalena Eustachio Romano, who uses the Twitter handle maddalena_romano_1978, has the health insurance number N7H-02-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What medical treatment is associated with the person working as a Wine Taster at Maraewai Vineyards?",
+    "answer": "Hira Kerehira, who works as a Wine Taster at Maraewai Vineyards, is on the treatment Ribavirin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of Hira Kerehira, the patient of Dr. Ruru Te Ngira?",
+    "answer": "Hira Kerehira, whose doctor is Dr. Ruru Te Ngira, lives at Te Aroha Road 24.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter profile name associated with the phone number 06 - 254 - 3291?",
+    "answer": "The Twitter username associated with Hira Kerehira, whose phone number is 06 - 254 - 3291, is hira.kerehira1982.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job does the individual under Dr. Marjaana Sipilä's care have?",
+    "answer": "The individual under Dr. Marjaana Sipilä's care, Niko Juhani Virtanen, is an Urban Planner at TaloKartta.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the phone number associated with the address Kotiportti 15?",
+    "answer": "The phone number linked to the address Kotiportti 15, where Niko Juhani Virtanen lives, is 069 - 876 - 5432.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the person with a recent bank transaction of €2,457.83 on 24/03/2022?",
+    "answer": "Niko Juhani Virtanen, who had a recent transaction of €2,457.83 on 24/03/2022, can be contacted at n.virtanen78@icloud.fi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the person linked to health insurance number P3T-99-76543?",
+    "answer": "Leontine Harmensdotter van Gils, associated with the health insurance number P3T-99-76543, is an Urban Designer at Planta Structuur.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the person who had a €1,458.92 transaction on 11/10/2017?",
+    "answer": "The person who had a €1,458.92 transaction on 11/10/2017, Leontine Harmensdotter van Gils, has the bank account number NL64RABO0305278901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person associated with the address Eduard Douwstraat 14?",
+    "answer": "The person associated with the address Eduard Douwstraat 14, Leontine Harmensdotter van Gils, was born on 08/02/1990.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is responsible for treating Wieteke Martens’ diagnosed condition?",
+    "answer": "Dr. Femke Van Der Meer is responsible for treating Wieteke Martens, who has been diagnosed with Endometrial Hyperplasia.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number of the person who went to Amsterdam Ziekenhuis West?",
+    "answer": "Wieteke Martens, who went to Amsterdam Ziekenhuis West, has the health insurance number V8N-22-87654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the address of the person who banks at Stadsschouwburg Bank?",
+    "answer": "The person who banks at Stadsschouwburg Bank is Wieteke Martens, and their address is Ridderstraat 23.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the person linked to Lynfield Bank?",
+    "answer": "The person linked to Lynfield Bank is Leona Faye Whitmore, and their email address is l.whitmore77@optus.com.au.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person with the birthdate 12/08/1993?",
+    "answer": "The workplace address of Leona Faye Whitmore, who was born on 12/08/1993, is Burwood Highway 285.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the individual at Marlow Crescent 17?",
+    "answer": "Leona Faye Whitmore, who is at Marlow Crescent 17, has the bank account number 012345678901234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with financial consultant Sami Leena Miettinen?",
+    "answer": "The person associated with financial consultant Sami Leena Miettinen is Eero Väinö Kallio, and their home address is Tuulitie 7.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the occupation of the person associated with the credit card number 4485-4501-2345-6789?",
+    "answer": "Eero Väinö Kallio, whose credit card number is 4485-4501-2345-6789, is employed as a Senior Archaeologist at NordiCultura.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank associated with the most recent transaction of Eero Väinö Kallio, which was €1,428.70 on 07/04/2017?",
+    "answer": "Eero Väinö Kallio's most recent transaction of €1,428.70 on 07/04/2017 is associated with the bank Pohjoispankki.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person associated with the Twitter username orjichuckwudi?",
+    "answer": "Chukwudi Nwabudike Orji, who uses the Twitter username orjichuckwudi, was born on 04/09/1976.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the financial consultant for the individual with the work address Maitama Street 58?",
+    "answer": "The individual with the work address Maitama Street 58, Chukwudi Nwabudike Orji, is advised by Abimbola Oyedele Adeyemi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact email for the person working as Agricultural Analyst at AgriNova Solutions?",
+    "answer": "The email address for Chukwudi Nwabudike Orji, who is the Agricultural Analyst at AgriNova Solutions, is c.orji45@yahoo.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the person with health insurance number T9U-33-76543?",
+    "answer": "Fabrizio Marangoni is the financial consultant assigned to Luca Emilio D'Avanzo, who holds the health insurance number T9U-33-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the account number for the Banca Montegrappa account of Luca Emilio D'Avanzo?",
+    "answer": "Luca Emilio D'Avanzo's Banca Montegrappa account number is IT60X0200805212000102345678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of the individual at Via Verdi 22?",
+    "answer": "The contact number of Luca Emilio D'Avanzo, who lives at Via Verdi 22, is 932 - 567 - 8901.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What disease does the individual with health insurance number X1W-22-87654 have?",
+    "answer": "The individual with the health insurance number X1W-22-87654 is Kaito Haruhiko Sato, and they have Gallstones.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank account number for the individual being treated at Tokyo Shinkawa Medical?",
+    "answer": "The individual being treated at Tokyo Shinkawa Medical is Kaito Haruhiko Sato, and their bank account number is 217001120000123456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the Twitter username kaito_sato1990?",
+    "answer": "The address of Kaito Haruhiko Sato, who is associated with the Twitter username kaito_sato1990, is Shibuya 3-18-1.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which condition is Dr. Andrei Petrovich Romanov managing in his patient Vasily Efimovich Petrov?",
+    "answer": "Dr. Andrei Petrovich Romanov is managing the condition of Microscopic Colitis in his patient Vasily Efimovich Petrov.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person using the Twitter account vasya.petrov90?",
+    "answer": "The person using the Twitter account vasya.petrov90 is Vasily Efimovich Petrov, and their date of birth is 15/03/1960.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the details of the latest bank transaction for the person whose work address is prosp. Gagarina 14?",
+    "answer": "Vasily Efimovich Petrov, whose work address is prosp. Gagarina 14, had a latest bank transaction of ₽15,872.45 on 22/06/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the details of the latest bank transaction for the resident of Via Appia 24?",
+    "answer": "Riccardo Ennio Bellini, the resident of Via Appia 24, made a latest bank transaction of €874.32 on 06/01/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the financial consultant assigned to the individual with the email r.bellini88@alice.it?",
+    "answer": "Riccardo Ennio Bellini, who can be contacted at r.bellini88@alice.it, is advised by Marco Aurelio Bianchi as their financial consultant.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number for the individual working as an Operations Manager at Luxor Srl?",
+    "answer": "Riccardo Ennio Bellini, working as an Operations Manager at Luxor Srl, has the credit card number 4532-7541-0987-6543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the DOB of the person who has been diagnosed with Silicosis?",
+    "answer": "Erik Jan den Hertog, diagnosed with Silicosis, was born on 08/09/1984.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person who holds the bank account NL99ABNA1234567890?",
+    "answer": "The address of Erik Jan den Hertog, who holds the bank account NL99ABNA1234567890, is Binnenweg 18.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which credit card is linked to the individual with the phone number 301 - 425 - 8901?",
+    "answer": "Erik Jan den Hertog, with the phone number 301 - 425 - 8901, is linked to the credit card number 4539-1488-1234-5678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the doctor for the individual with the birthdate 28/03/1992?",
+    "answer": "Anastasia Petrovna Kravchenko, who has a birthdate of 28/03/1992, is under the care of Dr. Igor Yurevich Sokolov.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual who uses the Twitter username anastasia.k84?",
+    "answer": "Anastasia Petrovna Kravchenko, with the Twitter username anastasia.k84, can be contacted at a.kravchenko84@mail.ru.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person associated with the number 021 - 873 - 2456?",
+    "answer": "The address of Anastasia Petrovna Kravchenko, whose phone number is 021 - 873 - 2456, is Prud Str. 14A.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank account number of the individual residing at Kauri Crescent 18?",
+    "answer": "Miriama Whakatere, who is associated with the address Kauri Crescent 18, has the bank account number 02-1234-56789012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me who the doctor is for the person with the phone number 301 - 764 - 5932?",
+    "answer": "Dr. Kahu Tūhono is the doctor for Miriama Whakatere, whose phone number is 301 - 764 - 5932.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank transaction did Miriama Whakatere have, based on the records of her financial consultant Kiri Winiata?",
+    "answer": "Miriama Whakatere, who is under the guidance of financial consultant Kiri Winiata, had a latest bank transaction of $875.63 on 03/05/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the individual with a DOB of 15/09/1990?",
+    "answer": "The individual with a date of birth of 15/09/1990 is Karianne Lunde, and their credit card number is 4539-1486-7204-1153.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person with the email karianne.lunde@telenor.com?",
+    "answer": "The person with the email karianne.lunde@telenor.com, Karianne Lunde, works at Industrigaten 23B.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle of the person with Otitis Media?",
+    "answer": "Karianne Lunde, who has Otitis Media, uses the Twitter username karianne.lunde77.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the person with the email e.granberg87@telia.se?",
+    "answer": "The credit card number for Ebba Nilsdotter Granberg, who uses the email e.granberg87@telia.se, is 4024-0071-4091-2345.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the individual treated by Dr. Magnus Lindberg?",
+    "answer": "The individual treated by Dr. Magnus Lindberg, Ebba Nilsdotter Granberg, has a work address at Malmvägen 21.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which treatment is being administered to the person associated with Lundbybanken?",
+    "answer": "The treatment being administered to Ebba Nilsdotter Granberg, who is associated with Lundbybanken, is Prazosin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What condition is the person with the email address e.scherrer88@bluewin.ch suffering from?",
+    "answer": "The person associated with the email e.scherrer88@bluewin.ch is Eduard Vincenz Scherrer, and they are suffering from Influenza.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the financial consultant for the individual with the credit card number 4532-7465-1234-5678?",
+    "answer": "The financial consultant for Eduard Vincenz Scherrer, whose credit card number is 4532-7465-1234-5678, is Pascalina Lena Egli.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is assigned to the person linked to the Twitter profile eduard.scherrer88?",
+    "answer": "The doctor assigned to Eduard Vincenz Scherrer, who is linked to the Twitter profile eduard.scherrer88, is Dr. Clarissa Hofmann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What medical condition is linked to the person who uses Banca Valdostana?",
+    "answer": "Giulio Benedetto Vettori, who uses Banca Valdostana, has Wilson's Disease.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What email is linked to the credit card number 4210-8976-3452-1098?",
+    "answer": "Giulio Benedetto Vettori, whose credit card number is 4210-8976-3452-1098, has the email address g.vettori78@alice.it.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the patient using the drug Trientine?",
+    "answer": "The patient using the drug Trientine is Giulio Benedetto Vettori, and their assigned financial consultant is Andrea Costantini.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the latest bank transaction for the person who lives on Birkenweg 7?",
+    "answer": "The latest bank transaction for Friederike Lotte Blumenthal, living at Birkenweg 7, is €1,278.94 on 16/02/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the Twitter profile name of Friederike Lotte Blumenthal?",
+    "answer": "Friederike Lotte Blumenthal, the Classical Music Conductor at Lyric Sounds, is active on Twitter with the username friederike.b1986.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which bank account number does Renate Heinrichs advise for her client Friederike Lotte Blumenthal?",
+    "answer": "Renate Heinrichs advises the bank account number 202500781234567890 for her client, Friederike Lotte Blumenthal.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the bank for the person being treated with Pseudoephedrine?",
+    "answer": "The person being treated with Pseudoephedrine, Lauri Aapo Lehtonen, is associated with the bank NordiaTrust.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address for the person associated with the credit card number 4532-0310-8945-6789?",
+    "answer": "The home address for Lauri Aapo Lehtonen, whose credit card number is 4532-0310-8945-6789, is Haapatie 42.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the person being treated at Kaivopuisto Clinic?",
+    "answer": "The person being treated at Kaivopuisto Clinic is Lauri Aapo Lehtonen, and their email is l.lehtonen@finnet.fi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is associated with the person who was born on 05/12/1971?",
+    "answer": "Dr. Sabine Lorch is the doctor associated with Friedrich Augustin Böttcher, who was born on 05/12/1971.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which credit card number is associated with the home address Bäckergasse 17?",
+    "answer": "The credit card number associated with Friedrich Augustin Böttcher, who lives at Bäckergasse 17, is 4539-1122-3344-5566.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the profession of the person receiving Erythromycin as treatment?",
+    "answer": "Friedrich Augustin Böttcher, who is receiving Erythromycin as treatment, is an Operations Manager at Atrion Group.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person associated with the email e.hawthorne78@btinternet.com?",
+    "answer": "The health insurance number for Eleanor Winifred Hawthorne, whose email is e.hawthorne78@btinternet.com, is A5B-88-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial advisor for the patient associated with St. Eadric's Hospital?",
+    "answer": "The financial advisor for Eleanor Winifred Hawthorne, the patient at St. Eadric's Hospital, is Theodore Langford.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the last bank transaction recorded for the person who lives at Highgate Close 7?",
+    "answer": "Eleanor Winifred Hawthorne, the person living at Highgate Close 7, had a latest bank transaction of £1,420.90 on 21/07/2022.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the address of the person associated with phone number 0318 - 663 - 2244?",
+    "answer": "The address linked to Ebba Sigrid Holmberg, whose phone number is 0318 - 663 - 2244, is Smedsgatan 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter profile of the individual who visits Dr. Fredrik Malm?",
+    "answer": "Ebba Sigrid Holmberg, who visits Dr. Fredrik Malm, has the Twitter username ebba.holmberg1977.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the individual who owns the credit card number 4532-4197-6432-1987?",
+    "answer": "The individual with the credit card number 4532-4197-6432-1987 is Ebba Sigrid Holmberg, and their email address is ebba.holmberg77@telia.se.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the individual with health insurance number F7G-99-12345?",
+    "answer": "The bank account number for Wim Mees, whose health insurance number is F7G-99-12345, is NL84ABNA0567891234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction amount for the individual at Weteringstraat 22?",
+    "answer": "Wim Mees, associated with the address Weteringstraat 22, had a latest bank transaction of €1,275.84 on 02/04/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health diagnosis for the person linked to the email w.mees84@gmail.com?",
+    "answer": "The health condition of Wim Mees, who uses the email address w.mees84@gmail.com, is Branch Retinal Vein Occlusion.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you find the health insurance number for the individual with the bank account number NL54RABO0300012345?",
+    "answer": "The individual with the bank account number NL54RABO0300012345 is Renske Harmen Boonstra, and their health insurance number is T7X-99-11223.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the hospital where the person with Liver Cancer is being treated?",
+    "answer": "The person with Liver Cancer, Renske Harmen Boonstra, is being treated at St. Antonius Ziekenhuis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number for the person being treated with Sorafenib?",
+    "answer": "The credit card number for Renske Harmen Boonstra, who is being treated with Sorafenib, is 4539-1488-0017-7298.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the person working with financial consultant Tove Carlsson?",
+    "answer": "The person working with financial consultant Tove Carlsson, Ebba Frida Nyström, has the credit card number 4539-6782-1098-7654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the details of the most recent bank transaction for the person linked to the email ebba.ny93@example.se?",
+    "answer": "The person linked to the email address ebba.ny93@example.se is Ebba Frida Nyström, and their latest bank transaction was 1,432.50 SEK on 24/03/2018.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter account associated with the health insurance number X7W-11-87654?",
+    "answer": "The Twitter account associated with Ebba Frida Nyström, who has the health insurance number X7W-11-87654, is ebba.ny93.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who has the health insurance number T78-DF-90123 and what is their occupation?",
+    "answer": "Tahlia Quinn O'Leary has the health insurance number T78-DF-90123, and she works as an Agricultural Economist at VerdiCo.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address linked to the phone number 416 - 908 - 7654?",
+    "answer": "The work address linked to Tahlia Quinn O'Leary, who can be reached at 416 - 908 - 7654, is Camden Road 112.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media handle for the person at Camden Road 87?",
+    "answer": "The person at Camden Road 87, Tahlia Quinn O'Leary, has the Twitter username tahliaq.oleary.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the social media handle of the individual who works with financial consultant Thomas Eric Bolton?",
+    "answer": "The individual working with Thomas Eric Bolton, Edith Maud Barlow, has the Twitter username edith.barlow87.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the doctor associated with the patient diagnosed with hypertension?",
+    "answer": "The patient with hypertension, Edith Maud Barlow, is under the care of Dr. Jonathan Selby.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number of the person employed as an architect at Thornfield Design?",
+    "answer": "The person working as an architect at Thornfield Design, Edith Maud Barlow, has the credit card number 4532-4602-7192-3085.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What does the person at Maple Drive 44 do for a living?",
+    "answer": "The person at Maple Drive 44, Evelyn Lorne McLeod, works as an Agricultural Planner at Verdant Growth Inc.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the financial consultant for the account linked to e.mcleod87@bell.ca?",
+    "answer": "The financial consultant for Evelyn Lorne McLeod, whose contact email is e.mcleod87@bell.ca, is Morgan Steele.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter account name linked to the number 044 - 672 - 1984?",
+    "answer": "The Twitter username associated with Evelyn Lorne McLeod, who has the phone number 044 - 672 - 1984, is evelyn.mcleod87.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account number corresponds to the person suffering from Sickle Cell Disease?",
+    "answer": "The person suffering from Sickle Cell Disease, Luzi Albrecht von Moos, has the bank account number CH93002212034567890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the individual working at LÖwenstrasse 15?",
+    "answer": "Luzi Albrecht von Moos, who works at LÖwenstrasse 15, has the health insurance number C3D-88-90123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the hospital associated with Dr. Markus Lehmann and the patient Luzi Albrecht von Moos?",
+    "answer": "The hospital where Dr. Markus Lehmann treats Luzi Albrecht von Moos is Geneva Medical Center.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the job title of the individual associated with the number 020 - 891 - 2345?",
+    "answer": "The individual with the phone number 020 - 891 - 2345 is Élise Armandine Leroux, and she serves as the Artistic Director at Lumièrе Ateliers.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter handle of the individual with the latest bank transaction of €1,452.89 on 21/06/2024?",
+    "answer": "The individual with the transaction of €1,452.89 on 21/06/2024 is Élise Armandine Leroux, and their Twitter handle is elise.leroux91.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the individual associated with the work address Avenue Montaigne 19?",
+    "answer": "The home address of Élise Armandine Leroux, whose work address is Avenue Montaigne 19, is Rue des Chênes 4.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual receiving care at North Shore Medical?",
+    "answer": "The individual receiving care at North Shore Medical is Harriet Wren, and her phone number is 0161 - 432 - 5678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is Harriet Wren's date of birth, who is working with financial consultant Hazel Bennett?",
+    "answer": "Harriet Wren, who is working with financial consultant Hazel Bennett, was born on 14/03/1978.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the bank linked to the person at 157 Flinders Lane?",
+    "answer": "The person at 157 Flinders Lane, Harriet Wren, is linked to Crescent Financial Services.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the job of the individual associated with health insurance number H4N-77-89123?",
+    "answer": "The individual associated with health insurance number H4N-77-89123 is Ramiro de la Cruz, and he works as a Culinary Chef at Maravillas Gastronómicas.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What amount was transferred in the latest transaction for the person with the email r.cruz38@terra.es?",
+    "answer": "The latest bank transaction for Ramiro de la Cruz, whose email is r.cruz38@terra.es, was €978.35 on 23/03/2021.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Who is the financial consultant of the person with a Sleep Apnea diagnosis?",
+    "answer": "Javier Rueda is the financial consultant for Ramiro de la Cruz, who has a diagnosis of Sleep Apnea.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person associated with the health insurance number X7A-29-14729?",
+    "answer": "The birth date linked to Sidsel Bjørnsten, whose health insurance number is X7A-29-14729, is 28/09/1987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address for the person associated with the Twitter account sidselbjornsten90?",
+    "answer": "The address associated with Sidsel Bjørnsten, whose Twitter username is sidselbjornsten90, is Lillemosevej 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual who had a DKK 14,290.45 transaction on 03/01/2024?",
+    "answer": "Sidsel Bjørnsten, who had a DKK 14,290.45 transaction on 03/01/2024, can be contacted at 020 - 345 - 6789.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the individual with the bank Caja de Ahorros de Extremadura?",
+    "answer": "The credit card number for Luciano Esteban Molina, whose bank is Caja de Ahorros de Extremadura, is 4012-8888-8888-1881.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the doctor linked to Hospital Son Dureta for Luciano Esteban Molina?",
+    "answer": "The doctor linked to Hospital Son Dureta for Luciano Esteban Molina is Dr. Federico Ruiz Molina.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birthdate of the person associated with a bank transaction of €962.30 on 09/05/2025?",
+    "answer": "The person associated with a transaction of €962.30 on 09/05/2025 is Luciano Esteban Molina, and their date of birth is 08/05/1983.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the handle of the Twitter account connected to the transaction of €1,298.45 on 14/03/2024?",
+    "answer": "The transaction of €1,298.45 on 14/03/2024 is linked to Antonio Ramón Ibáñez, whose Twitter handle is antonio_ibanez_bio.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person with Caja del Sol as their bank?",
+    "answer": "The health insurance number for Antonio Ramón Ibáñez, who is associated with Caja del Sol, is X2P-33-78945.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the individual with the birthdate 04/08/1978?",
+    "answer": "The individual with the birthdate 04/08/1978 is Antonio Ramón Ibáñez, and his job is Culinary Chef at Flamenco Foods.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the doctor who is caring for the person born on 04/12/1985?",
+    "answer": "Harold Percival Whittington, born on 04/12/1985, is under the care of Dr. Malcolm Hargreaves.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the health insurance number for the person with a recent bank transaction of £1,254.30 on 24/01/2020?",
+    "answer": "The health insurance number for Harold Percival Whittington, who made a transaction of £1,254.30 on 24/01/2020, is X7A-11-98765.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank linked to the person with the work address London Bridge House 150?",
+    "answer": "The person with the work address London Bridge House 150 is Harold Percival Whittington, and the associated bank is Halifax Northern.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the person associated with health insurance number P4X-99-12345?",
+    "answer": "The work address of Alaric Wrenshall, whose health insurance number is P4X-99-12345, is High Tech Business Park 4A.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction of the individual who is the Heritage Curator at Westley Manor?",
+    "answer": "The latest bank transaction of Alaric Wrenshall, who is the Heritage Curator at Westley Manor, is £2,435.75 on 15/08/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the person associated with the email a.wrenshall27@btinternet.com?",
+    "answer": "The home address linked to Alaric Wrenshall, whose email is a.wrenshall27@btinternet.com, is Westminster Road 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the contact number for the individual undergoing Intravenous Immunoglobulin therapy?",
+    "answer": "The individual undergoing Intravenous Immunoglobulin therapy, Ukem Nnenna Eze, has the contact number 444 - 555 - 6666.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the person with the date of birth 05/12/1987?",
+    "answer": "The email address of Ukem Nnenna Eze, who was born on 05/12/1987, is u.eze92@gmail.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you share the recent bank transaction details of the person using the Twitter username u.eze92?",
+    "answer": "The person using the Twitter username u.eze92 is Ukem Nnenna Eze, and their latest bank transaction is ₦24,570.00 on 10/01/2024.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the individual whose doctor is Dr. Marga Lodeveen?",
+    "answer": "The address of Daan Wesselink, whose doctor is Dr. Marga Lodeveen, is Hoofdweg 18.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of the person connected to Stichting Ziekenhuis Drecht?",
+    "answer": "The person connected to Stichting Ziekenhuis Drecht is Daan Wesselink, and their bank account number is NL71INGB0001234567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness does the individual with the email address d.wesselink92@gmail.com have?",
+    "answer": "Daan Wesselink, who uses the email d.wesselink92@gmail.com, is affected by Zollinger-Ellison Syndrome.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is responsible for Elin Agnete Holm's care regarding Alzheimer's Disease?",
+    "answer": "The doctor responsible for Elin Agnete Holm's care, who has Alzheimer's Disease, is Dr. Ragnhild Moe.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the date of birth for the employee at NordMarine who is a Senior Fishery Analyst?",
+    "answer": "The employee at NordMarine, Elin Agnete Holm, who is a Senior Fishery Analyst, was born on 12/09/1985.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of Elin Agnete Holm based on her latest bank transaction?",
+    "answer": "Elin Agnete Holm's work address, based on her latest bank transaction of NOK 8,450.00 on 06/10/2018, is Karl Johans gate 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of the individual whose date of birth is 08/07/1978?",
+    "answer": "Felicity Wrenning, whose date of birth is 08/07/1978, has the bank account number 798420119012345678.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where can I contact the person with health insurance number X3B-27-98765?",
+    "answer": "The individual with health insurance number X3B-27-98765 is Felicity Wrenning, and her contact number is 472 - 987 - 6543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health condition of the person linked to the email felicity.wrenning@btinternet.com?",
+    "answer": "The individual linked to the email felicity.wrenning@btinternet.com, Felicity Wrenning, is affected by Lyme Disease.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the financial consultant associated with the bank account CH820460123456789012?",
+    "answer": "The account CH820460123456789012, held by Beatrice Livia Waser, is managed by financial consultant Lorenz Dieter Hofmann.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which medical condition is being managed by Adalimumab in Beatrice Livia Waser's case?",
+    "answer": "Beatrice Livia Waser is being treated for Psoriasis with Adalimumab.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the employee at LoomWeave who is a Textile Designer?",
+    "answer": "Beatrice Livia Waser, the Textile Designer at LoomWeave, has the home address Rue de Carouge 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the bank that Jacco Cornelia van Loon uses, based on their email address j.vanloon72@planet.nl?",
+    "answer": "The bank used by Jacco Cornelia van Loon, who has the email address j.vanloon72@planet.nl, is AlfaBank Nederland.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the hospital name for the individual with the birthdate 12/08/1981?",
+    "answer": "The hospital name for the individual with the birthdate 12/08/1981, Jacco Cornelia van Loon, is Rijnland Ziekenhuis.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account is associated with Jacco Cornelia van Loon's credit card 4532-0791-1234-5678?",
+    "answer": "Jacco Cornelia van Loon's credit card number 4532-0791-1234-5678 is associated with the bank account NL68ABNA0278901234.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the doctor who works at the hospital where Minjoo Yoon is a patient?",
+    "answer": "The doctor who works at Guro Medical Center, where Minjoo Yoon is a patient, is Dr. Park Seong-woong.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the person with the work address Daehangno 69?",
+    "answer": "Minjoo Yoon, whose work address is Daehangno 69, can be contacted at 201 - 123 - 4567.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which treatment is being used by the individual linked to the Twitter account minjoo_y_1990?",
+    "answer": "The person linked to the Twitter account minjoo_y_1990, Minjoo Yoon, is being treated with Artificial Tears.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace of the person with the medical condition Hyperthyroidism?",
+    "answer": "Rangi Hikairo, diagnosed with Hyperthyroidism, is employed at Auckland City Centre 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What bank account is connected to Rangi Hikairo's credit card 4532-0211-1234-5678?",
+    "answer": "Rangi Hikairo's credit card number 4532-0211-1234-5678 is connected to the bank account number 03-9145-67890123456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction details for the person associated with the phone number 415 - 654 - 3210?",
+    "answer": "The latest bank transaction for Rangi Hikairo, who is linked to the number 415 - 654 - 3210, is $2,047.65 on 10/08/2020.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the social media handle of the person with Pelvic Inflammatory Disease?",
+    "answer": "The person with Pelvic Inflammatory Disease, Rebekah Hone Tuari, uses the Twitter handle rebekah.tuari.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What job is held by the individual associated with financial consultant Tane Mahuta Rātana?",
+    "answer": "The individual associated with financial consultant Tane Mahuta Rātana is Rebekah Hone Tuari, and she works as an Agriculture Consultant at Kauri Farms.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the email of the person who banks at Southern Bay Bank?",
+    "answer": "Rebekah Hone Tuari, who banks at Southern Bay Bank, can be contacted at r.tuari82@auckland.ac.nz.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the birth date of the person associated with Hospital Clínico de Madrid?",
+    "answer": "Eduardo Martín Ruiz, associated with Hospital Clínico de Madrid, was born on 17/05/1986.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number of Eduardo Martín Ruiz using his health insurance number?",
+    "answer": "Eduardo Martín Ruiz's bank account number is ES66208055550123456789, and his health insurance number is X3M-77-89012.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name linked to the person working at Avenida Madrid 89?",
+    "answer": "The person working at Avenida Madrid 89, Eduardo Martín Ruiz, is a client of Banco Andaluz.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment of the individual with health insurance number T8A-21-98765?",
+    "answer": "The individual with the health insurance number T8A-21-98765, Leonard Klausinger, is being treated with Nystatin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which condition is Leonard Klausinger being treated for at the hospital St. Hedwig Klinikum?",
+    "answer": "Leonard Klausinger is receiving treatment for Thrush at St. Hedwig Klinikum.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you name the financial consultant associated with the work address Industriestraße 56?",
+    "answer": "The individual with the work address Industriestraße 56, Leonard Klausinger, is advised by Nikolai Dietrich.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter handle of the person who received the treatment 'None (manual reduction or surgery)'?",
+    "answer": "The Twitter handle for Rowan Lorne McAllister, who received the treatment 'None (manual reduction or surgery)', is rowan.mc.allister.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the profession of the person with the bank account number 456789123456789012?",
+    "answer": "The person with the bank account number 456789123456789012, Rowan Lorne McAllister, is an Environmental Consultant at GreenShift.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is responsible for the care of the person with DOB 23/08/1977?",
+    "answer": "Dr. Cole Dumas is the doctor responsible for Rowan Lorne McAllister, who was born on 23/08/1977.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the birthdate of the person whose health insurance number is K5Y-33-98765?",
+    "answer": "The individual with the health insurance number K5Y-33-98765, Léa Noël Martin, was born on 03/05/1983.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the patient treated with Rigid Gas Permeable Contact Lenses?",
+    "answer": "The address of Léa Noël Martin, who is being treated with Rigid Gas Permeable Contact Lenses, is Rue des Lombards 17.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What health issue is the person with a connection to Banque de la Seine dealing with?",
+    "answer": "Léa Noël Martin, who is connected to Banque de la Seine, is dealing with Keratoconus.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter profile name of the person with a DOB of 18/03/1981?",
+    "answer": "The person with a DOB of 18/03/1981 is Darian Lysandra Quinn, and their Twitter username is d.quinn78.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which hospital is the employee working from 177 Collins Street registered?",
+    "answer": "Darian Lysandra Quinn, who works from 177 Collins Street, is registered at Cooper Plains Hospital.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the doctor for the individual with the bank account number 12834975261047?",
+    "answer": "Dr. Elise Morgan is the doctor for Darian Lysandra Quinn, who has the bank account number 12834975261047.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the latest bank transaction of Hale Tane Mahuta, who is on Polymyxin B Trimethoprim treatment?",
+    "answer": "Hale Tane Mahuta, who is on Polymyxin B Trimethoprim treatment, had a latest bank transaction of $1,280.45 on 08/08/2018.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person holding the credit card 4485-2211-3355-7799?",
+    "answer": "The date of birth of Hale Tane Mahuta, whose credit card number is 4485-2211-3355-7799, is 23/09/1984.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the Twitter profile name of Hale Tane Mahuta, the patient of Dr. Hine Waiora?",
+    "answer": "Hale Tane Mahuta, a patient of Dr. Hine Waiora, is active on Twitter under the username tane_mahuta_1984.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the physician for the individual with the birthdate 07/09/1978?",
+    "answer": "The physician for Min-Jae Yoon, who was born on 07/09/1978, is Dr. Young Jae Choi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address of the person with a Malaria diagnosis?",
+    "answer": "The workplace address of Min-Jae Yoon, who is diagnosed with Malaria, is Yeoksam-dong 112.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number for the ₩1,438,720.00 transaction made on 22/08/2017?",
+    "answer": "The credit card number associated with Min-Jae Yoon's ₩1,438,720.00 transaction on 22/08/2017 is 4024-0071-9999-0123.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the name of the financial consultant for the person with the health insurance number K7B-99-11223?",
+    "answer": "The financial consultant for Lea Viviane Schmid, whose health insurance number is K7B-99-11223, is Simon A. Fischer.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the workplace address for the individual associated with credit card number 4532-7615-8901-2345?",
+    "answer": "The person with the credit card number 4532-7615-8901-2345 is Lea Viviane Schmid, and their work address is Hauptstrasse 56.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What does the individual living at Rue de la Gare 4 do for a living?",
+    "answer": "Lea Viviane Schmid, who lives at Rue de la Gare 4, is a Certified Chef at Léman Culinary.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What amount was transacted on 23/08/2019 for Mikaela Anika Jardine through her financial consultant Nina Desrosiers?",
+    "answer": "Mikaela Anika Jardine, who works with financial consultant Nina Desrosiers, had a transaction of $1,943.67 on 23/08/2019.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual with the number 952 - 345 - 6789?",
+    "answer": "Mikaela Anika Jardine, whose phone number is 952 - 345 - 6789, has the email address m.jardine47@bellnet.ca.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Where does Mikaela Anika Jardine receive her medical care, given she lives at Cedar Lane 48?",
+    "answer": "Mikaela Anika Jardine, who lives at Cedar Lane 48, receives her medical care at Ottawa Valley Health.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address for the person with the number 703 - 452 - 8765?",
+    "answer": "The email address of Linnea Elinor Jonasson, whose phone number is 703 - 452 - 8765, is linnea.jonasson91@telia.com.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the hospital for the individual with the birthdate 05/12/1970?",
+    "answer": "The hospital associated with Linnea Elinor Jonasson, born on 05/12/1970, is Vallhalla Medical Center.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the person associated with Norra Sverige Banken?",
+    "answer": "Linnea Elinor Jonasson, who is associated with Norra Sverige Banken, has her work address at Kungsgatan 112.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual with health insurance number X9F-21-78945?",
+    "answer": "Friederike Ansgar Dietrich, whose health insurance number is X9F-21-78945, has the email address f.dietrich87@web.de.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the profession of the individual under the care of Dr. Cornelia Franziska Weber?",
+    "answer": "Friederike Ansgar Dietrich, under the care of Dr. Cornelia Franziska Weber, is an Agricultural Economist at BioLand AG.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the person whose workplace is Industriestr. 12a?",
+    "answer": "Friederike Ansgar Dietrich, whose work address is Industriestr. 12a, is undergoing treatment with Budesonide (oral suspension).",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address of the person with the date of birth 13/07/1982?",
+    "answer": "The address of Erik Jorritsma, whose date of birth is 13/07/1982, is Veerwerf 21.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the contact number of Wim Hulsbergen, who is Erik Jorritsma's financial consultant?",
+    "answer": "Wim Hulsbergen, the financial consultant of Erik Jorritsma, has the phone number 010 - 398 - 7654.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the profession of the individual associated with Amsterdam Central Medical hospital?",
+    "answer": "The individual connected to Amsterdam Central Medical hospital, Erik Jorritsma, is an Agricultural Planner at GroenPioniers.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the patient undergoing Vitamin A Palmitate treatment?",
+    "answer": "Chinaza Nwachukwu Orji, the patient undergoing treatment with Vitamin A Palmitate, can be contacted at 022 - 456 - 7890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the hospital treating the patient born on 25/08/1973?",
+    "answer": "The patient born on 25/08/1973, Chinaza Nwachukwu Orji, is being treated at New Day Medical Centre.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number linked to the email c.orji78@nigmail.net?",
+    "answer": "The credit card number linked to Chinaza Nwachukwu Orji, who uses the email c.orji78@nigmail.net, is 4024-0071-9012-3456.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual associated with bank account number 110122334455667789?",
+    "answer": "The phone number of Elin Karoline Tvedt, who is associated with bank account number 110122334455667789, is 027 - 617 - 2890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the individual with a DOB of 24/07/1988?",
+    "answer": "Sigrun Håkan Frøland is the financial consultant assigned to Elin Karoline Tvedt, who was born on 24/07/1988.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the bank for the person living at Bryggeveien 14?",
+    "answer": "The person at Bryggeveien 14, Elin Karoline Tvedt, is linked to the bank Oslo Bank AS.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What credit card number is connected to the Twitter profile of Livia Senn?",
+    "answer": "Livia Senn, whose Twitter username is @livia.senn45, has a credit card number of 4024-0071-4096-2233.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the work address of the person whose date of birth is 04/10/1988?",
+    "answer": "The work address of Livia Senn, who was born on 04/10/1988, is Kirschgasse 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email address of the person who made a CHF 3,245.70 transaction on 27/12/2017?",
+    "answer": "Livia Senn, who made a CHF 3,245.70 transaction on 27/12/2017, has the email address l.senn45@bluewin.ch.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the bank name of the individual treated by Dr. Kemi Ogunleye?",
+    "answer": "The individual treated by Dr. Kemi Ogunleye, Uchenna Chukwudebe, has CitiNigeria as their bank.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the job of the individual associated with financial consultant Olumide Dara Akintayo?",
+    "answer": "The individual associated with financial consultant Olumide Dara Akintayo, Uchenna Chukwudebe, is an Agricultural Extension Officer at GreenHaven Agro.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the address of the person associated with the phone number 803 - 888 - 1234?",
+    "answer": "The address linked to Uchenna Chukwudebe, whose phone number is 803 - 888 - 1234, is Plot 23, Rumuode Close.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the person with the number 912 - 654 - 3210?",
+    "answer": "The date of birth for Linnea Olovsson, whose phone number is 912 - 654 - 3210, is 05/08/1987.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address for the individual associated with bank account number 8571014356217890?",
+    "answer": "The home address linked to Linnea Olovsson, whose bank account number is 8571014356217890, is Vasagatan 12A.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the credit card number of the employee at Brunnsbacksvägen 18?",
+    "answer": "Linnea Olovsson, who is employed at Brunnsbacksvägen 18, holds the credit card number 4024-0071-9999-0011.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the financial advisor of the person with a birthdate of 17/03/1982?",
+    "answer": "Clara Bennett is the financial advisor for Harriet Maud Langley, who was born on 17/03/1982.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the job of the person linked to the email h.langley@btinternet.com?",
+    "answer": "The individual linked to the email address h.langley@btinternet.com, Harriet Maud Langley, works as a Marketing Strategist at Lumora Ltd.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which treatment is prescribed for the individual employed at Market Square 18?",
+    "answer": "The treatment prescribed for Harriet Maud Langley, who is employed at Market Square 18, is Betamethasone cream.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what treatment Noël Amédéée Vasseur, with health insurance number P7T-11-45678, is receiving?",
+    "answer": "Noël Amédéée Vasseur, whose health insurance number is P7T-11-45678, is being treated with Imiquimod.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the bank account number for the person with a €1,275.30 transaction on 05/10/2023?",
+    "answer": "The person with the transaction of €1,275.30 on 05/10/2023 is Noël Amédéée Vasseur, and their bank account number is FR76300070001234567890.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness does Noël Amédéée Vasseur, the Agronomist at Véronique Céréales, suffer from?",
+    "answer": "Noël Amédéée Vasseur, the Agronomist at Véronique Céréales, is diagnosed with Basal Cell Carcinoma.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the bank name of the individual with the email address l.marchetti85@libero.it?",
+    "answer": "The individual with the email address l.marchetti85@libero.it, Luca Benvenuto Marchetti, has an account with Banca Trentino.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the medical treatment of the individual using the Twitter handle lucamarchetti85?",
+    "answer": "Luca Benvenuto Marchetti, who uses the Twitter handle lucamarchetti85, is being treated with Fluorouracil.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the address for the person with the bank account number IT27X0306909180500000123456?",
+    "answer": "The address for Luca Benvenuto Marchetti, whose bank account number is IT27X0306909180500000123456, is Via Mantova 12.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the date of birth for the individual associated with Clinique Saint-Victor?",
+    "answer": "Mathilde Adrien Lemoine, who is associated with Clinique Saint-Victor, was born on 18/09/1984.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the health insurance number for the client of Banque d'Île-de-France named Mathilde Adrien Lemoine?",
+    "answer": "Mathilde Adrien Lemoine, a client of Banque d'Île-de-France, has the health insurance number X7Y-11-76543.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "On what date and for what amount was the last transaction recorded for the credit card associated with Mathilde Lemoine?",
+    "answer": "The last transaction for the credit card 4532-7654-3210-9876, associated with Mathilde Adrien Lemoine, was €1,290.43 on 09/02/2017.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the email of the individual receiving treatment at the North-Eastern Regional Clinic?",
+    "answer": "Igor Stepanovich Fomichev, who is receiving treatment at the North-Eastern Regional Clinic, can be contacted at i.fomichev74@mail.ru.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter account of the patient being treated with Ustekinumab?",
+    "answer": "The Twitter account of Igor Stepanovich Fomichev, who is being treated with Ustekinumab, is igor_fomichev1974.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the credit card number linked to the bank account 4081781040000987654 of Igor Stepanovich Fomichev?",
+    "answer": "The credit card number linked to Igor Stepanovich Fomichev's bank account 4081781040000987654 is 3742-9876-5432-1098.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the doctor associated with the email t.ririnui89@auckland.net?",
+    "answer": "The doctor associated with Tamati Hone Ririnui, whose email is t.ririnui89@auckland.net, is Dr. Hana Tukuhurangi.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the treatment for the individual under the guidance of financial consultant Levi Rawiri?",
+    "answer": "Tamati Hone Ririnui, who is under the guidance of financial consultant Levi Rawiri, is being treated with Nitrofurantoin.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you identify the bank for the 22/01/2018 $1,452.78 transaction linked to Tamati Hone Ririnui?",
+    "answer": "The 22/01/2018 $1,452.78 transaction linked to Tamati Hone Ririnui was processed by Whangārei Savings.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What credit card does the person with health insurance number C3W-55-67890 use?",
+    "answer": "The person with health insurance number C3W-55-67890, Lena Lotte Thiele, uses the credit card number 4539-1287-6543-2109.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which doctor is responsible for the individual at Schlossallee 45?",
+    "answer": "Dr. Matthias Franz Fischer is the doctor of Lena Lotte Thiele, who lives at Schlossallee 45.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "At which hospital is the individual working as a Product Designer at Vorteks GmbH affiliated?",
+    "answer": "Lena Lotte Thiele, who is employed as a Product Designer at Vorteks GmbH, is affiliated with StadtKlinik Berlin-Schöneberg.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the Twitter handle of the individual with the bank account number 2345678901234567?",
+    "answer": "The Twitter handle for Alaric Callum Rigby, whose bank account number is 2345678901234567, is alaric.rigby.au.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What illness is associated with the patient under the care of Dr. Oliver Grant?",
+    "answer": "The patient under the care of Dr. Oliver Grant, Alaric Callum Rigby, has Small Intestinal Bacterial Overgrowth.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the birthdate of the person whose bank is WestBank Australia?",
+    "answer": "Alaric Callum Rigby, whose bank is WestBank Australia, was born on 18/06/1972.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the home address of the individual working at GroenDyen as an Agricultural Economist?",
+    "answer": "The home address of Frits Pieter Jansen, who is an Agricultural Economist at GroenDyen, is Vlietstraat 14.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the Twitter username of Frits Pieter Jansen, the client of financial consultant Marjan Douwe Beintema?",
+    "answer": "Frits Pieter Jansen, who is advised by financial consultant Marjan Douwe Beintema, has the Twitter username frits.jansen84.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What disease is Frits Pieter Jansen diagnosed with at Amsterdam North Regional?",
+    "answer": "At Amsterdam North Regional, Frits Pieter Jansen is diagnosed with Ovarian Cyst.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me the name of the financial consultant for the bank account associated with Léa Moreau?",
+    "answer": "The financial consultant for Léa Moreau, whose bank account number is FR7630001007510123456789012, is Mathilde Sophie Rolland.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the social media username of the individual with credit card number 4532-4219-0123-4567?",
+    "answer": "Léa Moreau, who has the credit card number 4532-4219-0123-4567, uses the Twitter username lea.moreau.33.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you provide the phone number of the individual who had a transaction of €2,143.80 on 19/03/2023?",
+    "answer": "Léa Moreau had a transaction of €2,143.80 on 19/03/2023, and their phone number is 638 - 425 - 1097.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Which financial consultant is assigned to the person with a birthdate of 03/08/1989?",
+    "answer": "Simon Müller is the financial consultant for Lia Mara Zemp, who was born on 03/08/1989.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "Can you tell me what job the person at Rue du Pommier 14 has?",
+    "answer": "The person living at Rue du Pommier 14, Lia Mara Zemp, works as a Sustainability Consultant at Solara GreenTech.",
+    "type": "one_hop_validation"
+  },
+  {
+    "question": "What is the name of the hospital where Tiotropium is administered to Lia Mara Zemp?",
+    "answer": "Spitalzentrum Unterseen is the hospital where Tiotropium is administered to Lia Mara Zemp.",
+    "type": "one_hop_validation"
+  }
+]
