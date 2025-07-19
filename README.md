@@ -61,7 +61,6 @@ bash scripts/finetune.sh
 ```bash
 bash scripts/experiments/explore_unlearning_benchmark.sh
 ```
-There are 11 options to choose for unlearning methods : ""
 
 #### The UnlearnPII Evaluation Prompts
 
