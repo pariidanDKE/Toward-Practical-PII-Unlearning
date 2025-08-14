@@ -21,3 +21,5 @@ data/TOFU/
 experiment_logs
 wandb/
 models/
+research_dev_utils/lora/data
+research_dev_utils/pii_dataset/data/backup/qa_pairs_full2.json

@@ -298,11 +298,9 @@ def corrupt_single_token_id(tokenizer, token_id, replace_prob=0.6, k=1):
 
     if random.random() < replace_prob:
         if get_config()['use_adaptive_k']:
-            #neighbor_ids = find_neighbourhood_k_adaptive_strict(tokenizer, token_id, k=k)
             neighbor_ids = adaptive_neighbourhood_func(tokenizer, token_id, k=k)
 
         else:
-            #neighbor_ids = find_neighbourhood_k(tokenizer, token_id, k=k)
             neighbor_ids = simple_neighbourhood_func(tokenizer, token_id, k=k)
         if neighbor_ids:
             sampled_id = random.choice(neighbor_ids)

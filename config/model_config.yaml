@@ -9,7 +9,7 @@ llama3.1-8b:
   flash_attention2: "true"
   gradient_checkpointing: "true"
   t440_config: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/retain_and_test_retain_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/t440_config.json"
-  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA/checkpoint-1650"
+  pii_target_model_path: "/projects/0/hpmlprjs/LLM/danp/UGBench/save_model/PII/full_with_qa_llama3.1-8b_B32_G4_E5_lr2e-5_ComprehensiveQA"
 
 qwen2.5-7b:
   hf_key: "Qwen/Qwen2.5-7B-Instruct"

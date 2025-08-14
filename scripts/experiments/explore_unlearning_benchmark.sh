@@ -8,7 +8,6 @@ export forget_data_path="$PWD/data/${dataset}"
 export cache="$PWD/cache"
 export retain_weight=1
 export num_epochs=8
-export neftune_noise_alpha=False
 
 ### MULTI GPU PARAMS
 export CUDA_VISIBLE_DEVICES=0
@@ -19,22 +18,21 @@ export eval_batch_size=64
 
 export optimizer="paged_adamw_8bit"
 export optimal_neighbours_generation=False
+export seed="None"
 
 ### Unlearning Params
 export forget_loss="PerMU"
-export project_name="Misc"
+export project_name="CompareLoRA_PaperConfig"
 export use_quantization=False
 export split="forget10"
 export remove_model_tensors=True
 C_values=(0.1)
 P_values=(1.2)
-num_runs=1
-#model_list=("llama3.1-8b")
-model_list=("llama2-7b")
+num_runs=10
+model_list=("llama3.1-8b")
+#model_list=("llama2-7b")
 
 token_level_values=(True)
-export num_epochs=2
-export token_replace_prob=0.1
 export lr=1e-5
 
 echo "Starting grid search with modified P-value logic:"
@@ -69,39 +67,36 @@ for model in "${model_list[@]}"; do
                     fi
 
                     export run_name="${model}_E${num_epochs}_B${batch_size}_C${C}_P_${P}_token_level${token_level}_run${run}_test"
-                    export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/$run_name"
-                    if [ $run -ne 10 ]; then
-                        #-------- Run Training --------
-                        python forget.py --config-name=forget_pii.yaml \
-                        dataset=$dataset split=$split \
-                        forget_data_path=$forget_data_path \
-                        retain_data_path=$forget_data_path \
-                        forget_loss=$forget_loss batch_size=$batch_size \
-                        retain_weight=$retain_weight \
-                        gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
-                        save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
-                        use_quantization=$use_quantization \
-                        project_name=$project_name \
-                        run_name=$run_name \
-                        token_level=$token_level \
-                        logging.corrupted_subjects=True \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        neftune_noise_alpha=$neftune_noise_alpha \
-                        C=$C \
-                        P=$P \
-                        use_deepspeed=$use_deepspeed \
-                        optimizer=$optimizer \
-                        optimal_neighbours_generation=$optimal_neighbours_generation \
-                        cache_path=$cache_path \
+                    export save_dir="$PWD/experiment/${dataset}/${model}/${split}/_AllExperiments/PIIAnalysis/Reruns/$run_name"
+                   
+                    #-------- Run Training --------
+                    python forget.py --config-name=forget_pii.yaml \
+                    dataset=$dataset split=$split \
+                    forget_data_path=$forget_data_path \
+                    retain_data_path=$forget_data_path \
+                    forget_loss=$forget_loss batch_size=$batch_size \
+                    retain_weight=$retain_weight \
+                    gradient_accumulation_steps=$gradaccum model_family=$model lr=$lr \
+                    save_dir=$save_dir cache_dir=$cache num_epochs=$num_epochs \
+                    use_quantization=$use_quantization \
+                    project_name=$project_name \
+                    run_name=$run_name \
+                    token_level=$token_level \
+                    optimal_neighbours_generation=$optimal_neighbours_generation \
+                    C=$C \
+                    P=$P \
+                    use_deepspeed=$use_deepspeed \
+                    optimizer=$optimizer \
+                    optimal_neighbours_generation=$optimal_neighbours_generation \
+                    cache_path=$cache_path \
+                    seed=$seed \
 
-                        # Check if training was successful
-                        if [ $? -ne 0 ]; then
-                            echo "Training failed for C=${C}, P=${P}, token_level=${token_level}, run=${run}. Continuing to next combination..."
-                            continue
-                        fi
-                    else
-                        echo "Skipping training for run 3 as it is already done."
-                        fi
+                    # Check if training was successful
+                    if [ $? -ne 0 ]; then
+                        echo "Training failed for C=${C}, P=${P}, token_level=${token_level}, run=${run}. Continuing to next combination..."
+                        continue
+                    fi
+                
 
                     # -------- Evaluate Model --------
                     python evaluate_PII.py --config-name=eval_pii.yaml \

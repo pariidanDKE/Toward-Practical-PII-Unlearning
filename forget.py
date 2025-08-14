@@ -252,8 +252,13 @@ def setup_environment_and_config(cfg):
     
     print(f"num_devices: {num_devices}")
     
-    set_seed(cfg.seed)
-    
+    #env_seed =  cfg.seed if cfg.seed != "None" else None
+    if cfg.seed=="None":
+        print("No seed set, using random seed.")
+    else:
+        print(f"Setting seed: {cfg.seed}")
+        set_seed(cfg.seed)
+
     return logger, num_devices, local_rank
 
 
@@ -361,31 +366,62 @@ def calculate_training_steps(cfg, torch_format_dataset, num_devices):
 def create_training_arguments(cfg, batch_size, gradient_accumulation_steps, steps_per_epoch, max_steps):
     """Create training arguments configuration."""
     deepspeed_config = "config/ds_config.json" if cfg.use_deepspeed else None
+
+    # Create the base arguments dictionary
+    training_args = {
+        "per_device_train_batch_size": batch_size,
+        "per_device_eval_batch_size": batch_size,
+        "gradient_accumulation_steps": gradient_accumulation_steps,
+        "warmup_steps": max(0, steps_per_epoch),
+        "max_steps": max_steps,
+        "learning_rate": cfg.lr,
+        "bf16": cfg.bf16,
+        "bf16_full_eval": cfg.bf16,
+        "logging_steps": 1,
+        "logging_dir": f'{cfg.save_dir}/logs',
+        "output_dir": cfg.save_dir,
+        "optim": cfg.optimizer,
+        "save_strategy": "no",
+        "save_steps": steps_per_epoch,
+        "deepspeed": deepspeed_config,
+        "weight_decay": cfg.weight_decay,
+        "eval_steps": steps_per_epoch,
+        "disable_tqdm": False,
+        "report_to": 'wandb',
+        "lr_scheduler_type": 'constant_with_warmup',
+        "ddp_find_unused_parameters": True,
+    }
+
+    # Only add seed if it's not None and not "None"
+    if cfg.seed is not None and cfg.seed != "None":
+        training_args["seed"] = cfg.seed
+
+    return transformers.TrainingArguments(**training_args)
     
-    return transformers.TrainingArguments(
-        per_device_train_batch_size=batch_size,
-        per_device_eval_batch_size=batch_size,
-        gradient_accumulation_steps=gradient_accumulation_steps,
-        warmup_steps=max(0, steps_per_epoch),
-        max_steps=max_steps,
-        learning_rate=cfg.lr,
-        bf16=cfg.bf16,
-        bf16_full_eval=cfg.bf16,
-        logging_steps=1,
-        logging_dir=f'{cfg.save_dir}/logs',
-        output_dir=cfg.save_dir,
-        optim=cfg.optimizer,
-        save_strategy="no",
-        save_steps=steps_per_epoch,
-        deepspeed=deepspeed_config,
-        weight_decay=cfg.weight_decay,
-        eval_steps=steps_per_epoch,
-        seed=cfg.seed,
-        disable_tqdm=False,
-        report_to='wandb',
-        lr_scheduler_type='constant_with_warmup',
-        ddp_find_unused_parameters=True,  # DDP fix
-    )
+    # return transformers.TrainingArguments(
+    #     per_device_train_batch_size=batch_size,
+    #     per_device_eval_batch_size=batch_size,
+    #     gradient_accumulation_steps=gradient_accumulation_steps,
+    #     warmup_steps=max(0, steps_per_epoch),
+    #     max_steps=max_steps,
+    #     learning_rate=cfg.lr,
+    #     bf16=cfg.bf16,
+    #     bf16_full_eval=cfg.bf16,
+    #     logging_steps=1,
+    #     logging_dir=f'{cfg.save_dir}/logs',
+    #     output_dir=cfg.save_dir,
+    #     optim=cfg.optimizer,
+    #     save_strategy="no",
+    #     save_steps=steps_per_epoch,
+    #     deepspeed=deepspeed_config,
+    #     weight_decay=cfg.weight_decay,
+    #     eval_steps=steps_per_epoch,
+    #     seed=cfg.seed,
+    #     disable_tqdm=False,
+    #     report_to='wandb',
+    #     lr_scheduler_type='constant_with_warmup',
+    #     ddp_find_unused_parameters=True,  # DDP fix
+    # )
 
 # ========================= CLEANUP FUNCTIONS =========================
 
@@ -444,6 +480,11 @@ def main(cfg):
     model_cfg, model_id = setup_model_config(cfg)
     setup_save_directory(cfg, local_rank)
     
+    wandb.init(
+        project=cfg.project_name,
+        name=cfg.run_name,
+    )
+
     # Setup tokenizer and dataset
     tokenizer = setup_tokenizer(cfg, model_id, logger)
     torch_format_dataset = setup_dataset(cfg, tokenizer)
